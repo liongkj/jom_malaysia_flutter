@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import './../util/theme_utils.dart';
 import './../util/toast.dart';
 import 'package:url_launcher/url_launcher.dart';
 

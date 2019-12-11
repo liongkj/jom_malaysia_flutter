@@ -4,11 +4,11 @@ import 'package:jom_malaysia/setting/routers/router_init.dart';
 import 'pages/overview_page.dart';
 
 class OverviewRouter implements IRouterProvider {
-  static String overViewPage = "/overview";
+  static String overviewPage = "/overview";
 
   @override
   void initRouter(Router router) {
-    router.define(overViewPage,
+    router.define(overviewPage,
         handler: Handler(handlerFunc: (_, params) => OverviewPage()));
   }
 }

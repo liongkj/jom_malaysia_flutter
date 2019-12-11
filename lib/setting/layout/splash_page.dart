@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:rxdart/rxdart.dart';
 import '../../setting/common/common.dart';
 import '../../setting/provider/theme_provider.dart';
 import '../../setting/routers/fluro_navigator.dart';
@@ -53,15 +54,15 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   void _initSplash() {
-    //   _subscription =
-    //       Observable.just(1).delay(Duration(milliseconds: 1500)).listen((_) {
-    //     if (SpUtil.getBool(Constant.keyGuide, defValue: true)) {
-    //       SpUtil.putBool(Constant.keyGuide, false);
-    //       _initGuide();
-    //     } else {
-    //       _goLogin();
-    //     }
-    //   });
+    _subscription =
+        Observable.just(1).delay(Duration(milliseconds: 1500)).listen((_) {
+      if (SpUtil.getBool(Constant.keyGuide, defValue: true)) {
+        SpUtil.putBool(Constant.keyGuide, false);
+        _initGuide();
+      } else {
+        _goHome();
+      }
+    });
   }
 
   // _goLogin() {
@@ -69,7 +70,7 @@ class _SplashPageState extends State<SplashPage> {
   // }
 
   _goHome() {
-    NavigatorUtils.push(context, OverviewRouter.overViewPage);
+    NavigatorUtils.push(context, OverviewRouter.overviewPage, replace: true);
   }
 
   @override

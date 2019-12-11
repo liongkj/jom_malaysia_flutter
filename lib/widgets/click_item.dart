@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jom_malaysia/setting/res/dimens.dart';
 import 'package:jom_malaysia/setting/res/resources.dart';
 
 class ClickItem extends StatelessWidget {

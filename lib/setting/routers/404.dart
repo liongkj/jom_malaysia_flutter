@@ -7,11 +7,11 @@ class WidgetNotFound extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Scaffold(
       appBar: MyAppBar(
-        centerTitle: "页面不存在",
+        centerTitle: "This page does not exist yet..",
       ),
       body: StateLayout(
         type: StateType.account,
-        hintText: "页面不存在",
+        hintText: "This page does not exist yet..",
       ),
     );
   }

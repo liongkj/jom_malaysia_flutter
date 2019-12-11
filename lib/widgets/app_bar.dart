@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../setting/res/colors.dart';
-import '../setting/res/dimens.dart';
-import '../setting/res/gaps.dart';
-import '../setting/util/theme_utils.dart';
+import 'package:jom_malaysia/setting/res/colors.dart';
+import 'package:jom_malaysia/setting/res/dimens.dart';
+import 'package:jom_malaysia/setting/res/gaps.dart';
+import 'package:jom_malaysia/setting/util/theme_utils.dart';
 
 /// 自定义AppBar
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
