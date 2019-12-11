@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flustars/flustars.dart' as flutter_stars;
+import '../../../setting/provider/theme_provider.dart';
 import './../../../setting/common/common.dart';
 import './../../../setting/common/themes.dart';
 import './../../../widgets/app_bar.dart';

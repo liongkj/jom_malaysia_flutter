@@ -1,5 +1,6 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
+import 'package:jom_malaysia/setting/layout/home_page.dart';
 import './404.dart';
 import 'router_init.dart';
 

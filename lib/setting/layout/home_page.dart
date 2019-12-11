@@ -3,6 +3,7 @@ import 'package:jom_malaysia/setting/res/colors.dart';
 import 'package:jom_malaysia/setting/res/dimens.dart';
 import 'package:jom_malaysia/setting/util/theme_utils.dart';
 import 'package:jom_malaysia/setting/util/toast.dart';
+import 'package:jom_malaysia/tabs/overview/pages/overview_page.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
 import 'package:provider/provider.dart';
 
@@ -30,12 +31,13 @@ class _HomeState extends State<Home> {
     initData();
   }
 
+//put bottom navigation bar page here
   void initData() {
     _pageList = [
-      OrderPage(),
-      GoodsPage(),
-      StatisticsPage(),
-      ShopPage(),
+      OverviewPage(),
+      // GoodsPage(),
+      // StatisticsPage(),
+      // ShopPage(),
     ];
   }
 
@@ -93,15 +95,16 @@ class _HomeState extends State<Home> {
       ];
       _list = List.generate(4, (i) {
         return BottomNavigationBarItem(
-            icon: _tabImages[i][0],
-            activeIcon: _tabImages[i][1],
-            title: Padding(
-              padding: const EdgeInsets.only(top: 1.5),
-              child: Text(
-                _appBarTitles[i],
-                key: Key(_appBarTitles[i]),
-              ),
-            ));
+          icon: _tabImages[i][0],
+          activeIcon: _tabImages[i][1],
+          title: Padding(
+            padding: const EdgeInsets.only(top: 1.5),
+            child: Text(
+              _appBarTitles[i],
+              key: Key(_appBarTitles[i]),
+            ),
+          ),
+        );
       });
     }
     return _list;

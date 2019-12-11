@@ -1,12 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:jom_malaysia/setting/common/common.dart';
-import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
-import 'package:jom_malaysia/setting/util/image_utils.dart';
-import 'package:jom_malaysia/setting/util/log_utils.dart';
-import 'package:jom_malaysia/tabs/overview/overview_router.dart';
-import 'package:jom_malaysia/widgets/load_image.dart';
+import '../../setting/common/common.dart';
+import '../../setting/provider/theme_provider.dart';
+import '../../setting/routers/fluro_navigator.dart';
+import '../../setting/util/image_utils.dart';
+import '../../setting/util/log_utils.dart';
+import '../../tabs/overview/overview_router.dart';
+import '../../widgets/load_image.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:flustars/flustars.dart';
@@ -51,17 +52,17 @@ class _SplashPageState extends State<SplashPage> {
     });
   }
 
-  // void _initSplash() {
-  //   _subscription =
-  //       Observable.just(1).delay(Duration(milliseconds: 1500)).listen((_) {
-  //     if (SpUtil.getBool(Constant.keyGuide, defValue: true)) {
-  //       SpUtil.putBool(Constant.keyGuide, false);
-  //       _initGuide();
-  //     } else {
-  //       _goLogin();
-  //     }
-  //   });
-  // }
+  void _initSplash() {
+    //   _subscription =
+    //       Observable.just(1).delay(Duration(milliseconds: 1500)).listen((_) {
+    //     if (SpUtil.getBool(Constant.keyGuide, defValue: true)) {
+    //       SpUtil.putBool(Constant.keyGuide, false);
+    //       _initGuide();
+    //     } else {
+    //       _goLogin();
+    //     }
+    //   });
+  }
 
   // _goLogin() {
   //   NavigatorUtils.push(context, LoginRouter.loginPage, replace: true);
