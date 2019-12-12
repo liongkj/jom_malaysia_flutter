@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/constants/common.dart';
 import 'package:jom_malaysia/screens/login/login_router.dart';
 import 'package:jom_malaysia/screens/tabs/overview/overview_router.dart';
+import 'package:jom_malaysia/setting/routers/routers.dart';
 import 'package:jom_malaysia/util/image_utils.dart';
 import 'package:jom_malaysia/util/log_utils.dart';
 import 'package:rxdart/rxdart.dart';
@@ -72,7 +73,8 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   _goHome() {
-    NavigatorUtils.push(context, OverviewRouter.overviewPage, replace: true);
+    NavigatorUtils.push(context, Routes.home, clearStack: true);
+    // NavigatorUtils.push(context, OverviewRouter.overviewPage, replace: true);
   }
 
   @override
