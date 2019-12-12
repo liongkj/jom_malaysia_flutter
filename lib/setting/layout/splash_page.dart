@@ -61,8 +61,8 @@ class _SplashPageState extends State<SplashPage> {
         SpUtil.putBool(Constant.keyGuide, false);
         _initGuide();
       } else {
-        // _goHome();
-        _goLogin();
+        _goHome();
+        // _goLogin();
       }
     });
   }
@@ -100,7 +100,7 @@ class _SplashPageState extends State<SplashPage> {
               },
               onTap: (index) {
                 if (index == _guideList.length - 1) {
-                  _goLogin();
+                  _goHome();
                 }
               },
             ),

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:jom_malaysia/core/mvp/mvps.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/util/toast.dart';
+import 'package:jom_malaysia/util/utils.dart';
 import 'package:jom_malaysia/widgets/progress_dialog.dart';
 
 import 'base_page_presenter.dart';
-import 'mvps.dart';
 
 abstract class BasePageState<T extends StatefulWidget,
     V extends BasePagePresenter> extends State<T> implements IMvpView {
@@ -48,7 +49,7 @@ abstract class BasePageState<T extends StatefulWidget,
                   _isShowDialog = false;
                   return Future.value(true);
                 },
-                child: const ProgressDialog(hintText: "loading..."),
+                child: const ProgressDialog(hintText: "正在加载..."),
               );
             });
       } catch (e) {

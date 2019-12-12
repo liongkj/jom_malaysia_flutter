@@ -42,6 +42,9 @@ class MyApp extends StatelessWidget {
           child: Consumer<ThemeProvider>(
             builder: (_, provider, __) {
               return MaterialApp(
+                // showPerformanceOverlay: true, //显示性能标签
+                debugShowCheckedModeBanner: false,
+                //checkerboardRasterCacheImages: true,
                 title: 'Jom N9',
                 theme: provider.getTheme(),
                 darkTheme: provider.getTheme(isDarkMode: true),
@@ -56,7 +59,7 @@ class MyApp extends StatelessWidget {
                 supportedLocales: const [
                   Locale('zh', 'CH'),
                   Locale('en', 'US'),
-                  Locale('ms', 'MY'),
+                  // Locale('ms', 'MY'),
                 ],
               );
             },

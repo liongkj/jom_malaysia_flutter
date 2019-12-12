@@ -27,6 +27,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
+    print("homepage buid");
     initData();
   }
 
@@ -168,7 +169,7 @@ class _HomeState extends State<Home> {
     if (_lastTime == null ||
         DateTime.now().difference(_lastTime) > Duration(milliseconds: 2500)) {
       _lastTime = DateTime.now();
-      Toast.show("再次点击退出应用");
+      Toast.show("Tap again to quit.");
       return Future.value(false);
     }
     Toast.cancelToast();
@@ -183,34 +184,35 @@ class _HomeState extends State<Home> {
       child: WillPopScope(
         onWillPop: _isExit,
         child: Scaffold(
-            bottomNavigationBar: Consumer<HomeProvider>(
-              builder: (_, provider, __) {
-                return BottomNavigationBar(
-                  backgroundColor: ThemeUtils.getBackgroundColor(context),
-                  items: isDark
-                      ? _buildDarkBottomNavigationBarItem()
-                      : _buildBottomNavigationBarItem(),
-                  type: BottomNavigationBarType.fixed,
-                  currentIndex: provider.value,
-                  elevation: 5.0,
-                  iconSize: 21.0,
-                  selectedFontSize: Dimens.font_sp10,
-                  unselectedFontSize: Dimens.font_sp10,
-                  selectedItemColor: Theme.of(context).primaryColor,
-                  unselectedItemColor: isDark
-                      ? Colours.dark_unselected_item_color
-                      : Colours.unselected_item_color,
-                  onTap: (index) => _pageController.jumpToPage(index),
-                );
-              },
-            ),
-            // 使用PageView的原因参看 https://zhuanlan.zhihu.com/p/58582876
-            body: PageView(
-              controller: _pageController,
-              onPageChanged: _onPageChanged,
-              children: _pageList,
-              physics: NeverScrollableScrollPhysics(), // 禁止滑动
-            )),
+          bottomNavigationBar: Consumer<HomeProvider>(
+            builder: (_, provider, __) {
+              return BottomNavigationBar(
+                backgroundColor: ThemeUtils.getBackgroundColor(context),
+                items: isDark
+                    ? _buildDarkBottomNavigationBarItem()
+                    : _buildBottomNavigationBarItem(),
+                type: BottomNavigationBarType.fixed,
+                currentIndex: provider.value,
+                elevation: 5.0,
+                iconSize: 21.0,
+                selectedFontSize: Dimens.font_sp10,
+                unselectedFontSize: Dimens.font_sp10,
+                selectedItemColor: Theme.of(context).primaryColor,
+                unselectedItemColor: isDark
+                    ? Colours.dark_unselected_item_color
+                    : Colours.unselected_item_color,
+                onTap: (index) => _pageController.jumpToPage(index),
+              );
+            },
+          ),
+          // 使用PageView的原因参看 https://zhuanlan.zhihu.com/p/58582876
+          body: PageView(
+            controller: _pageController,
+            onPageChanged: _onPageChanged,
+            children: _pageList,
+            physics: NeverScrollableScrollPhysics(), // 禁止滑动
+          ),
+        ),
       ),
     );
   }
