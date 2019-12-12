@@ -43,7 +43,7 @@ class _HomeState extends State<Home> {
     ];
   }
 
-  final double icon_size = 25;
+  final double icon_size = 24;
   List<BottomNavigationBarItem> _buildBottomNavigationBarItem() {
     if (_list == null) {
       var _tabImages = [

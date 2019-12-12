@@ -5,6 +5,7 @@ import 'pages/overview_page.dart';
 
 class OverviewRouter implements IRouterProvider {
   static String overviewPage = "/overview";
+  static String listingDetailPage = "/overview/detail";
 
   @override
   void initRouter(Router router) {

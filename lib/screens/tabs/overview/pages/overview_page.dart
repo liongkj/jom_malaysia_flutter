@@ -113,15 +113,35 @@ class _OverviewPageState extends State<OverviewPage>
           leading: Gaps.empty,
           brightness: Brightness.dark,
           actions: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(left: 16.0, right: 8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    "Negeri Sembilan",
+                    style: TextStyles.textBold16,
+                  ),
+                  Gaps.hGap12,
+                  IconButton(
+                    onPressed: () {
+                      NavigatorUtils.push(context, "");
+                    },
+                    icon: Icon(
+                      Icons.keyboard_arrow_down,
+                      color: ThemeUtils.getIconColor(context),
+                    ),
+                  ),
+                ],
+              ),
+            ),
             IconButton(
               onPressed: () {
                 NavigatorUtils.push(context, "");
               },
-              tooltip: '搜索',
-              icon: LoadAssetImage(
-                "order/icon_search",
-                width: 22.0,
-                height: 22.0,
+              tooltip: 'Search',
+              icon: Icon(
+                Icons.search,
                 color: ThemeUtils.getIconColor(context),
               ),
             )
@@ -148,9 +168,23 @@ class _OverviewPageState extends State<OverviewPage>
             titlePadding:
                 const EdgeInsetsDirectional.only(start: 16.0, bottom: 14.0),
             collapseMode: CollapseMode.pin,
-            title: Text(
-              '订单',
-              style: TextStyle(color: ThemeUtils.getIconColor(context)),
+            title: Container(
+              child: Row(
+                children: <Widget>[
+                  Icon(
+                    Icons.near_me,
+                    size: Dimens.font_sp16,
+                    color: ThemeUtils.getIconColor(context),
+                  ),
+                  Gaps.hGap8,
+                  Text(
+                    "Seremban",
+                    style: TextStyle(
+                        color: ThemeUtils.getIconColor(context),
+                        fontSize: Dimens.font_sp16),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -173,7 +207,8 @@ class _OverviewPageState extends State<OverviewPage>
                     height: 80.0,
                     padding: const EdgeInsets.only(top: 8.0),
                     child: TabBar(
-                      labelPadding: const EdgeInsets.symmetric(horizontal: 0),
+                      isScrollable: true,
+                      labelPadding: const EdgeInsets.symmetric(horizontal: 8.0),
                       controller: _tabController,
                       labelColor: ThemeUtils.isDark(context)
                           ? Colours.dark_text
@@ -183,15 +218,15 @@ class _OverviewPageState extends State<OverviewPage>
                           : Colours.text,
                       labelStyle: TextStyles.textBold14,
                       unselectedLabelStyle: const TextStyle(
-                        fontSize: Dimens.font_sp14,
+                        fontSize: Dimens.font_sp12,
                       ),
                       indicatorColor: Colors.transparent,
                       tabs: const <Widget>[
-                        const _TabView(0, '新订单'),
-                        const _TabView(1, '待配送'),
-                        const _TabView(2, '待完成'),
-                        const _TabView(3, '已完成'),
-                        const _TabView(4, '已取消'),
+                        const _TabView(0, 'Shops', Icons.restaurant),
+                        const _TabView(1, 'Attractions', Icons.local_play),
+                        const _TabView(2, 'Government', Icons.location_city),
+                        const _TabView(3, 'Professional', Icons.work),
+                        const _TabView(4, 'NGO', Icons.people),
                       ],
                       onTap: (index) {
                         if (!mounted) {
@@ -210,77 +245,38 @@ class _OverviewPageState extends State<OverviewPage>
   }
 }
 
-var img = [
-  ["order/xdd_s", "order/xdd_n"],
-  ["order/dps_s", "order/dps_n"],
-  ["order/dwc_s", "order/dwc_n"],
-  ["order/ywc_s", "order/ywc_n"],
-  ["order/yqx_s", "order/yqx_n"]
-];
-
-var darkImg = [
-  ["order/dark/icon_xdd_s", "order/dark/icon_xdd_n"],
-  ["order/dark/icon_dps_s", "order/dark/icon_dps_n"],
-  ["order/dark/icon_dwc_s", "order/dark/icon_dwc_n"],
-  ["order/dark/icon_ywc_s", "order/dark/icon_ywc_n"],
-  ["order/dark/icon_yqx_s", "order/dark/icon_yqx_n"]
-];
-
 class _TabView extends StatelessWidget {
-  const _TabView(this.index, this.text);
+  const _TabView(this.index, this.text, this.icon);
 
   final int index;
   final String text;
+  final IconData icon;
 
   @override
   Widget build(BuildContext context) {
-    var imgList = ThemeUtils.isDark(context) ? darkImg : img;
     return Consumer<OverviewPageProvider>(
-        builder: (_, provider, child) {
-          int selectIndex = provider.index;
-          return Stack(
+      builder: (_, provider, child) {
+        return Container(
+          width: 80.0,
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Container(
-                width: 46.0,
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    LoadAssetImage(
-                      selectIndex == index
-                          ? imgList[index][0]
-                          : imgList[index][1],
-                      width: 24.0,
-                      height: 24.0,
-                    ),
-                    Gaps.vGap4,
-                    Text(text)
-                  ],
+              Icon(
+                icon,
+                size: 24.0,
+              ),
+              Gaps.vGap4,
+              Text(
+                text,
+                style: TextStyle(
+                  fontSize: Dimens.font_sp14,
                 ),
               ),
-              child
             ],
-          );
-        },
-        child: Positioned(
-          right: 0.0,
-          child: index < 3
-              ? DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).errorColor,
-                    borderRadius: BorderRadius.circular(11.0),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 5.5, vertical: 2.0),
-                    child: Text(
-                      "10",
-                      style: TextStyle(
-                          color: Colors.white, fontSize: Dimens.font_sp12),
-                    ),
-                  ),
-                )
-              : Gaps.empty,
-        ));
+          ),
+        );
+      },
+    );
   }
 }
