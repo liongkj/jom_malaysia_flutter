@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/screens/tabs/overview/provider/overview_page_provider.dart';
-import 'package:jom_malaysia/screens/tabs/overview/widgets/sliver_app_bar_delegate.dart';
+import 'package:jom_malaysia/screens/tabs/overview/widgets/place_list.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/util/image_utils.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
@@ -36,17 +37,17 @@ class _OverviewPageState extends State<OverviewPage>
     _tabController = TabController(vsync: this, length: 5);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _preCacheImage();
+      // _preCacheImage();
     });
   }
 
-  _preCacheImage() {
-    precacheImage(ImageUtils.getAssetImage("order/xdd_n"), context);
-    precacheImage(ImageUtils.getAssetImage("order/dps_s"), context);
-    precacheImage(ImageUtils.getAssetImage("order/dwc_s"), context);
-    precacheImage(ImageUtils.getAssetImage("order/ywc_s"), context);
-    precacheImage(ImageUtils.getAssetImage("order/yqx_s"), context);
-  }
+  // _preCacheImage() {
+  //   precacheImage(ImageUtils.getAssetImage("order/xdd_n"), context);
+  //   precacheImage(ImageUtils.getAssetImage("order/dps_s"), context);
+  //   precacheImage(ImageUtils.getAssetImage("order/dwc_s"), context);
+  //   precacheImage(ImageUtils.getAssetImage("order/ywc_s"), context);
+  //   precacheImage(ImageUtils.getAssetImage("order/yqx_s"), context);
+  // }
 
   @override
   void dispose() {
@@ -89,13 +90,15 @@ class _OverviewPageState extends State<OverviewPage>
               headerSliverBuilder: (context, innerBoxIsScrolled) {
                 return _sliverBuilder(context);
               },
-              body: PageView.builder(
+              body:
+                  // new AdSwiper(),
+                  PageView.builder(
                 key: const Key('pageView'),
                 itemCount: 5,
                 onPageChanged: _onPageChange,
                 controller: _pageController,
                 itemBuilder: (_, index) {
-                  // return OrderList(index: index);
+                  return PlaceList(index: index);
                 },
               ),
             ),
@@ -113,26 +116,28 @@ class _OverviewPageState extends State<OverviewPage>
           leading: Gaps.empty,
           brightness: Brightness.dark,
           actions: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(left: 16.0, right: 8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    "Negeri Sembilan",
-                    style: TextStyles.textBold16,
-                  ),
-                  Gaps.hGap12,
-                  IconButton(
-                    onPressed: () {
-                      NavigatorUtils.push(context, "");
-                    },
-                    icon: Icon(
-                      Icons.keyboard_arrow_down,
-                      color: ThemeUtils.getIconColor(context),
+            GestureDetector(
+              // key: _buttonKey,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 16.0, right: 8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      "Negeri Sembilan",
+                      style: TextStyles.textBold16,
                     ),
-                  ),
-                ],
+                    IconButton(
+                      onPressed: () {
+                        NavigatorUtils.push(context, "");
+                      },
+                      icon: Icon(
+                        Icons.keyboard_arrow_down,
+                        color: ThemeUtils.getIconColor(context),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             IconButton(
@@ -192,56 +197,78 @@ class _OverviewPageState extends State<OverviewPage>
       SliverPersistentHeader(
         pinned: true,
         delegate: SliverAppBarDelegate(
-            DecoratedBox(
-              decoration: BoxDecoration(
-                  color: isDark ? Colours.dark_bg_color : null,
-                  image: isDark
-                      ? null
-                      : DecorationImage(
-                          image: ImageUtils.getAssetImage("order/order_bg1"),
-                          fit: BoxFit.fill)),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: MyCard(
-                  child: Container(
-                    height: 80.0,
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: TabBar(
-                      isScrollable: true,
-                      labelPadding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      controller: _tabController,
-                      labelColor: ThemeUtils.isDark(context)
-                          ? Colours.dark_text
-                          : Colours.text,
-                      unselectedLabelColor: ThemeUtils.isDark(context)
-                          ? Colours.dark_text_gray
-                          : Colours.text,
-                      labelStyle: TextStyles.textBold14,
-                      unselectedLabelStyle: const TextStyle(
-                        fontSize: Dimens.font_sp12,
-                      ),
-                      indicatorColor: Colors.transparent,
-                      tabs: const <Widget>[
-                        const _TabView(0, 'Shops', Icons.restaurant),
-                        const _TabView(1, 'Attractions', Icons.local_play),
-                        const _TabView(2, 'Government', Icons.location_city),
-                        const _TabView(3, 'Professional', Icons.work),
-                        const _TabView(4, 'NGO', Icons.people),
-                      ],
-                      onTap: (index) {
-                        if (!mounted) {
-                          return;
-                        }
-                        _pageController.jumpToPage(index);
-                      },
+          DecoratedBox(
+            decoration: BoxDecoration(
+                color: isDark ? Colours.dark_bg_color : null,
+                image: isDark
+                    ? null
+                    : DecorationImage(
+                        image: ImageUtils.getAssetImage("order/order_bg1"),
+                        fit: BoxFit.fill)),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: MyCard(
+                child: Container(
+                  height: 80.0,
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: TabBar(
+                    isScrollable: true,
+                    labelPadding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    controller: _tabController,
+                    labelColor: ThemeUtils.isDark(context)
+                        ? Colours.dark_text
+                        : Colours.text,
+                    unselectedLabelColor: ThemeUtils.isDark(context)
+                        ? Colours.dark_text_gray
+                        : Colours.text,
+                    labelStyle: TextStyles.textBold14,
+                    unselectedLabelStyle: const TextStyle(
+                      fontSize: Dimens.font_sp12,
                     ),
+                    indicatorColor: Colors.transparent,
+                    tabs: const <Widget>[
+                      const _TabView(0, 'Shops', Icons.restaurant),
+                      const _TabView(1, 'Attractions', Icons.local_play),
+                      const _TabView(2, 'Government', Icons.location_city),
+                      const _TabView(3, 'Professional', Icons.work),
+                      const _TabView(4, 'NGO', Icons.people),
+                    ],
+                    onTap: (index) {
+                      if (!mounted) {
+                        return;
+                      }
+                      _pageController.jumpToPage(index);
+                    },
                   ),
                 ),
               ),
             ),
-            80.0),
+          ),
+          80.0,
+        ),
       ),
     ];
+  }
+}
+
+class AdSwiper extends StatelessWidget {
+  const AdSwiper({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Swiper(
+      itemBuilder: (BuildContext context, int index) {
+        return LoadImage(
+          "http://via.placeholder.com/350x150",
+          fit: BoxFit.fill,
+        );
+      },
+      itemCount: 3,
+      pagination: new SwiperPagination(),
+      control: new SwiperControl(),
+    );
   }
 }
 
@@ -278,5 +305,29 @@ class _TabView extends StatelessWidget {
         );
       },
     );
+  }
+}
+
+class SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
+  final Widget widget;
+  final double height;
+  SliverAppBarDelegate(this.widget, this.height);
+
+  // minHeight 和 maxHeight 的值设置为相同时，header就不会收缩了
+  @override
+  double get minExtent => height;
+
+  @override
+  double get maxExtent => height;
+
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return widget;
+  }
+
+  @override
+  bool shouldRebuild(SliverAppBarDelegate oldDelegate) {
+    return true;
   }
 }
