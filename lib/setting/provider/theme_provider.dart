@@ -2,9 +2,9 @@ import 'dart:ui';
 
 import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
-import '../common/common.dart';
-import '../common/themes.dart';
-import '../res/resources.dart';
+import 'package:jom_malaysia/core/constants/common.dart';
+import 'package:jom_malaysia/core/constants/themes.dart';
+import 'package:jom_malaysia/core/res/resources.dart';
 
 class ThemeProvider extends ChangeNotifier {
   static const Map<Themes, String> themes = {

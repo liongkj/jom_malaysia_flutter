@@ -22,13 +22,16 @@ dependencies:
   cupertino_icons: ^0.1.3
   # 状态管理 https://github.com/rrousselGit/provider
   provider: ^3.2.0
+
+  # 网络库 https://github.com/flutterchina/dio
+  dio: ^3.0.7
+  # Dart 常用工具类库 https://github.com/Sky24n/common_utils
   common_utils: ^1.1.3
   # Flutter 常用工具类库 https://github.com/Sky24n/flustars
   flustars: 0.2.6+1
   # Flutter 轮播图 https://github.com/best-flutter/flutter_swiper
-  flutter_swiper:
-    ^1.1.6
-    # https://github.com/ReactiveX/rxdart
+  flutter_swiper: ^1.1.6
+  # https://github.com/ReactiveX/rxdart
   rxdart: ^0.22.5
   # 启动URL的插件 https://github.com/flutter/plugins/tree/master/packages/url_launcher
   url_launcher:
@@ -37,16 +40,15 @@ dependencies:
   # Toast插件 https://github.com/OpenFlutter/flutter_oktoast
   oktoast: ^2.2.1
   # 路由框架 https://github.com/theyakka/fluro
-  fluro:
-    ^1.5.1
-    # WebView插件 https://github.com/flutter/plugins/tree/master/packages/webview_flutter
+  fluro: ^1.5.1
+  # WebView插件 https://github.com/flutter/plugins/tree/master/packages/webview_flutter
   webview_flutter: ^0.3.16
   # For future implementation
   flutter_localizations:
     sdk: flutter
-  # # 网络库 https://github.com/flutterchina/dio
-  # dio: ^3.0.7
-  # # Dart 常用工具类库 https://github.com/Sky24n/common_utils
+  # 格式化String https://github.com/Naddiseo/dart-sprintf
+  sprintf: ^4.0.2
+
   # 图片选择插件 https://github.com/flutter/plugins/tree/master/packages/image_picker
   # image_picker: 0.6.2+1
   # # 侧滑删除 https://github.com/letsar/flutter_slidable

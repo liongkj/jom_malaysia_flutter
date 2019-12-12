@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import './../res/resources.dart';
+import 'package:jom_malaysia/core/res/resources.dart';
 
 class ThemeUtils {
   static bool isDark(BuildContext context) {

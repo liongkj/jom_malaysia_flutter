@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:jom_malaysia/setting/res/resources.dart';
+import 'package:jom_malaysia/core/res/resources.dart';
 
 /// 封装输入框
 class TextFieldItem extends StatelessWidget {

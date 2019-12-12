@@ -1,8 +1,7 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:jom_malaysia/setting/res/resources.dart';
-import 'package:jom_malaysia/setting/util/toast.dart';
+import 'package:jom_malaysia/core/res/resources.dart';
+import 'package:jom_malaysia/util/toast.dart';
 import 'package:jom_malaysia/widgets/app_bar.dart';
 import 'package:jom_malaysia/widgets/my_button.dart';
 import 'package:jom_malaysia/widgets/text_field.dart';

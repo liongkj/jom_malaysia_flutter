@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:jom_malaysia/setting/res/colors.dart';
-import 'package:jom_malaysia/setting/res/dimens.dart';
-import 'package:jom_malaysia/setting/util/theme_utils.dart';
-import 'package:jom_malaysia/setting/util/toast.dart';
-import 'package:jom_malaysia/tabs/overview/pages/overview_page.dart';
+import 'package:jom_malaysia/core/res/resources.dart';
+import 'package:jom_malaysia/screens/tabs/overview/pages/overview_page.dart';
+import 'package:jom_malaysia/util/theme_utils.dart';
+import 'package:jom_malaysia/util/toast.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
 import 'package:provider/provider.dart';
 

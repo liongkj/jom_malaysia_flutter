@@ -4,10 +4,10 @@ import './page/about_page.dart';
 import './page/setting_page.dart';
 import './page/theme_page.dart';
 
-class SettingRouter implements IRouterProvider {
-  static String settingPage = "/setting";
-  static String aboutPage = "/setting/about";
-  static String themePage = "/setting/theme";
+class AccountRouter implements IRouterProvider {
+  static String settingPage = "/account";
+  static String aboutPage = "/account/about";
+  static String themePage = "/account/theme";
 
   @override
   void initRouter(Router router) {

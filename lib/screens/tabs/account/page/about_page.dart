@@ -2,10 +2,10 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import '../../../setting/res/gaps.dart';
-import '../../../setting/routers/fluro_navigator.dart';
-import '../../../widgets/app_bar.dart';
-import '../../../widgets/click_item.dart';
+import 'package:jom_malaysia/core/res/resources.dart';
+import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
+import 'package:jom_malaysia/widgets/app_bar.dart';
+import 'package:jom_malaysia/widgets/click_item.dart';
 
 class AboutPage extends StatefulWidget {
   @override

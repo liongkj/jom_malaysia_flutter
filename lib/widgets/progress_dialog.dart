@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:jom_malaysia/setting/res/resources.dart';
+import 'package:jom_malaysia/core/res/resources.dart';
 
 /// 加载中的弹框
 class ProgressDialog extends Dialog {

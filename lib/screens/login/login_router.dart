@@ -1,5 +1,5 @@
 import 'package:fluro/fluro.dart';
-import '../setting/routers/router_init.dart';
+import 'package:jom_malaysia/setting/routers/router_init.dart';
 
 import 'page/login_page.dart';
 import 'page/register_page.dart';

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:jom_malaysia/setting/res/colors.dart';
-import 'package:jom_malaysia/setting/res/dimens.dart';
-import 'package:jom_malaysia/setting/util/theme_utils.dart';
+import 'package:jom_malaysia/core/res/resources.dart';
+import 'package:jom_malaysia/util/theme_utils.dart';
 
 class MyButton extends StatelessWidget {
   const MyButton({

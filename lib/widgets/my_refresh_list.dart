@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:jom_malaysia/setting/res/gaps.dart';
-import 'package:jom_malaysia/setting/res/styles.dart';
-import 'package:jom_malaysia/setting/util/theme_utils.dart';
+import 'package:jom_malaysia/core/res/resources.dart';
+import 'package:jom_malaysia/util/theme_utils.dart';
 import 'package:jom_malaysia/widgets/state_layout.dart';
 
 /// 封装下拉刷新与加载更多

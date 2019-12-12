@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:jom_malaysia/setting/res/resources.dart';
+import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'load_image.dart';

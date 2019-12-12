@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:jom_malaysia/setting/res/colors.dart';
-import 'package:jom_malaysia/setting/util/theme_utils.dart';
+
+import 'package:jom_malaysia/core/res/resources.dart';
+import 'package:jom_malaysia/util/theme_utils.dart';
 
 class MyCard extends StatelessWidget {
   const MyCard({Key key, @required this.child, this.color, this.shadowColor})

@@ -13,7 +13,7 @@ import 'setting/routers/application.dart';
 import 'setting/routers/routers.dart';
 
 void main() {
-  //  debugProfileBuildsEnabled = true;
+  debugProfileBuildsEnabled = true;
 //  debugPaintLayerBordersEnabled = true;
 //  debugProfilePaintsEnabled = true;
 //  debugRepaintRainbowEnabled = true;
@@ -56,6 +56,7 @@ class MyApp extends StatelessWidget {
                 supportedLocales: const [
                   Locale('zh', 'CH'),
                   Locale('en', 'US'),
+                  Locale('ms', 'MY'),
                 ],
               );
             },

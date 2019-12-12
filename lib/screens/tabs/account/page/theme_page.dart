@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flustars/flustars.dart' as flutter_stars;
-import '../../../setting/provider/theme_provider.dart';
-import './../../../setting/common/common.dart';
-import './../../../setting/common/themes.dart';
-import './../../../widgets/app_bar.dart';
+import 'package:jom_malaysia/core/constants/common.dart';
+import 'package:jom_malaysia/core/constants/themes.dart';
+import 'package:jom_malaysia/setting/provider/theme_provider.dart';
+import 'package:jom_malaysia/widgets/app_bar.dart';
 import 'package:provider/provider.dart';
 
 class ThemePage extends StatefulWidget {

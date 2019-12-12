@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:jom_malaysia/setting/res/resources.dart';
-import 'package:jom_malaysia/setting/util/image_utils.dart';
-import 'package:jom_malaysia/setting/util/theme_utils.dart';
+import 'package:jom_malaysia/core/res/resources.dart';
+import 'package:jom_malaysia/util/image_utils.dart';
+import 'package:jom_malaysia/util/theme_utils.dart';
 
 class SelectedImage extends StatelessWidget {
   const SelectedImage({Key key, this.size: 80.0, this.onTap, this.image})

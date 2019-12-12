@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:jom_malaysia/setting/res/resources.dart';
+import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
-import 'package:jom_malaysia/setting/util/toast.dart';
+import 'package:jom_malaysia/util/toast.dart';
 import 'package:jom_malaysia/widgets/app_bar.dart';
 import 'package:jom_malaysia/widgets/my_button.dart';
 

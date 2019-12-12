@@ -1,13 +1,14 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:jom_malaysia/core/constants/common.dart';
+import 'package:jom_malaysia/screens/login/login_router.dart';
+import 'package:jom_malaysia/screens/tabs/overview/overview_router.dart';
+import 'package:jom_malaysia/util/image_utils.dart';
+import 'package:jom_malaysia/util/log_utils.dart';
 import 'package:rxdart/rxdart.dart';
-import '../../setting/common/common.dart';
 import '../../setting/provider/theme_provider.dart';
 import '../../setting/routers/fluro_navigator.dart';
-import '../../setting/util/image_utils.dart';
-import '../../setting/util/log_utils.dart';
-import '../../tabs/overview/overview_router.dart';
 import '../../widgets/load_image.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
@@ -60,14 +61,15 @@ class _SplashPageState extends State<SplashPage> {
         SpUtil.putBool(Constant.keyGuide, false);
         _initGuide();
       } else {
-        _goHome();
+        // _goHome();
+        _goLogin();
       }
     });
   }
 
-  // _goLogin() {
-  //   NavigatorUtils.push(context, LoginRouter.loginPage, replace: true);
-  // }
+  _goLogin() {
+    NavigatorUtils.push(context, LoginRouter.loginPage, replace: true);
+  }
 
   _goHome() {
     NavigatorUtils.push(context, OverviewRouter.overviewPage, replace: true);
@@ -76,31 +78,32 @@ class _SplashPageState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
     return Material(
-        child: _status == 0
-            ? Image.asset(
-                ImageUtils.getImgPath("start_page", format: "jpg"),
-                width: double.infinity,
-                fit: BoxFit.fill,
-                height: double.infinity,
-              )
-            : Swiper(
-                key: const Key('swiper'),
-                itemCount: _guideList.length,
-                loop: false,
-                itemBuilder: (_, index) {
-                  return LoadAssetImage(
-                    _guideList[index],
-                    key: Key(_guideList[index]),
-                    fit: BoxFit.cover,
-                    width: double.infinity,
-                    height: double.infinity,
-                  );
-                },
-                onTap: (index) {
-                  if (index == _guideList.length - 1) {
-                    _goHome();
-                  }
-                },
-              ));
+      child: _status == 0
+          ? Image.asset(
+              ImageUtils.getImgPath("start_page", format: "jpg"),
+              width: double.infinity,
+              fit: BoxFit.fill,
+              height: double.infinity,
+            )
+          : Swiper(
+              key: const Key('swiper'),
+              itemCount: _guideList.length,
+              loop: false,
+              itemBuilder: (_, index) {
+                return LoadAssetImage(
+                  _guideList[index],
+                  key: Key(_guideList[index]),
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                  height: double.infinity,
+                );
+              },
+              onTap: (index) {
+                if (index == _guideList.length - 1) {
+                  _goLogin();
+                }
+              },
+            ),
+    );
   }
 }

@@ -1,10 +1,10 @@
 import 'package:flustars/flustars.dart' as flutter_stars;
 import 'package:flutter/material.dart';
-import '../../../setting/common/common.dart';
-import '../../../setting/res/gaps.dart';
-import '../../../setting/routers/fluro_navigator.dart';
-import '../../../widgets/app_bar.dart';
-import '../../../widgets/click_item.dart';
+import 'package:jom_malaysia/core/constants/common.dart';
+import 'package:jom_malaysia/core/res/resources.dart';
+import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
+import 'package:jom_malaysia/widgets/app_bar.dart';
+import 'package:jom_malaysia/widgets/click_item.dart';
 import '../setting_router.dart';
 
 /// design/8设置/index.html
@@ -46,11 +46,11 @@ class _SettingPageState extends State<SettingPage> {
               title: "夜间模式",
               content: themeMode,
               onTap: () =>
-                  NavigatorUtils.push(context, SettingRouter.themePage)),
+                  NavigatorUtils.push(context, AccountRouter.themePage)),
           ClickItem(
               title: "关于我们",
               onTap: () =>
-                  NavigatorUtils.push(context, SettingRouter.aboutPage)),
+                  NavigatorUtils.push(context, AccountRouter.aboutPage)),
         ],
       ),
     );
