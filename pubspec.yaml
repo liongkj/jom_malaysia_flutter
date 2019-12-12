@@ -48,6 +48,8 @@ dependencies:
     sdk: flutter
   # 格式化String https://github.com/Naddiseo/dart-sprintf
   sprintf: ^4.0.2
+  google_maps_flutter: ^0.5.21+14
+  flutter_launcher_icons: ^0.7.4
 
   # 图片选择插件 https://github.com/flutter/plugins/tree/master/packages/image_picker
   # image_picker: 0.6.2+1
@@ -115,3 +117,7 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+flutter_icons:
+  image_path: assets/icons/JomN9.png
+  android: true
+  ios: true
