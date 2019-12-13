@@ -67,11 +67,6 @@ class _PlaceListState extends State<PlaceList>
                       NestedScrollView.sliverOverlapAbsorberHandleFor(context),
                 ),
                 child,
-                SliverList(
-                  delegate: SliverChildListDelegate([
-                    AdsSpace(),
-                  ]),
-                ),
               ],
             );
           },

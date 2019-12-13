@@ -119,7 +119,7 @@ class MoreWidget extends StatelessWidget {
           /// 只有一页的时候，就不显示FooterView了
           Text(
               hasMore
-                  ? 'Loading...'
+                  ? 'Loading la...'
                   : (itemCount < pageSize ? '' : 'No more liao x('),
               style: style),
         ],
