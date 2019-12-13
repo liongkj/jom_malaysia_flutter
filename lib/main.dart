@@ -3,10 +3,10 @@ import 'dart:io';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'setting/layout/splash_page.dart';
 import 'setting/provider/theme_provider.dart';
 import 'setting/routers/application.dart';
@@ -60,7 +60,7 @@ class MyApp extends StatelessWidget {
                 supportedLocales: const [
                   Locale('zh', 'CH'),
                   Locale('en', 'US'),
-                  // Locale('ms', 'MY'),
+                  Locale('ms', 'MY'),
                 ],
               );
             },

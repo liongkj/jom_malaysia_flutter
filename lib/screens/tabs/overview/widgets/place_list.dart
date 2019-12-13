@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/screens/tabs/overview/provider/overview_page_provider.dart';
+import 'package:jom_malaysia/screens/tabs/overview/widgets/ads_space.dart';
 import 'package:jom_malaysia/widgets/my_refresh_list.dart';
 import 'package:jom_malaysia/widgets/state_layout.dart';
 import 'package:provider/provider.dart';
@@ -51,7 +52,7 @@ class _PlaceListState extends State<PlaceList>
       },
       child: RefreshIndicator(
         onRefresh: _onRefresh,
-        displacement: 120.0, //40 + 80(header)
+        displacement: 160.0, //40 + 80(header)
         child: Consumer<OverviewPageProvider>(
           builder: (_, provider, child) {
             return CustomScrollView(
@@ -77,8 +78,8 @@ class _PlaceListState extends State<PlaceList>
                     delegate: SliverChildBuilderDelegate(
                         (BuildContext context, int index) {
                       return index < _list.length
-                          ? (index % 5 == 0
-                              ? OrderItemTag(date: "2019年2月5日", orderTotal: 4)
+                          ? (index == 0
+                              ? AdsSpace()
                               : OrderItem(
                                   key: Key('order_item_$index'),
                                   index: index,

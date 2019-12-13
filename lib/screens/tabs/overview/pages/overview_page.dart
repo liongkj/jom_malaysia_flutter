@@ -154,7 +154,7 @@ class _OverviewPageState extends State<OverviewPage>
           backgroundColor: Colors.transparent,
           elevation: 0.0,
           centerTitle: true,
-          expandedHeight: 100.0,
+          expandedHeight: 140.0,
           floating: false, // 不随着滑动隐藏标题
           pinned: true, // 固定在顶部
           flexibleSpace: MyFlexibleSpaceBar(
@@ -259,16 +259,15 @@ class AdSwiper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Swiper(
-      itemBuilder: (BuildContext context, int index) {
-        return LoadImage(
-          "http://via.placeholder.com/350x150",
-          fit: BoxFit.fill,
-        );
-      },
-      itemCount: 3,
-      pagination: new SwiperPagination(),
-      control: new SwiperControl(),
-    );
+        itemBuilder: (BuildContext context, int index) {
+          return new Image.network(
+            "http://via.placeholder.com/288x188",
+            fit: BoxFit.fill,
+          );
+        },
+        itemCount: 10,
+        viewportFraction: 0.8,
+        scale: 0.9);
   }
 }
 

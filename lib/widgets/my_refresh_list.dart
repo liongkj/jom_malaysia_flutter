@@ -117,7 +117,10 @@ class MoreWidget extends StatelessWidget {
           hasMore ? Gaps.hGap5 : Gaps.empty,
 
           /// 只有一页的时候，就不显示FooterView了
-          Text(hasMore ? '正在加载中...' : (itemCount < pageSize ? '' : '没有了呦~'),
+          Text(
+              hasMore
+                  ? 'Loading...'
+                  : (itemCount < pageSize ? '' : 'No more liao x('),
               style: style),
         ],
       ),
