@@ -5,8 +5,8 @@ import 'package:jom_malaysia/widgets/my_refresh_list.dart';
 import 'package:jom_malaysia/widgets/state_layout.dart';
 import 'package:provider/provider.dart';
 
+import 'category_item.dart';
 import 'order_item.dart';
-import 'order_item_tag.dart';
 
 class PlaceList extends StatefulWidget {
   const PlaceList({
@@ -52,7 +52,7 @@ class _PlaceListState extends State<PlaceList>
       },
       child: RefreshIndicator(
         onRefresh: _onRefresh,
-        displacement: 160.0, //40 + 80(header)
+        displacement: 160.0, //40 + 120(header)
         child: Consumer<OverviewPageProvider>(
           builder: (_, provider, child) {
             return CustomScrollView(
@@ -66,25 +66,32 @@ class _PlaceListState extends State<PlaceList>
                   handle:
                       NestedScrollView.sliverOverlapAbsorberHandleFor(context),
                 ),
-                child
+                child,
+                SliverList(
+                  delegate: SliverChildListDelegate([
+                    AdsSpace(),
+                  ]),
+                ),
               ],
             );
           },
           child: SliverPadding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             sliver: _list.isEmpty
-                ? SliverFillRemaining(child: StateLayout(type: _stateType))
-                : SliverList(
+                ? SliverFillRemaining(
+                    child: StateLayout(type: _stateType),
+                  )
+                : SliverGrid(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2),
                     delegate: SliverChildBuilderDelegate(
                         (BuildContext context, int index) {
                       return index < _list.length
-                          ? (index == 0
-                              ? AdsSpace()
-                              : OrderItem(
-                                  key: Key('order_item_$index'),
-                                  index: index,
-                                  tabIndex: _index,
-                                ))
+                          ? CategoryItem(
+                              key: Key('order_item_$index'),
+                              index: index,
+                              tabIndex: _index,
+                            )
                           : MoreWidget(_list.length, _hasMore(), 10);
                     }, childCount: _list.length + 1),
                   ),
