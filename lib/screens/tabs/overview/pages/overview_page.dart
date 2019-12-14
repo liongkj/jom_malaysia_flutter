@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
+import 'package:jom_malaysia/screens/place_detail_router.dart';
 import 'package:jom_malaysia/screens/tabs/overview/provider/overview_page_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/place_list.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
@@ -142,7 +143,7 @@ class _OverviewPageState extends State<OverviewPage>
             ),
             IconButton(
               onPressed: () {
-                NavigatorUtils.push(context, "");
+                NavigatorUtils.push(context, PlaceDetailRouter.placeDetailPage);
               },
               tooltip: 'Search',
               icon: Icon(
