@@ -50,6 +50,7 @@ class TextStyles {
       fontSize: Dimens.font_sp12,
       color: Colours.text_gray,
       fontWeight: FontWeight.normal);
+
   static const TextStyle textDarkGray12 = const TextStyle(
       fontSize: Dimens.font_sp12,
       color: Colours.dark_text_gray,

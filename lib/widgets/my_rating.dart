@@ -22,9 +22,9 @@ class Rating extends StatelessWidget {
       direction: Axis.horizontal,
       itemCount: 5,
       itemPadding: EdgeInsets.symmetric(
-        horizontal: 1.0,
+        horizontal: 0.8,
       ),
-      itemSize: 16,
+      itemSize: 14,
     );
   }
 }

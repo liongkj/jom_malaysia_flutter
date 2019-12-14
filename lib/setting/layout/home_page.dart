@@ -73,6 +73,7 @@ class _HomeState extends State<Home> {
             child: Text(
               _appBarTitles[i],
               key: Key(_appBarTitles[i]),
+              style: TextStyles.textBold14,
             ),
           ),
         );

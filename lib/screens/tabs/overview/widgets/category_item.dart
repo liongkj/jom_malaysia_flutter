@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/screens/tabs/overview/overview_router.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
-import 'package:jom_malaysia/util/date_utils_.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
 import 'package:jom_malaysia/widgets/my_card.dart';
+import 'package:jom_malaysia/widgets/my_grid_card.dart';
 import 'package:jom_malaysia/widgets/my_rating.dart';
 
 class CategoryItem extends StatelessWidget {
@@ -23,7 +23,7 @@ class CategoryItem extends StatelessWidget {
     bool isDark = ThemeUtils.isDark(context);
     return Container(
       margin: const EdgeInsets.only(top: 8.0),
-      child: MyCard(
+      child: MyGridCard(
         child: Container(
           padding: const EdgeInsets.all(8.0),
           child: InkWell(
@@ -42,24 +42,19 @@ class CategoryItem extends StatelessWidget {
                 ),
                 //place summary
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Container(
                       child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.only(top: 8.0),
                         child: Column(
                           children: <Widget>[
                             Text(
                               "Restoran Abu",
-                              style: TextStyle(
-                                fontSize: Dimens.font_sp12,
-                                fontWeight: FontWeight.bold,
-                              ),
+                              style: TextStyles.textBold14,
                             ),
                             Text("Chinese Restaurant",
-                                style: TextStyle(
-                                  fontSize: Dimens.font_sp10,
-                                ),
+                                style: TextStyles.textGray12,
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis),
                             Rating(rating: 4),

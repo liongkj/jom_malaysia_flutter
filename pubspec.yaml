@@ -55,6 +55,7 @@ dependencies:
   google_maps_flutter: ^0.5.21+14
   flutter_launcher_icons: ^0.7.4
   flutter_rating_bar: ^3.0.0
+  google_fonts: ^0.2.0
 
   # 图片选择插件 https://github.com/flutter/plugins/tree/master/packages/image_picker
   # image_picker: 0.6.2+1
