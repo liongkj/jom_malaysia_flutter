@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
+import 'package:jom_malaysia/core/res/colors.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../util/theme_utils.dart';
@@ -16,6 +18,7 @@ class _PlaceDetailPageState extends State<PlaceDetailPage>
     with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   NearbyPageProvider provider = NearbyPageProvider();
 
+  bool isDark = false;
   var _isloading = false;
 
   @override
@@ -23,6 +26,11 @@ class _PlaceDetailPageState extends State<PlaceDetailPage>
 
   @override
   void initState() {
+      //Portrait Mode only
+    SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown
+  ]);
     isLoaded();
     super.initState();
   }
@@ -42,6 +50,7 @@ class _PlaceDetailPageState extends State<PlaceDetailPage>
 
   @override
   Widget build(BuildContext context) {
+    isDark = ThemeUtils.isDark(context);
     super.build(context);
     final Color _iconColor = ThemeUtils.getIconColor(context);
     return ChangeNotifierProvider<NearbyPageProvider>(
@@ -59,7 +68,12 @@ class _PlaceDetailPageState extends State<PlaceDetailPage>
                     Padding(
                       padding: const EdgeInsets.only(top: 20.0),
                       child: IconButton(
-                        icon: Icon(Icons.arrow_back_ios, color: Colors.black),
+                        icon: Icon(
+                          Icons.arrow_back_ios,
+                          color: ThemeUtils.isDark(context)
+                              ? Colours.dark_text
+                              : Colours.text,
+                        ),
                         onPressed: () => Navigator.pop(context, false),
                       ),
                     ),
@@ -98,7 +112,10 @@ class PlaceDetails extends StatelessWidget {
                                   ? Text(
                                       "Hoop Station @ Cheras",
                                       style: TextStyle(
-                                          fontSize: 20.0, color: Colors.black),
+                                          fontSize: 20.0,
+                                          color: ThemeUtils.isDark(context)
+                                              ? Colours.dark_text
+                                              : Colours.text),
                                     )
                                   : Text(
                                       top.toString(),
@@ -112,7 +129,10 @@ class PlaceDetails extends StatelessWidget {
                                     topLeft: const Radius.circular(20.0),
                                     topRight: const Radius.circular(20.0)),
                                 border: Border.all(
-                                    color: Colors.black, width: 2.0)),
+                                    color: ThemeUtils.isDark(context)
+                                        ? Colours.dark_text
+                                        : Colours.text,
+                                    width: 2.0)),
                             child: Container(
                                 margin: EdgeInsets.only(left: 10, right: 10),
                                 child: PlaceInfo()),
@@ -185,10 +205,7 @@ class PlaceInfo extends StatelessWidget {
               flex: 8,
               child: Text(
                 "Hoop Station @ Cheras",
-                style: TextStyle(
-                    fontSize: 20.0,
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
               )),
           Expanded(
               flex: 2,
@@ -214,15 +231,10 @@ class PlaceInfo extends StatelessWidget {
             flex: 9,
             child: Wrap(runSpacing: 5, children: <Widget>[
               Text('This is some short descriptions',
-                  style: TextStyle(
-                      fontSize: 16.0,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold)),
+                  style:
+                      TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
               Text('This is some short descriptions',
-                  style: TextStyle(
-                      fontSize: 16.0,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold))
+                  style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold))
             ]))
       ]),
       Column(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
