@@ -58,37 +58,53 @@ class _PlaceListState extends State<PlaceList>
             return CustomScrollView(
               /// 这里指定controller可以与外层NestedScrollView的滚动分离，避免一处滑动，5个Tab中的列表同步滑动。
               /// 这种方法的缺点是会重新layout列表
-              controller: _index != provider.index ? _controller : null,
+              controller:
+                  // _index != provider.index ?
+                  _controller,
               key: PageStorageKey<String>("$_index"),
+
               slivers: <Widget>[
                 SliverOverlapInjector(
                   ///SliverAppBar的expandedHeight高度,避免重叠
                   handle:
                       NestedScrollView.sliverOverlapAbsorberHandleFor(context),
                 ),
-                child,
+                SliverPersistentHeader(
+                  pinned: true,
+                  delegate: _SliverAppBarDelegate(
+                    minHeight: 60.0,
+                    maxHeight: 200.0,
+                    child: Container(
+                        color: Colors.lightBlue,
+                        child: Center(child: Text('test'))),
+                  ),
+                ),
+                SliverPadding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 16.0,
+                    horizontal: 8.0,
+                  ),
+                  sliver: _list.isEmpty
+                      ? SliverFillRemaining(
+                          child: StateLayout(type: _stateType),
+                        )
+                      : SliverGrid(
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2),
+                          delegate: SliverChildBuilderDelegate(
+                              (BuildContext context, int index) {
+                            return CategoryItem(
+                              key: Key('order_item_$index'),
+                              index: index,
+                              tabIndex: _index,
+                            );
+                          }, childCount: _list.length + 1),
+                        ),
+                ),
               ],
             );
           },
-          child: SliverPadding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            sliver: _list.isEmpty
-                ? SliverFillRemaining(
-                    child: StateLayout(type: _stateType),
-                  )
-                : SliverGrid(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2),
-                    delegate: SliverChildBuilderDelegate(
-                        (BuildContext context, int index) {
-                      return CategoryItem(
-                        key: Key('order_item_$index'),
-                        index: index,
-                        tabIndex: _index,
-                      );
-                    }, childCount: _list.length + 1),
-                  ),
-          ),
         ),
       ),
     );
@@ -124,5 +140,32 @@ class _PlaceListState extends State<PlaceList>
         _isLoading = false;
       });
     });
+  }
+}
+
+class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
+  _SliverAppBarDelegate({
+    @required this.minHeight,
+    @required this.maxHeight,
+    @required this.child,
+  });
+  final double minHeight;
+  final double maxHeight;
+  final Widget child;
+  @override
+  double get minExtent => minHeight;
+  @override
+  double get maxExtent => maxHeight;
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return new SizedBox.expand(child: child);
+  }
+
+  @override
+  bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
+    return maxHeight != oldDelegate.maxHeight ||
+        minHeight != oldDelegate.minHeight ||
+        child != oldDelegate.child;
   }
 }

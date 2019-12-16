@@ -26,6 +26,7 @@ class _OverviewPageState extends State<OverviewPage>
   TabController _tabController;
   OverviewPageProvider provider = OverviewPageProvider();
   PageController _pageController = PageController(initialPage: 0);
+
   _onPageChange(int index) async {
     provider.setIndex(index);
     _tabController.animateTo(index);
@@ -90,6 +91,7 @@ class _OverviewPageState extends State<OverviewPage>
               headerSliverBuilder: (context, innerBoxIsScrolled) {
                 return _sliverBuilder(context);
               },
+              controller: new ScrollController(),
               body:
                   // new AdSwiper(),
                   PageView.builder(
@@ -173,24 +175,7 @@ class _OverviewPageState extends State<OverviewPage>
             titlePadding:
                 const EdgeInsetsDirectional.only(start: 16.0, bottom: 14.0),
             collapseMode: CollapseMode.pin,
-            title: Container(
-              child: Row(
-                children: <Widget>[
-                  Icon(
-                    Icons.near_me,
-                    size: Dimens.font_sp16,
-                    color: ThemeUtils.getIconColor(context),
-                  ),
-                  Gaps.hGap8,
-                  Text(
-                    "Seremban",
-                    style: TextStyle(
-                        color: ThemeUtils.getIconColor(context),
-                        fontSize: Dimens.font_sp16),
-                  ),
-                ],
-              ),
-            ),
+            title: _CurrentLocation(),
           ),
         ),
       ),
@@ -207,47 +192,97 @@ class _OverviewPageState extends State<OverviewPage>
                         fit: BoxFit.fill)),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: MyCard(
-                child: Container(
-                  height: 80.0,
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: TabBar(
-                    isScrollable: true,
-                    labelPadding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    controller: _tabController,
-                    labelColor: ThemeUtils.isDark(context)
-                        ? Colours.dark_text
-                        : Colours.text,
-                    unselectedLabelColor: ThemeUtils.isDark(context)
-                        ? Colours.dark_text_gray
-                        : Colours.text,
-                    labelStyle: TextStyles.textBold14,
-                    unselectedLabelStyle: const TextStyle(
-                      fontSize: Dimens.font_sp12,
-                    ),
-                    indicatorColor: Colors.transparent,
-                    tabs: const <Widget>[
-                      const _TabView(0, 'Shops', Icons.restaurant),
-                      const _TabView(1, 'Attractions', Icons.local_play),
-                      const _TabView(2, 'Government', Icons.location_city),
-                      const _TabView(3, 'Professional', Icons.work),
-                      const _TabView(4, 'NGO', Icons.people),
-                    ],
-                    onTap: (index) {
-                      if (!mounted) {
-                        return;
-                      }
-                      _pageController.jumpToPage(index);
-                    },
-                  ),
-                ),
-              ),
+              child: _ListingTypeTab(
+                  tabController: _tabController,
+                  mounted: mounted,
+                  pageController: _pageController),
             ),
           ),
           80.0,
         ),
       ),
     ];
+  }
+}
+
+class _CurrentLocation extends StatelessWidget {
+  const _CurrentLocation({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Row(
+        children: <Widget>[
+          Icon(
+            Icons.near_me,
+            size: Dimens.font_sp16,
+            color: ThemeUtils.getIconColor(context),
+          ),
+          Gaps.hGap8,
+          Text(
+            "Seremban",
+            style: TextStyle(
+                color: ThemeUtils.getIconColor(context),
+                fontSize: Dimens.font_sp16),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ListingTypeTab extends StatelessWidget {
+  const _ListingTypeTab({
+    Key key,
+    @required TabController tabController,
+    @required this.mounted,
+    @required PageController pageController,
+  })  : _tabController = tabController,
+        _pageController = pageController,
+        super(key: key);
+
+  final TabController _tabController;
+  final bool mounted;
+  final PageController _pageController;
+
+  @override
+  Widget build(BuildContext context) {
+    return MyCard(
+      child: Container(
+        height: 80.0,
+        padding: const EdgeInsets.only(top: 8.0),
+        child: TabBar(
+          isScrollable: true,
+          labelPadding: const EdgeInsets.symmetric(horizontal: 8.0),
+          controller: _tabController,
+          labelColor:
+              ThemeUtils.isDark(context) ? Colours.dark_text : Colours.text,
+          unselectedLabelColor: ThemeUtils.isDark(context)
+              ? Colours.dark_text_gray
+              : Colours.text,
+          labelStyle: TextStyles.textBold14,
+          unselectedLabelStyle: const TextStyle(
+            fontSize: Dimens.font_sp12,
+          ),
+          indicatorColor: Colors.transparent,
+          tabs: const <Widget>[
+            const _TabView(0, 'Shops', Icons.restaurant),
+            const _TabView(1, 'Attractions', Icons.local_play),
+            const _TabView(2, 'Government', Icons.location_city),
+            const _TabView(3, 'Professional', Icons.work),
+            const _TabView(4, 'NGO', Icons.people),
+          ],
+          onTap: (index) {
+            if (!mounted) {
+              return;
+            }
+            _pageController.jumpToPage(index);
+          },
+        ),
+      ),
+    );
   }
 }
 

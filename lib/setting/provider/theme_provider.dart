@@ -54,8 +54,8 @@ class ThemeProvider extends ChangeNotifier {
       textSelectionColor: Colours.app_main.withAlpha(70),
       textSelectionHandleColor: Colours.app_main,
       textTheme: isDarkMode
-          ? Typography.blackMountainView
-          : Typography.whiteMountainView,
+          ? Typography.whiteMountainView
+          : Typography.blackMountainView,
 
       // TextTheme(
       //   // TextField输入文字颜色

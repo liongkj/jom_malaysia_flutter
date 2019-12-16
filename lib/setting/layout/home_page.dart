@@ -17,9 +17,13 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  var _pageList;
-
-  var _appBarTitles = ['Home', 'Nearby', 'Facts', 'Setting'];
+  final _appBarTitles = ['Home', 'Nearby', 'Facts', 'Setting'];
+  final _pageList = [
+    OverviewPage(),
+    NearbyPage(),
+    FactsPage(),
+    SettingPage(),
+  ];
   final _pageController = PageController();
 
   HomeProvider provider = HomeProvider();
@@ -30,38 +34,30 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     print("homepage buid");
-    initData();
+    // initData();
   }
 
-//put bottom navigation bar page here
-  void initData() {
-    _pageList = [
-      OverviewPage(),
-      NearbyPage(),
-      FactsPage(),
-      SettingPage(),
-    ];
-  }
+  // void initData() {}
 
-  final double icon_size = 24;
+  final double iconSize = 24;
   List<BottomNavigationBarItem> _buildBottomNavigationBarItem() {
     if (_list == null) {
       var _tabImages = [
         Icon(
           Icons.home,
-          size: icon_size,
+          size: iconSize,
         ),
         Icon(
           Icons.map,
-          size: icon_size,
+          size: iconSize,
         ),
         Icon(
           Icons.history,
-          size: icon_size,
+          size: iconSize,
         ),
         Icon(
           Icons.settings,
-          size: icon_size,
+          size: iconSize,
         ) // [
       ];
       _list = List.generate(4, (i) {
@@ -135,6 +131,8 @@ class _HomeState extends State<Home> {
   }
 
   void _onPageChanged(int index) {
-    provider.value = index;
+    setState(() {
+      provider.value = index;
+    });
   }
 }

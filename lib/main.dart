@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
             builder: (_, provider, __) {
               return MaterialApp(
                 // showPerformanceOverlay: true, //显示性能标签
-                debugShowCheckedModeBanner: false,
+                // debugShowCheckedModeBanner: false,
                 //checkerboardRasterCacheImages: true,
                 title: 'Jom N9',
                 theme: provider.getTheme(),
