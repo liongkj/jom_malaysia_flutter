@@ -4,6 +4,7 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:logger/logger.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 
@@ -17,6 +18,7 @@ void main() {
 //  debugPaintLayerBordersEnabled = true;
 //  debugProfilePaintsEnabled = true;
 //  debugRepaintRainbowEnabled = true;
+  Logger.level = Level.verbose;
   runApp(MyApp());
   if (Platform.isAndroid) {
     SystemUiOverlayStyle systemUiOverlayStyle =

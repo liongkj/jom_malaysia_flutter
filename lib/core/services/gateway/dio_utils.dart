@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:jom_malaysia/core/constants/common.dart';
-import 'package:jom_malaysia/util/log_utils.dart';
 import 'package:rxdart/rxdart.dart';
 import 'base_entity.dart';
 import 'error_handle.dart';
@@ -28,26 +27,12 @@ class DioUtils {
     var options = BaseOptions(
       connectTimeout: 15000,
       receiveTimeout: 15000,
-      responseType: ResponseType.plain,
-      validateStatus: (status) {
-        // 不使用http状态码判断状态，使用AdapterInterceptor来处理（适用于标准REST风格）
-        return true;
-      },
-      baseUrl: "https://api.github.com/",
+
+      baseUrl: "https://jommalaysiaapi.azurewebsites.net/api/",
 //      contentType: ContentType('application', 'x-www-form-urlencoded', charset: 'utf-8'),
     );
     _dio = Dio(options);
 
-    /// Fiddler抓包代理配置 https://www.jianshu.com/p/d831b1f7c45b
-//    (_dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
-//        (HttpClient client) {
-//      client.findProxy = (uri) {
-//        //proxy all request to localhost:8888
-//        return "PROXY 10.41.0.132:8888";
-//      };
-//      client.badCertificateCallback =
-//          (X509Certificate cert, String host, int port) => true;
-//    };
     /// 统一添加身份验证请求头
     _dio.interceptors.add(AuthInterceptor());
 
@@ -69,7 +54,7 @@ class DioUtils {
       Map<String, dynamic> queryParameters,
       CancelToken cancelToken,
       Options options}) async {
-    var response = await _dio.request(url,
+    Response response = await _dio.request(url,
         data: data,
         queryParameters: queryParameters,
         options: _checkOptions(method, options),
@@ -77,8 +62,8 @@ class DioUtils {
     try {
       /// 集成测试无法使用 isolate
       Map<String, dynamic> _map = Constant.isTest
-          ? parseData(response.data.toString())
-          : await compute(parseData, response.data.toString());
+          ? parseData(response.data.data.toString())
+          : await compute(parseData, response.data.data.toString());
       return BaseEntity.fromJson(_map);
     } catch (e) {
       print(e);
@@ -170,7 +155,7 @@ class DioUtils {
 
   _cancelLogPrint(dynamic e, String url) {
     if (e is DioError && CancelToken.isCancel(e)) {
-      Log.i("取消请求接口： $url");
+      logger.i("取消请求接口： $url");
     }
   }
 
@@ -179,7 +164,7 @@ class DioUtils {
       code = ExceptionHandle.unknown_error;
       msg = "Unknown Error";
     }
-    Log.e("接口请求异常： code: $code, mag: $msg");
+    logger.e("接口请求异常： code: $code, mag: $msg");
     if (onError != null) {
       onError(code, msg);
     }

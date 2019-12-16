@@ -6,7 +6,6 @@ import 'package:jom_malaysia/screens/login/login_router.dart';
 import 'package:jom_malaysia/screens/tabs/overview/overview_router.dart';
 import 'package:jom_malaysia/setting/routers/routers.dart';
 import 'package:jom_malaysia/util/image_utils.dart';
-import 'package:jom_malaysia/util/log_utils.dart';
 import 'package:rxdart/rxdart.dart';
 import '../../setting/provider/theme_provider.dart';
 import '../../setting/routers/fluro_navigator.dart';
@@ -29,7 +28,6 @@ class _SplashPageState extends State<SplashPage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      Log.init();
       await SpUtil.getInstance();
       // 由于SpUtil未初始化，所以MaterialApp获取的为默认主题配置，这里同步一下。
       Provider.of<ThemeProvider>(context).syncTheme();

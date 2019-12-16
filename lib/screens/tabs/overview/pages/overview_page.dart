@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:jom_malaysia/core/mvp/base_page_state.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
+import 'package:jom_malaysia/screens/tabs/overview/models/category_model.dart';
+import 'package:jom_malaysia/screens/tabs/overview/presenter/overview_page_presenter.dart';
 import 'package:jom_malaysia/screens/tabs/overview/provider/overview_page_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/place_list.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
@@ -13,10 +16,11 @@ import 'package:provider/provider.dart';
 
 class OverviewPage extends StatefulWidget {
   @override
-  _OverviewPageState createState() => _OverviewPageState();
+  OverviewPageState createState() => OverviewPageState();
 }
 
-class _OverviewPageState extends State<OverviewPage>
+class OverviewPageState
+    extends BasePageState<OverviewPage, OverviewPagePresenter>
     with
         AutomaticKeepAliveClientMixin<OverviewPage>,
         SingleTickerProviderStateMixin {
@@ -30,6 +34,11 @@ class _OverviewPageState extends State<OverviewPage>
   _onPageChange(int index) async {
     provider.setIndex(index);
     _tabController.animateTo(index);
+  }
+
+  @override
+  OverviewPagePresenter createPresenter() {
+    return OverviewPagePresenter();
   }
 
   @override
@@ -98,7 +107,10 @@ class _OverviewPageState extends State<OverviewPage>
                 onPageChanged: _onPageChange,
                 controller: _pageController,
                 itemBuilder: (_, index) {
-                  return PlaceList(index: index);
+                  return PlaceList(
+                    index: index,
+                    categories: provider.categories,
+                  );
                 },
               ),
             ),
@@ -201,6 +213,10 @@ class _OverviewPageState extends State<OverviewPage>
       ),
     ];
   }
+
+  void setCategories(List<CategoryModel> data) {
+    provider.setCategory(data);
+  }
 }
 
 class _CurrentLocation extends StatelessWidget {
@@ -281,26 +297,6 @@ class _ListingTypeTab extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-class AdSwiper extends StatelessWidget {
-  const AdSwiper({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Swiper(
-        itemBuilder: (BuildContext context, int index) {
-          return new Image.network(
-            "http://via.placeholder.com/288x188",
-            fit: BoxFit.fill,
-          );
-        },
-        itemCount: 10,
-        viewportFraction: 0.8,
-        scale: 0.9);
   }
 }
 

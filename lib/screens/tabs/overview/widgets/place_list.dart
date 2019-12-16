@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:jom_malaysia/screens/tabs/overview/models/category_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/provider/overview_page_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/ads_space.dart';
 import 'package:jom_malaysia/widgets/my_refresh_list.dart';
 import 'package:jom_malaysia/widgets/state_layout.dart';
 import 'package:provider/provider.dart';
-
+import 'dart:math' as math;
 import 'category_item.dart';
 import 'order_item.dart';
 
@@ -12,9 +13,11 @@ class PlaceList extends StatefulWidget {
   const PlaceList({
     Key key,
     @required this.index,
+    @required this.categories,
   }) : super(key: key);
 
   final int index;
+  final List<CategoryModel> categories;
 
   @override
   _PlaceListState createState() => _PlaceListState();
@@ -37,7 +40,8 @@ class _PlaceListState extends State<PlaceList>
   void initState() {
     super.initState();
     _index = widget.index;
-    _onRefresh();
+    _list = widget.categories;
+    // _onRefresh();
   }
 
   @override
@@ -153,7 +157,7 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   @override
   double get minExtent => minHeight;
   @override
-  double get maxExtent => maxHeight;
+  double get maxExtent => math.max(maxHeight, minHeight);
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {

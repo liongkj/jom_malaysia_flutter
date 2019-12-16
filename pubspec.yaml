@@ -56,6 +56,8 @@ dependencies:
   google_maps_flutter: ^0.5.21+14
   flutter_launcher_icons: ^0.7.4
   flutter_rating_bar: ^3.0.0
+  json_annotation: ^3.0.0
+  logger: ^0.7.0+2
 
   # 图片选择插件 https://github.com/flutter/plugins/tree/master/packages/image_picker
   # image_picker: 0.6.2+1
@@ -76,6 +78,8 @@ dev_dependencies:
     sdk: flutter
   # 单元测试
   test: ^1.6.3
+  build_runner: ^1.7.2
+  json_serializable: ^3.2.3
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

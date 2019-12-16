@@ -3,11 +3,13 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flustars/flustars.dart';
 import 'package:jom_malaysia/core/constants/common.dart';
-import 'package:jom_malaysia/util/log_utils.dart';
+import 'package:jom_malaysia/logger.dart';
 import 'package:sprintf/sprintf.dart';
 
 import 'dio_utils.dart';
 import 'error_handle.dart';
+
+final logger = getLogger("intercepter");
 
 class AuthInterceptor extends Interceptor {
   @override
@@ -32,7 +34,7 @@ class TokenInterceptor extends Interceptor {
         return json.decode(response.data.toString())["access_token"];
       }
     } catch (e) {
-      Log.e("Refresh Token failed！");
+      logger.e("Refresh Token failed！");
     }
     return null;
   }
@@ -44,11 +46,11 @@ class TokenInterceptor extends Interceptor {
     //401代表token过期
     if (response != null &&
         response.statusCode == ExceptionHandle.unauthorized) {
-      Log.d("-----------自动刷新Token------------");
+      logger.d("-----------自动刷新Token------------");
       Dio dio = DioUtils.instance.getDio();
       dio.interceptors.requestLock.lock();
       String accessToken = await getToken(); // 获取新的accessToken
-      Log.e("-----------NewToken: $accessToken ------------");
+      logger.e("-----------NewToken: $accessToken ------------");
       SpUtil.putString(Constant.accessToken, accessToken);
       dio.interceptors.requestLock.unlock();
 
@@ -58,7 +60,7 @@ class TokenInterceptor extends Interceptor {
           var request = response.request;
           request.headers["Authorization"] = "Bearer $accessToken";
           try {
-            Log.e("----------- 重新请求接口 ------------");
+            logger.e("----------- 重新请求接口 ------------");
 
             /// 避免重复执行拦截器，使用tokenDio
             var response = await _tokenDio.request(request.path,
@@ -85,20 +87,20 @@ class LoggingInterceptor extends Interceptor {
   @override
   onRequest(RequestOptions options) {
     startTime = DateTime.now();
-    Log.d("----------Start----------");
+    logger.d("----------Start----------");
     if (options.queryParameters.isEmpty) {
-      Log.i("RequestUrl: " + options.baseUrl + options.path);
+      logger.i("RequestUrl: " + options.baseUrl + options.path);
     } else {
-      Log.i("RequestUrl: " +
+      logger.i("RequestUrl: " +
           options.baseUrl +
           options.path +
           "?" +
           Transformer.urlEncodeMap(options.queryParameters));
     }
-    Log.d("RequestMethod: " + options.method);
-    Log.d("RequestHeaders:" + options.headers.toString());
-    Log.d("RequestContentType: ${options.contentType}");
-    Log.d("RequestData: ${options.data.toString()}");
+    logger.d("RequestMethod: " + options.method);
+    logger.d("RequestHeaders:" + options.headers.toString());
+    logger.d("RequestContentType: ${options.contentType}");
+    logger.d("RequestData: ${options.data.toString()}");
     return super.onRequest(options);
   }
 
@@ -107,19 +109,20 @@ class LoggingInterceptor extends Interceptor {
     endTime = DateTime.now();
     int duration = endTime.difference(startTime).inMilliseconds;
     if (response.statusCode == ExceptionHandle.success) {
-      Log.d("ResponseCode: ${response.statusCode}");
+      logger.d("ResponseCode: ${response.statusCode}");
     } else {
-      Log.e("ResponseCode: ${response.statusCode}");
+      logger
+          .e("ResponseCode: ${response.statusCode} ${response.statusMessage}");
     }
     // 输出结果
-    Log.json(response.data.toString());
-    Log.d("----------End: $duration 毫秒----------");
+    // logger.i(response.data.toString());
+    logger.d("----------End: $duration 毫秒----------");
     return super.onResponse(response);
   }
 
   @override
   onError(DioError err) {
-    Log.d("----------Error-----------");
+    logger.wtf("----------Error-----------");
     return super.onError(err);
   }
 }
@@ -144,6 +147,7 @@ class AdapterInterceptor extends Interceptor {
 
   @override
   onError(DioError err) {
+    logger.e(err.toString());
     if (err.response != null) {
       adapterData(err.response);
     }
@@ -194,7 +198,7 @@ class AdapterInterceptor extends Interceptor {
               response.statusCode = ExceptionHandle.success;
             }
           } catch (e) {
-            Log.d("异常信息：$e");
+            logger.d("异常信息：$e");
             // 解析异常直接按照返回原数据处理（一般为返回500,503 HTML页面代码）
             result = sprintf(failureFormat,
                 [response.statusCode, "服务器异常(${response.statusCode})"]);
