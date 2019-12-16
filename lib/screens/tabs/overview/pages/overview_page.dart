@@ -92,9 +92,7 @@ class _OverviewPageState extends State<OverviewPage>
                 return _sliverBuilder(context);
               },
               controller: new ScrollController(),
-              body:
-                  // new AdSwiper(),
-                  PageView.builder(
+              body: PageView.builder(
                 key: const Key('pageView'),
                 itemCount: 5,
                 onPageChanged: _onPageChange,

@@ -74,9 +74,7 @@ class _PlaceListState extends State<PlaceList>
                   delegate: _SliverAppBarDelegate(
                     minHeight: 60.0,
                     maxHeight: 200.0,
-                    child: Container(
-                        color: Colors.lightBlue,
-                        child: Center(child: Text('test'))),
+                    child: AdsSpace(),
                   ),
                 ),
                 SliverPadding(
