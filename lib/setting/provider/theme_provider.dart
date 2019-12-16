@@ -6,7 +6,7 @@ import 'package:jom_malaysia/core/constants/common.dart';
 import 'package:jom_malaysia/core/constants/themes.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 
-class ThemeProvider extends ChangeNotifier {
+class ThemeProvider with ChangeNotifier {
   static const Map<Themes, String> themes = {
     Themes.DARK: "Dark",
     Themes.LIGHT: "Light",

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/category_model.dart';
-import 'package:jom_malaysia/screens/tabs/overview/provider/overview_page_provider.dart';
+import 'package:jom_malaysia/screens/tabs/overview/providers/overview_page_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/ads_space.dart';
 import 'package:jom_malaysia/widgets/my_refresh_list.dart';
 import 'package:jom_malaysia/widgets/state_layout.dart';

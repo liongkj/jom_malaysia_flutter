@@ -4,6 +4,7 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:jom_malaysia/screens/tabs/overview/providers/categories_provider.dart';
 import 'package:logger/logger.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
@@ -40,8 +41,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     print("main run");
     return OKToast(
-        child: ChangeNotifierProvider<ThemeProvider>(
-          create: (_) => ThemeProvider(),
+        child: MultiProvider(
+          providers: [
+            ChangeNotifierProvider<ThemeProvider>(
+              create: (_) => ThemeProvider(),
+            ),
+            ChangeNotifierProvider<CategoriesProvider>(
+              create: (_) => CategoriesProvider(),
+            ),
+          ],
           child: Consumer<ThemeProvider>(
             builder: (_, provider, __) {
               return MaterialApp(

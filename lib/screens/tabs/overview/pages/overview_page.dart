@@ -4,7 +4,7 @@ import 'package:jom_malaysia/core/mvp/base_page_state.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/category_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/presenter/overview_page_presenter.dart';
-import 'package:jom_malaysia/screens/tabs/overview/provider/overview_page_provider.dart';
+import 'package:jom_malaysia/screens/tabs/overview/providers/overview_page_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/place_list.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/util/image_utils.dart';
