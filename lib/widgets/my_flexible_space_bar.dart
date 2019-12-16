@@ -6,7 +6,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-
 /// The part of a material design [AppBar] that expands and collapses.
 ///
 /// Most commonly used in in the [SliverAppBar.flexibleSpace] field, a flexible
@@ -34,7 +33,7 @@ class MyFlexibleSpaceBar extends StatefulWidget {
     this.centerTitle,
     this.titlePadding,
     this.collapseMode = CollapseMode.parallax,
-  }) : assert(collapseMode != null),
+  })  : assert(collapseMode != null),
         super(key: key);
 
   /// The primary contents of the flexible space bar when expanded.
@@ -110,8 +109,7 @@ class MyFlexibleSpaceBar extends StatefulWidget {
 
 class _FlexibleSpaceBarState extends State<MyFlexibleSpaceBar> {
   bool _getEffectiveCenterTitle(ThemeData theme) {
-    if (widget.centerTitle != null)
-      return widget.centerTitle;
+    if (widget.centerTitle != null) return widget.centerTitle;
     assert(theme.platform != null);
     switch (theme.platform) {
       case TargetPlatform.android:
@@ -124,8 +122,7 @@ class _FlexibleSpaceBarState extends State<MyFlexibleSpaceBar> {
   }
 
   Alignment _getTitleAlignment(bool effectiveCenterTitle) {
-    if (effectiveCenterTitle)
-      return Alignment.bottomCenter;
+    if (effectiveCenterTitle) return Alignment.bottomCenter;
     final TextDirection textDirection = Directionality.of(context);
     assert(textDirection != null);
     switch (textDirection) {
@@ -157,7 +154,7 @@ class _FlexibleSpaceBarState extends State<MyFlexibleSpaceBar> {
   @override
   void initState() {
     //监听Widget是否绘制完毕
-    WidgetsBinding.instance.addPostFrameCallback((_){
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       final RenderBox renderBoxRed = _key.currentContext.findRenderObject();
       _offset = renderBoxRed.size.width / 2;
     });
@@ -167,8 +164,10 @@ class _FlexibleSpaceBarState extends State<MyFlexibleSpaceBar> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    final FlexibleSpaceBarSettings settings = context.inheritFromWidgetOfExactType(FlexibleSpaceBarSettings);
-    assert(settings != null, 'A FlexibleSpaceBar must be wrapped in the widget returned by FlexibleSpaceBar.createSettings().');
+    final FlexibleSpaceBarSettings settings = context
+        .dependOnInheritedWidgetOfExactType(aspect: FlexibleSpaceBarSettings);
+    assert(settings != null,
+        'A FlexibleSpaceBar must be wrapped in the widget returned by FlexibleSpaceBar.createSettings().');
 
     final List<Widget> children = <Widget>[];
 
@@ -176,7 +175,9 @@ class _FlexibleSpaceBarState extends State<MyFlexibleSpaceBar> {
 
     // 0.0 -> Expanded
     // 1.0 -> Collapsed to toolbar
-    final double t = (1.0 - (settings.currentExtent - settings.minExtent) / deltaExtent).clamp(0.0, 1.0);
+    final double t =
+        (1.0 - (settings.currentExtent - settings.minExtent) / deltaExtent)
+            .clamp(0.0, 1.0);
 
     // background image
 //    if (widget.background != null) {
@@ -185,16 +186,16 @@ class _FlexibleSpaceBarState extends State<MyFlexibleSpaceBar> {
 //      assert(fadeStart <= fadeEnd);
 //      final double opacity = 1.0 - Interval(fadeStart, fadeEnd).transform(t);
 //      if (opacity > 0.0) {
-        children.add(Positioned(
-          top: _getCollapsePadding(t, settings),
-          left: 0.0,
-          right: 0.0,
-          height: settings.maxExtent,
-          child: Opacity(
-            opacity: 1,
-            child: widget.background,
-          ),
-        ));
+    children.add(Positioned(
+      top: _getCollapsePadding(t, settings),
+      left: 0.0,
+      right: 0.0,
+      height: settings.maxExtent,
+      child: Opacity(
+        opacity: 1,
+        child: widget.background,
+      ),
+    ));
 //      }
 //    }
 
@@ -223,18 +224,19 @@ class _FlexibleSpaceBarState extends State<MyFlexibleSpaceBar> {
         TextStyle titleStyle = theme.primaryTextTheme.title;
         titleStyle = titleStyle.copyWith(
             color: titleStyle.color.withOpacity(opacity),
-            fontWeight: t != 0 ? FontWeight.normal : FontWeight.bold
-        );
+            fontWeight: t != 0 ? FontWeight.normal : FontWeight.bold);
         final bool effectiveCenterTitle = _getEffectiveCenterTitle(theme);
         final EdgeInsetsGeometry padding = widget.titlePadding ??
             EdgeInsetsDirectional.only(
               start: effectiveCenterTitle ? 0.0 : 72.0,
               bottom: 16.0,
             );
-        final double scaleValue = Tween<double>(begin: 1.5, end: 1.0).transform(t);
+        final double scaleValue =
+            Tween<double>(begin: 1.5, end: 1.0).transform(t);
         double width = (size.width - 32.0) / 2 - _offset;
         final Matrix4 scaleTransform = Matrix4.identity()
-          ..scale(scaleValue, scaleValue, 1.0)..translate(t * width, 0.0);
+          ..scale(scaleValue, scaleValue, 1.0)
+          ..translate(t * width, 0.0);
         final Alignment titleAlignment = _getTitleAlignment(false);
         children.add(Container(
           padding: padding,
@@ -256,4 +258,3 @@ class _FlexibleSpaceBarState extends State<MyFlexibleSpaceBar> {
     return ClipRect(child: Stack(children: children));
   }
 }
-

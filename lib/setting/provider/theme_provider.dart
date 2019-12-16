@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:jom_malaysia/core/constants/common.dart';
 import 'package:jom_malaysia/core/constants/themes.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
@@ -54,11 +53,10 @@ class ThemeProvider extends ChangeNotifier {
       // 文字选择色（输入框复制粘贴菜单）
       textSelectionColor: Colours.app_main.withAlpha(70),
       textSelectionHandleColor: Colours.app_main,
-      textTheme: GoogleFonts.ralewayTextTheme(
-        isDarkMode
-            ? Typography.blackMountainView
-            : Typography.whiteMountainView,
-      ),
+      textTheme: isDarkMode
+          ? Typography.blackMountainView
+          : Typography.whiteMountainView,
+
       // TextTheme(
       //   // TextField输入文字颜色
       //   subhead: isDarkMode ? TextStyles.textDark : TextStyles.text,

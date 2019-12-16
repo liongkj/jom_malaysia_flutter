@@ -81,13 +81,11 @@ class _PlaceListState extends State<PlaceList>
                         crossAxisCount: 2),
                     delegate: SliverChildBuilderDelegate(
                         (BuildContext context, int index) {
-                      return index < _list.length
-                          ? CategoryItem(
-                              key: Key('order_item_$index'),
-                              index: index,
-                              tabIndex: _index,
-                            )
-                          : MoreWidget(_list.length, _hasMore(), 10);
+                      return CategoryItem(
+                        key: Key('order_item_$index'),
+                        index: index,
+                        tabIndex: _index,
+                      );
                     }, childCount: _list.length + 1),
                   ),
           ),

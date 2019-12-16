@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:jom_malaysia/core/res/dimens.dart';
-import 'package:jom_malaysia/widgets/load_image.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class Rating extends StatelessWidget {
