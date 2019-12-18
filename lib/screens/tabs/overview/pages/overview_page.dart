@@ -51,10 +51,10 @@ class OverviewPageState
     super.initState();
     _tabController = TabController(vsync: this, length: 5);
     presenter.initState();
-   
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       // _preCacheImage();
-       presenter.fetchCategories("type", 1);
+      presenter.fetchListings("type", 1);
     });
   }
 

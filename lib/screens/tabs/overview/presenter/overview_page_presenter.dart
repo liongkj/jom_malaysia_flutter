@@ -10,12 +10,12 @@ class OverviewPagePresenter extends BasePagePresenter<OverviewPageState> {
     super.initState();
   }
 
-  Future fetchCategories(String type, int page) async {
+  Future fetchListings(String type, int page) async {
     asyncRequestNetwork<List<CategoryModel>, CategoryModel>(Method.get,
         url: APIConst.categories, onSuccess: (data) {
       if (data != null) {
-        view.categoryProvider.addAll(data);
         view.categoryProvider.setHasMore(false);
+        view.categoryProvider.addAll(data);
       } else {
         view.categoryProvider.setHasMore(false);
         view.categoryProvider.setStateType(StateType.network);

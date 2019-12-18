@@ -1,4 +1,4 @@
-import 'package:jom_malaysia/core/constants/category_type_enum.dart';
+import 'package:jom_malaysia/core/enums/category_type_enum.dart';
 import 'package:jom_malaysia/core/models/category_path.dart';
 import 'package:jom_malaysia/core/models/image_model.dart';
 import 'package:json_annotation/json_annotation.dart';
