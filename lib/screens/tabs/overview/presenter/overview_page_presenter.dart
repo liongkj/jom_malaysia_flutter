@@ -1,25 +1,28 @@
-import 'package:flutter/cupertino.dart';
 import 'package:jom_malaysia/core/mvp/base_page_presenter.dart';
 import 'package:jom_malaysia/core/services/gateway/net.dart';
-import 'package:jom_malaysia/core/services/list_view_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/category_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/pages/overview_page.dart';
+import 'package:jom_malaysia/widgets/state_layout.dart';
 
 class OverviewPagePresenter extends BasePagePresenter<OverviewPageState> {
-  List<CategoryModel> _categoryList = [];
-  List<CategoryModel> get categoryList => [..._categoryList];
-
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      asyncRequestNetwork<List<CategoryModel>, CategoryModel>(
-        Method.get,
-        url: APIConst.categories,
-        onSuccess: (data) {
-          view.setCategories(data);
-        },
-      );
+  }
+
+  Future fetchCategories(String type, int page) async {
+    asyncRequestNetwork<List<CategoryModel>, CategoryModel>(Method.get,
+        url: APIConst.categories, onSuccess: (data) {
+      if (data != null) {
+        view.categoryProvider.addAll(data);
+        view.categoryProvider.setHasMore(false);
+      } else {
+        view.categoryProvider.setHasMore(false);
+        view.categoryProvider.setStateType(StateType.network);
+      }
+    }, onError: (_, __) {
+      view.categoryProvider.setHasMore(false);
+      view.categoryProvider.setStateType(StateType.network);
     });
   }
 }

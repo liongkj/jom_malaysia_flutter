@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:jom_malaysia/core/constants/common.dart';
 import 'package:jom_malaysia/core/services/gateway/json_parser.dart';
@@ -26,10 +28,10 @@ class DioUtils {
       connectTimeout: 30000, //15000
       receiveTimeout: 15000,
       responseType: ResponseType.json,
-      validateStatus: (status) {
-        // 不使用http状态码判断状态，使用AdapterInterceptor来处理（适用于标准REST风格）
-        return true;
-      },
+      // validateStatus: (status) {
+      //   // 不使用http状态码判断状态，使用AdapterInterceptor来处理（适用于标准REST风格）
+      //   return true;
+      // },
       baseUrl: "https://jommalaysiaapi.azurewebsites.net/api/",
       // baseUrl: "https://localhost:44368/api/",
 //      contentType: ContentType('application', 'x-www-form-urlencoded', charset: 'utf-8'),
@@ -48,7 +50,7 @@ class DioUtils {
     }
 
     /// 适配数据(根据自己的数据结构，可自行选择添加)
-    _dio.interceptors.add(AdapterInterceptor());
+    // _dio.interceptors.add(AdapterInterceptor());
   }
 
   // 数据返回格式统一，统一处理异常
@@ -64,8 +66,7 @@ class DioUtils {
         cancelToken: cancelToken);
     try {
       /// 集成测试无法使用 isolate
-      final jsonBody = response.data;
-      return JsonParser.fromJson<T, K>(jsonBody);
+      return JsonParser.fromJson<T, K>(response.data);
     } catch (e) {
       throw e;
       //  return BaseEntity(ExceptionHandle.parse_error, "数据解析错误", null);
@@ -134,23 +135,13 @@ class DioUtils {
             cancelToken: cancelToken))
         .asBroadcastStream()
         .listen((result) {
-      //   if (result == 0) {
-      //     if (isList) {
-      //       if (onSuccessList != null) {
-      //         onSuccessList(result.listData);
-      //       }
-      //     } else {
-      //       if (onSuccess != null) {
-      //         onSuccess(result.data);
-      //       }
-      //     }
-      //   } else {
-      //     _onError(result.code, result.message, onError);
-      //   }
-      // }, onError: (e) {
-      //   _cancelLogPrint(e, url);
-      //   NetError error = ExceptionHandle.handleException(e);
-      //   _onError(error.code, error.msg, onError);
+      if (onSuccess != null) {
+        onSuccess(result);
+      }
+    }, onError: (e) {
+      _cancelLogPrint(e, url);
+      NetError error = ExceptionHandle.handleException(e);
+      _onError(error.code, error.msg, onError);
     });
   }
 

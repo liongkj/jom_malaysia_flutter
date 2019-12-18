@@ -7,6 +7,7 @@ import 'package:jom_malaysia/screens/tabs/overview/presenter/overview_page_prese
 import 'package:jom_malaysia/screens/tabs/overview/providers/categories_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/overview_page_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/place_list.dart';
+import 'package:jom_malaysia/setting/provider/base_list_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/util/image_utils.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
@@ -31,9 +32,12 @@ class OverviewPageState
   TabController _tabController;
   OverviewPageProvider provider = OverviewPageProvider();
   PageController _pageController = PageController(initialPage: 0);
+  BaseListProvider<CategoryModel> categoryProvider =
+      BaseListProvider<CategoryModel>();
 
   _onPageChange(int index) async {
     provider.setIndex(index);
+
     _tabController.animateTo(index);
   }
 
@@ -47,8 +51,10 @@ class OverviewPageState
     super.initState();
     _tabController = TabController(vsync: this, length: 5);
     presenter.initState();
+   
     WidgetsBinding.instance.addPostFrameCallback((_) {
       // _preCacheImage();
+       presenter.fetchCategories("type", 1);
     });
   }
 
@@ -108,9 +114,13 @@ class OverviewPageState
                 onPageChanged: _onPageChange,
                 controller: _pageController,
                 itemBuilder: (_, index) {
-                  return PlaceList(
-                    index: index,
-                    categories: provider.categories,
+                  return ChangeNotifierProvider<
+                      BaseListProvider<CategoryModel>>(
+                    create: (_) => categoryProvider,
+                    child: PlaceList(
+                      index: index,
+                      categories: categoryProvider.list,
+                    ),
                   );
                 },
               ),
@@ -213,10 +223,6 @@ class OverviewPageState
         ),
       ),
     ];
-  }
-
-  void setCategories(List<CategoryModel> data) {
-    provider.setCategory(data);
   }
 }
 

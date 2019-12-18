@@ -46,9 +46,6 @@ class MyApp extends StatelessWidget {
             ChangeNotifierProvider<ThemeProvider>(
               create: (_) => ThemeProvider(),
             ),
-            ChangeNotifierProvider<OverviewPageProvider>(
-              create: (_) => OverviewPageProvider(),
-            ),
           ],
           child: Consumer<ThemeProvider>(
             builder: (_, provider, __) {

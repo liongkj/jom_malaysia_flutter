@@ -5,7 +5,7 @@ import 'api_response.dart';
 class JsonParser {
   // If T is a List, K is the subtype of the list.
 
-  static T fromJson<T, K>(dynamic json) {
+  static T fromJson<T, K>(Map json) {
     final dynamic data = ApiResponse.fromJson(json).data;
     if (data is Iterable) {
       return _fromJsonList<K>(data) as T;

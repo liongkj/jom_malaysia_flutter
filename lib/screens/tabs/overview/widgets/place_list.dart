@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/category_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/overview_page_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/ads_space.dart';
+import 'package:jom_malaysia/setting/provider/base_list_provider.dart';
 import 'package:jom_malaysia/widgets/state_layout.dart';
 import 'package:provider/provider.dart';
 import 'dart:math' as math;
@@ -78,29 +79,33 @@ class _PlaceListState extends State<PlaceList>
                     child: AdsSpace(),
                   ),
                 ),
-                SliverPadding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 16.0,
-                    horizontal: 8.0,
-                  ),
-                  sliver: provider.categories.isEmpty
-                      ? SliverFillRemaining(
-                          child: StateLayout(type: _stateType),
-                        )
-                      : SliverGrid(
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2),
-                          delegate: SliverChildBuilderDelegate(
-                              (BuildContext context, int index) {
-                            return CategoryItem(
-                              key: Key('order_item_$index'),
-                              index: index,
-                              tabIndex: _index,
-                            );
-                          }, childCount: _list.length + 1),
-                        ),
-                ),
+                Consumer<BaseListProvider<CategoryModel>>(
+                  builder: (_, categoryProvider, child) {
+                    return SliverPadding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 16.0,
+                        horizontal: 8.0,
+                      ),
+                      sliver: categoryProvider.list.isEmpty
+                          ? SliverFillRemaining(
+                              child: StateLayout(type: _stateType),
+                            )
+                          : SliverGrid(
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2),
+                              delegate: SliverChildBuilderDelegate(
+                                  (BuildContext context, int index) {
+                                return CategoryItem(
+                                  key: Key('order_item_$index'),
+                                  index: index,
+                                  tabIndex: _index,
+                                );
+                              }, childCount: _list.length + 1),
+                            ),
+                    );
+                  },
+                )
               ],
             );
           },
