@@ -124,7 +124,6 @@ class OverviewPageState
                 itemBuilder: (_, index) {
                   return PlaceList(
                     index: index,
-                    listings: listingProvider.list,
                   );
                 },
               ),

@@ -4,6 +4,7 @@ import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/overview_page_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/ads_space.dart';
 import 'package:jom_malaysia/setting/provider/base_list_provider.dart';
+import 'package:jom_malaysia/widgets/my_refresh_list.dart';
 import 'package:jom_malaysia/widgets/state_layout.dart';
 import 'package:provider/provider.dart';
 import 'dart:math' as math;
@@ -13,11 +14,9 @@ class PlaceList extends StatefulWidget {
   const PlaceList({
     Key key,
     @required this.index,
-    @required this.listings,
   }) : super(key: key);
 
   final int index;
-  final List<ListingModel> listings;
 
   @override
   _PlaceListState createState() => _PlaceListState();
@@ -91,18 +90,19 @@ class _PlaceListState extends State<PlaceList>
                           ? SliverFillRemaining(
                               child: StateLayout(type: _stateType),
                             )
-                          : SliverGrid(
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 2),
+                          : SliverList(
                               delegate: SliverChildBuilderDelegate(
                                   (BuildContext context, int index) {
-                                return CategoryItem(
-                                  key: Key('order_item_$index'),
-                                  index: index,
-                                  tabIndex: _index,
-                                );
-                              }, childCount: _list.length + 1),
+                                return index < listingProvider.list.length
+                                    ? CategoryItem(
+                                        key: Key('order_item_$index'),
+                                        index: index,
+                                        tabIndex: _index,
+                                        listing: listingProvider.list[index],
+                                      )
+                                    : MoreWidget(listingProvider.list.length,
+                                        listingProvider.hasMore, 10);
+                              }, childCount: listingProvider.list.length + 1),
                             ),
                     );
                   },
@@ -117,9 +117,7 @@ class _PlaceListState extends State<PlaceList>
 
   List _list = [];
 
-  Future _onRefresh() async {
-    _list = widget.listings;
-  }
+  Future _onRefresh() async {}
 
   bool _hasMore() {
     return _page < _maxPage;

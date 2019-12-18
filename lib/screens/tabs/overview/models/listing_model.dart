@@ -65,6 +65,11 @@ class CategoryVM {
       _$CategoryVMFromJson(json);
 
   Map<String, dynamic> toJson() => _$CategoryVMToJson(this);
+
+  @override
+  String toString() {
+    return "$category ${subcategory ?? subcategory}";
+  }
 }
 
 @JsonSerializable()
