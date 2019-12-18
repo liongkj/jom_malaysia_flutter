@@ -8,13 +8,13 @@ part of 'coordinates_model.dart';
 
 CoordinatesModel _$CoordinatesModelFromJson(Map<String, dynamic> json) {
   return CoordinatesModel(
-    longtitude: json['longtitude'] as String,
-    latitude: json['latitude'] as String,
+    longitude: (json['longitude'] as num)?.toDouble(),
+    latitude: (json['latitude'] as num)?.toDouble(),
   );
 }
 
 Map<String, dynamic> _$CoordinatesModelToJson(CoordinatesModel instance) =>
     <String, dynamic>{
-      'longtitude': instance.longtitude,
+      'longitude': instance.longitude,
       'latitude': instance.latitude,
     };

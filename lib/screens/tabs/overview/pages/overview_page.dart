@@ -3,6 +3,7 @@ import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:jom_malaysia/core/mvp/base_page_state.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/category_model.dart';
+import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/presenter/overview_page_presenter.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/categories_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/overview_page_provider.dart';
@@ -32,8 +33,8 @@ class OverviewPageState
   TabController _tabController;
   OverviewPageProvider provider = OverviewPageProvider();
   PageController _pageController = PageController(initialPage: 0);
-  BaseListProvider<CategoryModel> categoryProvider =
-      BaseListProvider<CategoryModel>();
+  BaseListProvider<ListingModel> listingProvider =
+      BaseListProvider<ListingModel>();
 
   _onPageChange(int index) async {
     provider.setIndex(index);
@@ -78,8 +79,15 @@ class OverviewPageState
   Widget build(BuildContext context) {
     super.build(context);
     isDark = ThemeUtils.isDark(context);
-    return ChangeNotifierProvider<OverviewPageProvider>(
-      create: (_) => provider,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<OverviewPageProvider>(
+          create: (_) => provider,
+        ),
+        ChangeNotifierProvider<BaseListProvider<ListingModel>>(
+          create: (_) => listingProvider,
+        ),
+      ],
       child: Scaffold(
         body: Stack(
           children: <Widget>[
@@ -114,13 +122,9 @@ class OverviewPageState
                 onPageChanged: _onPageChange,
                 controller: _pageController,
                 itemBuilder: (_, index) {
-                  return ChangeNotifierProvider<
-                      BaseListProvider<CategoryModel>>(
-                    create: (_) => categoryProvider,
-                    child: PlaceList(
-                      index: index,
-                      categories: categoryProvider.list,
-                    ),
+                  return PlaceList(
+                    index: index,
+                    listings: listingProvider.list,
                   );
                 },
               ),

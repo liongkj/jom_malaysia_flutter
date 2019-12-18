@@ -1,4 +1,5 @@
 import 'package:jom_malaysia/screens/tabs/overview/models/category_model.dart';
+import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
 
 import 'api_response.dart';
 
@@ -13,9 +14,9 @@ class JsonParser {
     if (T == CategoryModel) {
       return CategoryModel.fromJson(json) as T;
     }
-    // if (T == Category) {
-    //   return Category.fromJson(json) as T;
-    // }
+    if (T == ListingModel) {
+      return ListingModel.fromJson(json) as T;
+    }
     // } else if (T == UserDetails) {
     //   //   return UserDetails.fromJson(json) as T;
     //   // } else if (T == Message) {

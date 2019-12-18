@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/category_model.dart';
+import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/overview_page_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/ads_space.dart';
 import 'package:jom_malaysia/setting/provider/base_list_provider.dart';
@@ -12,11 +13,11 @@ class PlaceList extends StatefulWidget {
   const PlaceList({
     Key key,
     @required this.index,
-    @required this.categories,
+    @required this.listings,
   }) : super(key: key);
 
   final int index;
-  final List<CategoryModel> categories;
+  final List<ListingModel> listings;
 
   @override
   _PlaceListState createState() => _PlaceListState();
@@ -79,14 +80,14 @@ class _PlaceListState extends State<PlaceList>
                     child: AdsSpace(),
                   ),
                 ),
-                Consumer<BaseListProvider<CategoryModel>>(
-                  builder: (_, categoryProvider, child) {
+                Consumer<BaseListProvider<ListingModel>>(
+                  builder: (_, listingProvider, child) {
                     return SliverPadding(
                       padding: const EdgeInsets.symmetric(
                         vertical: 16.0,
                         horizontal: 8.0,
                       ),
-                      sliver: categoryProvider.list.isEmpty
+                      sliver: listingProvider.list.isEmpty
                           ? SliverFillRemaining(
                               child: StateLayout(type: _stateType),
                             )
@@ -117,7 +118,7 @@ class _PlaceListState extends State<PlaceList>
   List _list = [];
 
   Future _onRefresh() async {
-    _list = widget.categories;
+    _list = widget.listings;
   }
 
   bool _hasMore() {

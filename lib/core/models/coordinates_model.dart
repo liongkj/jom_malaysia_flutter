@@ -5,12 +5,12 @@ part 'coordinates_model.g.dart';
 
 @JsonSerializable()
 class CoordinatesModel {
-  String longtitude;
+  double longitude;
 
-  String latitude;
+  double latitude;
 
   CoordinatesModel({
-    @required this.longtitude,
+    @required this.longitude,
     @required this.latitude,
   });
 

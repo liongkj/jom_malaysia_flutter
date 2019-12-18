@@ -6,11 +6,10 @@ import 'date_utils_.dart';
 /// @GitHub: https://github.com/aleksanderwozniak/table_calendar
 /// @Description: Date Util.
 class DateUtils {
-  
   static final DateFormat _apiDayFormat = new DateFormat("yy.MM.dd");
-  
+  static final DateFormat _apiTimeFormat = new DateFormat.Hm();
   static String apiDayFormat(DateTime d) => _apiDayFormat.format(d);
-
+  static DateTime apiTimeFormat(String t) => _apiTimeFormat.parse(t);
   static String previousWeek(DateTime w) {
     return apiDayFormat(w.subtract(new Duration(days: 6)));
   }

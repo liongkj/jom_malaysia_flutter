@@ -3,6 +3,7 @@ import 'package:jom_malaysia/core/enums/category_type_enum.dart';
 import 'package:jom_malaysia/core/enums/day_of_week_enum.dart';
 import 'package:jom_malaysia/core/models/coordinates_model.dart';
 import 'package:jom_malaysia/core/models/image_model.dart';
+import 'package:jom_malaysia/util/date_utils.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'listing_model.g.dart';
@@ -39,36 +40,91 @@ class ListingModel {
   Map<String, dynamic> toJson() => _$ListingModelToJson(this);
 }
 
+@JsonSerializable()
 class ListingImageVM {
+  ListingImageVM({this.listingLogo, this.coverPhoto, this.ads});
   ImageModel listingLogo;
   ImageModel coverPhoto;
   List<ImageModel> ads;
+
+  factory ListingImageVM.fromJson(Map<String, dynamic> json) =>
+      _$ListingImageVMFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ListingImageVMToJson(this);
 }
 
+@JsonSerializable()
 class CategoryVM {
+  CategoryVM(
+      {@required this.categoryId, @required this.category, this.subcategory});
   String categoryId;
   String category;
   String subcategory;
+
+  factory CategoryVM.fromJson(Map<String, dynamic> json) =>
+      _$CategoryVMFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CategoryVMToJson(this);
 }
 
+@JsonSerializable()
 class OperatingHours {
+  OperatingHours(
+      {@required this.dayofWeek,
+      @required this.openTime,
+      @required this.closeTime});
+  // https://github.com/flutter/flutter/issues/18748
   DayOfWeek dayofWeek;
-  TimeOfDayFormat openTime;
-  TimeOfDayFormat closeTime;
+  String openTime;
+  String closeTime;
+
+  DateTime get openHour {
+    return DateUtils.apiTimeFormat(openTime);
+  }
+
+  DateTime get closeHour {
+    return DateUtils.apiTimeFormat(closeTime);
+  }
+
+  factory OperatingHours.fromJson(Map<String, dynamic> json) =>
+      _$OperatingHoursFromJson(json);
+
+  Map<String, dynamic> toJson() => _$OperatingHoursToJson(this);
 }
 
+@JsonSerializable()
 class AddressVM {
+  AddressVM(
+      {@required this.add1,
+      this.add2,
+      @required this.city,
+      @required this.state,
+      @required this.postalCode,
+      @required this.coordinates,
+      @required this.country});
   String add1;
   String add2;
   String city;
   String state;
-  String portalCode;
+  String postalCode;
   String country;
   CoordinatesModel coordinates;
+
+  factory AddressVM.fromJson(Map<String, dynamic> json) =>
+      _$AddressVMFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AddressVMToJson(this);
 }
 
+@JsonSerializable()
 class MerchantVM {
+  MerchantVM(this.merchantId, this.ssmId, this.registrationName);
   String merchantId;
   String ssmId;
   String registrationName;
+
+  factory MerchantVM.fromJson(Map<String, dynamic> json) =>
+      _$MerchantVMFromJson(json);
+
+  Map<String, dynamic> toJson() => _$MerchantVMToJson(this);
 }
