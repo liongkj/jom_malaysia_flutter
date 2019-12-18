@@ -1,12 +1,12 @@
 import 'package:jom_malaysia/screens/tabs/overview/models/category_model.dart';
 
-import 'base_entity.dart';
+import 'api_response.dart';
 
 class JsonParser {
   // If T is a List, K is the subtype of the list.
 
   static T fromJson<T, K>(dynamic json) {
-    final dynamic data = BaseEntity.fromJson(json).data;
+    final dynamic data = ApiResponse.fromJson(json).data;
     if (data is Iterable) {
       return _fromJsonList<K>(data) as T;
     }

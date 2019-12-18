@@ -4,7 +4,7 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:jom_malaysia/screens/tabs/overview/providers/categories_provider.dart';
+import 'package:jom_malaysia/screens/tabs/overview/providers/overview_page_provider.dart';
 import 'package:logger/logger.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
@@ -19,7 +19,7 @@ void main() {
 //  debugPaintLayerBordersEnabled = true;
 //  debugProfilePaintsEnabled = true;
 //  debugRepaintRainbowEnabled = true;
-  Logger.level = Level.verbose;
+  // Logger.level = Level.;
   runApp(MyApp());
   if (Platform.isAndroid) {
     SystemUiOverlayStyle systemUiOverlayStyle =
@@ -46,8 +46,8 @@ class MyApp extends StatelessWidget {
             ChangeNotifierProvider<ThemeProvider>(
               create: (_) => ThemeProvider(),
             ),
-            ChangeNotifierProvider<CategoriesProvider>(
-              create: (_) => CategoriesProvider(),
+            ChangeNotifierProvider<OverviewPageProvider>(
+              create: (_) => OverviewPageProvider(),
             ),
           ],
           child: Consumer<ThemeProvider>(

@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/category_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/overview_page_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/ads_space.dart';
-import 'package:jom_malaysia/widgets/my_refresh_list.dart';
 import 'package:jom_malaysia/widgets/state_layout.dart';
 import 'package:provider/provider.dart';
 import 'dart:math' as math;
 import 'category_item.dart';
-import 'order_item.dart';
 
 class PlaceList extends StatefulWidget {
   const PlaceList({
@@ -40,8 +38,7 @@ class _PlaceListState extends State<PlaceList>
   void initState() {
     super.initState();
     _index = widget.index;
-    _list = widget.categories;
-    // _onRefresh();
+    _onRefresh();
   }
 
   @override
@@ -86,7 +83,7 @@ class _PlaceListState extends State<PlaceList>
                     vertical: 16.0,
                     horizontal: 8.0,
                   ),
-                  sliver: _list.isEmpty
+                  sliver: provider.categories.isEmpty
                       ? SliverFillRemaining(
                           child: StateLayout(type: _stateType),
                         )
@@ -115,12 +112,7 @@ class _PlaceListState extends State<PlaceList>
   List _list = [];
 
   Future _onRefresh() async {
-    await Future.delayed(Duration(seconds: 2), () {
-      setState(() {
-        _page = 1;
-        _list = List.generate(10, (i) => 'newItem：$i');
-      });
-    });
+    _list = widget.categories;
   }
 
   bool _hasMore() {

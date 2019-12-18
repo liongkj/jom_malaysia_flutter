@@ -1,10 +1,8 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:jom_malaysia/core/constants/common.dart';
+import 'package:jom_malaysia/core/services/gateway/json_parser.dart';
 import 'package:rxdart/rxdart.dart';
-import 'base_entity.dart';
+
 import 'error_handle.dart';
 import 'intercept.dart';
 
@@ -25,10 +23,15 @@ class DioUtils {
 
   DioUtils._internal() {
     var options = BaseOptions(
-      connectTimeout: 15000,
+      connectTimeout: 30000, //15000
       receiveTimeout: 15000,
-
+      responseType: ResponseType.json,
+      validateStatus: (status) {
+        // 不使用http状态码判断状态，使用AdapterInterceptor来处理（适用于标准REST风格）
+        return true;
+      },
       baseUrl: "https://jommalaysiaapi.azurewebsites.net/api/",
+      // baseUrl: "https://localhost:44368/api/",
 //      contentType: ContentType('application', 'x-www-form-urlencoded', charset: 'utf-8'),
     );
     _dio = Dio(options);
@@ -49,7 +52,7 @@ class DioUtils {
   }
 
   // 数据返回格式统一，统一处理异常
-  Future<BaseEntity<T>> _request<T>(String method, String url,
+  Future<T> _request<T, K>(String method, String url,
       {dynamic data,
       Map<String, dynamic> queryParameters,
       CancelToken cancelToken,
@@ -61,13 +64,11 @@ class DioUtils {
         cancelToken: cancelToken);
     try {
       /// 集成测试无法使用 isolate
-      Map<String, dynamic> _map = Constant.isTest
-          ? parseData(response.data.data.toString())
-          : await compute(parseData, response.data.data.toString());
-      return BaseEntity.fromJson(_map);
+      final jsonBody = response.data;
+      return JsonParser.fromJson<T, K>(jsonBody);
     } catch (e) {
-      print(e);
-      return BaseEntity(ExceptionHandle.parse_error, "数据解析错误", null);
+      throw e;
+      //  return BaseEntity(ExceptionHandle.parse_error, "数据解析错误", null);
     }
   }
 
@@ -79,44 +80,44 @@ class DioUtils {
     return options;
   }
 
-  Future requestNetwork<T>(Method method, String url,
-      {Function(T t) onSuccess,
-      Function(List<T> list) onSuccessList,
-      Function(int code, String msg) onError,
-      dynamic params,
-      Map<String, dynamic> queryParameters,
-      CancelToken cancelToken,
-      Options options,
-      bool isList: false}) async {
-    String m = _getRequestMethod(method);
-    return await _request<T>(m, url,
-            data: params,
-            queryParameters: queryParameters,
-            options: options,
-            cancelToken: cancelToken)
-        .then((BaseEntity<T> result) {
-      if (result.code == 0) {
-        if (isList) {
-          if (onSuccessList != null) {
-            onSuccessList(result.listData);
-          }
-        } else {
-          if (onSuccess != null) {
-            onSuccess(result.data);
-          }
-        }
-      } else {
-        _onError(result.code, result.message, onError);
-      }
-    }, onError: (e, _) {
-      _cancelLogPrint(e, url);
-      NetError error = ExceptionHandle.handleException(e);
-      _onError(error.code, error.msg, onError);
-    });
-  }
+  // Future requestNetwork<T, K>(Method method, String url,
+  //     {Function(T t) onSuccess,
+  //     Function(List<T> list) onSuccessList,
+  //     Function(int code, String msg) onError,
+  //     dynamic params,
+  //     Map<String, dynamic> queryParameters,
+  //     CancelToken cancelToken,
+  //     Options options,
+  //     bool isList: false}) async {
+  //   String m = _getRequestMethod(method);
+  //   return await _request<T, K>(m, url,
+  //           data: params,
+  //           queryParameters: queryParameters,
+  //           options: options,
+  //           cancelToken: cancelToken)
+  //       .then((BaseEntity<T, K> result) {
+  //     if (result.code == 0) {
+  //       if (isList) {
+  //         if (onSuccessList != null) {
+  //           onSuccessList(result.listData);
+  //         }
+  //       } else {
+  //         if (onSuccess != null) {
+  //           onSuccess(result.data);
+  //         }
+  //       }
+  //     } else {
+  //       _onError(result.code, result.message, onError);
+  //     }
+  //   }, onError: (e, _) {
+  //     _cancelLogPrint(e, url);
+  //     NetError error = ExceptionHandle.handleException(e);
+  //     _onError(error.code, error.msg, onError);
+  //   });
+  // }
 
   /// 统一处理(onSuccess返回T对象，onSuccessList返回List<T>)
-  asyncRequestNetwork<T>(Method method, String url,
+  asyncRequestNetwork<T, K>(Method method, String url,
       {Function(T t) onSuccess,
       Function(List<T> list) onSuccessList,
       Function(int code, String msg) onError,
@@ -126,30 +127,30 @@ class DioUtils {
       Options options,
       bool isList: false}) {
     String m = _getRequestMethod(method);
-    Observable.fromFuture(_request<T>(m, url,
+    Observable.fromFuture(_request<T, K>(m, url,
             data: params,
             queryParameters: queryParameters,
             options: options,
             cancelToken: cancelToken))
         .asBroadcastStream()
         .listen((result) {
-      if (result.code == 0) {
-        if (isList) {
-          if (onSuccessList != null) {
-            onSuccessList(result.listData);
-          }
-        } else {
-          if (onSuccess != null) {
-            onSuccess(result.data);
-          }
-        }
-      } else {
-        _onError(result.code, result.message, onError);
-      }
-    }, onError: (e) {
-      _cancelLogPrint(e, url);
-      NetError error = ExceptionHandle.handleException(e);
-      _onError(error.code, error.msg, onError);
+      //   if (result == 0) {
+      //     if (isList) {
+      //       if (onSuccessList != null) {
+      //         onSuccessList(result.listData);
+      //       }
+      //     } else {
+      //       if (onSuccess != null) {
+      //         onSuccess(result.data);
+      //       }
+      //     }
+      //   } else {
+      //     _onError(result.code, result.message, onError);
+      //   }
+      // }, onError: (e) {
+      //   _cancelLogPrint(e, url);
+      //   NetError error = ExceptionHandle.handleException(e);
+      //   _onError(error.code, error.msg, onError);
     });
   }
 
@@ -196,8 +197,6 @@ class DioUtils {
   }
 }
 
-Map<String, dynamic> parseData(String data) {
-  return json.decode(data);
-}
+Map<String, dynamic> parseData(dynamic data) {}
 
 enum Method { get, post, put, patch, delete, head }
