@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/listingImages_ads_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/listingImages_coverphoto.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/listingImages_listinglogo_model.dart';
@@ -7,7 +8,7 @@ import 'merchant_model.dart';
 import 'operating_hours_list_model.dart';
 import 'tags_model.dart';
 
-class PlaceDetails {
+class PlaceDetails extends ChangeNotifier{
   final String listingId;
   Merchant merchant;
   final String listingName;
