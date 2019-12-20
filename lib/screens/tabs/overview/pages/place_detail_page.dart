@@ -22,7 +22,7 @@ class _PlaceDetailPageState extends State<PlaceDetailPage>
   bool isDark = false;
   var _isloading = false;
   var data;
-  var informations;
+  PlaceDetails informations;
 
   @override
   bool get wantKeepAlive => true;
@@ -98,9 +98,7 @@ class _PlaceDetailPageState extends State<PlaceDetailPage>
         "modifiedAt": "0001-01-01T00:00:00+00:00"
       }
     ];
-
     informations = PlaceDetails.fromJson(data[0]);
-    print(informations);
     Future.delayed(const Duration(milliseconds: 5000), () {
       setState(() {
         _isloading = true;
@@ -123,7 +121,7 @@ class _PlaceDetailPageState extends State<PlaceDetailPage>
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: <Widget>[
                           Expanded(flex: 2, child: PlaceDetailsImages()),
-                          Expanded(flex: 4, child: PlaceDetail()),
+                          Expanded(flex: 4, child: PlaceDetail(informations: informations)),
                         ]),
                     Padding(
                       padding: const EdgeInsets.only(top: 20.0),
@@ -146,8 +144,18 @@ class _PlaceDetailPageState extends State<PlaceDetailPage>
   }
 }
 
-class PlaceDetail extends StatelessWidget {
+class PlaceDetail extends StatefulWidget {
+  final PlaceDetails informations;
+
+  PlaceDetail({Key key, @required this.informations}) : super(key: key);
+
+  @override
+  _PlaceDetailState createState() => _PlaceDetailState();
+}
+
+class _PlaceDetailState extends State<PlaceDetail> {
   var top = 0.0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -170,7 +178,7 @@ class PlaceDetail extends StatelessWidget {
                               opacity: 1.0,
                               child: top == 83.0
                                   ? Text(
-                                      "Hoop Station @ Cheras",
+                                      widget.informations.merchant.registrationName,
                                       style: TextStyle(
                                           fontSize: 20.0,
                                           color: ThemeUtils.isDark(context)

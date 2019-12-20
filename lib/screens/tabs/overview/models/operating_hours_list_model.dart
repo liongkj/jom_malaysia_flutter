@@ -6,8 +6,10 @@ class OperatingHoursList {
 });
 
   factory OperatingHoursList.fromJson(List<dynamic> parsedJson) {
+
     List<OperatingHours> operating_hours = new List<OperatingHours>();
-    operating_hours = parsedJson.map((i)=>OperatingHours.fromJson(i)).toList();
+
+    operating_hours = parsedJson.map((i)=> OperatingHours.fromJson(i)).toList();
 
     return OperatingHoursList(
       operating_hours: operating_hours

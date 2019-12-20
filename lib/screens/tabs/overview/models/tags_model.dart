@@ -1,16 +1,16 @@
 class Tags {
-  final List<String> tags;
+  final String tags;
 
   Tags({
     this.tags
   });
 
-  factory Tags.fromJson(Map<String, dynamic> parsedJson) {
-    var tags  = parsedJson['tags'];
-    List<String> tag = new List<String>.from(tags);
-
+  factory Tags.fromJson(List<String> parsedJson) {
+    //List<String> tagList = new List<String>.from(parsedJson);
+    List<String> tagList = parsedJson.cast<String>();
+    var tags = tagList.toString().replaceAll ("[", "").replaceAll("]", "");
     return Tags(
-      tags: tag,
+      tags: tags.toString(),
     );
   }
 
