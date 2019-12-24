@@ -1,7 +1,10 @@
-class APIConst {
-  static const String users = 'users/simplezhli';
-  static const String search = 'search/repositories';
-  static const String upload = 'uuc/upload-inco';
+class APIEndpoint {
   static const String categories = 'categories';
   static const String listings = 'listings';
+  static const String listingQuery = 'listings/query';
+}
+
+class QueryParam {
+  static const String listingType = 'type';
+  static const String listingStatus = 'status';
 }

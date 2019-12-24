@@ -56,7 +56,6 @@ class OverviewPageState
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       // _preCacheImage();
-      presenter.fetchListings("type", 1);
     });
   }
 
@@ -280,6 +279,7 @@ class _ListingTypeTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<BaseListProvider<ListingModel>>(context);
     return MyCard(
       child: Container(
         height: 80.0,
