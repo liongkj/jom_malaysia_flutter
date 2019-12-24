@@ -81,11 +81,11 @@ class OverviewPageState
     isDark = ThemeUtils.isDark(context);
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<OverviewPageProvider>(
-          create: (_) => provider,
+        ChangeNotifierProvider<OverviewPageProvider>.value(
+          value: provider,
         ),
-        ChangeNotifierProvider<BaseListProvider<ListingModel>>(
-          create: (_) => listingProvider,
+        ChangeNotifierProvider<BaseListProvider<ListingModel>>.value(
+          value: listingProvider,
         ),
       ],
       child: Scaffold(

@@ -13,7 +13,6 @@ class AdsSpace extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 150,
-      margin: const EdgeInsets.only(top: 8.0),
       child: new Swiper(
         itemBuilder: (BuildContext context, int index) {
           return new Image.network(

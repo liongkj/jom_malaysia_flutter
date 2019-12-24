@@ -15,6 +15,15 @@ class OverviewPagePresenter extends BasePagePresenter<OverviewPageState> {
     asyncRequestNetwork<List<ListingModel>, ListingModel>(Method.get,
         url: APIConst.listings, onSuccess: (data) {
       if (data != null) {
+        data.add(data[0]);
+        data.add(data[0]);
+        data.add(data[0]);
+        data.add(data[0]);
+        data.add(data[0]);
+        data.add(data[0]);
+        data.add(data[0]);
+        data.add(data[0]);
+        data.add(data[0]);
         view.listingProvider.setHasMore(false);
         view.listingProvider.addAll(data);
       } else {
