@@ -6,7 +6,6 @@ import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
 import 'package:jom_malaysia/widgets/my_card.dart';
-import 'package:jom_malaysia/widgets/my_grid_card.dart';
 import 'package:jom_malaysia/widgets/my_rating.dart';
 
 class CategoryItem extends StatelessWidget {
@@ -23,7 +22,6 @@ class CategoryItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(listing.listingImages.coverPhoto.url);
     final TextStyle textTextStyle =
         Theme.of(context).textTheme.body1.copyWith(fontSize: Dimens.font_sp12);
     bool isDark = ThemeUtils.isDark(context);
@@ -31,60 +29,93 @@ class CategoryItem extends StatelessWidget {
       margin: const EdgeInsets.only(top: 8.0),
       child: MyCard(
         child: Container(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.fromLTRB(
+            8.0,
+            8.0,
+            16.0,
+            8.0,
+          ),
           child: InkWell(
             onTap: () =>
                 NavigatorUtils.push(context, OverviewRouter.placeDetailPage),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Center(
-                  child: LoadImage(
-                    listing.listingImages.coverPhoto.url,
-                    width: 90.0,
-                    height: 90.0,
-                    fit: BoxFit.contain,
-                  ),
-                ),
-                //place summary
-                Gaps.hGap10,
-                Row(
-                  children: <Widget>[
-                    Container(
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: Column(
-                          children: <Widget>[
-                            Text(listing.listingName,
-                                style: TextStyles.textBold14,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Container(
-                                  child: Text(listing.category.toString(),
-                                      style: TextStyles.textDarkGray12,
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis),
-                                ),
-                                Container(
-                                  child: Text(listing.tags[0]),
-                                ),
-                              ],
-                            ),
-                            Rating(rating: 4),
-                          ],
-                        ),
-                      ),
+            child: Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Container(
+                    child: LoadImage(
+                      listing.listingImages.coverPhoto.url,
+                      width: 100.0,
+                      height: 100.0,
+                      fit: BoxFit.contain,
                     ),
-                  ],
-                )
-              ],
+                  ),
+                  Gaps.hGap10,
+                  Expanded(
+                    child: _Description(listing: listing),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
       ),
+    );
+  }
+}
+
+class _Description extends StatelessWidget {
+  const _Description({
+    Key key,
+    @required this.listing,
+  }) : super(key: key);
+
+  final ListingModel listing;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.max,
+      children: <Widget>[
+        Text(
+          listing.listingName,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
+        Gaps.vGap8,
+        Row(
+          children: <Widget>[
+            Expanded(
+              child: Rating(rating: 4),
+            ),
+            Text(
+              listing.tags[0],
+              style: TextStyle(
+                  fontSize: Dimens.font_sp12,
+                  color: Theme.of(context).errorColor),
+            )
+          ],
+        ),
+        Gaps.vGap8,
+        Row(
+          children: <Widget>[
+            Expanded(
+              child: Text(
+                listing.category.toString(),
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            Text(
+              "<100m",
+              style: Theme.of(context)
+                  .textTheme
+                  .subtitle
+                  .copyWith(fontSize: Dimens.font_sp10),
+            ),
+          ],
+        )
+      ],
     );
   }
 }
