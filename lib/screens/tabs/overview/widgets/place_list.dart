@@ -66,19 +66,19 @@ class _PlaceListState extends State<PlaceList>
               key: PageStorageKey<String>("$_index"),
 
               slivers: <Widget>[
-                SliverOverlapInjector(
-                  ///SliverAppBar的expandedHeight高度,避免重叠
-                  handle:
-                      NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-                ),
-                SliverPersistentHeader(
-                  pinned: true,
-                  delegate: _SliverAppBarDelegate(
-                    minHeight: 60.0,
-                    maxHeight: 200.0,
-                    child: AdsSpace(),
-                  ),
-                ),
+                // SliverOverlapInjector(
+                //   ///SliverAppBar的expandedHeight高度,避免重叠
+                //   handle:
+                //       NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                // ),
+                // SliverPersistentHeader(
+                //   pinned: true,
+                //   delegate: _SliverAppBarDelegate(
+                //     minHeight: 60.0,
+                //     maxHeight: 200.0,
+                //     child: AdsSpace(),
+                //   ),
+                // ),
                 Consumer<BaseListProvider<ListingModel>>(
                   builder: (_, listingProvider, child) {
                     return SliverPadding(

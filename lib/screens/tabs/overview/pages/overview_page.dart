@@ -7,6 +7,7 @@ import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/presenter/overview_page_presenter.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/categories_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/overview_page_provider.dart';
+import 'package:jom_malaysia/screens/tabs/overview/widgets/ads_space.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/place_list.dart';
 import 'package:jom_malaysia/setting/provider/base_list_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
@@ -115,17 +116,31 @@ class OverviewPageState
               headerSliverBuilder: (context, innerBoxIsScrolled) {
                 return _sliverBuilder(context);
               },
-              controller: new ScrollController(),
-              body: PageView.builder(
-                key: const Key('pageView'),
-                itemCount: 5,
-                onPageChanged: _onPageChange,
-                controller: _pageController,
-                itemBuilder: (_, index) {
-                  return PlaceList(
-                    index: index,
-                  );
-                },
+              body: Column(
+                children: <Widget>[
+                  AdsSpace(),
+                  Expanded(
+                    child: PageView.builder(
+                      key: const Key('pageView'),
+                      itemCount: 5,
+                      onPageChanged: _onPageChange,
+                      controller: _pageController,
+                      itemBuilder: (_, index) {
+                        return SafeArea(
+                          top: false,
+                          bottom: false,
+                          child: Builder(
+                            builder: (BuildContext context) {
+                              return PlaceList(
+                                index: index,
+                              );
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
@@ -292,11 +307,11 @@ class _ListingTypeTab extends StatelessWidget {
           ),
           indicatorColor: Colors.transparent,
           tabs: const <Widget>[
-            const _TabView(0, 'Shops', Icons.restaurant),
-            const _TabView(1, 'Attractions', Icons.local_play),
-            const _TabView(2, 'Government', Icons.location_city),
-            const _TabView(3, 'Professional', Icons.work),
-            const _TabView(4, 'NGO', Icons.people),
+            const _TabViewTab(0, 'Shops', Icons.restaurant),
+            const _TabViewTab(1, 'Attractions', Icons.local_play),
+            const _TabViewTab(2, 'Government', Icons.location_city),
+            const _TabViewTab(3, 'Professional', Icons.work),
+            const _TabViewTab(4, 'NGO', Icons.people),
           ],
           onTap: (index) {
             if (!mounted) {
@@ -310,8 +325,8 @@ class _ListingTypeTab extends StatelessWidget {
   }
 }
 
-class _TabView extends StatelessWidget {
-  const _TabView(this.index, this.text, this.icon);
+class _TabViewTab extends StatelessWidget {
+  const _TabViewTab(this.index, this.text, this.icon);
 
   final int index;
   final String text;
