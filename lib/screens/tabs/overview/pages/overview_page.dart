@@ -118,7 +118,10 @@ class OverviewPageState
               },
               body: Column(
                 children: <Widget>[
-                  AdsSpace(),
+                  Expanded(
+                    child: AdsSpace(),
+                    // height: 288,
+                  ),
                   Expanded(
                     child: PageView.builder(
                       key: const Key('pageView'),
@@ -131,9 +134,7 @@ class OverviewPageState
                           bottom: false,
                           child: Builder(
                             builder: (BuildContext context) {
-                              return PlaceList(
-                                index: index,
-                              );
+                              return PlaceList(index: index);
                             },
                           ),
                         );

@@ -7,7 +7,6 @@ import 'package:jom_malaysia/setting/provider/base_list_provider.dart';
 import 'package:jom_malaysia/widgets/my_refresh_list.dart';
 import 'package:jom_malaysia/widgets/state_layout.dart';
 import 'package:provider/provider.dart';
-import 'dart:math' as math;
 import 'category_item.dart';
 
 class PlaceList extends StatefulWidget {
@@ -54,23 +53,16 @@ class _PlaceListState extends State<PlaceList>
       },
       child: RefreshIndicator(
         onRefresh: _onRefresh,
-        displacement: 160.0, //40 + 120(header)
+        displacement: 120.0, //40 + 120(header)
         child: Consumer<OverviewPageProvider>(
           builder: (_, provider, child) {
             return CustomScrollView(
               /// 这里指定controller可以与外层NestedScrollView的滚动分离，避免一处滑动，5个Tab中的列表同步滑动。
               /// 这种方法的缺点是会重新layout列表
-              controller:
-                  // _index != provider.index ?
-                  _controller,
+              controller: _index != provider.index ? _controller : null,
               key: PageStorageKey<String>("$_index"),
 
               slivers: <Widget>[
-                // SliverOverlapInjector(
-                //   ///SliverAppBar的expandedHeight高度,避免重叠
-                //   handle:
-                //       NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-                // ),
                 // SliverPersistentHeader(
                 //   pinned: true,
                 //   delegate: _SliverAppBarDelegate(
@@ -138,32 +130,5 @@ class _PlaceListState extends State<PlaceList>
         _isLoading = false;
       });
     });
-  }
-}
-
-class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
-  _SliverAppBarDelegate({
-    @required this.minHeight,
-    @required this.maxHeight,
-    @required this.child,
-  });
-  final double minHeight;
-  final double maxHeight;
-  final Widget child;
-  @override
-  double get minExtent => minHeight;
-  @override
-  double get maxExtent => math.max(maxHeight, minHeight);
-  @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return new SizedBox.expand(child: child);
-  }
-
-  @override
-  bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
-    return maxHeight != oldDelegate.maxHeight ||
-        minHeight != oldDelegate.minHeight ||
-        child != oldDelegate.child;
   }
 }
