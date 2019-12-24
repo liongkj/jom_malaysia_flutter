@@ -63,14 +63,6 @@ class _PlaceListState extends State<PlaceList>
               key: PageStorageKey<String>("$_index"),
 
               slivers: <Widget>[
-                // SliverPersistentHeader(
-                //   pinned: true,
-                //   delegate: _SliverAppBarDelegate(
-                //     minHeight: 60.0,
-                //     maxHeight: 200.0,
-                //     child: AdsSpace(),
-                //   ),
-                // ),
                 Consumer<BaseListProvider<ListingModel>>(
                   builder: (_, listingProvider, child) {
                     return SliverPadding(

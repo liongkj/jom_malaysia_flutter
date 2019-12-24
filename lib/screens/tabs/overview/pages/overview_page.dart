@@ -116,32 +116,22 @@ class OverviewPageState
               headerSliverBuilder: (context, innerBoxIsScrolled) {
                 return _sliverBuilder(context);
               },
-              body: Column(
-                children: <Widget>[
-                  Expanded(
-                    child: AdsSpace(),
-                    // height: 288,
-                  ),
-                  Expanded(
-                    child: PageView.builder(
-                      key: const Key('pageView'),
-                      itemCount: 5,
-                      onPageChanged: _onPageChange,
-                      controller: _pageController,
-                      itemBuilder: (_, index) {
-                        return SafeArea(
-                          top: false,
-                          bottom: false,
-                          child: Builder(
-                            builder: (BuildContext context) {
-                              return PlaceList(index: index);
-                            },
-                          ),
-                        );
+              body: PageView.builder(
+                key: const Key('pageView'),
+                itemCount: 5,
+                onPageChanged: _onPageChange,
+                controller: _pageController,
+                itemBuilder: (_, index) {
+                  return SafeArea(
+                    top: false,
+                    bottom: false,
+                    child: Builder(
+                      builder: (BuildContext context) {
+                        return PlaceList(index: index);
                       },
                     ),
-                  ),
-                ],
+                  );
+                },
               ),
             ),
           ],
@@ -241,6 +231,7 @@ class OverviewPageState
           80.0,
         ),
       ),
+      AdsSpace(),
     ];
   }
 }

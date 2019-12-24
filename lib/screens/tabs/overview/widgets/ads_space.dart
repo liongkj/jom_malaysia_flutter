@@ -9,31 +9,24 @@ class AdsSpace extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<OverviewPageProvider>(builder: (_, provider, child) {
-      return CustomScrollView(
-        key: PageStorageKey<String>("ads"),
-        controller: new ScrollController(),
-        slivers: <Widget>[
-          SliverOverlapInjector(
-            ///SliverAppBar的expandedHeight高度,避免重叠
-            handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-          ),
-          SliverToBoxAdapter(
-            child: Container(
-              height: 100,
-              child: Swiper(
-                itemBuilder: (BuildContext context, int index) {
-                  return new Image.network(
-                    "http://via.placeholder.com/288x188",
-                    fit: BoxFit.fill,
-                  );
-                },
-                itemCount: 10,
-                viewportFraction: 0.8,
-                scale: 0.9,
-              ),
+      return SliverList(
+        delegate: SliverChildListDelegate.fixed([
+          Container(
+            height: 200,
+            margin: const EdgeInsets.only(top: 100),
+            child: Swiper(
+              itemBuilder: (BuildContext context, int index) {
+                return new Image.network(
+                  "http://via.placeholder.com/288x188",
+                  fit: BoxFit.fill,
+                );
+              },
+              itemCount: 10,
+              viewportFraction: 0.8,
+              scale: 0.9,
             ),
           ),
-        ],
+        ]),
       );
     });
   }
