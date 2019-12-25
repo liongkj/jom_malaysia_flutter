@@ -4,8 +4,7 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:jom_malaysia/screens/tabs/overview/providers/overview_page_provider.dart';
-import 'package:logger/logger.dart';
+import 'package:jom_malaysia/screens/tabs/overview/providers/place_detail_provider.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 
@@ -45,6 +44,9 @@ class MyApp extends StatelessWidget {
             ChangeNotifierProvider<ThemeProvider>(
               create: (_) => ThemeProvider(),
             ),
+            ChangeNotifierProvider<PlaceDetailProvider>(
+              create: (_) => PlaceDetailProvider(),
+            )
           ],
           child: Consumer<ThemeProvider>(
             builder: (_, provider, __) {

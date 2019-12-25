@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
-import 'package:jom_malaysia/core/enums/category_type_enum.dart';
 import 'package:jom_malaysia/core/mvp/base_page_state.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
-import 'package:jom_malaysia/screens/tabs/overview/models/category_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
+import 'package:jom_malaysia/screens/tabs/overview/overview_router.dart';
 import 'package:jom_malaysia/screens/tabs/overview/presenter/overview_page_presenter.dart';
-import 'package:jom_malaysia/screens/tabs/overview/providers/categories_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/overview_page_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/ads_space.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/place_list.dart';
@@ -160,6 +157,7 @@ class OverviewPageState
                       "Negeri Sembilan",
                       style: TextStyles.textBold16,
                     ),
+                    //statelist drop down
                     IconButton(
                       onPressed: () {
                         NavigatorUtils.push(context, "");
@@ -175,7 +173,7 @@ class OverviewPageState
             ),
             IconButton(
               onPressed: () {
-                NavigatorUtils.push(context, PlaceDetailRouter.placeDetailPage);
+                NavigatorUtils.push(context, OverviewRouter.placeDetailPage);
               },
               tooltip: 'Search',
               icon: Icon(

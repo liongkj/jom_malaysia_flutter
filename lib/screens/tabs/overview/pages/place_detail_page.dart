@@ -3,8 +3,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:jom_malaysia/core/mvp/base_page_state.dart';
 import 'package:jom_malaysia/core/res/colors.dart';
-import 'package:jom_malaysia/screens/tabs/overview/models/place_detail_model.dart';
+import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
+import 'package:jom_malaysia/screens/tabs/overview/presenter/place_detail_page_presenter.dart';
+import 'package:jom_malaysia/screens/tabs/overview/providers/place_detail_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../util/theme_utils.dart';
@@ -12,21 +15,24 @@ import '../../nearby/provider/nearby_page_provider.dart';
 
 class PlaceDetailPage extends StatefulWidget {
   @override
-  _PlaceDetailPageState createState() => _PlaceDetailPageState();
+  PlaceDetailPageState createState() => PlaceDetailPageState();
 }
 
-class _PlaceDetailPageState extends State<PlaceDetailPage>
-    with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
-  NearbyPageProvider provider = NearbyPageProvider();
-
+class PlaceDetailPageState
+    extends BasePageState<PlaceDetailPage, PlaceDetailPagePresenter>
+    with
+        SingleTickerProviderStateMixin,
+        AutomaticKeepAliveClientMixin<PlaceDetailPage> {
   bool isDark = false;
   var _isloading = false;
   var data;
   //Debug variables
-  PlaceDetails informations;
+  ListingModel informations;
 
   @override
   bool get wantKeepAlive => true;
+
+  PlaceDetailProvider provider = PlaceDetailProvider();
 
   @override
   void initState() {
@@ -35,6 +41,7 @@ class _PlaceDetailPageState extends State<PlaceDetailPage>
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
     isLoaded();
     super.initState();
+    presenter.fetchDetail("5df090ab8430e205883f71db");
   }
 
   @override
@@ -100,7 +107,7 @@ class _PlaceDetailPageState extends State<PlaceDetailPage>
       }
     ];
     //Debug stations
-    informations = PlaceDetails.fromJson(data[0]);
+    // informations = PlaceDetails.fromJson(data[0]);
     //print(informations.operatingHours.operating_hours[0].closeTime);
     Future.delayed(const Duration(milliseconds: 2000), () {
       //2 Seconds load time
@@ -115,37 +122,40 @@ class _PlaceDetailPageState extends State<PlaceDetailPage>
     isDark = ThemeUtils.isDark(context);
     super.build(context);
     final Color _iconColor = ThemeUtils.getIconColor(context);
-    return ChangeNotifierProvider(
-        builder: (context) => PlaceDetails.fromJson(data[0]),
-        create: null,
-        child: Scaffold(
-          body: _isloading
-              ? Stack(
-                  children: <Widget>[
-                    Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: <Widget>[
-                          Expanded(flex: 2, child: PlaceDetailsImages()),
-                          Expanded(flex: 4, child: PlaceDetail()),
-                        ]),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20.0),
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.arrow_back_ios,
-                          color: ThemeUtils.isDark(context)
-                              ? Colors.black54
-                              : Colours.text,
+    return Consumer<PlaceDetailProvider>(
+        builder: (_, provider, child) => Scaffold(
+              body: _isloading
+                  ? Stack(
+                      children: <Widget>[
+                        Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: <Widget>[
+                              Expanded(flex: 2, child: PlaceDetailsImages()),
+                              Expanded(flex: 4, child: PlaceDetail()),
+                            ]),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 20.0),
+                          child: IconButton(
+                            icon: Icon(
+                              Icons.arrow_back_ios,
+                              color: ThemeUtils.isDark(context)
+                                  ? Colors.black54
+                                  : Colours.text,
+                            ),
+                            onPressed: () => Navigator.pop(context, false),
+                          ),
                         ),
-                        onPressed: () => Navigator.pop(context, false),
-                      ),
+                      ],
+                    )
+                  : Center(
+                      child: CircularProgressIndicator(),
                     ),
-                  ],
-                )
-              : Center(
-                  child: CircularProgressIndicator(),
-                ),
-        ));
+            ));
+  }
+
+  @override
+  PlaceDetailPagePresenter createPresenter() {
+    return PlaceDetailPagePresenter();
   }
 }
 
@@ -159,7 +169,7 @@ class _PlaceDetailState extends State<PlaceDetail> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<PlaceDetails>(builder: (context, details, child) {
+    return Consumer<PlaceDetailProvider>(builder: (context, details, child) {
       return Scaffold(
           body: NestedScrollView(
               headerSliverBuilder:
@@ -180,7 +190,7 @@ class _PlaceDetailState extends State<PlaceDetail> {
                                 opacity: 1.0,
                                 child: top == 83.0
                                     ? Text(
-                                        details.merchant.registrationName,
+                                        details.place.merchant.registrationName,
                                         style: TextStyle(
                                             fontSize: 20.0,
                                             color: ThemeUtils.isDark(context)
@@ -219,7 +229,7 @@ class _PlaceDetailState extends State<PlaceDetail> {
                         semanticContainer: true,
                         clipBehavior: Clip.antiAliasWithSaveLayer,
                         child: Image.network(
-                          details.listinglogo.url,
+                          details.place.listingImages.listingLogo.url,
                           fit: BoxFit.fill,
                         ),
                         shape: RoundedRectangleBorder(
@@ -236,7 +246,7 @@ class PlaceDetailsImages extends StatelessWidget {
   int _images = 3;
   @override
   Widget build(BuildContext context) {
-    return Consumer<PlaceDetails>(builder: (context, details, child) {
+    return Consumer<PlaceDetailProvider>(builder: (context, details, child) {
       return ListView.separated(
           scrollDirection: Axis.horizontal,
           separatorBuilder: (BuildContext context, int index) => Divider(),
@@ -247,7 +257,7 @@ class PlaceDetailsImages extends StatelessWidget {
                 width: MediaQuery.of(context).size.width,
                 padding: EdgeInsets.all(5),
                 child: Image.network(
-                  details.coverPhoto.url,
+                  details.place.listingImages.coverPhoto.url,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -271,7 +281,7 @@ class PlaceDetailsImages extends StatelessWidget {
 class PlaceInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Consumer<PlaceDetails>(builder: (context, details, child) {
+    return Consumer<PlaceDetailProvider>(builder: (context, details, child) {
       return ListView(children: <Widget>[
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -279,7 +289,7 @@ class PlaceInfo extends StatelessWidget {
             Expanded(
                 flex: 8,
                 child: Text(
-                  details.merchant.registrationName,
+                  details.place.merchant.registrationName,
                   style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
                 )),
             Expanded(
@@ -306,12 +316,12 @@ class PlaceInfo extends StatelessWidget {
               flex: 9,
               child: Wrap(runSpacing: 5, children: <Widget>[
                 Text(
-                    details.category.category +
+                    details.place.category.category +
                         ' ' +
-                        details.category.subcategory,
+                        details.place.category.subcategory,
                     style:
                         TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
-                Text(details.tags.tags,
+                Text(details.place.tags[0],
                     style:
                         TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold))
               ]))
@@ -321,10 +331,10 @@ class PlaceInfo extends StatelessWidget {
               onPressed: () => print('Location'),
               icon: Icon(Icons.location_on),
               label: Flexible(
-                  child: Text(details.address.add1 +
-                      details.address.add2 +
-                      details.address.city +
-                      details.address.postalCode))),
+                  child: Text(details.place.address.add1 +
+                      details.place.address.add2 +
+                      details.place.address.city +
+                      details.place.address.postalCode))),
           FlatButton.icon(
               onPressed: () => print('Calling'),
               icon: Icon(Icons.phone),
@@ -336,11 +346,9 @@ class PlaceInfo extends StatelessWidget {
                 TextSpan(
                   children: <TextSpan>[
                     TextSpan(
-                        text:
-                            details.operatingHours.operating_hours[0].openTime +
-                                '-' +
-                                details.operatingHours.operating_hours[0]
-                                    .closeTime),
+                        text: details.place.operatingHours[0].openTime +
+                            '-' +
+                            details.place.operatingHours[0].closeTime),
                     TextSpan(
                         //Function to check time and decide open and close
                         text: ' Open',

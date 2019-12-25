@@ -1,4 +1,5 @@
 import 'package:fluro/fluro.dart';
+import 'package:jom_malaysia/screens/tabs/overview/pages/place_detail_page.dart';
 import 'package:jom_malaysia/screens/tabs/overview/pages/place_search_page.dart';
 import 'package:jom_malaysia/setting/routers/router_init.dart';
 
@@ -14,7 +15,7 @@ class OverviewRouter implements IRouterProvider {
     router.define(overviewPage,
         handler: Handler(handlerFunc: (_, params) => OverviewPage()));
     router.define(placeDetailPage,
-        handler: Handler(handlerFunc: (_, params) => OverviewPage()));
+        handler: Handler(handlerFunc: (_, params) => PlaceDetailPage()));
     router.define(placeSearchPage,
         handler: Handler(handlerFunc: (_, params) => PlaceSearchPage()));
   }

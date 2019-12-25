@@ -1,7 +1,6 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/screens/login/login_router.dart';
-import 'package:jom_malaysia/screens/place_detail_router.dart';
 import 'package:jom_malaysia/screens/tabs/account/setting_router.dart';
 import 'package:jom_malaysia/screens/tabs/facts/facts_router.dart';
 import 'package:jom_malaysia/screens/tabs/nearby/nearby_router.dart';
@@ -45,7 +44,6 @@ class Routes {
     _listRouter.add(NearbyRouter());
     _listRouter.add(LoginRouter());
     _listRouter.add(AccountRouter());
-    _listRouter.add(PlaceDetailRouter());
 
     /// 初始化路由
     _listRouter.forEach((routerProvider) {
