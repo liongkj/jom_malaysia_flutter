@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:jom_malaysia/core/enums/category_type_enum.dart';
 import 'package:jom_malaysia/core/mvp/base_page_state.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/category_model.dart';
@@ -78,6 +79,7 @@ class OverviewPageState
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    print("overview page build");
     isDark = ThemeUtils.isDark(context);
     return MultiProvider(
       providers: [
@@ -319,30 +321,34 @@ class _ListingTypeTab extends StatelessWidget {
 class _TabViewTab extends StatelessWidget {
   const _TabViewTab(this.index, this.text, this.icon);
 
-  final int index;
   final String text;
   final IconData icon;
+  final int index;
 
   @override
   Widget build(BuildContext context) {
     return Consumer<OverviewPageProvider>(
       builder: (_, provider, child) {
+        int selectIndex = provider.index;
         return Container(
           width: 80.0,
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Icon(
-                icon,
-                size: 24.0,
-              ),
+              Icon(icon,
+                  size: 24.0,
+                  color: index == selectIndex
+                      ? Theme.of(context).indicatorColor
+                      : Colors.black),
               Gaps.vGap4,
               Text(
                 text,
                 style: TextStyle(
-                  fontSize: Dimens.font_sp14,
-                ),
+                    fontSize: Dimens.font_sp14,
+                    color: index == selectIndex
+                        ? Theme.of(context).indicatorColor
+                        : Colors.black),
               ),
             ],
           ),

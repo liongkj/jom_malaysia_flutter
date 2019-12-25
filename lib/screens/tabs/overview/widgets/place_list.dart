@@ -25,7 +25,7 @@ class _PlaceListState extends State<PlaceList>
   bool _isLoading = false;
   int _page = 1;
   final int _maxPage = 3;
-  StateType _stateType = StateType.loading;
+  StateType _stateType = StateType.empty;
   int _index = 0;
   ScrollController _controller = ScrollController();
 

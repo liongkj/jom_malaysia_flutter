@@ -12,18 +12,23 @@ class OverviewPagePresenter extends BasePagePresenter<OverviewPageState> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      fetchListings(CategoryType.Private, 1);
+      fetchListingByType(CategoryType.Private);
     });
   }
 
-  void onPageChange(int index) {}
+  void onPageChange(int index) {
+    final type = CategoryType.values[index];
+    fetchListingByType(type);
+  }
 
-  Future fetchListings(CategoryType type, int page) async {
+  Future fetchListingByType(CategoryType type) async {
+    print("fetch" + type.toString());
     final String listingType = type.toString().split('.').last;
     asyncRequestNetwork<List<ListingModel>, ListingModel>(Method.get,
         url: APIEndpoint.listingQuery,
         queryParameters: {QueryParam.listingType: listingType},
         onSuccess: (data) {
+      view.listingProvider.clear();
       if (data != null) {
         view.listingProvider.setHasMore(false);
         if (data.length > 0) {
