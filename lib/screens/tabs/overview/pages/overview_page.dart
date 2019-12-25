@@ -175,7 +175,7 @@ class OverviewPageState
             ),
             IconButton(
               onPressed: () {
-                NavigatorUtils.push(context, "");
+                NavigatorUtils.push(context, PlaceDetailRouter.placeDetailPage);
               },
               tooltip: 'Search',
               icon: Icon(
