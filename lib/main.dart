@@ -39,7 +39,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("main run");
     return OKToast(
         child: MultiProvider(
           providers: [

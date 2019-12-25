@@ -16,21 +16,28 @@ class OverviewPagePresenter extends BasePagePresenter<OverviewPageState> {
     });
   }
 
+  void onPageChange(int index) {}
+
   Future fetchListings(CategoryType type, int page) async {
-    String listingType = type.toString().split('.').last;
+    final String listingType = type.toString().split('.').last;
     asyncRequestNetwork<List<ListingModel>, ListingModel>(Method.get,
         url: APIEndpoint.listingQuery,
-        queryParameters: {QueryParam.listingType: listingType}, onSuccess: (data) {
+        queryParameters: {QueryParam.listingType: listingType},
+        onSuccess: (data) {
       if (data != null) {
         view.listingProvider.setHasMore(false);
-        view.listingProvider.addAll(data);
+        if (data.length > 0) {
+          view.listingProvider.addAll(data);
+        } else {
+          view.listingProvider.setStateType(StateType.empty);
+        }
       } else {
         view.listingProvider.setHasMore(false);
         view.listingProvider.setStateType(StateType.network);
       }
     }, onError: (_, __) {
       view.listingProvider.setHasMore(false);
-      view.listingProvider.setStateType(StateType.empty);
+      view.listingProvider.setStateType(StateType.network);
     });
   }
 }

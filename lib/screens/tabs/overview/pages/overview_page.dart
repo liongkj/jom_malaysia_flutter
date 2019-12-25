@@ -39,7 +39,7 @@ class OverviewPageState
 
   _onPageChange(int index) async {
     provider.setIndex(index);
-
+    presenter.onPageChange(index);
     _tabController.animateTo(index);
   }
 
@@ -279,7 +279,6 @@ class _ListingTypeTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<BaseListProvider<ListingModel>>(context);
     return MyCard(
       child: Container(
         height: 80.0,

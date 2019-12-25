@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:jom_malaysia/screens/tabs/overview/models/category_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/overview_page_provider.dart';
-import 'package:jom_malaysia/screens/tabs/overview/widgets/ads_space.dart';
 import 'package:jom_malaysia/setting/provider/base_list_provider.dart';
 import 'package:jom_malaysia/widgets/my_refresh_list.dart';
 import 'package:jom_malaysia/widgets/state_layout.dart';
@@ -44,6 +42,7 @@ class _PlaceListState extends State<PlaceList>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    print("placeList" + _index.toString());
     return NotificationListener(
       onNotification: (ScrollNotification note) {
         if (note.metrics.pixels == note.metrics.maxScrollExtent) {
