@@ -7,13 +7,17 @@ import 'package:jom_malaysia/screens/tabs/overview/pages/place_detail_page.dart'
 
 class PlaceDetailPagePresenter extends BasePagePresenter<PlaceDetailPageState> {
   @override
-  void initState() {}
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      fetchDetail("5df090ab8430e205883f71db");
+    });
+  }
 
   Future fetchDetail(String placeId) async {
     asyncRequestNetwork<ListingModel, Null>(Method.get,
         url: APIEndpoint.listings, params: placeId, onSuccess: (data) {
       if (data != null) {
-        view.provider.setPlace(data);
+        view.setPlace(data);
       } else {
         // view.provider.setStateType(StateType.network);
       }

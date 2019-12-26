@@ -75,7 +75,6 @@ class OverviewPageState
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    print("overview page build");
     isDark = ThemeUtils.isDark(context);
     return MultiProvider(
       providers: [
