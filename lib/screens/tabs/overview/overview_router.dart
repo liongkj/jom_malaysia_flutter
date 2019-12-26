@@ -7,14 +7,15 @@ import 'pages/overview_page.dart';
 
 class OverviewRouter implements IRouterProvider {
   static String overviewPage = "/overview";
-  static String placeDetailPage = "/overview/detail/:id";
+  static String placeDetailPage = "/overview/detail";
   static String placeSearchPage = "/overview/search";
 
   @override
   void initRouter(Router router) {
     router.define(overviewPage,
         handler: Handler(handlerFunc: (_, params) => OverviewPage()));
-    router.define(placeDetailPage, handler: Handler(handlerFunc: (_, params) {
+    router.define('$placeDetailPage/:id',
+        handler: Handler(handlerFunc: (_, params) {
       var placeId = params["id"]?.first;
       return PlaceDetailPage(placeId);
     }));

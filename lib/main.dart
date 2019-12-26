@@ -20,6 +20,10 @@ void main() {
 //  debugRepaintRainbowEnabled = true;
   // Logger.level = Level.;
   runApp(MyApp());
+  //Portrait Mode only
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+
   if (Platform.isAndroid) {
     SystemUiOverlayStyle systemUiOverlayStyle =
         SystemUiOverlayStyle(statusBarColor: Colors.transparent);

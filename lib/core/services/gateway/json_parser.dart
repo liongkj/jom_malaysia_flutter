@@ -9,6 +9,7 @@ class JsonParser {
   static T fromJson<T, K>(Map json) {
     final dynamic data = ApiResponse.fromJson(json).data;
     if (data is Iterable) {
+      if (K == Null) return _fromJsonList<T>(data)?.first;
       return _fromJsonList<K>(data) as T;
     }
     if (T == CategoryModel) {
