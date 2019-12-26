@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/constants/common.dart';
 import 'package:jom_malaysia/screens/login/login_router.dart';
-import 'package:jom_malaysia/screens/tabs/overview/overview_router.dart';
 import 'package:jom_malaysia/setting/routers/routers.dart';
 import 'package:jom_malaysia/util/image_utils.dart';
 import 'package:rxdart/rxdart.dart';

@@ -6,7 +6,6 @@ import 'package:jom_malaysia/screens/tabs/nearby/pages/nearby_page.dart';
 import 'package:jom_malaysia/screens/tabs/overview/pages/overview_page.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
 import 'package:jom_malaysia/util/toast.dart';
-import 'package:jom_malaysia/widgets/load_image.dart';
 import 'package:provider/provider.dart';
 
 import 'provider/home_provider.dart';

@@ -1,18 +1,17 @@
-// TODO kean phang design here
-
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:jom_malaysia/core/mvp/base_page_state.dart';
 import 'package:jom_malaysia/core/res/colors.dart';
+import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/presenter/place_detail_page_presenter.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/place_detail_provider.dart';
+import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/widgets/state_layout.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../util/theme_utils.dart';
-import '../../nearby/provider/nearby_page_provider.dart';
 
 class PlaceDetailPage extends StatefulWidget {
   const PlaceDetailPage(this.placeId);
@@ -25,7 +24,7 @@ class PlaceDetailPage extends StatefulWidget {
 class PlaceDetailPageState
     extends BasePageState<PlaceDetailPage, PlaceDetailPagePresenter> {
   bool isDark = false;
-  var _isloading = true;
+  var _isloading = false;
 
   PlaceDetailProvider provider = PlaceDetailProvider();
 
@@ -56,50 +55,166 @@ class PlaceDetailPageState
   @override
   Widget build(BuildContext context) {
     // isDark = ThemeUtils.isDark(context);
-    print("detail page build");
     // final Color _iconColor = ThemeUtils.getIconColor(context);
     return ChangeNotifierProvider<PlaceDetailProvider>(
-      create: (_) => provider,
-      child: Consumer<PlaceDetailProvider>(
-        builder: (_, detail, __) => Scaffold(
-          body: _isloading
-              ? Stack(
-                  children: <Widget>[
-                    Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
+        create: (_) => provider,
+        child: Consumer<PlaceDetailProvider>(
+          builder: (_, detail, __) {
+            final List<String> images = [
+              detail.place.listingImages.coverPhoto.url
+            ];
+            images.addAll(
+                detail.place.listingImages.ads.map((x) => x.url).toList());
+
+            return Scaffold(
+                body: _isloading
+                    ? Stack(
                         children: <Widget>[
-                          // Text(detail.place.listingId),
-                          Expanded(
-                              flex: 2, child: PlaceDetailsImages(detail.place)),
-                          Expanded(flex: 4, child: PlaceDetail(detail.place)),
-                        ]),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20.0),
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.arrow_back_ios,
-                          color: ThemeUtils.isDark(context)
-                              ? Colors.black54
-                              : Colours.text,
+                          Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: <Widget>[
+                                Expanded(
+                                  flex: 2,
+                                  child: CoverPhotos(images),
+                                ),
+                                Expanded(
+                                  flex: 4,
+                                  child: PlaceDetail(detail.place),
+                                ),
+                              ]),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 20.0),
+                            child: IconButton(
+                              icon: Icon(
+                                Icons.arrow_back_ios,
+                                color: ThemeUtils.isDark(context)
+                                    ? ThemeUtils.getIconColor(context)
+                                    : Colours.text,
+                              ),
+                              onPressed: () => NavigatorUtils.goBack(context),
+                            ),
+                          ),
+                        ],
+                      )
+                    : Stack(children: <Widget>[
+                        SafeArea(
+                          child: SizedBox(
+                            height: 105,
+                            width: double.infinity,
+                            child: isDark
+                                ? null
+                                : const DecoratedBox(
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        colors: const [
+                                          Color(0xFF5793FA),
+                                          Color(0xFF4647FA)
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                          ),
                         ),
-                        onPressed: () => Navigator.pop(context, false),
-                      ),
-                    ),
-                  ],
-                )
-              : Center(
-                  child: CircularProgressIndicator(),
-                ),
-        ),
+                        NestedScrollView(
+                            physics: ClampingScrollPhysics(),
+                            headerSliverBuilder: (context, innerBoxIsScrolled) {
+                              return _sliverBuilder(context);
+                            },
+                            body: SafeArea(
+                              top: false,
+                              bottom: false,
+                              child: Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
+                                  children: <Widget>[
+                                    Expanded(
+                                      flex: 2,
+                                      child: CoverPhotos(images),
+                                    ),
+                                    Expanded(
+                                      flex: 4,
+                                      child: PlaceDetail(detail.place),
+                                    ),
+                                  ]),
+                            ))
+                      ]));
+          },
+        ));
+  }
+}
+
+List<Widget> _sliverBuilder(BuildContext context) {
+  return <Widget>[
+    SliverOverlapAbsorber(
+      handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+      child: SliverAppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+        centerTitle: true,
+        expandedHeight: 140.0,
+        floating: false, // 不随着滑动隐藏标题
+        pinned: true, // 固定在顶部
+        leading: Gaps.empty,
+        brightness: Brightness.dark,
+        flexibleSpace: CoverPhotos([
+          "https://res.cloudinary.com/jomn9-com/image/upload/v1575877111/listing_images/bj0bg35wotngazxfb7pq.webp"
+        ]),
+        actions: <Widget>[],
       ),
+    ),
+  ];
+}
+
+class CoverPhotos extends StatelessWidget {
+  CoverPhotos(this.swiperImage);
+  final List<String> swiperImage;
+
+  @override
+  Widget build(BuildContext context) {
+    final int count = swiperImage.length;
+    //  ListView.separated(
+    //   scrollDirection: Axis.horizontal,
+    //   separatorBuilder: (BuildContext context, int index) => Divider(),
+    //   itemCount: count,
+    //   itemBuilder: (context, index) {
+    return Swiper(
+      itemBuilder: (BuildContext context, int index) {
+        return Image.network(
+          swiperImage[index],
+          fit: BoxFit.fill,
+        );
+      },
+      itemCount: count,
+      loop: false,
     );
+    //   return Stack(children: <Widget>[
+    //     Container(
+    //       width: MediaQuery.of(context).size.width,
+    //       padding: EdgeInsets.all(5),
+    //       child: Image.network(
+    //         cover.url,
+    //         fit: BoxFit.cover,
+    //       ),
+    //     ),
+    //     Positioned(
+    //         top: 200,
+    //         left: 260,
+    //         child: FlatButton.icon(
+    //             color: Colors.white,
+    //             onPressed: null,
+    //             icon: Icon(Icons.photo_camera, color: Colors.white),
+    //             label: Text(
+    //               (index + 1).toString() + "/" + count.toString(),
+    //               style: TextStyle(color: Colors.white),
+    //             )))
+    //   ]);
   }
 }
 
 class PlaceDetail extends StatelessWidget {
+  PlaceDetail(this.place);
   double top = 0.0;
   final ListingModel place;
-  PlaceDetail(this.place);
 
   @override
   Widget build(BuildContext context) {
@@ -148,7 +263,7 @@ class PlaceDetail extends StatelessWidget {
                                     width: 2.0)),
                             child: Container(
                                 margin: EdgeInsets.only(left: 10, right: 10),
-                                child: PlaceInfo()),
+                                child: PlaceInfo(place)),
                           ));
                     })),
               ];
@@ -171,42 +286,6 @@ class PlaceDetail extends StatelessWidget {
                     ),
                   );
                 }))));
-  }
-}
-
-class PlaceDetailsImages extends StatelessWidget {
-  final int _images = 3;
-  final ListingModel place;
-  PlaceDetailsImages(this.place);
-  @override
-  Widget build(BuildContext context) {
-    return ListView.separated(
-        scrollDirection: Axis.horizontal,
-        separatorBuilder: (BuildContext context, int index) => Divider(),
-        itemCount: _images,
-        itemBuilder: (context, index) {
-          return Stack(children: <Widget>[
-            Container(
-              width: MediaQuery.of(context).size.width,
-              padding: EdgeInsets.all(5),
-              child: Image.network(
-                place.listingImages.coverPhoto.url,
-                fit: BoxFit.cover,
-              ),
-            ),
-            Positioned(
-                top: 200,
-                left: 260,
-                child: FlatButton.icon(
-                    color: Colors.white,
-                    onPressed: null,
-                    icon: Icon(Icons.photo_camera, color: Colors.white),
-                    label: Text(
-                      (index + 1).toString() + "/" + _images.toString(),
-                      style: TextStyle(color: Colors.white),
-                    )))
-          ]);
-        });
   }
 }
 
