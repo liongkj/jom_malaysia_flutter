@@ -67,33 +67,28 @@ class BasePagePresenter<V extends IMvpView> extends IPresenter {
   //   });
   // }
 
-  void asyncRequestNetwork<T, K>(Method method,
-      {@required String url,
-      bool isShow: true,
-      bool isClose: true,
-      Function(T t) onSuccess,
-      Function(List<T> list) onSuccessList,
-      Function(int code, String msg) onError,
-      dynamic params,
-      Map<String, dynamic> queryParameters,
-      CancelToken cancelToken,
-      Options options,
-      bool isList: false}) {
+  ///async request
+  void asyncRequestNetwork<T, K>(
+    Method method, {
+    @required String url,
+    bool isShow: true,
+    bool isClose: true,
+    Function(T t) onSuccess,
+    Function(int code, String msg) onError,
+    dynamic params,
+    Map<String, dynamic> queryParameters,
+    CancelToken cancelToken,
+    Options options,
+  }) {
     if (isShow) view.showProgress();
     DioUtils.instance.asyncRequestNetwork<T, K>(method, url,
         params: params,
         queryParameters: queryParameters,
         options: options,
-        cancelToken: cancelToken ?? _cancelToken,
-        isList: isList, onSuccess: (data) {
+        cancelToken: cancelToken ?? _cancelToken, onSuccess: (data) {
       if (isClose) view.closeProgress();
       if (onSuccess != null) {
         onSuccess(data);
-      }
-    }, onSuccessList: (data) {
-      if (isClose) view.closeProgress();
-      if (onSuccessList != null) {
-        onSuccessList(data);
       }
     }, onError: (code, msg) {
       _onError(code, msg, onError);

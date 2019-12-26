@@ -19,13 +19,13 @@ class StateLayout extends StatefulWidget {
 class _StateLayoutState extends State<StateLayout> {
   String _img;
   String _hintText;
-
+//TODO change hint text
   @override
   Widget build(BuildContext context) {
     switch (widget.type) {
-      case StateType.order:
+      case StateType.places:
         _img = "zwdd";
-        _hintText = "暂无订单";
+        _hintText = "More places coming soon";
         break;
       case StateType.goods:
         _img = "zwsp";
@@ -89,24 +89,24 @@ class _StateLayoutState extends State<StateLayout> {
 }
 
 enum StateType {
-  /// 订单
-  order,
+  /// show no place found state
+  places,
 
-  /// 商品
+  ///  show no goods found state
   goods,
 
-  /// 无网络
+  ///  show network error state
   network,
 
-  /// 消息
+  ///  load message state
   message,
 
-  /// 无提现账号
+  ///  loading account state
   account,
 
-  /// 加载中
+  ///  loading state
   loading,
 
-  /// 空
+  ///  loading empty state
   empty
 }

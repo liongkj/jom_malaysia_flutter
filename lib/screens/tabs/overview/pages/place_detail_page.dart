@@ -14,6 +14,9 @@ import '../../../../util/theme_utils.dart';
 import '../../nearby/provider/nearby_page_provider.dart';
 
 class PlaceDetailPage extends StatefulWidget {
+  const PlaceDetailPage(this.placeId);
+
+  final String placeId;
   @override
   PlaceDetailPageState createState() => PlaceDetailPageState();
 }
@@ -41,7 +44,7 @@ class PlaceDetailPageState
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
     isLoaded();
     super.initState();
-    presenter.fetchDetail("5df090ab8430e205883f71db");
+    presenter.fetchDetail(widget.placeId);
   }
 
   @override

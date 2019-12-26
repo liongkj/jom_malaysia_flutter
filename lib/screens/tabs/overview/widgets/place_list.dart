@@ -25,7 +25,6 @@ class _PlaceListState extends State<PlaceList>
   bool _isLoading = false;
   int _page = 1;
   final int _maxPage = 3;
-  StateType _stateType = StateType.empty;
   int _index = 0;
   ScrollController _controller = ScrollController();
 
@@ -65,12 +64,12 @@ class _PlaceListState extends State<PlaceList>
                   builder: (_, listingProvider, child) {
                     return SliverPadding(
                       padding: const EdgeInsets.symmetric(
-                        vertical: 16.0,
-                        horizontal: 8.0,
+                        horizontal: 16.0,
                       ),
                       sliver: listingProvider.list.isEmpty
                           ? SliverFillRemaining(
-                              child: StateLayout(type: _stateType),
+                              child:
+                                  StateLayout(type: listingProvider.stateType),
                             )
                           : SliverList(
                               delegate: SliverChildBuilderDelegate(

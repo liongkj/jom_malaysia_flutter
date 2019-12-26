@@ -36,8 +36,8 @@ class CategoryItem extends StatelessWidget {
             8.0,
           ),
           child: InkWell(
-            onTap: () =>
-                NavigatorUtils.push(context, OverviewRouter.placeDetailPage),
+            onTap: () => NavigatorUtils.push(context,
+                '${OverviewRouter.placeDetailPage}/${listing.listingId}'),
             child: Container(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

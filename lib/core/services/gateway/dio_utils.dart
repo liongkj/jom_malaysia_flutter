@@ -118,15 +118,16 @@ class DioUtils {
   // }
 
   /// 统一处理(onSuccess返回T对象，onSuccessList返回List<T>)
-  asyncRequestNetwork<T, K>(Method method, String url,
-      {Function(T t) onSuccess,
-      Function(List<T> list) onSuccessList,
-      Function(int code, String msg) onError,
-      dynamic params,
-      Map<String, dynamic> queryParameters,
-      CancelToken cancelToken,
-      Options options,
-      bool isList: false}) {
+  asyncRequestNetwork<T, K>(
+    Method method,
+    String url, {
+    Function(T t) onSuccess,
+    Function(int code, String msg) onError,
+    dynamic params,
+    Map<String, dynamic> queryParameters,
+    CancelToken cancelToken,
+    Options options,
+  }) {
     String m = _getRequestMethod(method);
     Observable.fromFuture(_request<T, K>(m, url,
             data: params,
@@ -187,7 +188,5 @@ class DioUtils {
     return m;
   }
 }
-
-Map<String, dynamic> parseData(dynamic data) {}
 
 enum Method { get, post, put, patch, delete, head }

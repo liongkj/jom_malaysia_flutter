@@ -50,7 +50,6 @@ class OverviewPageState
   void initState() {
     super.initState();
     _tabController = TabController(vsync: this, length: 5);
-    presenter.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       // _preCacheImage();
