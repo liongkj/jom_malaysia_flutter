@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:jom_malaysia/core/mvp/base_page_state.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
@@ -34,6 +35,10 @@ class OverviewPageState
   PageController _pageController = PageController(initialPage: 0);
   BaseListProvider<ListingModel> listingProvider =
       BaseListProvider<ListingModel>();
+  final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
+
+  Position _currentPosition;
+  String _currentAddress = '';  
 
   _onPageChange(int index) async {
     provider.setIndex(index);
@@ -50,10 +55,39 @@ class OverviewPageState
   void initState() {
     super.initState();
     _tabController = TabController(vsync: this, length: 5);
-
+    //Location
+    _getCurrentLocation();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       // _preCacheImage();
     });
+  }
+    //Get current location
+  _getCurrentLocation() {
+    final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
+    geolocator
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
+        .then((Position position) {
+      setState(() {
+        _currentPosition = position;
+        _getAddressFromLatLng(position);
+      });
+    }).catchError((e) {
+      print(e);
+    });
+  }
+    //Get Location Base on Latitude and Longtitude
+  _getAddressFromLatLng(position) async {
+    try {
+      List<Placemark> p = await geolocator.placemarkFromCoordinates(
+          _currentPosition.latitude, _currentPosition.longitude);
+      Placemark place = p[0];
+      setState(() {
+        _currentAddress =
+            "${place.locality}"; //, ${place.postalCode}, ${place.country}";
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 
   // _preCacheImage() {
@@ -69,7 +103,6 @@ class OverviewPageState
     _tabController?.dispose();
     super.dispose();
   }
-
   bool isDark = false;
 
   @override
@@ -202,7 +235,7 @@ class OverviewPageState
             titlePadding:
                 const EdgeInsetsDirectional.only(start: 16.0, bottom: 14.0),
             collapseMode: CollapseMode.pin,
-            title: _CurrentLocation(),
+            title: _CurrentLocation(address: _currentAddress)//(position: _currentPosition),
           ),
         ),
       ),
@@ -234,10 +267,14 @@ class OverviewPageState
 }
 
 class _CurrentLocation extends StatelessWidget {
+  final String address;
+  //final Position position;
   const _CurrentLocation({
+    this.address,
+    //this.position,
     Key key,
   }) : super(key: key);
-
+  
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -249,8 +286,8 @@ class _CurrentLocation extends StatelessWidget {
             color: ThemeUtils.getIconColor(context),
           ),
           Gaps.hGap8,
-          Text(
-            "Seremban",
+          Text(address,
+            //position.latitude.toString()+','+position.longitude.toString(),
             style: TextStyle(
                 color: ThemeUtils.getIconColor(context),
                 fontSize: Dimens.font_sp16),
