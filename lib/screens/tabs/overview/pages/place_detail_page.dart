@@ -67,106 +67,47 @@ class PlaceDetailPageState
                 detail.place.listingImages.ads.map((x) => x.url).toList());
 
             return Scaffold(
-                body: _isloading
-                    ? Stack(
-                        children: <Widget>[
-                          Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: <Widget>[
-                                Expanded(
-                                  flex: 2,
-                                  child: CoverPhotos(images),
-                                ),
-                                Expanded(
-                                  flex: 4,
-                                  child: PlaceDetail(detail.place),
-                                ),
-                              ]),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 20.0),
-                            child: IconButton(
-                              icon: Icon(
-                                Icons.arrow_back_ios,
-                                color: ThemeUtils.isDark(context)
-                                    ? ThemeUtils.getIconColor(context)
-                                    : Colours.text,
-                              ),
-                              onPressed: () => NavigatorUtils.goBack(context),
-                            ),
-                          ),
-                        ],
-                      )
-                    : Stack(children: <Widget>[
-                        SafeArea(
-                          child: SizedBox(
-                            height: 105,
-                            width: double.infinity,
-                            child: isDark
-                                ? null
-                                : const DecoratedBox(
-                                    decoration: BoxDecoration(
-                                      gradient: LinearGradient(
-                                        colors: const [
-                                          Color(0xFF5793FA),
-                                          Color(0xFF4647FA)
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                          ),
-                        ),
-                        NestedScrollView(
-                            physics: ClampingScrollPhysics(),
-                            headerSliverBuilder: (context, innerBoxIsScrolled) {
-                              return _sliverBuilder(context);
-                            },
-                            body: SafeArea(
-                              top: false,
-                              bottom: false,
-                              child: Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.stretch,
-                                  children: <Widget>[
-                                    Expanded(
-                                      flex: 2,
-                                      child: CoverPhotos(images),
-                                    ),
-                                    Expanded(
-                                      flex: 4,
-                                      child: PlaceDetail(detail.place),
-                                    ),
-                                  ]),
-                            ))
-                      ]));
+              body: CustomScrollView(slivers: <Widget>[
+                SliverAppBar(
+                  backgroundColor: Colors.transparent,
+                  elevation: 0.0,
+                  centerTitle: true,
+                  expandedHeight: 200.0,
+                  floating: false, // 不随着滑动隐藏标题
+                  pinned: true, // 固定在顶部
+                  leading: Gaps.empty,
+                  brightness: Brightness.dark,
+                  flexibleSpace: FlexibleSpaceBar(
+                    background: _CoverPhotos(images),
+                  ),
+
+                  actions: <Widget>[],
+                ),
+                // SliverToBoxAdapter(
+                //   child: Column(
+                //     crossAxisAlignment: CrossAxisAlignment.stretch,
+                //     children: <Widget>[
+                //       PlaceDetail(detail.place),
+                //     ],
+                //   ),
+                // ),
+                SliverFillRemaining(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      PlaceDetail(detail.place),
+                    ],
+                  ),
+                ),
+              ]),
+            );
           },
         ));
   }
 }
 
-List<Widget> _sliverBuilder(BuildContext context) {
-  return <Widget>[
-    SliverOverlapAbsorber(
-      handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-      child: SliverAppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-        centerTitle: true,
-        expandedHeight: 140.0,
-        floating: false, // 不随着滑动隐藏标题
-        pinned: true, // 固定在顶部
-        leading: Gaps.empty,
-        brightness: Brightness.dark,
-        flexibleSpace: CoverPhotos([
-          "https://res.cloudinary.com/jomn9-com/image/upload/v1575877111/listing_images/bj0bg35wotngazxfb7pq.webp"
-        ]),
-        actions: <Widget>[],
-      ),
-    ),
-  ];
-}
-
-class CoverPhotos extends StatelessWidget {
-  CoverPhotos(this.swiperImage);
+class _CoverPhotos extends StatelessWidget {
+  _CoverPhotos(this.swiperImage);
   final List<String> swiperImage;
 
   @override
