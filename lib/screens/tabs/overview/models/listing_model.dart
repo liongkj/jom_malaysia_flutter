@@ -5,6 +5,7 @@ import 'package:jom_malaysia/core/models/coordinates_model.dart';
 import 'package:jom_malaysia/core/models/image_model.dart';
 import 'package:jom_malaysia/util/date_utils.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:sprintf/sprintf.dart';
 
 part 'listing_model.g.dart';
 
@@ -65,6 +66,13 @@ class CategoryVM {
       _$CategoryVMFromJson(json);
 
   Map<String, dynamic> toJson() => _$CategoryVMToJson(this);
+
+  String getCategory() {
+    if (category.length == 0) {
+      return category.toUpperCase();
+    }
+    return category[0].toUpperCase() + category.substring(1);
+  }
 
   @override
   String toString() {

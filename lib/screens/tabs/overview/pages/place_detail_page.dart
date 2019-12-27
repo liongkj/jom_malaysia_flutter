@@ -8,6 +8,8 @@ import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/presenter/place_detail_page_presenter.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/place_detail_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
+import 'package:jom_malaysia/widgets/my_card.dart';
+import 'package:jom_malaysia/widgets/my_flexible_space_bar.dart';
 import 'package:jom_malaysia/widgets/state_layout.dart';
 import 'package:provider/provider.dart';
 
@@ -58,51 +60,94 @@ class PlaceDetailPageState
     // final Color _iconColor = ThemeUtils.getIconColor(context);
     return ChangeNotifierProvider<PlaceDetailProvider>(
         create: (_) => provider,
-        child: Consumer<PlaceDetailProvider>(
-          builder: (_, detail, __) {
-            final List<String> images = [
-              detail.place.listingImages.coverPhoto.url
-            ];
-            images.addAll(
-                detail.place.listingImages.ads.map((x) => x.url).toList());
+        child: Consumer<PlaceDetailProvider>(builder: (_, detail, __) {
+          final List<String> images = [
+            detail.place.listingImages.coverPhoto.url
+          ];
+          images.addAll(
+              detail.place.listingImages.ads.map((x) => x.url).toList());
 
-            return Scaffold(
-              body: CustomScrollView(slivers: <Widget>[
-                SliverAppBar(
-                  backgroundColor: Colors.transparent,
-                  elevation: 0.0,
-                  centerTitle: true,
-                  expandedHeight: 200.0,
-                  floating: false, // 不随着滑动隐藏标题
-                  pinned: true, // 固定在顶部
-                  leading: Gaps.empty,
-                  brightness: Brightness.dark,
-                  flexibleSpace: FlexibleSpaceBar(
-                    background: _CoverPhotos(images),
+          return Scaffold(
+              body: Stack(children: <Widget>[
+            SafeArea(
+              child: SizedBox(
+                height: 105,
+                width: double.infinity,
+                child: isDark
+                    ? null
+                    : const DecoratedBox(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: const [
+                              Color(0xFF5793FA),
+                              Color(0xFF4647FA)
+                            ],
+                          ),
+                        ),
+                      ),
+              ),
+            ),
+            NestedScrollView(
+              physics: ClampingScrollPhysics(),
+              headerSliverBuilder: (context, innerBoxIsScrolled) {
+                return <Widget>[
+                  SliverOverlapAbsorber(
+                    handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                        context),
+                    child: SliverAppBar(
+                      leading: Gaps.empty,
+                      brightness: Brightness.dark,
+                      backgroundColor: Colors.transparent,
+                      titleSpacing: 0.0,
+                      centerTitle: true,
+                      expandedHeight: 200.0,
+                      floating: false, // 不随着滑动隐藏标题
+                      pinned: true, // 固定在顶部
+                      flexibleSpace: MyFlexibleSpaceBar(
+                        titlePadding: const EdgeInsetsDirectional.only(
+                            start: 16.0, bottom: 14.0),
+                        collapseMode: CollapseMode.pin,
+                        background: _CoverPhotos(images),
+                        title: Text(
+                            '${detail.place.category.getCategory()} detail'),
+                      ),
+                      actions: <Widget>[
+                        IconButton(
+                          icon: Icon(Icons.favorite_border),
+                          onPressed: () {},
+                        )
+                      ],
+                    ),
                   ),
-
-                  actions: <Widget>[],
-                ),
-                // SliverToBoxAdapter(
-                //   child: Column(
-                //     crossAxisAlignment: CrossAxisAlignment.stretch,
-                //     children: <Widget>[
-                //       PlaceDetail(detail.place),
-                //     ],
-                //   ),
-                // ),
-                SliverFillRemaining(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: <Widget>[
-                      PlaceDetail(detail.place),
-                    ],
-                  ),
-                ),
-              ]),
-            );
-          },
-        ));
+                ];
+              },
+              body: CustomScrollView(
+                slivers: <Widget>[
+                  SliverList(
+                    delegate: SliverChildListDelegate.fixed([
+                      Container(
+                        height: 200,
+                        margin: const EdgeInsets.only(top: 100),
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            color: isDark ? Colours.dark_bg_color : null,
+                          ),
+                          child: Container(
+                            height: 80.0,
+                            padding: const EdgeInsets.only(top: 8.0),
+                            child: Container(
+                              child: Text("Basic Info"),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ]),
+                  )
+                ],
+              ),
+            )
+          ]));
+        }));
   }
 }
 
