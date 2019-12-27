@@ -8,12 +8,14 @@ import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/pages/overview_page.dart';
 import 'package:jom_malaysia/screens/tabs/overview/presenter/place_detail_page_presenter.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/place_detail_provider.dart';
+import 'package:jom_malaysia/screens/tabs/overview/widgets/place_info_item.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/util/image_utils.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
 import 'package:jom_malaysia/widgets/my_card.dart';
 import 'package:jom_malaysia/widgets/my_flexible_space_bar.dart';
 import 'package:jom_malaysia/widgets/my_rating.dart';
+import 'package:jom_malaysia/widgets/sliver_appbar_delegate.dart';
 import 'package:jom_malaysia/widgets/state_layout.dart';
 import 'package:provider/provider.dart';
 
@@ -131,70 +133,16 @@ class PlaceDetailPageState
             Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-              child: MyCard(
-                child: Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Container(
-                        child: LoadImage(
-                          place.listingImages.coverPhoto.url,
-                          width: 100.0,
-                          height: 100.0,
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                      Gaps.hGap10,
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.max,
-                          children: <Widget>[
-                            Text(
-                              place.listingName,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            Gaps.vGap8,
-                            Row(
-                              children: <Widget>[
-                                Expanded(
-                                  child: Rating(rating: 4),
-                                ),
-                                Text(
-                                  place.tags[0],
-                                  style: TextStyle(
-                                      fontSize: Dimens.font_sp12,
-                                      color: Theme.of(context).errorColor),
-                                )
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              child: PlaceInfo(place),
             ),
             120),
       ),
-      SliverToBoxAdapter(
+      SliverFillRemaining(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              _PlaceInfo(place),
-              _PlaceInfo(place),
-              _PlaceInfo(place),
-              _PlaceInfo(place),
-              _PlaceInfo(place),
-              _PlaceInfo(place),
-              _PlaceInfo(place),
-              _PlaceInfo(place),
-              _PlaceInfo(place),
-            ],
+            children: <Widget>[],
           ),
         ),
       ),
@@ -272,89 +220,5 @@ class _PlaceInfo extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-class PlaceInfo extends StatelessWidget {
-  PlaceInfo(this.place);
-  final ListingModel place;
-  @override
-  Widget build(BuildContext context) {
-    return ListView(children: <Widget>[
-      Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Expanded(
-              flex: 8,
-              child: Text(
-                place.merchant.registrationName,
-                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-              )),
-          Expanded(
-              flex: 2,
-              //Is favorite?
-              child: Icon(
-                Icons.star_border,
-                size: 30,
-              ))
-        ],
-      ),
-      SizedBox(height: 10),
-      Row(children: <Widget>[
-        Expanded(
-          flex: 2,
-          child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Text('5', textAlign: TextAlign.right),
-                Icon(Icons.star)
-              ]),
-        ),
-        Expanded(
-            flex: 9,
-            child: Wrap(runSpacing: 5, children: <Widget>[
-              Text(place.category.category + ' ' + place.category.subcategory,
-                  style:
-                      TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
-              Text(place.tags[0],
-                  style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold))
-            ]))
-      ]),
-      Column(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
-        FlatButton.icon(
-            onPressed: () => print('Location'),
-            icon: Icon(Icons.location_on),
-            label: Flexible(
-                child: Text(place.address.add1 +
-                    place.address.add2 +
-                    place.address.city +
-                    place.address.postalCode))),
-        FlatButton.icon(
-            onPressed: () => print('Calling'),
-            icon: Icon(Icons.phone),
-            label: Text('+60 18-762 7267')),
-        FlatButton.icon(
-            onPressed: () => print('Operating Hours'),
-            icon: Icon(Icons.timer),
-            label: Text.rich(
-              TextSpan(
-                children: <TextSpan>[
-                  TextSpan(
-                      text: place.operatingHours[0].openTime +
-                          '-' +
-                          place.operatingHours[0].closeTime),
-                  TextSpan(
-                      //Function to check time and decide open and close
-                      text: ' Open',
-                      style: TextStyle(color: Colors.green)),
-                ],
-              ),
-            )),
-        FlatButton.icon(
-            onPressed: () => print('Visit'),
-            icon: Icon(Icons.link),
-            label: Flexible(child: Text('www.cornhab.com')))
-      ])
-    ]);
   }
 }

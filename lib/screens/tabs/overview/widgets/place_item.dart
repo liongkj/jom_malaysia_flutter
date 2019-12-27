@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/overview_router.dart';
-import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
 import 'package:jom_malaysia/widgets/my_card.dart';
 import 'package:jom_malaysia/widgets/my_rating.dart';
 
-class CategoryItem extends StatelessWidget {
-  const CategoryItem({
+class PlaceItem extends StatelessWidget {
+  const PlaceItem({
     Key key,
     @required this.tabIndex,
     @required this.index,

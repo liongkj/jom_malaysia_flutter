@@ -14,6 +14,7 @@ import 'package:jom_malaysia/util/theme_utils.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
 import 'package:jom_malaysia/widgets/my_card.dart';
 import 'package:jom_malaysia/widgets/my_flexible_space_bar.dart';
+import 'package:jom_malaysia/widgets/sliver_appbar_delegate.dart';
 import 'package:provider/provider.dart';
 
 class OverviewPage extends StatefulWidget {
@@ -351,29 +352,5 @@ class _TabViewTab extends StatelessWidget {
         );
       },
     );
-  }
-}
-
-class SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
-  final Widget widget;
-  final double height;
-  SliverAppBarDelegate(this.widget, this.height);
-
-  // minHeight 和 maxHeight 的值设置为相同时，header就不会收缩了
-  @override
-  double get minExtent => height;
-
-  @override
-  double get maxExtent => height;
-
-  @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return widget;
-  }
-
-  @override
-  bool shouldRebuild(SliverAppBarDelegate oldDelegate) {
-    return true;
   }
 }

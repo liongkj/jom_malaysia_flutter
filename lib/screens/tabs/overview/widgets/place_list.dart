@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/overview_page_provider.dart';
+import 'package:jom_malaysia/screens/tabs/overview/widgets/place_item.dart';
 import 'package:jom_malaysia/setting/provider/base_list_provider.dart';
 import 'package:jom_malaysia/widgets/my_refresh_list.dart';
 import 'package:jom_malaysia/widgets/state_layout.dart';
 import 'package:provider/provider.dart';
-import 'category_item.dart';
 
 class PlaceList extends StatefulWidget {
   const PlaceList({
@@ -75,7 +75,7 @@ class _PlaceListState extends State<PlaceList>
                               delegate: SliverChildBuilderDelegate(
                                   (BuildContext context, int index) {
                                 return index < listingProvider.list.length
-                                    ? CategoryItem(
+                                    ? PlaceItem(
                                         key: Key('order_item_$index'),
                                         index: index,
                                         tabIndex: _index,
