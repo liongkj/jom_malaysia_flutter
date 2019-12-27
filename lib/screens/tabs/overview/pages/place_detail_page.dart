@@ -38,10 +38,6 @@ class PlaceDetailPageState
   void initState() {
     super.initState();
     provider.setStateTypeNotNotify(StateType.empty);
-
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   presenter.fetchDetail(widget.placeId);
-    // });
   }
 
   @override
@@ -56,98 +52,70 @@ class PlaceDetailPageState
 
   @override
   Widget build(BuildContext context) {
-    // isDark = ThemeUtils.isDark(context);
-    // final Color _iconColor = ThemeUtils.getIconColor(context);
+    isDark = ThemeUtils.isDark(context);
     return ChangeNotifierProvider<PlaceDetailProvider>(
         create: (_) => provider,
         child: Consumer<PlaceDetailProvider>(builder: (_, detail, __) {
-          final List<String> images = [
-            detail.place.listingImages.coverPhoto.url
-          ];
-          images.addAll(
-              detail.place.listingImages.ads.map((x) => x.url).toList());
-
+          final place = detail.place;
           return Scaffold(
-              body: Stack(children: <Widget>[
-            SafeArea(
-              child: SizedBox(
-                height: 105,
-                width: double.infinity,
-                child: isDark
-                    ? null
-                    : const DecoratedBox(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: const [
-                              Color(0xFF5793FA),
-                              Color(0xFF4647FA)
-                            ],
-                          ),
-                        ),
-                      ),
-              ),
-            ),
-            NestedScrollView(
+            body: CustomScrollView(
+              key: const Key('place_detail'),
               physics: ClampingScrollPhysics(),
-              headerSliverBuilder: (context, innerBoxIsScrolled) {
-                return <Widget>[
-                  SliverOverlapAbsorber(
-                    handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
-                        context),
-                    child: SliverAppBar(
-                      leading: Gaps.empty,
-                      brightness: Brightness.dark,
-                      backgroundColor: Colors.transparent,
-                      titleSpacing: 0.0,
-                      centerTitle: true,
-                      expandedHeight: 200.0,
-                      floating: false, // 不随着滑动隐藏标题
-                      pinned: true, // 固定在顶部
-                      flexibleSpace: MyFlexibleSpaceBar(
-                        titlePadding: const EdgeInsetsDirectional.only(
-                            start: 16.0, bottom: 14.0),
-                        collapseMode: CollapseMode.pin,
-                        background: _CoverPhotos(images),
-                        title: Text(
-                            '${detail.place.category.getCategory()} detail'),
-                      ),
-                      actions: <Widget>[
-                        IconButton(
-                          icon: Icon(Icons.favorite_border),
-                          onPressed: () {},
-                        )
-                      ],
-                    ),
-                  ),
-                ];
-              },
-              body: CustomScrollView(
-                slivers: <Widget>[
-                  SliverList(
-                    delegate: SliverChildListDelegate.fixed([
-                      Container(
-                        height: 200,
-                        margin: const EdgeInsets.only(top: 100),
-                        child: DecoratedBox(
-                          decoration: BoxDecoration(
-                            color: isDark ? Colours.dark_bg_color : null,
-                          ),
-                          child: Container(
-                            height: 80.0,
-                            padding: const EdgeInsets.only(top: 8.0),
-                            child: Container(
-                              child: Text("Basic Info"),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ]),
-                  )
-                ],
-              ),
-            )
-          ]));
+              slivers: _sliverBuilder(place),
+            ),
+          );
         }));
+  }
+
+  List<Widget> _sliverBuilder(ListingModel place) {
+    final List<String> images = [place.listingImages.coverPhoto.url];
+    images.addAll(place.listingImages.ads.map((x) => x.url).toList());
+    return <Widget>[
+      SliverAppBar(
+        brightness: Brightness.dark,
+        backgroundColor: Colors.transparent,
+        titleSpacing: 0.0,
+        centerTitle: true,
+        expandedHeight: 250.0,
+        floating: false, // 不随着滑动隐藏标题
+        pinned: false, // 固定在顶部
+        flexibleSpace: MyFlexibleSpaceBar(
+          titlePadding:
+              const EdgeInsetsDirectional.only(start: 16.0, bottom: 14.0),
+          collapseMode: CollapseMode.pin,
+          background: _CoverPhotos(images),
+          title: Text(
+            '${place.category.getCategory()} detail',
+            style: TextStyle(color: ThemeUtils.getIconColor(context)),
+          ),
+        ),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.favorite_border),
+            onPressed: () {},
+          )
+        ],
+      ),
+      SliverToBoxAdapter(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              _PlaceInfo(place),
+              _PlaceInfo(place),
+              _PlaceInfo(place),
+              _PlaceInfo(place),
+              _PlaceInfo(place),
+              _PlaceInfo(place),
+              _PlaceInfo(place),
+              _PlaceInfo(place),
+              _PlaceInfo(place),
+            ],
+          ),
+        ),
+      ),
+    ];
   }
 }
 
@@ -197,81 +165,30 @@ class _CoverPhotos extends StatelessWidget {
   }
 }
 
-class PlaceDetail extends StatelessWidget {
-  PlaceDetail(this.place);
-  double top = 0.0;
+class _PlaceInfo extends StatelessWidget {
+  _PlaceInfo(this.place);
+
   final ListingModel place;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: NestedScrollView(
-            headerSliverBuilder:
-                (BuildContext context, bool innerBoxIsScrolled) {
-              return <Widget>[
-                SliverAppBar(
-                    automaticallyImplyLeading: false,
-                    expandedHeight: 250.0,
-                    floating: false,
-                    pinned: true,
-                    flexibleSpace: LayoutBuilder(builder:
-                        (BuildContext context, BoxConstraints constraints) {
-                      top = constraints.biggest.height;
-                      return FlexibleSpaceBar(
-                          centerTitle: true,
-                          title: AnimatedOpacity(
-                              duration: Duration(milliseconds: 300),
-                              opacity: 1.0,
-                              child: top == 83.0
-                                  ? Text(
-                                      place.merchant.registrationName,
-                                      style: TextStyle(
-                                          fontSize: 20.0,
-                                          color: ThemeUtils.isDark(context)
-                                              ? Colours.dark_text
-                                              : Colours.text),
-                                    )
-                                  : Text(
-                                      top.toString(),
-                                      style: TextStyle(
-                                          fontSize: 12.0,
-                                          color: Colors.transparent),
-                                    )),
-                          background: Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.only(
-                                    topLeft: const Radius.circular(20.0),
-                                    topRight: const Radius.circular(20.0)),
-                                border: Border.all(
-                                    color: ThemeUtils.isDark(context)
-                                        ? Colours.dark_text
-                                        : Colours.text,
-                                    width: 2.0)),
-                            child: Container(
-                                margin: EdgeInsets.only(left: 10, right: 10),
-                                child: PlaceInfo(place)),
-                          ));
-                    })),
-              ];
-            },
-            body: GridView.count(
-                crossAxisCount: 3,
-                padding: EdgeInsets.all(2.0),
-                children: List<Widget>.generate(15, (index) {
-                  return GridTile(
-                    child: Card(
-                      semanticContainer: true,
-                      clipBehavior: Clip.antiAliasWithSaveLayer,
-                      child: Image.network(
-                        place.listingImages.listingLogo.url,
-                        fit: BoxFit.fill,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                    ),
-                  );
-                }))));
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: MyCard(
+        child: Container(
+          alignment: Alignment.center,
+          height: 120.0,
+          child: Text(
+            place.merchant.registrationName,
+            style: TextStyle(
+                fontSize: 20.0,
+                color: ThemeUtils.isDark(context)
+                    ? Colours.dark_text
+                    : Colours.text),
+          ),
+        ),
+      ),
+    );
   }
 }
 
