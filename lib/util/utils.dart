@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:jom_malaysia/core/models/coordinates_model.dart';
 import 'package:jom_malaysia/util/toast.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -11,6 +12,27 @@ class Utils {
       await launch(url);
     } else {
       Toast.show('拨号失败！');
+    }
+  }
+
+  static Future<void> launchMap(CoordinatesModel coordinates, String s) async {
+    final double lat = coordinates.latitude;
+    final double lng = coordinates.longitude;
+
+    final String googleMapsUrl = "comgooglemaps://?center=$lat,$lng";
+    final String appleMapsUrl = "https://maps.apple.com/?q=$lat,$lng";
+    final String wazeMapsUrl =
+        "https://www.waze.com/ul?ll=$lat,$lng&navigation=yes";
+    if (await canLaunch(googleMapsUrl) && s == "google") {
+      await launch(googleMapsUrl);
+    }
+    if (await canLaunch(wazeMapsUrl) && s == "waze") {
+      await launch(wazeMapsUrl);
+    }
+    if (await canLaunch(appleMapsUrl) && s == "apple") {
+      await launch(appleMapsUrl, forceSafariVC: false);
+    } else {
+      throw "Couldn't launch URL";
     }
   }
 }

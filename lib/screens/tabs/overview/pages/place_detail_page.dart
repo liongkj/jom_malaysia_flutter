@@ -119,7 +119,7 @@ class PlaceDetailPageState
         actions: <Widget>[
           IconButton(
             icon: Icon(
-              Icons.favorite_border,
+              Icons.star_border,
               color:
                   _showTitle ? Colors.black : ThemeUtils.getIconColor(context),
             ),
