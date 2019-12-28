@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/enums/category_type_enum.dart';
-import 'package:jom_malaysia/core/enums/day_of_week_enum.dart';
-import 'package:jom_malaysia/core/models/coordinates_model.dart';
 import 'package:jom_malaysia/core/models/image_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -50,6 +48,12 @@ class ListingImageVM {
   ImageModel listingLogo;
   ImageModel coverPhoto;
   List<ImageModel> ads;
+
+  List<String> get getCarousel {
+    var _images = [coverPhoto.url];
+    _images.addAll(ads.map((x) => x.url).toList());
+    return _images;
+  }
 
   factory ListingImageVM.fromJson(Map<String, dynamic> json) =>
       _$ListingImageVMFromJson(json);

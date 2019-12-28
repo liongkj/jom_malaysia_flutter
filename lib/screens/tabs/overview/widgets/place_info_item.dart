@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/address_model.dart';
@@ -39,7 +37,10 @@ class PlaceInfo extends StatelessWidget {
                   Text("tags"),
                 ],
               ),
-              Text("Official Contacts"),
+              _contactCard(
+                address: place.address,
+                contact: place.officialContact,
+              ),
               Text("Address"),
               Text("Operating hours")
             ],
@@ -73,9 +74,9 @@ class PlaceInfo extends StatelessWidget {
 }
 
 class _contactCard extends StatelessWidget {
-  final ContactVM contactVM;
+  final ContactVM contact;
   final AddressVM address;
-  _contactCard({this.contactVM, this.address});
+  _contactCard({this.contact, this.address});
 
   @override
   Widget build(BuildContext context) {

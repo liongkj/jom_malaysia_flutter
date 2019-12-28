@@ -35,8 +35,6 @@ const kExpandedHeight = 250.0;
 class PlaceDetailPageState
     extends BasePageState<PlaceDetailPage, PlaceDetailPagePresenter> {
   bool isDark = false;
-  var _isloading = false;
-
   PlaceDetailProvider provider = PlaceDetailProvider();
 
   void setPlace(ListingModel place) {
@@ -76,20 +74,19 @@ class PlaceDetailPageState
           final place = detail.place;
           return Scaffold(
             body: SafeArea(
-              child: CustomScrollView(
-                controller: _scrollController,
-                key: const Key('place_detail'),
-                physics: BouncingScrollPhysics(),
-                slivers: _sliverBuilder(place),
-              ),
-            ),
+                child: CustomScrollView(
+              controller: _scrollController,
+              key: const Key('place_detail'),
+              physics: BouncingScrollPhysics(),
+              slivers: detail.stateType != StateType.loading
+                  ? <Widget>[]
+                  : _sliverBuilder(place),
+            )),
           );
         }));
   }
 
   List<Widget> _sliverBuilder(ListingModel place) {
-    final List<String> images = [place.listingImages.coverPhoto.url];
-    images.addAll(place.listingImages.ads.map((x) => x.url).toList());
     return <Widget>[
       SliverAppBar(
         // brightness: Brightness.dark,
@@ -116,7 +113,7 @@ class PlaceDetailPageState
                 titlePadding:
                     const EdgeInsetsDirectional.only(start: 16.0, bottom: 14.0),
                 collapseMode: CollapseMode.pin,
-                background: _CoverPhotos(images),
+                background: _CoverPhotos(),
                 centerTitle: true,
               ),
         actions: <Widget>[
@@ -152,7 +149,7 @@ class PlaceDetailPageState
               Gaps.vGap8,
               Gaps.line,
               Gaps.vGap8,
-              _OperatingHour(place.operatingHours),
+              // _OperatingHour(place.operatingHours),
             ],
           ),
         ),
@@ -198,27 +195,26 @@ class _OperatingHour extends StatelessWidget {
 }
 
 class _CoverPhotos extends StatelessWidget {
-  _CoverPhotos(this.swiperImage);
-  final List<String> swiperImage;
-
   @override
   Widget build(BuildContext context) {
-    final int count = swiperImage.length;
     //  ListView.separated(
     //   scrollDirection: Axis.horizontal,
     //   separatorBuilder: (BuildContext context, int index) => Divider(),
     //   itemCount: count,
     //   itemBuilder: (context, index) {
-    return Swiper(
-      itemBuilder: (BuildContext context, int index) {
-        return Image.network(
-          swiperImage[index],
-          fit: BoxFit.cover,
-        );
-      },
-      itemCount: count,
-      loop: false,
-    );
+    return Consumer<PlaceDetailProvider>(builder: (_, provider, child) {
+      List<String> swiper = provider.place.listingImages.getCarousel;
+      return Swiper(
+        itemBuilder: (BuildContext context, int index) {
+          return LoadImage(
+            provider.stateType == StateType.loading ? (swiper[index]) : "none",
+            fit: BoxFit.cover,
+          );
+        },
+        itemCount: swiper.length,
+        loop: false,
+      );
+    });
     //   return Stack(children: <Widget>[
     //     Container(
     //       width: MediaQuery.of(context).size.width,
