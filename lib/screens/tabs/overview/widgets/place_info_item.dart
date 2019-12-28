@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:jom_malaysia/core/enums/map_type.dart';
 import 'package:jom_malaysia/core/models/coordinates_model.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/address_model.dart';
@@ -144,7 +145,7 @@ class __ContactCardState extends State<_ContactCard> {
                   SimpleDialogOption(
                     child: LoadAssetImage("place/google_maps"),
                     onPressed: () {
-                      Utils.launchMap(coordinates, "google");
+                      Utils.launchMap(coordinates, MapType.google);
                       NavigatorUtils.goBack(context);
                     },
                   ),
@@ -152,14 +153,14 @@ class __ContactCardState extends State<_ContactCard> {
                     SimpleDialogOption(
                       child: LoadAssetImage("place/apple_maps"),
                       onPressed: () {
-                        Utils.launchMap(coordinates, "apple");
+                        Utils.launchMap(coordinates, MapType.apple);
                         NavigatorUtils.goBack(context);
                       },
                     ),
                   SimpleDialogOption(
                     child: LoadAssetImage("place/waze"),
                     onPressed: () {
-                      Utils.launchMap(coordinates, "waze");
+                      Utils.launchMap(coordinates, MapType.waze);
                       NavigatorUtils.goBack(context);
                     },
                   )
