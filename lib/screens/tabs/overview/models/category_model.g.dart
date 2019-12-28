@@ -67,9 +67,9 @@ T _$enumDecodeNullable<T>(
 }
 
 const _$CategoryTypeEnumMap = {
-  CategoryType.Professional: 'Professional',
-  CategoryType.Government: 'Government',
   CategoryType.Private: 'Private',
-  CategoryType.Nonprofit: 'Nonprofit',
   CategoryType.Attraction: 'Attraction',
+  CategoryType.Government: 'Government',
+  CategoryType.Professional: 'Professional',
+  CategoryType.Nonprofit: 'Nonprofit',
 };

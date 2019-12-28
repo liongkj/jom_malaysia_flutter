@@ -31,7 +31,9 @@ ListingModel _$ListingModelFromJson(Map<String, dynamic> json) {
         ? null
         : ListingImageVM.fromJson(
             json['listingImages'] as Map<String, dynamic>),
-  );
+  )..officialContact = json['officialContact'] == null
+      ? null
+      : ContactVM.fromJson(json['officialContact'] as Map<String, dynamic>);
 }
 
 Map<String, dynamic> _$ListingModelToJson(ListingModel instance) =>
@@ -46,6 +48,7 @@ Map<String, dynamic> _$ListingModelToJson(ListingModel instance) =>
       'categoryType': _$CategoryTypeEnumMap[instance.categoryType],
       'tags': instance.tags,
       'listingImages': instance.listingImages,
+      'officialContact': instance.officialContact,
     };
 
 T _$enumDecode<T>(
@@ -81,11 +84,11 @@ T _$enumDecodeNullable<T>(
 }
 
 const _$CategoryTypeEnumMap = {
-  CategoryType.Professional: 'Professional',
-  CategoryType.Government: 'Government',
   CategoryType.Private: 'Private',
-  CategoryType.Nonprofit: 'Nonprofit',
   CategoryType.Attraction: 'Attraction',
+  CategoryType.Government: 'Government',
+  CategoryType.Professional: 'Professional',
+  CategoryType.Nonprofit: 'Nonprofit',
 };
 
 ListingImageVM _$ListingImageVMFromJson(Map<String, dynamic> json) {
@@ -123,56 +126,6 @@ Map<String, dynamic> _$CategoryVMToJson(CategoryVM instance) =>
       'categoryId': instance.categoryId,
       'category': instance.category,
       'subcategory': instance.subcategory,
-    };
-
-OperatingHours _$OperatingHoursFromJson(Map<String, dynamic> json) {
-  return OperatingHours(
-    dayofWeek: _$enumDecodeNullable(_$DayOfWeekEnumMap, json['dayofWeek']),
-    openTime: json['openTime'] as String,
-    closeTime: json['closeTime'] as String,
-  );
-}
-
-Map<String, dynamic> _$OperatingHoursToJson(OperatingHours instance) =>
-    <String, dynamic>{
-      'dayofWeek': _$DayOfWeekEnumMap[instance.dayofWeek],
-      'openTime': instance.openTime,
-      'closeTime': instance.closeTime,
-    };
-
-const _$DayOfWeekEnumMap = {
-  DayOfWeek.Sunday: 'Sunday',
-  DayOfWeek.Monday: 'Monday',
-  DayOfWeek.Tuesday: 'Tuesday',
-  DayOfWeek.Wednesday: 'Wednesday',
-  DayOfWeek.Thursday: 'Thursday',
-  DayOfWeek.Friday: 'Friday',
-  DayOfWeek.Saturday: 'Saturday',
-};
-
-AddressVM _$AddressVMFromJson(Map<String, dynamic> json) {
-  return AddressVM(
-    add1: json['add1'] as String,
-    add2: json['add2'] as String,
-    city: json['city'] as String,
-    state: json['state'] as String,
-    postalCode: json['postalCode'] as String,
-    coordinates: json['coordinates'] == null
-        ? null
-        : CoordinatesModel.fromJson(
-            json['coordinates'] as Map<String, dynamic>),
-    country: json['country'] as String,
-  );
-}
-
-Map<String, dynamic> _$AddressVMToJson(AddressVM instance) => <String, dynamic>{
-      'add1': instance.add1,
-      'add2': instance.add2,
-      'city': instance.city,
-      'state': instance.state,
-      'postalCode': instance.postalCode,
-      'country': instance.country,
-      'coordinates': instance.coordinates,
     };
 
 MerchantVM _$MerchantVMFromJson(Map<String, dynamic> json) {

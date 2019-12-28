@@ -5,6 +5,7 @@ import 'package:jom_malaysia/core/mvp/base_page_state.dart';
 import 'package:jom_malaysia/core/res/colors.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
+import 'package:jom_malaysia/screens/tabs/overview/models/operating_hours_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/pages/overview_page.dart';
 import 'package:jom_malaysia/screens/tabs/overview/presenter/place_detail_page_presenter.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/place_detail_provider.dart';
@@ -94,9 +95,10 @@ class PlaceDetailPageState
         // brightness: Brightness.dark,
         backgroundColor: ThemeUtils.getBackgroundColor(context),
         titleSpacing: 0.0,
-        leading: Icon(
-          Icons.arrow_back_ios,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios),
           color: _showTitle ? Colors.black : ThemeUtils.getIconColor(context),
+          onPressed: () => NavigatorUtils.goBack(context),
         ),
         centerTitle: true,
         title: _showTitle
@@ -125,28 +127,73 @@ class PlaceDetailPageState
                   _showTitle ? Colors.black : ThemeUtils.getIconColor(context),
             ),
             onPressed: () {},
+          ),
+          IconButton(
+            icon: Icon(
+              Icons.more_vert,
+              color:
+                  _showTitle ? Colors.black : ThemeUtils.getIconColor(context),
+            ),
+            onPressed: () {},
           )
         ],
       ),
-      SliverPersistentHeader(
-        delegate: SliverAppBarDelegate(
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-              child: PlaceInfo(place),
-            ),
-            120),
-      ),
       SliverFillRemaining(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[],
+            children: <Widget>[
+              PlaceInfo(place),
+              Gaps.vGap8,
+              Gaps.line,
+              Gaps.vGap8,
+              _PlaceDescription(place),
+              Gaps.vGap8,
+              Gaps.line,
+              Gaps.vGap8,
+              _OperatingHour(place.operatingHours),
+            ],
           ),
         ),
       ),
     ];
+  }
+}
+
+class _PlaceDescription extends StatelessWidget {
+  final ListingModel place;
+  _PlaceDescription(this.place);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Text(place.description),
+    );
+  }
+}
+
+class _OperatingHour extends StatelessWidget {
+  final List<OperatingHours> operatingHours;
+
+  _OperatingHour(this.operatingHours);
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        child: Text.rich(
+      TextSpan(
+        children: <TextSpan>[
+          TextSpan(
+              text: operatingHours[0].openTime +
+                  '-' +
+                  operatingHours[0].closeTime),
+          TextSpan(
+              //Function to check time and decide open and close
+              text: ' Open',
+              style: TextStyle(color: Colors.green)),
+        ],
+      ),
+    ));
   }
 }
 
