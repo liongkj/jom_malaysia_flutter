@@ -114,14 +114,6 @@ class PlaceDetailPageState
         actions: <Widget>[
           IconButton(
             icon: Icon(
-              Icons.star_border,
-              color:
-                  _showTitle ? Colors.black : ThemeUtils.getIconColor(context),
-            ),
-            onPressed: () {},
-          ),
-          IconButton(
-            icon: Icon(
               Icons.more_vert,
               color:
                   _showTitle ? Colors.black : ThemeUtils.getIconColor(context),

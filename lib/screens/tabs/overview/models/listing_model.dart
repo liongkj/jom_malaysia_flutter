@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/enums/category_type_enum.dart';
 import 'package:jom_malaysia/core/models/image_model.dart';
+import 'package:jom_malaysia/util/text_utils.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import 'address_model.dart';
@@ -74,11 +75,11 @@ class CategoryVM {
 
   Map<String, dynamic> toJson() => _$CategoryVMToJson(this);
 
-  String getCategory() {
-    if (category.length == 0) {
-      return category.toUpperCase();
+  String getCategory({bool isCategory = true}) {
+    if (isCategory) {
+      return TextUtils.capitalize(category);
     }
-    return category[0].toUpperCase() + category.substring(1);
+    return TextUtils.capitalize(subcategory);
   }
 
   @override

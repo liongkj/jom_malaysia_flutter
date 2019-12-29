@@ -20,39 +20,84 @@ class PlaceInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     final TextStyle textTextStyle =
         Theme.of(context).textTheme.body1.copyWith(fontSize: Dimens.font_sp12);
-    return Container(
-      margin: const EdgeInsets.only(top: 8.0),
-      child: MyCard(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: Column(
-            children: <Widget>[
-              Row(
+    return MyCard(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16),
+        child: Column(
+          children: <Widget>[
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+              child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   Expanded(
-                    flex: 8,
                     child: Text(
                       place.listingName,
-                      style: Theme.of(context).textTheme.subtitle,
+                      maxLines: 3,
+                      overflow: TextOverflow.fade,
+                      style: Theme.of(context).textTheme.title,
                     ),
                   ),
                   Text("1km"),
-                  Icon(Icons.star)
+                  Icon(Icons.star_border)
                 ],
               ),
-              Row(
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+              child: Row(
                 children: <Widget>[
-                  Text("tags"),
+                  Offstage(
+                    offstage: false,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                      margin: const EdgeInsets.only(right: 4.0),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).errorColor,
+                        borderRadius: BorderRadius.circular(2.0),
+                      ),
+                      height: 16.0,
+                      alignment: Alignment.center,
+                      child: Text(
+                        place.category.getCategory(),
+                        style: TextStyle(
+                            color: Colors.white, fontSize: Dimens.font_sp14),
+                      ),
+                    ),
+                  ),
+                  Opacity(
+                    // 修改透明度实现隐藏，类似于invisible
+                    opacity: 1.0,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).primaryColor,
+                        borderRadius: BorderRadius.circular(2.0),
+                      ),
+                      height: 16.0,
+                      alignment: Alignment.center,
+                      child: Text(
+                        place.category.getCategory(isCategory: false),
+                        style: TextStyle(
+                            color: Colors.white, fontSize: Dimens.font_sp14),
+                      ),
+                    ),
+                  )
                 ],
               ),
-              _ContactCard(
-                address: place.address,
-                contact: place.officialContact,
-              ),
-              Text("Operating hours")
-            ],
-          ),
+            ),
+            Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                child: Row(children: <Widget>[
+                  Text("tags"),
+                ])),
+            _ContactCard(
+              address: place.address,
+              contact: place.officialContact,
+            ),
+            Text("Operating hours")
+          ],
         ),
       ),
     );
@@ -73,6 +118,7 @@ class _ContactCardState extends State<_ContactCard> {
   Widget build(BuildContext context) {
     final phoneNo = widget.contact?.getContactNumber();
     return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         ContactItem(
           icon: const LoadAssetImage("place/icon_address",

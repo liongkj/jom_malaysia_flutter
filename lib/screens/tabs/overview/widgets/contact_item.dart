@@ -25,7 +25,7 @@ class ContactItem extends StatelessWidget {
             child: InkWell(
               onTap: onTap,
               child: Container(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.symmetric(vertical: 16),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
