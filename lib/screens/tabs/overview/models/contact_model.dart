@@ -20,4 +20,13 @@ class ContactVM {
       _$ContactVMFromJson(json);
 
   Map<String, dynamic> toJson() => _$ContactVMToJson(this);
+  String getContactNumber() {
+    if (mobileNumber.isNotEmpty) {
+      return mobileNumber;
+    }
+    if (officeNumber.isNotEmpty) {
+      return officeNumber;
+    }
+    return null;
+  }
 }

@@ -6,13 +6,33 @@ import 'package:jom_malaysia/util/toast.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Utils {
-  /// 调起拨号页
+  ///launch send email with default email client
+  static void launchEmailURL(String email) async {
+    String url = 'mailto:' + email;
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      Toast.show('Failed opening email client');
+    }
+  }
+
+  ///launch website in default browser
+  static void launchWebURL(String web) async {
+    String url = 'https:' + web;
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      Toast.show('Failed opening web address');
+    }
+  }
+
+  /// T9 dialler
   static void launchTelURL(String phone) async {
     String url = 'tel:' + phone;
     if (await canLaunch(url)) {
       await launch(url);
     } else {
-      Toast.show('拨号失败！');
+      Toast.show('Failed opening dialer');
     }
   }
 
@@ -26,14 +46,21 @@ class Utils {
     final String wazeMapsUrl =
         "https://www.waze.com/ul?ll=$lat,$lng&navigation=yes";
 
-    if (await canLaunch(googleMapsUrl) && s == MapType.google) {
-      await launch(googleMapsUrl);
-    }
-    if (await canLaunch(wazeMapsUrl) && s == MapType.waze) {
-      await launch(wazeMapsUrl);
-    }
-    if (await canLaunch(appleMapsUrl) && s == MapType.apple) {
-      await launch(appleMapsUrl, forceSafariVC: false);
+    if (s == MapType.google) {
+      if (await canLaunch(googleMapsUrl)) {
+        await launch(googleMapsUrl);
+        return;
+      }
+    } else if (s == MapType.waze) {
+      if (await canLaunch(wazeMapsUrl)) {
+        await launch(wazeMapsUrl);
+        return;
+      }
+    } else if (s == MapType.apple) {
+      if (await canLaunch(appleMapsUrl)) {
+        await launch(appleMapsUrl, forceSafariVC: false);
+        return;
+      }
     } else {
       throw "Couldn't launch URL";
     }

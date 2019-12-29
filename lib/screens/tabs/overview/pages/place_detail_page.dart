@@ -6,17 +6,12 @@ import 'package:jom_malaysia/core/res/colors.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/operating_hours_model.dart';
-import 'package:jom_malaysia/screens/tabs/overview/pages/overview_page.dart';
 import 'package:jom_malaysia/screens/tabs/overview/presenter/place_detail_page_presenter.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/place_detail_provider.dart';
-import 'package:jom_malaysia/screens/tabs/overview/widgets/place_info_item.dart';
+import 'package:jom_malaysia/screens/tabs/overview/widgets/place_info.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
-import 'package:jom_malaysia/util/image_utils.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
 import 'package:jom_malaysia/widgets/my_card.dart';
-import 'package:jom_malaysia/widgets/my_flexible_space_bar.dart';
-import 'package:jom_malaysia/widgets/my_rating.dart';
-import 'package:jom_malaysia/widgets/sliver_appbar_delegate.dart';
 import 'package:jom_malaysia/widgets/state_layout.dart';
 import 'package:provider/provider.dart';
 
