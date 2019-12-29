@@ -18,35 +18,37 @@ class ContactItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Material(
-            child: InkWell(
-              onTap: onTap,
-              child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    icon,
-                    Gaps.hGap12,
-                    Expanded(
-                      child: Text(
-                        label,
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 2,
-                      ),
-                    ),
-                    Icon(
-                      Icons.navigate_next,
-                      color: ThemeUtils.getIconColor(context),
-                    ),
-                  ],
+    return Material(
+      child: InkWell(
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              icon,
+              Gaps.hGap12,
+              Expanded(
+                flex: 6,
+                child: Text(
+                  label,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
                 ),
               ),
-            ),
+              Gaps.vLine,
+              Expanded(
+                flex: 1,
+                child: Icon(
+                  Icons.navigate_next,
+                  size: 24,
+                  color: ThemeUtils.getIconColor(context),
+                ),
+              ),
+            ],
           ),
-        ]);
+        ),
+      ),
+    );
   }
 }

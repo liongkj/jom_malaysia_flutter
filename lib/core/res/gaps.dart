@@ -31,6 +31,7 @@ class Gaps {
 
   static Widget line = const Divider();
 
+  //直线
   static Widget vLine = const SizedBox(
     width: 0.6,
     height: 24.0,

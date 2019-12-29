@@ -10,6 +10,7 @@ import 'package:jom_malaysia/screens/tabs/overview/presenter/place_detail_page_p
 import 'package:jom_malaysia/screens/tabs/overview/providers/place_detail_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/place_info.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
+import 'package:jom_malaysia/util/date_utils.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
 import 'package:jom_malaysia/widgets/my_card.dart';
 import 'package:jom_malaysia/widgets/state_layout.dart';
@@ -129,14 +130,15 @@ class PlaceDetailPageState
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               PlaceInfo(place),
-              Gaps.vGap8,
-              Gaps.line,
-              Gaps.vGap8,
+              Gaps.vGap16,
+              _OperatingHour(place.operatingHours),
+              Gaps.vGap16,
               _PlaceDescription(place),
+              Gaps.vGap16,
+              Text("ads"),
               Gaps.vGap8,
-              Gaps.line,
               Gaps.vGap8,
-              // _OperatingHour(place.operatingHours),
+              Text("Merchant info"),
             ],
           ),
         ),
@@ -163,21 +165,68 @@ class _OperatingHour extends StatelessWidget {
   _OperatingHour(this.operatingHours);
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: Text.rich(
-      TextSpan(
-        children: <TextSpan>[
-          TextSpan(
-              text: operatingHours[0].openTime +
-                  '-' +
-                  operatingHours[0].closeTime),
-          TextSpan(
-              //Function to check time and decide open and close
-              text: ' Open',
-              style: TextStyle(color: Colors.green)),
-        ],
+    //weekday returns 1-7
+    final _today = DateTime.now().weekday - 1;
+    return Material(
+      child: InkWell(
+        onTap: () => {},
+        child: MyCard(
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                const LoadAssetImage("place/icon_wait",
+                    width: 18.0, height: 18.0),
+                Gaps.hGap12,
+                Expanded(
+                  flex: 6,
+                  child: operatingHours[_today] != null
+                      ? Row(children: <Widget>[
+                          Text(
+                              '${operatingHours[_today].openHour} - ${operatingHours[_today].closeHour}'),
+                          Gaps.hGap15,
+                          operatingHours[_today].closingSoon
+                              ? Text(
+                                  'OPEN',
+                                  style: TextStyle(
+                                    color: Colors.green,
+                                    fontWeight: FontWeight.w800,
+                                  ),
+                                )
+                              : Text(
+                                  'CLOSING SOON',
+                                  style: TextStyle(
+                                    color: Colors.deepOrange,
+                                    fontWeight: FontWeight.w800,
+                                  ),
+                                ),
+                        ])
+                      : Row(
+                          children: <Widget>[
+                            Text(
+                              'CLOSED',
+                              style: TextStyle(
+                                  color: Theme.of(context).errorColor),
+                            )
+                          ],
+                        ),
+                ),
+                Gaps.vLine,
+                Expanded(
+                  flex: 1,
+                  child: Icon(
+                    Icons.navigate_next,
+                    size: 24,
+                    color: ThemeUtils.getIconColor(context),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
-    ));
+    );
   }
 }
 

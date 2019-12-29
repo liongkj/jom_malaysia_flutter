@@ -16,12 +16,20 @@ class OperatingHours {
   String openTime;
   String closeTime;
 
-  DateTime get openHour {
-    return DateUtils.apiTimeFormat(openTime);
+  String get openHour {
+    DateTime h = DateUtils.apiHourParse(openTime);
+    return DateUtils.apiTimeFormat(h);
   }
 
-  DateTime get closeHour {
-    return DateUtils.apiTimeFormat(closeTime);
+  String get closeHour {
+    DateTime h = DateUtils.apiHourParse(closeTime);
+    return DateUtils.apiTimeFormat(h);
+  }
+
+  bool get closingSoon {
+    DateTime h = DateUtils.apiHourParse(closeTime);
+
+    return h.difference(DateTime.now()).inHours <= 1;
   }
 
   factory OperatingHours.fromJson(Map<String, dynamic> json) =>

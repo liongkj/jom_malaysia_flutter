@@ -9,6 +9,7 @@ import 'package:jom_malaysia/screens/tabs/overview/models/contact_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/contact_item.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
+import 'package:jom_malaysia/util/theme_utils.dart';
 import 'package:jom_malaysia/util/utils.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
 import 'package:jom_malaysia/widgets/my_card.dart';
@@ -18,16 +19,14 @@ class PlaceInfo extends StatelessWidget {
   final ListingModel place;
   @override
   Widget build(BuildContext context) {
-    final TextStyle textTextStyle =
-        Theme.of(context).textTheme.body1.copyWith(fontSize: Dimens.font_sp12);
     return MyCard(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16),
-        child: Column(
-          children: <Widget>[
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-              child: Row(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
+        child: Padding(
+          padding: const EdgeInsets.all(8),
+          child: Column(
+            children: <Widget>[
+              Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
@@ -43,62 +42,67 @@ class PlaceInfo extends StatelessWidget {
                   Icon(Icons.star_border)
                 ],
               ),
-            ),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-              child: Row(
+              Gaps.vGap16,
+              Row(
                 children: <Widget>[
-                  Offstage(
-                    offstage: false,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                      margin: const EdgeInsets.only(right: 4.0),
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).errorColor,
-                        borderRadius: BorderRadius.circular(2.0),
-                      ),
-                      height: 16.0,
-                      alignment: Alignment.center,
-                      child: Text(
-                        place.category.getCategory(),
-                        style: TextStyle(
-                            color: Colors.white, fontSize: Dimens.font_sp14),
-                      ),
-                    ),
-                  ),
-                  Opacity(
-                    // 修改透明度实现隐藏，类似于invisible
-                    opacity: 1.0,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColor,
-                        borderRadius: BorderRadius.circular(2.0),
-                      ),
-                      height: 16.0,
-                      alignment: Alignment.center,
-                      child: Text(
-                        place.category.getCategory(isCategory: false),
-                        style: TextStyle(
-                            color: Colors.white, fontSize: Dimens.font_sp14),
-                      ),
-                    ),
-                  )
+                  Text(place.category.getCategory(),
+                      style: Theme.of(context).textTheme.body1),
+                  Gaps.hGap15,
+                  Text(place.category.getCategory(isCategory: false),
+                      style: Theme.of(context).textTheme.body1),
                 ],
               ),
-            ),
-            Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                child: Row(children: <Widget>[
-                  Text("tags"),
-                ])),
-            _ContactCard(
-              address: place.address,
-              contact: place.officialContact,
-            ),
-            Text("Operating hours")
-          ],
+              Gaps.vGap16,
+              _TagItem(tags: place.tags),
+              Gaps.vGap16,
+              _ContactCard(
+                address: place.address,
+                contact: place.officialContact,
+              ),
+            ],
+          ),
         ),
+      ),
+    );
+  }
+}
+
+class _TagItem extends StatelessWidget {
+  const _TagItem({
+    Key key,
+    @required this.tags,
+  }) : super(key: key);
+
+  final List<String> tags;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 20,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: tags.length,
+        itemBuilder: (BuildContext context, int index) {
+          return Container(
+            padding: const EdgeInsets.symmetric(horizontal: 4.0),
+            margin: const EdgeInsets.only(right: 4.0),
+            decoration: BoxDecoration(
+              color: index % 2 == 0
+                  ? Theme.of(context).errorColor
+                  : Theme.of(context).primaryColor,
+              borderRadius: BorderRadius.circular(2.0),
+            ),
+            height: 16.0,
+            alignment: Alignment.center,
+            child: Text(
+              tags[index],
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: Dimens.font_sp14,
+                  fontWeight: FontWeight.w600),
+            ),
+          );
+        },
       ),
     );
   }
@@ -135,7 +139,7 @@ class _ContactCardState extends State<_ContactCard> {
           ),
         if (widget?.contact?.email != null)
           ContactItem(
-            icon: const LoadAssetImage("place/icon_phone",
+            icon: const LoadAssetImage("place/icon_email",
                 width: 24.0, height: 24.0),
             label: widget.contact.email,
             onTap: () => Utils.launchEmailURL(widget.contact.email),

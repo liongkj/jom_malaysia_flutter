@@ -7,17 +7,24 @@ import 'date_utils_.dart';
 /// @Description: Date Util.
 class DateUtils {
   static final DateFormat _apiDayFormat = new DateFormat("yy.MM.dd");
-  static final DateFormat _apiTimeFormat = new DateFormat.Hm();
   static String apiDayFormat(DateTime d) => _apiDayFormat.format(d);
-  static DateTime apiTimeFormat(String t) => _apiTimeFormat.parse(t);
+
+  static final DateFormat _apiHourParse = new DateFormat('Hms');
+  static DateTime apiHourParse(String t) => _apiHourParse.parse(t);
+
+  static final DateFormat _apiTimeFormat = new DateFormat.jm();
+  static String apiTimeFormat(DateTime t) => _apiTimeFormat.format(t);
+
   static String previousWeek(DateTime w) {
     return apiDayFormat(w.subtract(new Duration(days: 6)));
   }
 
+  ///get date of next day
   static DateTime nextDay(DateTime w) {
     return w.add(new Duration(days: 1));
   }
 
+  ///given a list of datetime in that week
   static List<DateTime> daysInWeek(DateTime week) {
     final first = _firstDayOfWeek(week);
     final last = _lastDayOfWeek(week);
