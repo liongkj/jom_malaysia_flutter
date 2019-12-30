@@ -278,7 +278,8 @@ class _OperatingHour extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //weekday returns 1-7
-    final _today = DateTime.now().weekday + 1;
+    final _today = DateTime.now().weekday;
+    final _oh = operatingHours[_today == 7 ? 0 : _today];
     return Material(
       child: InkWell(
         onTap: () => {},
@@ -293,26 +294,33 @@ class _OperatingHour extends StatelessWidget {
                 Gaps.hGap12,
                 Expanded(
                   flex: 6,
-                  child: operatingHours[_today] != null
+                  child: _oh != null
                       ? Row(children: <Widget>[
-                          Text(
-                              '${operatingHours[_today].openHour} - ${operatingHours[_today].closeHour}'),
+                          Text('${_oh.openHour} - ${_oh.closeHour}'),
                           Gaps.hGap15,
-                          operatingHours[_today].closingSoon
+                          !_oh.isOpen
                               ? Text(
-                                  'OPEN',
+                                  'CLOSED',
                                   style: TextStyle(
-                                    color: Colors.green,
+                                    color: Theme.of(context).errorColor,
                                     fontWeight: FontWeight.w800,
                                   ),
                                 )
-                              : Text(
-                                  'CLOSING SOON',
-                                  style: TextStyle(
-                                    color: Colors.deepOrange,
-                                    fontWeight: FontWeight.w800,
-                                  ),
-                                ),
+                              : _oh.closingSoon
+                                  ? Text(
+                                      'OPEN',
+                                      style: TextStyle(
+                                        color: Colors.green,
+                                        fontWeight: FontWeight.w800,
+                                      ),
+                                    )
+                                  : Text(
+                                      'CLOSING SOON',
+                                      style: TextStyle(
+                                        color: Colors.deepOrange,
+                                        fontWeight: FontWeight.w800,
+                                      ),
+                                    )
                         ])
                       : Row(
                           children: <Widget>[

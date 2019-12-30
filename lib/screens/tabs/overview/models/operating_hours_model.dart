@@ -27,9 +27,17 @@ class OperatingHours {
   }
 
   bool get closingSoon {
+    DateTime now = DateTime.now();
     DateTime h = DateUtils.apiHourParse(closeTime);
 
-    return h.difference(DateTime.now()).inHours <= 1;
+    return h.difference(now).inHours <= 1 && h.isAfter(now);
+  }
+
+  bool get isOpen {
+    DateTime o = DateUtils.apiHourParse(openTime);
+    DateTime h = DateUtils.apiHourParse(closeTime);
+    DateTime now = DateTime.now();
+    return now.isAfter(o) && now.isBefore(h);
   }
 
   factory OperatingHours.fromJson(Map<String, dynamic> json) =>
