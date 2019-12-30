@@ -20,7 +20,6 @@ class OverviewPagePresenter extends BasePagePresenter<OverviewPageState> {
   }
 
   Future fetchListingByType(CategoryType type) async {
-    print("fetch" + type.toString());
     final String listingType = type.toString().split('.').last;
     view.listingProvider.setStateType(StateType.loading);
     asyncRequestNetwork<List<ListingModel>, ListingModel>(Method.get,

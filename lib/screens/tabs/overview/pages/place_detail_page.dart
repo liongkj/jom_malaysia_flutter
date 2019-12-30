@@ -278,7 +278,7 @@ class _OperatingHour extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //weekday returns 1-7
-    final _today = DateTime.now().weekday - 1;
+    final _today = DateTime.now().weekday + 1;
     return Material(
       child: InkWell(
         onTap: () => {},
