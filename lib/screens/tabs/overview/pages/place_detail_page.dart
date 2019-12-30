@@ -8,11 +8,14 @@ import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/operating_hours_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/presenter/place_detail_page_presenter.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/place_detail_provider.dart';
+import 'package:jom_malaysia/screens/tabs/overview/widgets/operating_hours_dialog.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/place_info.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
-import 'package:jom_malaysia/util/date_utils.dart';
+import 'package:jom_malaysia/util/utils.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
 import 'package:jom_malaysia/widgets/my_card.dart';
+import 'package:jom_malaysia/widgets/my_section_divider.dart';
+import 'package:jom_malaysia/widgets/sliver_appbar_delegate.dart';
 import 'package:jom_malaysia/widgets/state_layout.dart';
 import 'package:provider/provider.dart';
 
@@ -90,14 +93,14 @@ class PlaceDetailPageState
         titleSpacing: 0.0,
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios),
-          color: _showTitle ? Colors.black : ThemeUtils.getIconColor(context),
+          color: _showTitle ? Colours.text : ThemeUtils.getIconColor(context),
           onPressed: () => NavigatorUtils.goBack(context),
         ),
         centerTitle: true,
         title: _showTitle
             ? Text(
-                '${place.category.getCategory()} detail',
-                style: Theme.of(context).textTheme.title,
+                '${place.listingName}',
+                style: Theme.of(context).textTheme.subtitle,
               )
             : null,
         expandedHeight: kExpandedHeight,
@@ -123,7 +126,7 @@ class PlaceDetailPageState
           )
         ],
       ),
-      SliverFillRemaining(
+      SliverToBoxAdapter(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
           child: Column(
@@ -134,15 +137,37 @@ class PlaceDetailPageState
               _OperatingHour(place.operatingHours),
               Gaps.vGap16,
               _PlaceDescription(place),
-              Gaps.vGap16,
-              Text("ads"),
-              Gaps.vGap8,
-              Gaps.vGap8,
-              Text("Merchant info"),
             ],
           ),
         ),
       ),
+      SliverPersistentHeader(
+        delegate: MySliverAppBarDelegate(
+          MySectionDivider("Detail"),
+          60,
+        ),
+      ),
+      SliverToBoxAdapter(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Gaps.vGap8,
+              Gaps.vGap8,
+              Text("Merchant Info"),
+            ],
+          ),
+        ),
+      ),
+      if (place.listingImages.ads.length > 0)
+        SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (BuildContext context, int index) {
+              return LoadImage(place.listingImages.ads[index].url);
+            },
+          ),
+        ),
     ];
   }
 }
@@ -154,7 +179,15 @@ class _PlaceDescription extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Text(place.description),
+      child: MyCard(
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          child: Text(
+            place.description,
+            style: Theme.of(context).textTheme.body1,
+          ),
+        ),
+      ),
     );
   }
 }
@@ -172,7 +205,7 @@ class _OperatingHour extends StatelessWidget {
         onTap: () => {},
         child: MyCard(
           child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 16),
+            padding: const EdgeInsets.all(16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
@@ -215,10 +248,22 @@ class _OperatingHour extends StatelessWidget {
                 Gaps.vLine,
                 Expanded(
                   flex: 1,
-                  child: Icon(
-                    Icons.navigate_next,
-                    size: 24,
-                    color: ThemeUtils.getIconColor(context),
+                  child: IconButton(
+                    icon: Icon(
+                      Icons.navigate_next,
+                      size: 24,
+                      color: ThemeUtils.getIconColor(context),
+                    ),
+                    onPressed: () {
+                      showElasticDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (BuildContext context) {
+                            return OperatingHoursDialog(
+                              hours: operatingHours,
+                            );
+                          });
+                    },
                   ),
                 ),
               ],
@@ -233,71 +278,38 @@ class _OperatingHour extends StatelessWidget {
 class _CoverPhotos extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    //  ListView.separated(
-    //   scrollDirection: Axis.horizontal,
-    //   separatorBuilder: (BuildContext context, int index) => Divider(),
-    //   itemCount: count,
-    //   itemBuilder: (context, index) {
+    //TODO fix layout
     return Consumer<PlaceDetailProvider>(builder: (_, provider, child) {
       List<String> swiper = provider.place.listingImages.getCarousel;
       return Swiper(
         itemBuilder: (BuildContext context, int index) {
-          return LoadImage(
-            provider.stateType == StateType.loading ? (swiper[index]) : "none",
-            fit: BoxFit.cover,
+          return Stack(
+            children: <Widget>[
+              LoadImage(
+                provider.stateType == StateType.loading
+                    ? (swiper[index])
+                    : "none",
+                fit: BoxFit.cover,
+              ),
+              Positioned(
+                bottom: 10,
+                right: 60,
+                child: FlatButton.icon(
+                  color: Colors.white,
+                  onPressed: null,
+                  icon: Icon(Icons.photo_camera, color: Colors.white),
+                  label: Text(
+                    (index + 1).toString() + "/" + swiper.length.toString(),
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              )
+            ],
           );
         },
         itemCount: swiper.length,
         loop: false,
       );
     });
-    //   return Stack(children: <Widget>[
-    //     Container(
-    //       width: MediaQuery.of(context).size.width,
-    //       padding: EdgeInsets.all(5),
-    //       child: Image.network(
-    //         cover.url,
-    //         fit: BoxFit.cover,
-    //       ),
-    //     ),
-    //     Positioned(
-    //         top: 200,
-    //         left: 260,
-    //         child: FlatButton.icon(
-    //             color: Colors.white,
-    //             onPressed: null,
-    //             icon: Icon(Icons.photo_camera, color: Colors.white),
-    //             label: Text(
-    //               (index + 1).toString() + "/" + count.toString(),
-    //               style: TextStyle(color: Colors.white),
-    //             )))
-    //   ]);
-  }
-}
-
-class _PlaceInfo extends StatelessWidget {
-  _PlaceInfo(this.place);
-
-  final ListingModel place;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: MyCard(
-        child: Container(
-          alignment: Alignment.center,
-          height: 120.0,
-          child: Text(
-            place.merchant.registrationName,
-            style: TextStyle(
-                fontSize: 20.0,
-                color: ThemeUtils.isDark(context)
-                    ? Colours.dark_text
-                    : Colours.text),
-          ),
-        ),
-      ),
-    );
   }
 }

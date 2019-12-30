@@ -8,7 +8,7 @@ part of 'operating_hours_model.dart';
 
 OperatingHours _$OperatingHoursFromJson(Map<String, dynamic> json) {
   return OperatingHours(
-    dayofWeek: _$enumDecodeNullable(_$DayOfWeekEnumMap, json['dayofWeek']),
+    dayOfWeek: _$enumDecodeNullable(_$DayOfWeekEnumMap, json['dayOfWeek']),
     openTime: json['openTime'] as String,
     closeTime: json['closeTime'] as String,
   );
@@ -16,7 +16,7 @@ OperatingHours _$OperatingHoursFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$OperatingHoursToJson(OperatingHours instance) =>
     <String, dynamic>{
-      'dayofWeek': _$DayOfWeekEnumMap[instance.dayofWeek],
+      'dayOfWeek': _$DayOfWeekEnumMap[instance.dayOfWeek],
       'openTime': instance.openTime,
       'closeTime': instance.closeTime,
     };

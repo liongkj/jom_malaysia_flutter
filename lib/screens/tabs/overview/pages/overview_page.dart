@@ -209,7 +209,7 @@ class OverviewPageState
       ),
       SliverPersistentHeader(
         pinned: true,
-        delegate: SliverAppBarDelegate(
+        delegate: MySliverAppBarDelegate(
           DecoratedBox(
             decoration: BoxDecoration(
                 color: isDark ? Colours.dark_bg_color : null,

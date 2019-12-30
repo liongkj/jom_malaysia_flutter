@@ -26,7 +26,7 @@ class Utils {
     }
   }
 
-  /// T9 dialler
+  /// launch T9 dialler
   static void launchTelURL(String phone) async {
     String url = 'tel:' + phone;
     if (await canLaunch(url)) {

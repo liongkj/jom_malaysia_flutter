@@ -57,21 +57,6 @@ class BaseDialog extends StatelessWidget {
                 Gaps.line,
                 Row(
                   children: <Widget>[
-                    Expanded(
-                      child: SizedBox(
-                        height: 48.0,
-                        child: FlatButton(
-                          child: const Text(
-                            "取消",
-                            style: TextStyle(fontSize: Dimens.font_sp18),
-                          ),
-                          textColor: Colours.text_gray,
-                          onPressed: () {
-                            NavigatorUtils.goBack(context);
-                          },
-                        ),
-                      ),
-                    ),
                     const SizedBox(
                       height: 48.0,
                       width: 0.6,
@@ -82,7 +67,7 @@ class BaseDialog extends StatelessWidget {
                         height: 48.0,
                         child: FlatButton(
                           child: const Text(
-                            "确定",
+                            "Okay",
                             style: TextStyle(fontSize: Dimens.font_sp18),
                           ),
                           textColor: Theme.of(context).primaryColor,

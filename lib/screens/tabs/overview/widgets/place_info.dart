@@ -9,7 +9,6 @@ import 'package:jom_malaysia/screens/tabs/overview/models/contact_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/contact_item.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
-import 'package:jom_malaysia/util/theme_utils.dart';
 import 'package:jom_malaysia/util/utils.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
 import 'package:jom_malaysia/widgets/my_card.dart';
@@ -44,6 +43,7 @@ class PlaceInfo extends StatelessWidget {
               ),
               Gaps.vGap16,
               Row(
+                //TODO change to chip widget
                 children: <Widget>[
                   Text(place.category.getCategory(),
                       style: Theme.of(context).textTheme.body1),

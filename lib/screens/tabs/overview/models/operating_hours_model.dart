@@ -8,11 +8,11 @@ part 'operating_hours_model.g.dart';
 @JsonSerializable()
 class OperatingHours {
   OperatingHours(
-      {@required this.dayofWeek,
+      {@required this.dayOfWeek,
       @required this.openTime,
       @required this.closeTime});
   // https://github.com/flutter/flutter/issues/18748
-  DayOfWeek dayofWeek;
+  DayOfWeek dayOfWeek;
   String openTime;
   String closeTime;
 
