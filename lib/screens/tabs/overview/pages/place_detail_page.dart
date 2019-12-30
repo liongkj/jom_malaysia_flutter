@@ -22,7 +22,7 @@ import 'package:provider/provider.dart';
 import '../../../../util/theme_utils.dart';
 
 class PlaceDetailPage extends StatefulWidget {
-  const PlaceDetailPage(this.placeId);
+  const PlaceDetailPage({@required this.placeId});
 
   final String placeId;
   @override
@@ -46,6 +46,10 @@ class PlaceDetailPageState
   void initState() {
     super.initState();
     provider.setStateTypeNotNotify(StateType.empty);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      presenter.fetchDetail(widget.placeId);
+    });
+
     _scrollController = ScrollController()..addListener(() => setState(() {}));
   }
 
@@ -76,7 +80,7 @@ class PlaceDetailPageState
                 child: CustomScrollView(
               controller: _scrollController,
               key: const Key('place_detail'),
-              physics: BouncingScrollPhysics(),
+              // physics: ClampingScrollPhysics(),
               slivers: detail.stateType != StateType.loading
                   ? <Widget>[]
                   : _sliverBuilder(place),
@@ -88,8 +92,9 @@ class PlaceDetailPageState
   List<Widget> _sliverBuilder(ListingModel place) {
     return <Widget>[
       SliverAppBar(
-        // brightness: Brightness.dark,
-        backgroundColor: ThemeUtils.getBackgroundColor(context),
+        brightness: Brightness.dark,
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
         titleSpacing: 0.0,
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios),
@@ -127,6 +132,9 @@ class PlaceDetailPageState
         ],
       ),
       SliverToBoxAdapter(
+        child: Gaps.vGap8,
+      ),
+      SliverToBoxAdapter(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
           child: Column(
@@ -143,22 +151,12 @@ class PlaceDetailPageState
       ),
       SliverPersistentHeader(
         delegate: MySliverAppBarDelegate(
-          MySectionDivider("Detail"),
-          60,
+          Center(child: MySectionDivider("Detail")),
+          50,
         ),
       ),
       SliverToBoxAdapter(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Gaps.vGap8,
-              Gaps.vGap8,
-              Text("Merchant Info"),
-            ],
-          ),
-        ),
+        child: Gaps.vGap16,
       ),
       if (place.listingImages.ads.length > 0)
         SliverList(
@@ -168,7 +166,90 @@ class PlaceDetailPageState
             },
           ),
         ),
+      _MerchantInfo(merchant: place.merchant),
     ];
+  }
+}
+
+class _MerchantInfo extends StatelessWidget {
+  const _MerchantInfo({
+    Key key,
+    @required this.merchant,
+  }) : super(key: key);
+
+  final MerchantVM merchant;
+
+  @override
+  Widget build(BuildContext context) {
+    final TextStyle textTextStyle =
+        Theme.of(context).textTheme.body1.copyWith(fontSize: Dimens.font_sp12);
+    return SliverToBoxAdapter(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+        child: MyCard(
+          child: Container(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  "Merchant Info",
+                  style: textTextStyle,
+                ),
+                Gaps.vGap12,
+                _MerchantInfoItem(
+                  title: "Registration Name",
+                  data: merchant.registrationName,
+                ),
+                Gaps.vGap12,
+                _MerchantInfoItem(
+                  title: "SSM ID",
+                  data: merchant.ssmId,
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _MerchantInfoItem extends StatelessWidget {
+  const _MerchantInfoItem({
+    @required this.title,
+    this.data,
+    Key key,
+  }) : super(key: key);
+  final String title;
+  final String data;
+  @override
+  Widget build(BuildContext context) {
+    final TextStyle textTextStyle =
+        Theme.of(context).textTheme.body1.copyWith(fontSize: Dimens.font_sp12);
+    return Row(
+      children: <Widget>[
+        Expanded(
+          flex: 4,
+          child: Text(
+            title,
+            style: textTextStyle,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+        Gaps.vGap12,
+        Expanded(
+          flex: 5,
+          child: Text(
+            data,
+            style: Theme.of(context).textTheme.subtitle,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+        )
+      ],
+    );
   }
 }
 
@@ -178,14 +259,12 @@ class _PlaceDescription extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: MyCard(
-        child: Container(
-          padding: const EdgeInsets.all(16),
-          child: Text(
-            place.description,
-            style: Theme.of(context).textTheme.body1,
-          ),
+    return MyCard(
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        child: Text(
+          place.description,
+          style: Theme.of(context).textTheme.body1,
         ),
       ),
     );
@@ -278,22 +357,23 @@ class _OperatingHour extends StatelessWidget {
 class _CoverPhotos extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    //TODO fix layout
     return Consumer<PlaceDetailProvider>(builder: (_, provider, child) {
       List<String> swiper = provider.place.listingImages.getCarousel;
       return Swiper(
         itemBuilder: (BuildContext context, int index) {
           return Stack(
+            fit: StackFit.expand,
+            alignment: AlignmentDirectional.center,
             children: <Widget>[
               LoadImage(
                 provider.stateType == StateType.loading
                     ? (swiper[index])
                     : "none",
-                fit: BoxFit.cover,
+                fit: BoxFit.fill,
               ),
               Positioned(
                 bottom: 10,
-                right: 60,
+                right: 10,
                 child: FlatButton.icon(
                   color: Colors.white,
                   onPressed: null,

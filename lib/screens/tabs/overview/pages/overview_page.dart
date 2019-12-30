@@ -37,8 +37,9 @@ class OverviewPageState
       BaseListProvider<ListingModel>();
 
   _onPageChange(int index) async {
-    provider.setIndex(index);
     presenter.onPageChange(index);
+    provider.setIndex(index);
+
     _tabController.animateTo(index);
   }
 

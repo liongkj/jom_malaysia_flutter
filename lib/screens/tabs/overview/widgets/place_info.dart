@@ -43,13 +43,16 @@ class PlaceInfo extends StatelessWidget {
               ),
               Gaps.vGap16,
               Row(
-                //TODO change to chip widget
                 children: <Widget>[
-                  Text(place.category.getCategory(),
-                      style: Theme.of(context).textTheme.body1),
+                  Chip(
+                    label: Text(place.category.getCategory(),
+                        style: Theme.of(context).textTheme.body1),
+                  ),
                   Gaps.hGap15,
-                  Text(place.category.getCategory(isCategory: false),
-                      style: Theme.of(context).textTheme.body1),
+                  Chip(
+                    label: Text(place.category.getCategory(isCategory: false),
+                        style: Theme.of(context).textTheme.body1),
+                  ),
                 ],
               ),
               Gaps.vGap16,
