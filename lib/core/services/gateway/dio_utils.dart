@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:jom_malaysia/core/constants/common.dart';
 import 'package:jom_malaysia/core/services/gateway/json_parser.dart';
 import 'package:rxdart/rxdart.dart';
@@ -34,15 +35,21 @@ class DioUtils {
       // baseUrl: "https://localhost:44368/api/",
 //      contentType: ContentType('application', 'x-www-form-urlencoded', charset: 'utf-8'),
     );
-    _dio = Dio(options);
 
-    /// 统一添加身份验证请求头
+    var cacheConfig = CacheConfig(
+            baseUrl: "https://jommalaysiaapi.azurewebsites.net/api/"),
+        _dio = Dio(options);
+
+    /// add authenticator
     _dio.interceptors.add(AuthInterceptor());
 
-    /// 刷新Token
+    /// add cache for offline access
+    _dio.interceptors.add(DioCacheManager(cacheConfig).interceptor);
+
+    /// Refresh token
     _dio.interceptors.add(TokenInterceptor());
 
-    /// 打印Log(生产模式去除)
+    /// Print log (Removed in production mode)
     if (!Constant.inProduction) {
       _dio.interceptors.add(LoggingInterceptor());
     }
@@ -76,7 +83,11 @@ class DioUtils {
       options = new Options();
     }
     options.method = method;
-    return options;
+
+    return buildCacheOptions(
+      Duration(days: 3),
+      options: options,
+    );
   }
 
   // Future requestNetwork<T, K>(Method method, String url,
