@@ -36,15 +36,15 @@ class DioUtils {
 //      contentType: ContentType('application', 'x-www-form-urlencoded', charset: 'utf-8'),
     );
 
-    var cacheConfig = CacheConfig(
-            baseUrl: "https://jommalaysiaapi.azurewebsites.net/api/"),
+    // var cacheConfig = CacheConfig(
+    //         baseUrl: "https://jommalaysiaapi.azurewebsites.net/api/"),
         _dio = Dio(options);
 
     /// add authenticator
     _dio.interceptors.add(AuthInterceptor());
 
     /// add cache for offline access
-    _dio.interceptors.add(DioCacheManager(cacheConfig).interceptor);
+    // _dio.interceptors.add(DioCacheManager(cacheConfig).interceptor);
 
     /// Refresh token
     _dio.interceptors.add(TokenInterceptor());
@@ -83,11 +83,11 @@ class DioUtils {
       options = new Options();
     }
     options.method = method;
+    // options.cache = buildCacheOptions(
+    //   Duration(days: 3),
+    // );
 
-    return buildCacheOptions(
-      Duration(days: 3),
-      options: options,
-    );
+    return options;
   }
 
   // Future requestNetwork<T, K>(Method method, String url,

@@ -71,8 +71,8 @@ class PlaceDetailPageState
   @override
   Widget build(BuildContext context) {
     isDark = ThemeUtils.isDark(context);
-    return ChangeNotifierProvider<PlaceDetailProvider>(
-        create: (_) => provider,
+    return ChangeNotifierProvider<PlaceDetailProvider>.value(
+        value: provider,
         child: Consumer<PlaceDetailProvider>(builder: (_, detail, __) {
           final place = detail.place;
           return Scaffold(
@@ -144,7 +144,7 @@ class PlaceDetailPageState
               Gaps.vGap16,
               _OperatingHour(place.operatingHours),
               Gaps.vGap16,
-              _PlaceDescription(place),
+              if (place.description?.hasDescription()) _PlaceDescription(place),
             ],
           ),
         ),
@@ -263,7 +263,7 @@ class _PlaceDescription extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(16),
         child: Text(
-          place.description.en,
+          place.description.getDescription(),
           style: Theme.of(context).textTheme.body1,
         ),
       ),

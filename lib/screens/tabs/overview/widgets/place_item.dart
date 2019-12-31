@@ -43,7 +43,7 @@ class PlaceItem extends StatelessWidget {
                 children: <Widget>[
                   Container(
                     child: LoadImage(
-                      listing.listingImages.coverPhoto.url,
+                      listing.listingImages.listingLogo.url,
                       width: 100.0,
                       height: 100.0,
                       fit: BoxFit.contain,

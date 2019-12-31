@@ -5,6 +5,7 @@ import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/overview_router.dart';
 import 'package:jom_malaysia/screens/tabs/overview/presenter/overview_page_presenter.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/overview_page_provider.dart';
+import 'package:jom_malaysia/screens/tabs/overview/providers/place_detail_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/ads_space.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/place_list.dart';
 import 'package:jom_malaysia/setting/provider/base_list_provider.dart';
@@ -35,6 +36,7 @@ class OverviewPageState
   PageController _pageController = PageController(initialPage: 0);
   BaseListProvider<ListingModel> listingProvider =
       BaseListProvider<ListingModel>();
+  PlaceDetailProvider detailProvider = PlaceDetailProvider();
 
   _onPageChange(int index) async {
     presenter.onPageChange(index);
@@ -85,6 +87,9 @@ class OverviewPageState
         ),
         ChangeNotifierProvider<BaseListProvider<ListingModel>>.value(
           value: listingProvider,
+        ),
+        ChangeNotifierProvider<PlaceDetailProvider>.value(
+          value: detailProvider,
         ),
       ],
       child: Scaffold(
