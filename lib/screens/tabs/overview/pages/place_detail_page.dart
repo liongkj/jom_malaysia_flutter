@@ -263,7 +263,7 @@ class _PlaceDescription extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(16),
         child: Text(
-          place.description,
+          place.description.en,
           style: Theme.of(context).textTheme.body1,
         ),
       ),

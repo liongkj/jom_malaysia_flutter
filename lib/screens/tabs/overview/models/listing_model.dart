@@ -27,7 +27,7 @@ class ListingModel {
   String listingId;
   MerchantVM merchant;
   String listingName;
-  String description;
+  DescriptionVM description;
   AddressVM address;
 
   List<OperatingHours> operatingHours;
@@ -41,6 +41,19 @@ class ListingModel {
       _$ListingModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$ListingModelToJson(this);
+}
+
+@JsonSerializable()
+class DescriptionVM {
+  DescriptionVM({this.ms, this.zh, this.en});
+  String ms;
+  String zh;
+  String en;
+
+  factory DescriptionVM.fromJson(Map<String, dynamic> json) =>
+      _$DescriptionVMFromJson(json);
+
+  Map<String, dynamic> toJson() => _$DescriptionVMToJson(this);
 }
 
 @JsonSerializable()

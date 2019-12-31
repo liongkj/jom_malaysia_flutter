@@ -13,7 +13,9 @@ ListingModel _$ListingModelFromJson(Map<String, dynamic> json) {
         ? null
         : MerchantVM.fromJson(json['merchant'] as Map<String, dynamic>),
     json['listingName'] as String,
-    json['description'] as String,
+    json['description'] == null
+        ? null
+        : DescriptionVM.fromJson(json['description'] as Map<String, dynamic>),
     _$enumDecodeNullable(_$CategoryTypeEnumMap, json['categoryType']),
     json['address'] == null
         ? null
@@ -90,6 +92,21 @@ const _$CategoryTypeEnumMap = {
   CategoryType.Professional: 'Professional',
   CategoryType.Nonprofit: 'Nonprofit',
 };
+
+DescriptionVM _$DescriptionVMFromJson(Map<String, dynamic> json) {
+  return DescriptionVM(
+    ms: json['ms'] as String,
+    zh: json['zh'] as String,
+    en: json['en'] as String,
+  );
+}
+
+Map<String, dynamic> _$DescriptionVMToJson(DescriptionVM instance) =>
+    <String, dynamic>{
+      'ms': instance.ms,
+      'zh': instance.zh,
+      'en': instance.en,
+    };
 
 ListingImageVM _$ListingImageVMFromJson(Map<String, dynamic> json) {
   return ListingImageVM(
