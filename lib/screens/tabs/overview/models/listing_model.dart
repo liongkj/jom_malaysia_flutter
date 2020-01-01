@@ -54,6 +54,26 @@ class DescriptionVM {
       _$DescriptionVMFromJson(json);
 
   Map<String, dynamic> toJson() => _$DescriptionVMToJson(this);
+
+  String getDefault() {
+    return en.isNotEmpty ? en : ms.isNotEmpty ? ms : zh.isNotEmpty ? zh : "";
+  }
+
+  String getDescription({String language}) {
+    switch (language?.toLowerCase()) {
+      case "en":
+        return en.isNotEmpty ? en : "";
+        break;
+      case "zh":
+        return zh.isNotEmpty ? zh : "";
+        break;
+      case "ms":
+        return ms.isNotEmpty ? ms : "";
+        break;
+      default:
+        return getDefault();
+    }
+  }
 }
 
 @JsonSerializable()

@@ -116,18 +116,18 @@ class PlaceDetailPageState
       SliverToBoxAdapter(
         child: Gaps.vGap16,
       ),
-      // if (place.listingImages.ads != null && place.listingImages.ads.length > 0)
-      //   _placeImage(
-      //     images: place.listingImages.ads,
-      //   ),
+      if (place.listingImages.ads != null && place.listingImages.ads.length > 0)
+        _PlaceImage(
+          images: place.listingImages.ads,
+        ),
       _MerchantInfo(merchant: place.merchant),
     ];
   }
 }
 
-class _placeImage extends StatelessWidget {
+class _PlaceImage extends StatelessWidget {
   final List<ImageModel> images;
-  const _placeImage({
+  const _PlaceImage({
     Key key,
     this.images,
   }) : super(key: key);
@@ -161,7 +161,7 @@ class _AppBarWithSwiper extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverAppBar(
       brightness: Brightness.dark,
-      backgroundColor: Colors.transparent,
+      backgroundColor: Colors.white,
       elevation: 0.0,
       titleSpacing: 0.0,
       leading: IconButton(
@@ -292,9 +292,13 @@ class _PlaceDescription extends StatelessWidget {
     return MyCard(
       child: Container(
         padding: const EdgeInsets.all(16),
-        child: Text(
-          place.description.en,
-          style: Theme.of(context).textTheme.body1,
+        child: Row(
+          children: <Widget>[
+            Text(
+              place.description.getDescription(),
+              style: Theme.of(context).textTheme.body1,
+            ),
+          ],
         ),
       ),
     );
