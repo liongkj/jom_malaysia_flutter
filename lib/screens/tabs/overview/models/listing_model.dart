@@ -54,14 +54,6 @@ class DescriptionVM {
       _$DescriptionVMFromJson(json);
 
   Map<String, dynamic> toJson() => _$DescriptionVMToJson(this);
-
-  String getDescription() {
-    return en.isNotEmpty ? en : ms.isNotEmpty ? ms : zh.isNotEmpty ? zh : null;
-  }
-
-  bool hasDescription() {
-    return ms.isNotEmpty || en.isNotEmpty || zh.isNotEmpty;
-  }
 }
 
 @JsonSerializable()

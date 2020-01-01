@@ -36,10 +36,9 @@ class DioUtils {
     );
     _dio = Dio(options);
 
-<<<<<<< HEAD
     // var cacheConfig = CacheConfig(
     //         baseUrl: "https://jommalaysiaapi.azurewebsites.net/api/"),
-        _dio = Dio(options);
+    _dio = Dio(options);
 
     /// add authenticator
     _dio.interceptors.add(AuthInterceptor());
@@ -48,12 +47,12 @@ class DioUtils {
     // _dio.interceptors.add(DioCacheManager(cacheConfig).interceptor);
 
     /// Refresh token
-=======
+
     /// 统一添加身份验证请求头
     _dio.interceptors.add(AuthInterceptor());
 
     /// 刷新Token
->>>>>>> parent of 322f6e5... add cache
+
     _dio.interceptors.add(TokenInterceptor());
 
     /// 打印Log(生产模式去除)
@@ -90,13 +89,10 @@ class DioUtils {
       options = new Options();
     }
     options.method = method;
-<<<<<<< HEAD
     // options.cache = buildCacheOptions(
     //   Duration(days: 3),
     // );
 
-=======
->>>>>>> parent of 322f6e5... add cache
     return options;
   }
 

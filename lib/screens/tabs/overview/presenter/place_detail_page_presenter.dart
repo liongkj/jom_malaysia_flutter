@@ -8,7 +8,11 @@ import 'package:jom_malaysia/widgets/state_layout.dart';
 
 class PlaceDetailPagePresenter extends BasePagePresenter<PlaceDetailPageState> {
   @override
-  void initState() {}
+  void initState() {
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   fetchDetail("5df090ab8430e205883f71db");
+    // });
+  }
 
   Future fetchDetail(String placeId) async {
     asyncRequestNetwork<ListingModel, Null>(Method.get,
