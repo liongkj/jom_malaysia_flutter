@@ -41,10 +41,7 @@ class PlaceDetailPageState
   @override
   void initState() {
     super.initState();
-    // provider.setStateTypeNotNotify(StateType.empty);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      // presenter.fetchDetail(widget.placeId);
-    });
+    WidgetsBinding.instance.addPostFrameCallback((_) {});
 
     _scrollController = ScrollController()..addListener(() => setState(() {}));
   }
@@ -67,7 +64,6 @@ class PlaceDetailPageState
   @override
   Widget build(BuildContext context) {
     isDark = ThemeUtils.isDark(context);
-    print("place detail page ");
     final place =
         Provider.of<PlaceDetailProvider>(context, listen: false).place;
 
