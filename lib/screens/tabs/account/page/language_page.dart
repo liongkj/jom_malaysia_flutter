@@ -52,7 +52,6 @@ class _LanguagePageState extends State<LanguagePage> {
             return const Divider();
           },
           itemBuilder: (_, index) {
-            var SYSTEM;
             return InkWell(
               onTap: () => Provider.of<LanguageProvider>(context).setLanguage(
                 index == 0
