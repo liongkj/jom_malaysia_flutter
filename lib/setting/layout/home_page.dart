@@ -16,7 +16,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final _appBarTitles = ['Home', 'Facts', 'Setting'];
+  final _appBarTitles = ['Home', 'Wiki', 'Setting'];
   final _pageList = [
     OverviewPage(),
     // NearbyPage(),
@@ -50,7 +50,7 @@ class _HomeState extends State<Home> {
         //   size: iconSize,
         // ),
         Icon(
-          Icons.history,
+          Icons.language,
           size: iconSize,
         ),
         Icon(
