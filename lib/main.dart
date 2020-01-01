@@ -4,7 +4,9 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:jom_malaysia/core/constants/langauge.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/place_detail_provider.dart';
+import 'package:jom_malaysia/setting/provider/language_provider.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 
@@ -45,6 +47,9 @@ class MyApp extends StatelessWidget {
     return OKToast(
         child: MultiProvider(
           providers: [
+            ChangeNotifierProvider<LanguageProvider>(
+              create: (_) => LanguageProvider(),
+            ),
             ChangeNotifierProvider<ThemeProvider>(
               create: (_) => ThemeProvider(),
             ),

@@ -16,39 +16,49 @@ class SettingPage extends StatefulWidget {
 class _SettingPageState extends State<SettingPage> {
   @override
   Widget build(BuildContext context) {
-    String theme = flutter_stars.SpUtil.getString(Constant.theme);
-    String themeMode;
-    switch (theme) {
-      case "Dark":
-        themeMode = "开启";
+    // String theme = flutter_stars.SpUtil.getString(Constant.theme);
+    // String themeMode;
+    // switch (theme) {
+    //   case "Dark":
+    //     themeMode = "开启";
+    //     break;
+    //   case "Light":
+    //     themeMode = "关闭";
+    //     break;
+    //   default:
+    //     themeMode = "跟随系统";
+    //     break;
+    // }
+
+    String language = flutter_stars.SpUtil.getString(Constant.language);
+    String preferredLang;
+    switch (language) {
+      case "Ms":
+        preferredLang = "Bahasa Malaysia";
         break;
-      case "Light":
-        themeMode = "关闭";
+      case "Zh":
+        preferredLang = "中文";
         break;
       default:
-        themeMode = "跟随系统";
+        preferredLang = "System Default";
         break;
     }
 
     return Scaffold(
       appBar: const MyAppBar(
-        centerTitle: "设置",
+        centerTitle: "Settings",
       ),
       body: Column(
         children: <Widget>[
           Gaps.vGap5,
-          // ClickItem(
-          //     title: "账号管理",
-          //     onTap: () => NavigatorUtils.push(
-          //         context, SettingRouter.accountManagerPage)),
-          // ClickItem(title: "清除缓存", content: "23.5MB", onTap: () {}),
           ClickItem(
-              title: "夜间模式",
-              content: themeMode,
-              onTap: () =>
-                  NavigatorUtils.push(context, AccountRouter.themePage)),
+            title: "Language",
+            content: preferredLang,
+            onTap: () =>
+                NavigatorUtils.push(context, AccountRouter.languagePage),
+          ),
           ClickItem(
-              title: "关于我们",
+              title: "About JomN9",
               onTap: () =>
                   NavigatorUtils.push(context, AccountRouter.aboutPage)),
         ],

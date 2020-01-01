@@ -22,9 +22,12 @@ class AddressVM {
   String country;
   CoordinatesModel coordinates;
 
+  final _stateList = {"NSN": "Negeri Sembilan"};
+  final _countryList = {"MY": "Malaysia"};
+
   @override
   String toString() {
-    return '$add1, ${add2?.toString()}, $postalCode $city, $state, $country';
+    return '$add1, ${add2?.toString()}, $postalCode $city, ${_stateList[this.state]}, ${_countryList[this.country]}';
   }
 
   factory AddressVM.fromJson(Map<String, dynamic> json) =>

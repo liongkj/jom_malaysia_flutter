@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flustars/flustars.dart' as flutter_stars;
 import 'package:jom_malaysia/core/constants/common.dart';
-import 'package:jom_malaysia/core/constants/themes.dart';
-import 'package:jom_malaysia/setting/provider/theme_provider.dart';
+import 'package:jom_malaysia/core/constants/langauge.dart';
+import 'package:jom_malaysia/setting/provider/language_provider.dart';
 import 'package:jom_malaysia/widgets/app_bar.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class ThemePage extends StatefulWidget {
+class LanguagePage extends StatefulWidget {
   @override
-  _ThemePageState createState() => _ThemePageState();
+  _LanguagePageState createState() => _LanguagePageState();
 }
 
-class _ThemePageState extends State<ThemePage> {
-  var _list = ["跟随系统", "开启", "关闭"];
+class _LanguagePageState extends State<LanguagePage> {
+  var _list = ["English", "Bahasa Malaysia", "中文"];
 
   @override
   void initState() {
@@ -24,22 +25,22 @@ class _ThemePageState extends State<ThemePage> {
 
   @override
   Widget build(BuildContext context) {
-    String theme = flutter_stars.SpUtil.getString(Constant.theme);
-    String themeMode;
-    switch (theme) {
-      case "Dark":
-        themeMode = _list[1];
+    String lang = flutter_stars.SpUtil.getString(Constant.language);
+    String preferredLang;
+    switch (lang) {
+      case "Ms":
+        preferredLang = _list[1];
         break;
-      case "Light":
-        themeMode = _list[2];
+      case "Zh":
+        preferredLang = _list[2];
         break;
       default:
-        themeMode = _list[0];
+        preferredLang = _list[0];
         break;
     }
     return Scaffold(
       appBar: const MyAppBar(
-        title: "夜间模式",
+        title: "Language",
       ),
       body: ListView.separated(
           shrinkWrap: true,
@@ -49,10 +50,11 @@ class _ThemePageState extends State<ThemePage> {
           },
           itemBuilder: (_, index) {
             return InkWell(
-              onTap: () => Provider.of<ThemeProvider>(context).setTheme(
-                  index == 0
-                      ? Themes.SYSTEM
-                      : (index == 1 ? Themes.DARK : Themes.LIGHT)),
+              onTap: () => Provider.of<LanguageProvider>(context).setLanguage(
+                index == 0
+                    ? Language.EN
+                    : (index == 1 ? Language.MS : Language.ZH),
+              ),
               child: Container(
                 alignment: Alignment.centerLeft,
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -63,7 +65,7 @@ class _ThemePageState extends State<ThemePage> {
                       child: Text(_list[index]),
                     ),
                     Opacity(
-                        opacity: themeMode == _list[index] ? 1 : 0,
+                        opacity: preferredLang == _list[index] ? 1 : 0,
                         child: Icon(Icons.done, color: Colors.blue))
                   ],
                 ),
