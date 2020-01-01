@@ -16,10 +16,10 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final _appBarTitles = ['Home', 'Nearby', 'Facts', 'Setting'];
+  final _appBarTitles = ['Home', 'Facts', 'Setting'];
   final _pageList = [
     OverviewPage(),
-    NearbyPage(),
+    // NearbyPage(),
     FactsPage(),
     SettingPage(),
   ];
@@ -45,10 +45,10 @@ class _HomeState extends State<Home> {
           Icons.home,
           size: iconSize,
         ),
-        Icon(
-          Icons.map,
-          size: iconSize,
-        ),
+        // Icon(
+        //   Icons.map,
+        //   size: iconSize,
+        // ),
         Icon(
           Icons.history,
           size: iconSize,
@@ -58,7 +58,7 @@ class _HomeState extends State<Home> {
           size: iconSize,
         ) // [
       ];
-      _list = List.generate(4, (i) {
+      _list = List.generate(3, (i) {
         return BottomNavigationBarItem(
           icon: _tabImages[i],
           // activeIcon: _tabImages[i][1],

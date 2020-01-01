@@ -1,1 +1,1 @@
-enum Language { EN, MS, ZH }
+enum Language { SYSTEM, EN, MS, ZH }

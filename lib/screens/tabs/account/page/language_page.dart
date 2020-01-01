@@ -13,7 +13,7 @@ class LanguagePage extends StatefulWidget {
 }
 
 class _LanguagePageState extends State<LanguagePage> {
-  var _list = ["English", "Bahasa Malaysia", "中文"];
+  var _list = ["System Default", "English", "Bahasa Malaysia", "中文"];
 
   @override
   void initState() {
@@ -29,10 +29,13 @@ class _LanguagePageState extends State<LanguagePage> {
     String preferredLang;
     switch (lang) {
       case "Ms":
-        preferredLang = _list[1];
+        preferredLang = _list[2];
         break;
       case "Zh":
-        preferredLang = _list[2];
+        preferredLang = _list[3];
+        break;
+      case "En":
+        preferredLang = _list[1];
         break;
       default:
         preferredLang = _list[0];
@@ -49,11 +52,14 @@ class _LanguagePageState extends State<LanguagePage> {
             return const Divider();
           },
           itemBuilder: (_, index) {
+            var SYSTEM;
             return InkWell(
               onTap: () => Provider.of<LanguageProvider>(context).setLanguage(
                 index == 0
-                    ? Language.EN
-                    : (index == 1 ? Language.MS : Language.ZH),
+                    ? Language.SYSTEM
+                    : (index == 1
+                        ? Language.EN
+                        : (index == 2 ? Language.MS : Language.ZH)),
               ),
               child: Container(
                 alignment: Alignment.centerLeft,
