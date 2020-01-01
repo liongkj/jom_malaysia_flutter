@@ -43,7 +43,7 @@ class DioUtils {
     _dio.interceptors.add(AuthInterceptor());
 
     /// add cache for offline access
-    // _dio.interceptors.add(DioCacheManager(cacheConfig).interceptor);
+    _dio.interceptors.add(CacheInterceptor());
 
     /// Refresh token
 
