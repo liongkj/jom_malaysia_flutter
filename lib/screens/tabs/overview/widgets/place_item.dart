@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/overview_router.dart';
+import 'package:jom_malaysia/screens/tabs/overview/providers/place_detail_provider.dart';
+import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
 import 'package:jom_malaysia/widgets/my_card.dart';
 import 'package:jom_malaysia/widgets/my_rating.dart';
+import 'package:provider/provider.dart';
 
 class PlaceItem extends StatelessWidget {
   const PlaceItem({
@@ -35,8 +38,13 @@ class PlaceItem extends StatelessWidget {
             8.0,
           ),
           child: InkWell(
-            onTap: () => Navigator.pushNamed(context,
-                '${OverviewRouter.placeDetailPage}/${listing.listingId}'),
+            onTap: () {
+              print("taped");
+              Provider.of<PlaceDetailProvider>(context, listen: false)
+                  .setPlace(listing);
+              NavigatorUtils.push(context,
+                  '${OverviewRouter.placeDetailPage}/${listing.listingId}');
+            },
             child: Container(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

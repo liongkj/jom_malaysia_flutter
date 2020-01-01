@@ -50,7 +50,10 @@ class MyApp extends StatelessWidget {
             ),
             ChangeNotifierProvider<PlaceDetailProvider>(
               create: (_) => PlaceDetailProvider(),
-            )
+            ),
+            ChangeNotifierProvider<PlaceDetailProvider>(
+              create: (_) => PlaceDetailProvider(),
+        ),
           ],
           child: Consumer<ThemeProvider>(
             builder: (_, provider, __) {

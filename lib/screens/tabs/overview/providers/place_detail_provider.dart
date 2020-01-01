@@ -10,6 +10,7 @@ class PlaceDetailProvider extends ChangeNotifier {
   StateType get stateType => _stateType;
 
   void setPlace(ListingModel data) {
+    print(this.hashCode.toString() + data.listingName);
     _place = data;
     notifyListeners();
   }
@@ -19,7 +20,6 @@ class PlaceDetailProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  
   void setStateTypeNotNotify(StateType stateType) {
     _stateType = stateType;
   }

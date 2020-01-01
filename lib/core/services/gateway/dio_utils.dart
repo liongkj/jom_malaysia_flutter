@@ -38,7 +38,6 @@ class DioUtils {
 
     // var cacheConfig = CacheConfig(
     //         baseUrl: "https://jommalaysiaapi.azurewebsites.net/api/"),
-    _dio = Dio(options);
 
     /// add authenticator
     _dio.interceptors.add(AuthInterceptor());

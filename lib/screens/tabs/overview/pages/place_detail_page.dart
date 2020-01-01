@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:jom_malaysia/core/models/image_model.dart';
 import 'package:jom_malaysia/core/mvp/base_page_state.dart';
 import 'package:jom_malaysia/core/res/colors.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
@@ -34,20 +35,15 @@ const kExpandedHeight = 250.0;
 class PlaceDetailPageState
     extends BasePageState<PlaceDetailPage, PlaceDetailPagePresenter> {
   bool isDark = false;
-  PlaceDetailProvider provider = PlaceDetailProvider();
-
-  void setPlace(ListingModel place) {
-    provider.setPlace(place);
-  }
 
   ScrollController _scrollController;
 
   @override
   void initState() {
     super.initState();
-    provider.setStateTypeNotNotify(StateType.empty);
+    // provider.setStateTypeNotNotify(StateType.empty);
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      presenter.fetchDetail(widget.placeId);
+      // presenter.fetchDetail(widget.placeId);
     });
 
     _scrollController = ScrollController()..addListener(() => setState(() {}));
@@ -71,65 +67,27 @@ class PlaceDetailPageState
   @override
   Widget build(BuildContext context) {
     isDark = ThemeUtils.isDark(context);
-    return ChangeNotifierProvider<PlaceDetailProvider>(
-        create: (_) => provider,
-        child: Consumer<PlaceDetailProvider>(builder: (_, detail, __) {
-          final place = detail.place;
-          return Scaffold(
-            body: SafeArea(
-                child: CustomScrollView(
-              controller: _scrollController,
-              key: const Key('place_detail'),
-              // physics: ClampingScrollPhysics(),
-              slivers: detail.stateType != StateType.loading
-                  ? <Widget>[]
-                  : _sliverBuilder(place),
-            )),
-          );
-        }));
+    print("place detail page ");
+    final place =
+        Provider.of<PlaceDetailProvider>(context, listen: false).place;
+
+    return Scaffold(
+      body: SafeArea(
+          child: CustomScrollView(
+        controller: _scrollController,
+        key: const Key('place_detail'),
+        // physics: ClampingScrollPhysics(),
+        slivers: _sliverBuilder(place),
+      )),
+    );
   }
 
   List<Widget> _sliverBuilder(ListingModel place) {
     return <Widget>[
-      SliverAppBar(
-        brightness: Brightness.dark,
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-        titleSpacing: 0.0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios),
-          color: _showTitle ? Colours.text : ThemeUtils.getIconColor(context),
-          onPressed: () => NavigatorUtils.goBack(context),
-        ),
-        centerTitle: true,
-        title: _showTitle
-            ? Text(
-                '${place.listingName}',
-                style: Theme.of(context).textTheme.subtitle,
-              )
-            : null,
-        expandedHeight: kExpandedHeight,
-        floating: false, // 不随着滑动隐藏标题
-        pinned: true, // 固定在顶部
-        flexibleSpace: _showTitle
-            ? null
-            : FlexibleSpaceBar(
-                titlePadding:
-                    const EdgeInsetsDirectional.only(start: 16.0, bottom: 14.0),
-                collapseMode: CollapseMode.pin,
-                background: _CoverPhotos(),
-                centerTitle: true,
-              ),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(
-              Icons.more_vert,
-              color:
-                  _showTitle ? Colors.black : ThemeUtils.getIconColor(context),
-            ),
-            onPressed: () {},
-          )
-        ],
+      _AppBarWithSwiper(
+        showTitle: _showTitle,
+        context: context,
+        place: place,
       ),
       SliverToBoxAdapter(
         child: Gaps.vGap8,
@@ -144,7 +102,7 @@ class PlaceDetailPageState
               Gaps.vGap16,
               _OperatingHour(place.operatingHours),
               Gaps.vGap16,
-              _PlaceDescription(place),
+              if (place.description != null) _PlaceDescription(place),
             ],
           ),
         ),
@@ -158,16 +116,88 @@ class PlaceDetailPageState
       SliverToBoxAdapter(
         child: Gaps.vGap16,
       ),
-      if (place.listingImages.ads.length > 0)
-        SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (BuildContext context, int index) {
-              return LoadImage(place.listingImages.ads[index].url);
-            },
-          ),
-        ),
+      // if (place.listingImages.ads != null && place.listingImages.ads.length > 0)
+      //   _placeImage(
+      //     images: place.listingImages.ads,
+      //   ),
       _MerchantInfo(merchant: place.merchant),
     ];
+  }
+}
+
+class _placeImage extends StatelessWidget {
+  final List<ImageModel> images;
+  const _placeImage({
+    Key key,
+    this.images,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverList(
+      delegate: SliverChildBuilderDelegate(
+        (BuildContext context, int index) {
+          return LoadImage(images[index].url);
+        },
+      ),
+    );
+  }
+}
+
+class _AppBarWithSwiper extends StatelessWidget {
+  const _AppBarWithSwiper({
+    Key key,
+    @required bool showTitle,
+    @required this.context,
+    @required this.place,
+  })  : _showTitle = showTitle,
+        super(key: key);
+
+  final bool _showTitle;
+  final BuildContext context;
+  final ListingModel place;
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverAppBar(
+      brightness: Brightness.dark,
+      backgroundColor: Colors.transparent,
+      elevation: 0.0,
+      titleSpacing: 0.0,
+      leading: IconButton(
+        icon: Icon(Icons.arrow_back_ios),
+        color: _showTitle ? Colours.text : ThemeUtils.getIconColor(context),
+        onPressed: () => NavigatorUtils.goBack(context),
+      ),
+      centerTitle: true,
+      title: _showTitle
+          ? Text(
+              '${place.listingName}',
+              style: Theme.of(context).textTheme.subtitle,
+            )
+          : null,
+      expandedHeight: kExpandedHeight,
+      floating: false, // 不随着滑动隐藏标题
+      pinned: true, // 固定在顶部
+      flexibleSpace: _showTitle
+          ? null
+          : FlexibleSpaceBar(
+              titlePadding:
+                  const EdgeInsetsDirectional.only(start: 16.0, bottom: 14.0),
+              collapseMode: CollapseMode.pin,
+              background: _CoverPhotos(),
+              centerTitle: true,
+            ),
+      actions: <Widget>[
+        IconButton(
+          icon: Icon(
+            Icons.more_vert,
+            color: _showTitle ? Colors.black : ThemeUtils.getIconColor(context),
+          ),
+          onPressed: () {},
+        )
+      ],
+    );
   }
 }
 

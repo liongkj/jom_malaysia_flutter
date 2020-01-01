@@ -17,6 +17,7 @@ class OverviewRouter implements IRouterProvider {
     router.define('$placeDetailPage/:id',
         handler: Handler(handlerFunc: (_, params) {
       var placeId = params["id"]?.first;
+      print("navigate to " + placeId);
       return PlaceDetailPage(placeId: placeId);
     }));
     router.define(placeSearchPage,

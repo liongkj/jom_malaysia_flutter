@@ -31,7 +31,7 @@ class PlaceInfo extends StatelessWidget {
                 children: <Widget>[
                   Expanded(
                     child: Text(
-                      place.listingName,
+                      place?.listingName,
                       maxLines: 3,
                       overflow: TextOverflow.fade,
                       style: Theme.of(context).textTheme.title,
