@@ -127,7 +127,10 @@ class OverviewPageState
                     bottom: false,
                     child: Builder(
                       builder: (BuildContext context) {
-                        return PlaceList(index: index);
+                        return PlaceList(
+                          index: index,
+                          presenter: presenter,
+                        );
                       },
                     ),
                   );

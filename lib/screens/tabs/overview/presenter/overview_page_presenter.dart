@@ -44,4 +44,8 @@ class OverviewPagePresenter extends BasePagePresenter<OverviewPageState> {
       view.listingProvider.setStateType(StateType.network);
     });
   }
+
+  void refresh(int index) {
+    fetchListingByType(CategoryType.values[index]);
+  }
 }
