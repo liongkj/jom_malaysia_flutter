@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:jom_malaysia/core/constants/common.dart';
 import 'package:jom_malaysia/core/services/gateway/json_parser.dart';
 import 'package:rxdart/rxdart.dart';
@@ -35,7 +34,9 @@ class DioUtils {
       // baseUrl: "https://localhost:44368/api/",
 //      contentType: ContentType('application', 'x-www-form-urlencoded', charset: 'utf-8'),
     );
+    _dio = Dio(options);
 
+<<<<<<< HEAD
     // var cacheConfig = CacheConfig(
     //         baseUrl: "https://jommalaysiaapi.azurewebsites.net/api/"),
         _dio = Dio(options);
@@ -47,9 +48,15 @@ class DioUtils {
     // _dio.interceptors.add(DioCacheManager(cacheConfig).interceptor);
 
     /// Refresh token
+=======
+    /// 统一添加身份验证请求头
+    _dio.interceptors.add(AuthInterceptor());
+
+    /// 刷新Token
+>>>>>>> parent of 322f6e5... add cache
     _dio.interceptors.add(TokenInterceptor());
 
-    /// Print log (Removed in production mode)
+    /// 打印Log(生产模式去除)
     if (!Constant.inProduction) {
       _dio.interceptors.add(LoggingInterceptor());
     }
@@ -83,10 +90,13 @@ class DioUtils {
       options = new Options();
     }
     options.method = method;
+<<<<<<< HEAD
     // options.cache = buildCacheOptions(
     //   Duration(days: 3),
     // );
 
+=======
+>>>>>>> parent of 322f6e5... add cache
     return options;
   }
 
