@@ -58,6 +58,7 @@ dependencies:
   flutter_rating_bar: ^3.0.0
   json_annotation: ^3.0.0
   logger: ^0.7.0+2
+  alphabet_list_scroll_view: ^1.0.5
 
   # 图片选择插件 https://github.com/flutter/plugins/tree/master/packages/image_picker
   # image_picker: 0.6.2+1
@@ -107,6 +108,7 @@ flutter:
     - assets/images/statistic/
     - assets/images/overview/
     - assets/images/widgets/rating/
+    - assets/json/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
   # For details regarding adding assets from package dependencies, see

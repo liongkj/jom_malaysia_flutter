@@ -8,6 +8,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.1"
+  alphabet_list_scroll_view:
+    dependency: "direct main"
+    description:
+      name: alphabet_list_scroll_view
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.5"
   analyzer:
     dependency: transitive
     description:
@@ -766,6 +773,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.8"
+  vibration:
+    dependency: transitive
+    description:
+      name: vibration
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.2.2"
   vm_service:
     dependency: transitive
     description:

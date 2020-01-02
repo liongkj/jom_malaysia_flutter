@@ -1,4 +1,8 @@
+import 'dart:convert';
+
+import 'package:alphabet_list_scroll_view/alphabet_list_scroll_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:jom_malaysia/core/mvp/base_page_state.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
@@ -35,6 +39,18 @@ class OverviewPageState
   PageController _pageController = PageController(initialPage: 0);
   BaseListProvider<ListingModel> listingProvider =
       BaseListProvider<ListingModel>();
+  //Load Cities from json file
+  List<String> _cities;
+  Future<String> loadJsonFile() async {
+    var jsonCities = await rootBundle.loadString('assets/json/cities.json');
+    setState(() {
+      _cities = (jsonDecode(jsonCities) as List<dynamic>).cast<String>();
+    });
+    //print(_cities);
+  }
+
+  Text locationText = Text('Please Select a City');
+  TextEditingController searchController = TextEditingController();
 
   _onPageChange(int index) async {
     presenter.onPageChange(index);
@@ -52,10 +68,21 @@ class OverviewPageState
   void initState() {
     super.initState();
     _tabController = TabController(vsync: this, length: 5);
-
+    this.loadJsonFile();
+    filterList();
+    searchController.addListener(() {
+      filterList();
+    });
     WidgetsBinding.instance.addPostFrameCallback((_) {
       // _preCacheImage();
     });
+  }
+
+  filterList() {
+    if (searchController.text.isNotEmpty) {
+      _cities.retainWhere((cities) =>
+          cities.toLowerCase().contains(searchController.text.toLowerCase()));
+    }
   }
 
   // _preCacheImage() {
@@ -154,13 +181,38 @@ class OverviewPageState
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      "Negeri Sembilan",
+                      locationText.data,
                       style: TextStyles.textBold16,
                     ),
                     //statelist drop down
                     IconButton(
                       onPressed: () {
-                        NavigatorUtils.push(context, "");
+                        //Location Selector Starts Here
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                  title: Text('Select a City'),
+                                  content: Container(
+                                    height: 600.0,
+                                    width: 300.0,
+                                    child: AlphabetListScrollView(
+                                      showPreview: true,
+                                      strList: _cities,
+                                      indexedHeight: (i) => 40,
+                                      keyboardUsage: true,
+                                      itemBuilder: (context, index) {
+                                        return ListTile(
+                                          onTap: () => setState(() {
+                                            locationText = Text(_cities[index]);
+                                            Navigator.pop(context);
+                                          }),
+                                          title: Text(_cities[index]),
+                                        );
+                                      },
+                                    ),
+                                  ));
+                            });
                       },
                       icon: Icon(
                         Icons.keyboard_arrow_down,
