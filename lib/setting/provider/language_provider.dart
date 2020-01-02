@@ -6,15 +6,30 @@ import 'package:jom_malaysia/generated/l10n.dart';
 
 class LanguageProvider extends ChangeNotifier {
   static const Map<Language, String> languages = {
-    Language.MS: "Ms",
-    Language.ZH: "Zh",
-    Language.EN: "En"
+    Language.MS: "ms",
+    Language.ZH: "zh",
+    Language.EN: "en"
   };
 
+  Locale _locale;
+  Locale get locale => _locale;
+
   void setLanguage(Language lang) {
-    SpUtil.putString(Constant.language, languages[lang]);
-    const Locale locale = Locale('lang', '');
-    S.load(locale);
+    print("setting to " + lang.toString());
+    final String _l = languages[lang];
+    print("setting to " + _l);
+    SpUtil.putString(Constant.language, _l);
+    _locale = Locale(_l, null);
+
+    // Locale locale = Locale(languages[lang], '');
+    // S.load(locale);
     notifyListeners();
+  }
+
+  void syncLang() {
+    String lang = SpUtil.getString(Constant.language);
+    if (lang.isNotEmpty && lang != languages[Language.SYSTEM]) {
+      notifyListeners();
+    }
   }
 }

@@ -2,5 +2,6 @@
   "appTitle": "JomN9",
   "appBarTitleHome": "Home",
   "appBarTitleWiki": "Wiki",
-  "appBarTitleSetting": "Setting"
+  "appBarTitleSetting": "Setting",
+  "appBarTitleSettingLanguage": "Language"
 }

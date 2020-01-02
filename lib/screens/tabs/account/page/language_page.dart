@@ -27,13 +27,13 @@ class _LanguagePageState extends State<LanguagePage> {
     String lang = flutter_stars.SpUtil.getString(Constant.language);
     String preferredLang;
     switch (lang) {
-      case "Ms":
+      case "ms":
         preferredLang = _list[2];
         break;
-      case "Zh":
+      case "zh":
         preferredLang = _list[3];
         break;
-      case "En":
+      case "en":
         preferredLang = _list[1];
         break;
       default:

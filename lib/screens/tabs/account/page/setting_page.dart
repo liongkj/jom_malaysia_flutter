@@ -2,6 +2,7 @@ import 'package:flustars/flustars.dart' as flutter_stars;
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/constants/common.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
+import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/widgets/app_bar.dart';
 import 'package:jom_malaysia/widgets/click_item.dart';
@@ -33,11 +34,14 @@ class _SettingPageState extends State<SettingPage> {
     String language = flutter_stars.SpUtil.getString(Constant.language);
     String preferredLang;
     switch (language) {
-      case "Ms":
+      case "ms":
         preferredLang = "Bahasa Malaysia";
         break;
-      case "Zh":
+      case "zh":
         preferredLang = "中文";
+        break;
+      case "en":
+        preferredLang = "English";
         break;
       default:
         preferredLang = "System Default";
@@ -45,8 +49,8 @@ class _SettingPageState extends State<SettingPage> {
     }
 
     return Scaffold(
-      appBar: const MyAppBar(
-        centerTitle: "Settings",
+      appBar: MyAppBar(
+        centerTitle: S.of(context).appBarTitleSettingLanguage,
       ),
       body: Column(
         children: <Widget>[
