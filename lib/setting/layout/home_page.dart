@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
+import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/tabs/account/page/setting_page.dart';
 import 'package:jom_malaysia/screens/tabs/facts/pages/facts_page.dart';
 import 'package:jom_malaysia/screens/tabs/nearby/pages/nearby_page.dart';
 import 'package:jom_malaysia/screens/tabs/overview/pages/overview_page.dart';
+import 'package:jom_malaysia/setting/provider/language_provider.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
 import 'package:jom_malaysia/util/toast.dart';
 import 'package:provider/provider.dart';
@@ -16,7 +18,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final _appBarTitles = ['Home', 'Wiki', 'Setting'];
   final _pageList = [
     OverviewPage(),
     // NearbyPage(),
@@ -38,7 +39,13 @@ class _HomeState extends State<Home> {
   // void initData() {}
 
   final double iconSize = 24;
-  List<BottomNavigationBarItem> _buildBottomNavigationBarItem() {
+  List<BottomNavigationBarItem> _buildBottomNavigationBarItem(
+      BuildContext context) {
+    final _appBarTitles = [
+      S.of(context).appBarTitleHome,
+      S.of(context).appBarTitleWiki,
+      S.of(context).appBarTitleSetting
+    ];
     if (_list == null) {
       var _tabImages = [
         Icon(
@@ -93,15 +100,15 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     bool isDark = ThemeUtils.isDark(context);
     return ChangeNotifierProvider<HomeProvider>(
-      create: (_) => provider,
-      child: WillPopScope(
-        onWillPop: _isExit,
-        child: Scaffold(
-          bottomNavigationBar: Consumer<HomeProvider>(
-            builder: (_, provider, __) {
+        create: (_) => provider,
+        child: WillPopScope(
+          onWillPop: _isExit,
+          child: Scaffold(
+            bottomNavigationBar:
+                Consumer<HomeProvider>(builder: (_, provider, __) {
               return BottomNavigationBar(
                 backgroundColor: ThemeUtils.getBackgroundColor(context),
-                items: _buildBottomNavigationBarItem(),
+                items: _buildBottomNavigationBarItem(context),
                 type: BottomNavigationBarType.fixed,
                 currentIndex: provider.value,
                 elevation: 5.0,
@@ -114,18 +121,17 @@ class _HomeState extends State<Home> {
                     : Colours.unselected_item_color,
                 onTap: (index) => _pageController.jumpToPage(index),
               );
-            },
+            }),
+
+            // 使用PageView的原因参看 https://zhuanlan.zhihu.com/p/58582876
+            body: PageView(
+              controller: _pageController,
+              onPageChanged: _onPageChanged,
+              children: _pageList,
+              physics: NeverScrollableScrollPhysics(), // 禁止滑动
+            ),
           ),
-          // 使用PageView的原因参看 https://zhuanlan.zhihu.com/p/58582876
-          body: PageView(
-            controller: _pageController,
-            onPageChanged: _onPageChanged,
-            children: _pageList,
-            physics: NeverScrollableScrollPhysics(), // 禁止滑动
-          ),
-        ),
-      ),
-    );
+        ));
   }
 
   void _onPageChanged(int index) {

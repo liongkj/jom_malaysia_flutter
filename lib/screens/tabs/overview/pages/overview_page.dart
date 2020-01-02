@@ -190,7 +190,8 @@ class OverviewPageState
           backgroundColor: Colors.transparent,
           elevation: 0.0,
           centerTitle: true,
-          expandedHeight: 140.0,
+          expandedHeight: MediaQuery.of(context).size.height * 0.18,
+          //  140.0,
           floating: false, // 不随着滑动隐藏标题
           pinned: true, // 固定在顶部
           flexibleSpace: MyFlexibleSpaceBar(

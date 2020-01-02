@@ -5,7 +5,6 @@ import 'package:jom_malaysia/core/constants/langauge.dart';
 import 'package:jom_malaysia/setting/provider/language_provider.dart';
 import 'package:jom_malaysia/widgets/app_bar.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class LanguagePage extends StatefulWidget {
   @override
@@ -53,7 +52,8 @@ class _LanguagePageState extends State<LanguagePage> {
           },
           itemBuilder: (_, index) {
             return InkWell(
-              onTap: () => Provider.of<LanguageProvider>(context).setLanguage(
+              onTap: () => Provider.of<LanguageProvider>(context, listen: false)
+                  .setLanguage(
                 index == 0
                     ? Language.SYSTEM
                     : (index == 1
