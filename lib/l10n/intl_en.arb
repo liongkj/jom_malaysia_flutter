@@ -3,5 +3,11 @@
   "appBarTitleHome": "Home",
   "appBarTitleWiki": "Wiki",
   "appBarTitleSetting": "Setting",
-  "appBarTitleSettingLanguage": "Language"
+  "appBarTitleSettingLanguage": "Language",
+  "placeDetailMerchantInfoLabel": "Merchant Info",
+  "placeDetailMerchantRegistrationNameLabel": "Registration Name",
+  "placeDetailMerchantSSMLabel": "SSM ID",
+  "placeDetailOperatingOpenLabel": "OPEN",
+  "placeDetailOperatingCloseLabel": "CLOSED",
+  "placeDetailOperatingSoonLabel": "CLOSING SOON"
 }

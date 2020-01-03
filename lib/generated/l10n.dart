@@ -10,18 +10,18 @@ import 'intl/messages_all.dart';
 
 class S {
   S(this.localeName);
-
-  static const AppLocalizationDelegate delegate = AppLocalizationDelegate();
+  
+  static const AppLocalizationDelegate delegate =
+    AppLocalizationDelegate();
 
   static Future<S> load(Locale locale) {
-    final String name =
-        locale.countryCode.isEmpty ? locale.languageCode : locale.toString();
+    final String name = locale.countryCode.isEmpty ? locale.languageCode : locale.toString();
     final String localeName = Intl.canonicalizedLocale(name);
     return initializeMessages(localeName).then((_) {
       Intl.defaultLocale = localeName;
       return S(localeName);
     });
-  }
+  } 
 
   static S of(BuildContext context) {
     return Localizations.of<S>(context, S);
@@ -73,6 +73,60 @@ class S {
       args: [],
     );
   }
+
+  String get placeDetailMerchantInfoLabel {
+    return Intl.message(
+      'Merchant Info',
+      name: 'placeDetailMerchantInfoLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get placeDetailMerchantRegistrationNameLabel {
+    return Intl.message(
+      'Registration Name',
+      name: 'placeDetailMerchantRegistrationNameLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get placeDetailMerchantSSMLabel {
+    return Intl.message(
+      'SSM ID',
+      name: 'placeDetailMerchantSSMLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get placeDetailOperatingOpenLabel {
+    return Intl.message(
+      'OPEN',
+      name: 'placeDetailOperatingOpenLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get placeDetailOperatingCloseLabel {
+    return Intl.message(
+      'CLOSED',
+      name: 'placeDetailOperatingCloseLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get placeDetailOperatingSoonLabel {
+    return Intl.message(
+      'CLOSING SOON',
+      name: 'placeDetailOperatingSoonLabel',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
@@ -80,9 +134,7 @@ class AppLocalizationDelegate extends LocalizationsDelegate<S> {
 
   List<Locale> get supportedLocales {
     return const <Locale>[
-      Locale('en', ''),
-      Locale('ms', ''),
-      Locale('zh', ''),
+      Locale('en', ''), Locale('ms', ''), Locale('zh', ''),
     ];
   }
 

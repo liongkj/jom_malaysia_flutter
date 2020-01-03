@@ -3,5 +3,11 @@
   "appBarTitleHome": "主页",
   "appBarTitleWiki": "科普",
   "appBarTitleSetting": "设置",
-  "appBarTitleSettingLanguage": "语言"
+  "appBarTitleSettingLanguage": "语言",
+  "placeDetailMerchantInfoLabel": "商家信息",
+  "placeDetailMerchantRegistrationNameLabel": "注册名字",
+  "placeDetailMerchantSSMLabel": "SSM号",
+  "placeDetailOperatingOpenLabel": "营业",
+  "placeDetailOperatingCloseLabel": "休息",
+  "placeDetailOperatingSoonLabel": "即将休息"
 }

@@ -5,6 +5,7 @@ import 'package:jom_malaysia/core/models/image_model.dart';
 import 'package:jom_malaysia/core/mvp/base_page_state.dart';
 import 'package:jom_malaysia/core/res/colors.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
+import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/operating_hours_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/presenter/place_detail_page_presenter.dart';
@@ -219,17 +220,17 @@ class _MerchantInfo extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  "Merchant Info",
+                  S.of(context).placeDetailMerchantInfoLabel,
                   style: textTextStyle,
                 ),
                 Gaps.vGap12,
                 _MerchantInfoItem(
-                  title: "Registration Name",
+                  title: S.of(context).placeDetailMerchantRegistrationNameLabel,
                   data: merchant.registrationName,
                 ),
                 Gaps.vGap12,
                 _MerchantInfoItem(
-                  title: "SSM ID",
+                  title: S.of(context).placeDetailMerchantSSMLabel,
                   data: merchant.ssmId,
                 )
               ],
@@ -330,7 +331,7 @@ class _OperatingHour extends StatelessWidget {
                           Gaps.hGap15,
                           !_oh.isOpen
                               ? Text(
-                                  'CLOSED',
+                                  S.of(context).placeDetailOperatingCloseLabel,
                                   style: TextStyle(
                                     color: Theme.of(context).errorColor,
                                     fontWeight: FontWeight.w800,
@@ -338,14 +339,18 @@ class _OperatingHour extends StatelessWidget {
                                 )
                               : _oh.closingSoon
                                   ? Text(
-                                      'OPEN',
+                                      S
+                                          .of(context)
+                                          .placeDetailOperatingOpenLabel,
                                       style: TextStyle(
                                         color: Colors.green,
                                         fontWeight: FontWeight.w800,
                                       ),
                                     )
                                   : Text(
-                                      'CLOSING SOON',
+                                      S
+                                          .of(context)
+                                          .placeDetailOperatingSoonLabel,
                                       style: TextStyle(
                                         color: Colors.deepOrange,
                                         fontWeight: FontWeight.w800,
@@ -355,7 +360,7 @@ class _OperatingHour extends StatelessWidget {
                       : Row(
                           children: <Widget>[
                             Text(
-                              'CLOSED',
+                              S.of(context).placeDetailOperatingCloseLabel,
                               style: TextStyle(
                                   color: Theme.of(context).errorColor),
                             )

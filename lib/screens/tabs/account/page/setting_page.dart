@@ -56,7 +56,7 @@ class _SettingPageState extends State<SettingPage> {
         children: <Widget>[
           Gaps.vGap5,
           ClickItem(
-            title: "Language",
+            title: S.of(context).appBarTitleSettingLanguage,
             content: preferredLang,
             onTap: () =>
                 NavigatorUtils.push(context, AccountRouter.languagePage),

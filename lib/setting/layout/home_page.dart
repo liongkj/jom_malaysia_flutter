@@ -46,40 +46,40 @@ class _HomeState extends State<Home> {
       S.of(context).appBarTitleWiki,
       S.of(context).appBarTitleSetting
     ];
-    if (_list == null) {
-      var _tabImages = [
-        Icon(
-          Icons.home,
-          size: iconSize,
-        ),
-        // Icon(
-        //   Icons.map,
-        //   size: iconSize,
-        // ),
-        Icon(
-          Icons.language,
-          size: iconSize,
-        ),
-        Icon(
-          Icons.settings,
-          size: iconSize,
-        ) // [
-      ];
-      _list = List.generate(3, (i) {
-        return BottomNavigationBarItem(
-          icon: _tabImages[i],
-          // activeIcon: _tabImages[i][1],
-          title: Padding(
-            padding: const EdgeInsets.only(top: 1.5),
-            child: Text(
-              _appBarTitles[i],
-              key: Key(_appBarTitles[i]),
-              style: TextStyles.textBold14,
-            ),
+
+    var _tabImages = [
+      Icon(
+        Icons.home,
+        size: iconSize,
+      ),
+      // Icon(
+      //   Icons.map,
+      //   size: iconSize,
+      // ),
+      Icon(
+        Icons.language,
+        size: iconSize,
+      ),
+      Icon(
+        Icons.settings,
+        size: iconSize,
+      ) // [
+    ];
+    _list = List.generate(3, (i) {
+      return BottomNavigationBarItem(
+        icon: _tabImages[i],
+        // activeIcon: _tabImages[i][1],
+        title: Padding(
+          padding: const EdgeInsets.only(top: 1.5),
+          child: Text(
+            _appBarTitles[i],
+            key: Key(_appBarTitles[i]),
+            style: TextStyles.textBold14,
           ),
-        );
-      });
-    }
+        ),
+      );
+    });
+
     return _list;
   }
 

@@ -60,23 +60,20 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider<PlaceDetailProvider>(
             create: (_) => PlaceDetailProvider(),
           ),
-          ChangeNotifierProvider<PlaceDetailProvider>(
-            create: (_) => PlaceDetailProvider(),
-          ),
         ],
         child: Consumer<LanguageProvider>(
           builder: (_, lang, __) {
             return Consumer<ThemeProvider>(
               builder: (_, provider, __) {
                 return MaterialApp(
-                  // showPerformanceOverlay: true, //显示性能标签
-                  // debugShowCheckedModeBanner: false,
-                  //checkerboardRasterCacheImages: true,
-                  title: 'Jom N9',
+                  locale: lang.locale,
+                  onGenerateTitle: (BuildContext context) =>
+                      S.of(context).appTitle,
+                  // title: 'Jom N9',
                   theme: provider.getTheme(),
                   darkTheme: provider.getTheme(isDarkMode: true),
                   home: home ?? SplashPage(),
-                  // home: home,
+
                   onGenerateRoute: Application.router.generator,
                   localizationsDelegates: [
                     GlobalMaterialLocalizations.delegate,
@@ -84,6 +81,9 @@ class MyApp extends StatelessWidget {
                     S.delegate
                   ],
                   supportedLocales: S.delegate.supportedLocales,
+                  // showPerformanceOverlay: true, //显示性能标签
+                  // debugShowCheckedModeBanner: false,
+                  //checkerboardRasterCacheImages: true,
                 );
               },
             );

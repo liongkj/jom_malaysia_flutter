@@ -25,6 +25,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "appBarTitleSetting" : MessageLookupByLibrary.simpleMessage("Setting"),
     "appBarTitleSettingLanguage" : MessageLookupByLibrary.simpleMessage("Language"),
     "appBarTitleWiki" : MessageLookupByLibrary.simpleMessage("Wiki"),
-    "appTitle" : MessageLookupByLibrary.simpleMessage("JomN9")
+    "appTitle" : MessageLookupByLibrary.simpleMessage("JomN9"),
+    "placeDetailMerchantInfoLabel" : MessageLookupByLibrary.simpleMessage("Merchant Info"),
+    "placeDetailMerchantRegistrationNameLabel" : MessageLookupByLibrary.simpleMessage("Registration Name"),
+    "placeDetailMerchantSSMLabel" : MessageLookupByLibrary.simpleMessage("SSM ID"),
+    "placeDetailOperatingCloseLabel" : MessageLookupByLibrary.simpleMessage("CLOSED"),
+    "placeDetailOperatingOpenLabel" : MessageLookupByLibrary.simpleMessage("OPEN"),
+    "placeDetailOperatingSoonLabel" : MessageLookupByLibrary.simpleMessage("CLOSING SOON")
   };
 }
