@@ -39,7 +39,6 @@ class PlaceItem extends StatelessWidget {
           ),
           child: InkWell(
             onTap: () {
-              print("taped");
               Provider.of<PlaceDetailProvider>(context, listen: false)
                   .setPlace(listing);
               NavigatorUtils.push(context,

@@ -9,7 +9,6 @@ class NavigatorUtils {
   static push(BuildContext context, String path,
       {bool replace = false, bool clearStack = false}) {
     FocusScope.of(context).unfocus();
-    print(path);
     Application.router.navigateTo(context, path,
         replace: replace,
         clearStack: clearStack,

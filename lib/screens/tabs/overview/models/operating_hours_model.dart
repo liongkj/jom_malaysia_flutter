@@ -31,7 +31,7 @@ class OperatingHours {
     DateTime ot = DateUtils.apiHourParse(closeTime);
     DateTime closingTime =
         new DateTime(now.year, now.month, now.day, ot.hour, ot.minute);
-    print(closingTime.difference(now).inMinutes);
+
     return closingTime.difference(now).inMinutes <= 45 &&
         closingTime.isAfter(now);
   }

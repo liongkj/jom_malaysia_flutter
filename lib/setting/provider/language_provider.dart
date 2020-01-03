@@ -15,9 +15,8 @@ class LanguageProvider extends ChangeNotifier {
   Locale get locale => _locale;
 
   void setLanguage(Language lang) {
-    print("setting to " + lang.toString());
     final String _l = languages[lang];
-    print("setting to " + _l);
+
     SpUtil.putString(Constant.language, _l);
     _locale = Locale(_l, null);
 

@@ -106,7 +106,7 @@ class PlaceDetailPageState
       ),
       SliverPersistentHeader(
         delegate: MySliverAppBarDelegate(
-          Center(child: MySectionDivider("Detail")),
+          Center(child: MySectionDivider(S.of(context).placeDetailInfoLabel)),
           50,
         ),
       ),
@@ -312,8 +312,6 @@ class _OperatingHour extends StatelessWidget {
     final _today = (DateTime.now().weekday == 7) ? 0 : DateTime.now().weekday;
     final _oh = operatingHours.firstWhere((x) => x.dayOfWeek.index == _today,
         orElse: () => null);
-    // [_today == 7 ? 0 : _today];
-    // print("returned:" + _oh.dayOfWeek.toString() + _oh.isOpen.toString());
     return Material(
       child: InkWell(
         onTap: () => {},

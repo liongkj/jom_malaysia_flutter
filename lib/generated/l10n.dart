@@ -74,6 +74,15 @@ class S {
     );
   }
 
+  String get placeDetailInfoLabel {
+    return Intl.message(
+      'Detail',
+      name: 'placeDetailInfoLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
   String get placeDetailMerchantInfoLabel {
     return Intl.message(
       'Merchant Info',

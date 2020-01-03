@@ -4,6 +4,7 @@
   "appBarTitleWiki": "Wiki",
   "appBarTitleSetting": "Setting",
   "appBarTitleSettingLanguage": "Language",
+  "placeDetailInfoLabel": "Detail",
   "placeDetailMerchantInfoLabel": "Merchant Info",
   "placeDetailMerchantRegistrationNameLabel": "Registration Name",
   "placeDetailMerchantSSMLabel": "SSM ID",
