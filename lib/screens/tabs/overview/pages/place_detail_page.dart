@@ -309,8 +309,11 @@ class _OperatingHour extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //weekday returns 1-7
-    final _today = DateTime.now().weekday;
-    final _oh = operatingHours[_today == 7 ? 0 : _today];
+    final _today = (DateTime.now().weekday == 7) ? 0 : DateTime.now().weekday;
+    final _oh = operatingHours.firstWhere((x) => x.dayOfWeek.index == _today,
+        orElse: () => null);
+    // [_today == 7 ? 0 : _today];
+    // print("returned:" + _oh.dayOfWeek.toString() + _oh.isOpen.toString());
     return Material(
       child: InkWell(
         onTap: () => {},
@@ -337,7 +340,7 @@ class _OperatingHour extends StatelessWidget {
                                     fontWeight: FontWeight.w800,
                                   ),
                                 )
-                              : _oh.closingSoon
+                              : !_oh.closingSoon
                                   ? Text(
                                       S
                                           .of(context)
