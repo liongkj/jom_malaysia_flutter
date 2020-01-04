@@ -5,6 +5,7 @@ import 'package:jom_malaysia/util/text_utils.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import 'address_model.dart';
+import 'category_model.dart';
 import 'contact_model.dart';
 import 'operating_hours_model.dart';
 
@@ -31,7 +32,7 @@ class ListingModel {
   AddressVM address;
 
   List<OperatingHours> operatingHours;
-  CategoryVM category;
+  CategoryPathVM category;
   CategoryType categoryType;
   List<String> tags;
   ListingImageVM listingImages;
@@ -56,11 +57,11 @@ class DescriptionVM {
   Map<String, dynamic> toJson() => _$DescriptionVMToJson(this);
 
   String getDefault() {
-    return en.isNotEmpty ? en : ms.isNotEmpty ? ms : zh.isNotEmpty ? zh : "";
+    return en != null ? en : ms != null ? ms : zh != null ? zh : "";
   }
 
-  String getDescription({String language}) {
-    switch (language?.toLowerCase()) {
+  String getDescription(Locale lang) {
+    switch (lang?.languageCode) {
       case "en":
         return en.isNotEmpty ? en : "";
         break;
@@ -96,23 +97,26 @@ class ListingImageVM {
 }
 
 @JsonSerializable()
-class CategoryVM {
-  CategoryVM(
-      {@required this.categoryId, @required this.category, this.subcategory});
+class CategoryPathVM {
+  CategoryPathVM(
+      {@required this.categoryId,
+      @required this.category,
+      @required this.subcategory});
   String categoryId;
-  String category;
-  String subcategory;
+  CategoryModel category;
+  CategoryModel subcategory;
 
-  factory CategoryVM.fromJson(Map<String, dynamic> json) =>
-      _$CategoryVMFromJson(json);
+  factory CategoryPathVM.fromJson(Map<String, dynamic> json) =>
+      _$CategoryPathVMFromJson(json);
 
-  Map<String, dynamic> toJson() => _$CategoryVMToJson(this);
+  Map<String, dynamic> toJson() => _$CategoryPathVMToJson(this);
 
-  String getCategory({bool isCategory = true}) {
-    if (isCategory) {
-      return TextUtils.capitalize(category);
-    }
-    return TextUtils.capitalize(subcategory);
+  String getCategory(Locale lang) {
+    return TextUtils.capitalize(category.categoryName);
+  }
+
+  String getSubcategory(Locale lang) {
+    return TextUtils.capitalize(subcategory.categoryName);
   }
 
   @override

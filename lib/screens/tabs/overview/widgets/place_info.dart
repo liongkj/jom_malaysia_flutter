@@ -8,16 +8,19 @@ import 'package:jom_malaysia/screens/tabs/overview/models/address_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/contact_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/contact_item.dart';
+import 'package:jom_malaysia/setting/provider/language_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/util/utils.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
 import 'package:jom_malaysia/widgets/my_card.dart';
+import 'package:provider/provider.dart';
 
 class PlaceInfo extends StatelessWidget {
   PlaceInfo(this.place);
   final ListingModel place;
   @override
   Widget build(BuildContext context) {
+    final lang = Provider.of<LanguageProvider>(context, listen: false).locale;
     return MyCard(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
@@ -45,12 +48,12 @@ class PlaceInfo extends StatelessWidget {
               Row(
                 children: <Widget>[
                   Chip(
-                    label: Text(place.category.getCategory(),
+                    label: Text(place.category.getCategory(lang),
                         style: Theme.of(context).textTheme.body1),
                   ),
                   Gaps.hGap15,
                   Chip(
-                    label: Text(place.category.getCategory(isCategory: false),
+                    label: Text(place.category.getSubcategory(lang),
                         style: Theme.of(context).textTheme.body1),
                   ),
                 ],
@@ -149,10 +152,10 @@ class _ContactCardState extends State<_ContactCard> {
           ),
         if (widget?.contact?.website != null)
           ContactItem(
-            icon: Icon(Icons.link),
-            label: widget.contact.email,
-            onTap: () => Utils.launchWebURL(widget.contact.website),
-          ),
+              icon: Icon(Icons.link),
+              label: widget.contact.website,
+              onTap: () => NavigatorUtils.goWebViewPage(
+                  context, "Official Web", widget.contact.website)),
       ],
     );
   }

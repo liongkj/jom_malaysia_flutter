@@ -12,6 +12,7 @@ import 'package:jom_malaysia/screens/tabs/overview/presenter/place_detail_page_p
 import 'package:jom_malaysia/screens/tabs/overview/providers/place_detail_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/operating_hours_dialog.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/place_info.dart';
+import 'package:jom_malaysia/setting/provider/language_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/util/utils.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
@@ -99,7 +100,8 @@ class PlaceDetailPageState
               Gaps.vGap16,
               _OperatingHour(place.operatingHours),
               Gaps.vGap16,
-              if (place.description != null) _PlaceDescription(place),
+              if (place.description != null)
+                _PlaceDescription(place.description),
             ],
           ),
         ),
@@ -281,18 +283,19 @@ class _MerchantInfoItem extends StatelessWidget {
 }
 
 class _PlaceDescription extends StatelessWidget {
-  final ListingModel place;
-  _PlaceDescription(this.place);
+  final DescriptionVM description;
+  _PlaceDescription(this.description);
 
   @override
   Widget build(BuildContext context) {
+    final lang = Provider.of<LanguageProvider>(context, listen: false).locale;
     return MyCard(
       child: Container(
         padding: const EdgeInsets.all(16),
         child: Row(
           children: <Widget>[
             Text(
-              place.description.getDescription(),
+              description?.getDescription(lang),
               style: Theme.of(context).textTheme.body1,
             ),
           ],

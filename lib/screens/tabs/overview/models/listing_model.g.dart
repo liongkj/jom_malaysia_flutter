@@ -27,7 +27,7 @@ ListingModel _$ListingModelFromJson(Map<String, dynamic> json) {
         ?.toList(),
     json['category'] == null
         ? null
-        : CategoryVM.fromJson(json['category'] as Map<String, dynamic>),
+        : CategoryPathVM.fromJson(json['category'] as Map<String, dynamic>),
     (json['tags'] as List)?.map((e) => e as String)?.toList(),
     json['listingImages'] == null
         ? null
@@ -130,15 +130,19 @@ Map<String, dynamic> _$ListingImageVMToJson(ListingImageVM instance) =>
       'ads': instance.ads,
     };
 
-CategoryVM _$CategoryVMFromJson(Map<String, dynamic> json) {
-  return CategoryVM(
+CategoryPathVM _$CategoryPathVMFromJson(Map<String, dynamic> json) {
+  return CategoryPathVM(
     categoryId: json['categoryId'] as String,
-    category: json['category'] as String,
-    subcategory: json['subcategory'] as String,
+    category: json['category'] == null
+        ? null
+        : CategoryModel.fromJson(json['category'] as Map<String, dynamic>),
+    subcategory: json['subcategory'] == null
+        ? null
+        : CategoryModel.fromJson(json['subcategory'] as Map<String, dynamic>),
   );
 }
 
-Map<String, dynamic> _$CategoryVMToJson(CategoryVM instance) =>
+Map<String, dynamic> _$CategoryPathVMToJson(CategoryPathVM instance) =>
     <String, dynamic>{
       'categoryId': instance.categoryId,
       'category': instance.category,
