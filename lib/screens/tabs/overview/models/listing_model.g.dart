@@ -27,7 +27,7 @@ ListingModel _$ListingModelFromJson(Map<String, dynamic> json) {
         ?.toList(),
     json['category'] == null
         ? null
-        : CategoryPathVM.fromJson(json['category'] as Map<String, dynamic>),
+        : CategoryPathModel.fromJson(json['category'] as Map<String, dynamic>),
     (json['tags'] as List)?.map((e) => e as String)?.toList(),
     json['listingImages'] == null
         ? null
@@ -93,21 +93,6 @@ const _$CategoryTypeEnumMap = {
   CategoryType.Nonprofit: 'Nonprofit',
 };
 
-DescriptionVM _$DescriptionVMFromJson(Map<String, dynamic> json) {
-  return DescriptionVM(
-    ms: json['ms'] as String,
-    zh: json['zh'] as String,
-    en: json['en'] as String,
-  );
-}
-
-Map<String, dynamic> _$DescriptionVMToJson(DescriptionVM instance) =>
-    <String, dynamic>{
-      'ms': instance.ms,
-      'zh': instance.zh,
-      'en': instance.en,
-    };
-
 ListingImageVM _$ListingImageVMFromJson(Map<String, dynamic> json) {
   return ListingImageVM(
     listingLogo: json['listingLogo'] == null
@@ -128,25 +113,6 @@ Map<String, dynamic> _$ListingImageVMToJson(ListingImageVM instance) =>
       'listingLogo': instance.listingLogo,
       'coverPhoto': instance.coverPhoto,
       'ads': instance.ads,
-    };
-
-CategoryPathVM _$CategoryPathVMFromJson(Map<String, dynamic> json) {
-  return CategoryPathVM(
-    categoryId: json['categoryId'] as String,
-    category: json['category'] == null
-        ? null
-        : CategoryModel.fromJson(json['category'] as Map<String, dynamic>),
-    subcategory: json['subcategory'] == null
-        ? null
-        : CategoryModel.fromJson(json['subcategory'] as Map<String, dynamic>),
-  );
-}
-
-Map<String, dynamic> _$CategoryPathVMToJson(CategoryPathVM instance) =>
-    <String, dynamic>{
-      'categoryId': instance.categoryId,
-      'category': instance.category,
-      'subcategory': instance.subcategory,
     };
 
 MerchantVM _$MerchantVMFromJson(Map<String, dynamic> json) {

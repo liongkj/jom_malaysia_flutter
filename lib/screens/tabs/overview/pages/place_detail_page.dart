@@ -6,6 +6,7 @@ import 'package:jom_malaysia/core/mvp/base_page_state.dart';
 import 'package:jom_malaysia/core/res/colors.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
+import 'package:jom_malaysia/screens/tabs/overview/models/description_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/operating_hours_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/presenter/place_detail_page_presenter.dart';
@@ -295,7 +296,8 @@ class _PlaceDescription extends StatelessWidget {
         child: Row(
           children: <Widget>[
             Text(
-              description?.getDescription(lang),
+              description
+                  ?.getDescription(lang ?? Localizations.localeOf(context)),
               style: Theme.of(context).textTheme.body1,
             ),
           ],

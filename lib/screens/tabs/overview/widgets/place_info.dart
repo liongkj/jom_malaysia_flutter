@@ -48,12 +48,16 @@ class PlaceInfo extends StatelessWidget {
               Row(
                 children: <Widget>[
                   Chip(
-                    label: Text(place.category.getCategory(lang),
+                    label: Text(
+                        place.category.getCategory(
+                            lang ?? Localizations.localeOf(context)),
                         style: Theme.of(context).textTheme.body1),
                   ),
                   Gaps.hGap15,
                   Chip(
-                    label: Text(place.category.getSubcategory(lang),
+                    label: Text(
+                        place.category.getSubcategory(
+                            lang ?? Localizations.localeOf(context)),
                         style: Theme.of(context).textTheme.body1),
                   ),
                 ],
