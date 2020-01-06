@@ -89,7 +89,7 @@ class _HomeState extends State<Home> {
     if (_lastTime == null ||
         DateTime.now().difference(_lastTime) > Duration(milliseconds: 2500)) {
       _lastTime = DateTime.now();
-      Toast.show("Tap again to quit.");
+      Toast.show(S.of(context).toastMessageTapToExit);
       return Future.value(false);
     }
     Toast.cancelToast();

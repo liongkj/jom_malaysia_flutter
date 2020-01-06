@@ -16,5 +16,6 @@
   "tabViewLabelProfessional": "Professional",
   "tabViewLabelGovernment": "Government",
   "tabViewLabelNGO": "NGO",
-  "settingLanguageLabelSystemDefault": "System Default"
+  "settingLanguageLabelSystemDefault": "System Default",
+  "toastMessageTapToExit":"Tap again to quit."
 }

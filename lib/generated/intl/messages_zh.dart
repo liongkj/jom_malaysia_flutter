@@ -38,6 +38,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "tabViewLabelGovernment" : MessageLookupByLibrary.simpleMessage("政府部门"),
     "tabViewLabelNGO" : MessageLookupByLibrary.simpleMessage("非政府组织"),
     "tabViewLabelProfessional" : MessageLookupByLibrary.simpleMessage("专业服务"),
-    "tabViewLabelShop" : MessageLookupByLibrary.simpleMessage("美食商店")
+    "tabViewLabelShop" : MessageLookupByLibrary.simpleMessage("美食商店"),
+    "toastMessageTapToExit" : MessageLookupByLibrary.simpleMessage("再次点击退出应用")
   };
 }

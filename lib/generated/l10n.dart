@@ -190,6 +190,15 @@ class S {
       args: [],
     );
   }
+
+  String get toastMessageTapToExit {
+    return Intl.message(
+      'Tap again to quit.',
+      name: 'toastMessageTapToExit',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -16,5 +16,6 @@
   "tabViewLabelProfessional": "专业服务",
   "tabViewLabelGovernment": "政府部门",
   "tabViewLabelNGO": "非政府组织",
-  "settingLanguageLabelSystemDefault": "跟随系统"
+  "settingLanguageLabelSystemDefault": "跟随系统",
+  "toastMessageTapToExit": "再次点击退出应用"
 }

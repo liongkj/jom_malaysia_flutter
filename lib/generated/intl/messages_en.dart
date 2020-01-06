@@ -38,6 +38,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "tabViewLabelGovernment" : MessageLookupByLibrary.simpleMessage("Government"),
     "tabViewLabelNGO" : MessageLookupByLibrary.simpleMessage("NGO"),
     "tabViewLabelProfessional" : MessageLookupByLibrary.simpleMessage("Professional"),
-    "tabViewLabelShop" : MessageLookupByLibrary.simpleMessage("Shop")
+    "tabViewLabelShop" : MessageLookupByLibrary.simpleMessage("Shop"),
+    "toastMessageTapToExit" : MessageLookupByLibrary.simpleMessage("Tap again to quit.")
   };
 }
