@@ -15,6 +15,7 @@ import 'package:jom_malaysia/screens/tabs/overview/widgets/operating_hours_dialo
 import 'package:jom_malaysia/screens/tabs/overview/widgets/place_info.dart';
 import 'package:jom_malaysia/setting/provider/language_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
+import 'package:jom_malaysia/util/image_utils.dart';
 import 'package:jom_malaysia/util/utils.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
 import 'package:jom_malaysia/widgets/my_card.dart';
@@ -116,10 +117,10 @@ class PlaceDetailPageState
       SliverToBoxAdapter(
         child: Gaps.vGap16,
       ),
-      if (place.listingImages.ads != null && place.listingImages.ads.length > 0)
-        _PlaceImage(
-          images: place.listingImages.ads,
-        ),
+      // if (place.listingImages.ads != null && place.listingImages.ads.length > 0)
+      _PlaceImage(
+        images: place.listingImages.ads,
+      ),
       _MerchantInfo(merchant: place.merchant),
     ];
   }
@@ -134,11 +135,18 @@ class _PlaceImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _dummyImage = [
+      "ads/listing-ad1",
+      "ads/listing-ad2",
+      "ads/listing-ad3"
+    ];
     return SliverList(
       delegate: SliverChildBuilderDelegate(
         (BuildContext context, int index) {
-          return LoadImage(images[index].url);
+          // return LoadImage(images[index].url);
+          return LoadAssetImage(_dummyImage[index], format: 'jpg');
         },
+        childCount: _dummyImage.length,
       ),
     );
   }

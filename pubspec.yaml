@@ -95,6 +95,7 @@ flutter:
     - assets/images/place/
     - assets/data/
     - assets/images/
+    - assets/images/ads/
     - assets/images/home/
     - assets/images/store/
     - assets/images/state/
