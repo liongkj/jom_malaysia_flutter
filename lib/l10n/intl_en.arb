@@ -10,5 +10,11 @@
   "placeDetailMerchantSSMLabel": "SSM ID",
   "placeDetailOperatingOpenLabel": "OPEN",
   "placeDetailOperatingCloseLabel": "CLOSED",
-  "placeDetailOperatingSoonLabel": "CLOSING SOON"
+  "placeDetailOperatingSoonLabel": "CLOSING SOON",
+  "tabViewLabelShop": "Shop",
+  "tabViewLabelAttraction": "Attraction",
+  "tabViewLabelProfessional": "Professional",
+  "tabViewLabelGovernment": "Government",
+  "tabViewLabelNGO": "NGO",
+  "settingLanguageLabelSystemDefault": "System Default"
 }

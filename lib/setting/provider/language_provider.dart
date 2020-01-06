@@ -12,16 +12,20 @@ class LanguageProvider extends ChangeNotifier {
   };
 
   Locale _locale;
-  Locale get locale => _locale;
+  Locale get locale {
+    String preference = SpUtil.getString(Constant.language);
+    return preference == "" ? null : Locale(preference, null);
+  }
 
   void setLanguage(Language lang) {
     final String _l = languages[lang];
-
-    SpUtil.putString(Constant.language, _l);
-    _locale = Locale(_l, null);
-
-    // Locale locale = Locale(languages[lang], '');
-    // S.load(locale);
+    if (_l == null) {
+      SpUtil.remove(Constant.language);
+      _locale = null;
+    } else {
+      SpUtil.putString(Constant.language, _l);
+      _locale = Locale(_l, null);
+    }
     notifyListeners();
   }
 

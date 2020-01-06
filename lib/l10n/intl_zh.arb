@@ -10,5 +10,11 @@
   "placeDetailMerchantSSMLabel": "SSM号",
   "placeDetailOperatingOpenLabel": "营业",
   "placeDetailOperatingCloseLabel": "休息",
-  "placeDetailOperatingSoonLabel": "即将休息"
+  "placeDetailOperatingSoonLabel": "即将休息",
+  "tabViewLabelShop": "美食商店",
+  "tabViewLabelAttraction": "游玩景点",
+  "tabViewLabelProfessional": "专业服务",
+  "tabViewLabelGovernment": "政府部门",
+  "tabViewLabelNGO": "非政府组织",
+  "settingLanguageLabelSystemDefault": "跟随系统"
 }

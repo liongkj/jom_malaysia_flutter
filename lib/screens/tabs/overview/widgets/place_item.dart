@@ -99,7 +99,7 @@ class _Description extends StatelessWidget {
               child: Rating(rating: 4),
             ),
             Text(
-              listing.tags[0],
+              '"${listing.tags[0]}"',
               style: TextStyle(
                   fontSize: Dimens.font_sp12,
                   color: Theme.of(context).errorColor),

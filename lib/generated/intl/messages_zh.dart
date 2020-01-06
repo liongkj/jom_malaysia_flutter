@@ -32,6 +32,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "placeDetailMerchantSSMLabel" : MessageLookupByLibrary.simpleMessage("SSM号"),
     "placeDetailOperatingCloseLabel" : MessageLookupByLibrary.simpleMessage("休息"),
     "placeDetailOperatingOpenLabel" : MessageLookupByLibrary.simpleMessage("营业"),
-    "placeDetailOperatingSoonLabel" : MessageLookupByLibrary.simpleMessage("即将休息")
+    "placeDetailOperatingSoonLabel" : MessageLookupByLibrary.simpleMessage("即将休息"),
+    "settingLanguageLabelSystemDefault" : MessageLookupByLibrary.simpleMessage("跟随系统"),
+    "tabViewLabelAttraction" : MessageLookupByLibrary.simpleMessage("游玩景点"),
+    "tabViewLabelGovernment" : MessageLookupByLibrary.simpleMessage("政府部门"),
+    "tabViewLabelNGO" : MessageLookupByLibrary.simpleMessage("非政府组织"),
+    "tabViewLabelProfessional" : MessageLookupByLibrary.simpleMessage("专业服务"),
+    "tabViewLabelShop" : MessageLookupByLibrary.simpleMessage("美食商店")
   };
 }

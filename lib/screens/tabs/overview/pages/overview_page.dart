@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/mvp/base_page_state.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
+import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/overview_router.dart';
 import 'package:jom_malaysia/screens/tabs/overview/presenter/overview_page_presenter.dart';
@@ -9,6 +10,7 @@ import 'package:jom_malaysia/screens/tabs/overview/providers/place_detail_provid
 import 'package:jom_malaysia/screens/tabs/overview/widgets/ads_space.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/place_list.dart';
 import 'package:jom_malaysia/setting/provider/base_list_provider.dart';
+import 'package:jom_malaysia/setting/provider/language_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/util/image_utils.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
@@ -289,34 +291,39 @@ class _ListingTypeTab extends StatelessWidget {
       child: Container(
         height: 80.0,
         padding: const EdgeInsets.only(top: 8.0),
-        child: TabBar(
-          isScrollable: true,
-          labelPadding: const EdgeInsets.symmetric(horizontal: 8.0),
-          controller: _tabController,
-          labelColor:
-              ThemeUtils.isDark(context) ? Colours.dark_text : Colours.text,
-          unselectedLabelColor: ThemeUtils.isDark(context)
-              ? Colours.dark_text_gray
-              : Colours.text,
-          labelStyle: TextStyles.textBold14,
-          unselectedLabelStyle: const TextStyle(
-            fontSize: Dimens.font_sp12,
-          ),
-          indicatorColor: Colors.transparent,
-          tabs: const <Widget>[
-            const _TabViewTab(0, 'Shops', Icons.restaurant),
-            const _TabViewTab(1, 'Attractions', Icons.local_play),
-            const _TabViewTab(2, 'Government', Icons.location_city),
-            const _TabViewTab(3, 'Professional', Icons.work),
-            const _TabViewTab(4, 'NGO', Icons.people),
-          ],
-          onTap: (index) {
-            if (!mounted) {
-              return;
-            }
-            _pageController.jumpToPage(index);
-          },
-        ),
+        child: Consumer<LanguageProvider>(builder: (_, __, ___) {
+          return TabBar(
+            isScrollable: true,
+            labelPadding: const EdgeInsets.symmetric(horizontal: 8.0),
+            controller: _tabController,
+            labelColor:
+                ThemeUtils.isDark(context) ? Colours.dark_text : Colours.text,
+            unselectedLabelColor: ThemeUtils.isDark(context)
+                ? Colours.dark_text_gray
+                : Colours.text,
+            labelStyle: TextStyles.textBold14,
+            unselectedLabelStyle: const TextStyle(
+              fontSize: Dimens.font_sp12,
+            ),
+            indicatorColor: Colors.transparent,
+            tabs: <Widget>[
+              _TabViewTab(0, S.of(context).tabViewLabelShop, Icons.restaurant),
+              _TabViewTab(
+                  1, S.of(context).tabViewLabelAttraction, Icons.local_play),
+              _TabViewTab(
+                  2, S.of(context).tabViewLabelGovernment, Icons.location_city),
+              _TabViewTab(
+                  3, S.of(context).tabViewLabelProfessional, Icons.work),
+              _TabViewTab(4, S.of(context).tabViewLabelNGO, Icons.people),
+            ],
+            onTap: (index) {
+              if (!mounted) {
+                return;
+              }
+              _pageController.jumpToPage(index);
+            },
+          );
+        }),
       ),
     );
   }

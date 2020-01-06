@@ -136,6 +136,60 @@ class S {
       args: [],
     );
   }
+
+  String get tabViewLabelShop {
+    return Intl.message(
+      'Shop',
+      name: 'tabViewLabelShop',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get tabViewLabelAttraction {
+    return Intl.message(
+      'Attraction',
+      name: 'tabViewLabelAttraction',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get tabViewLabelProfessional {
+    return Intl.message(
+      'Professional',
+      name: 'tabViewLabelProfessional',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get tabViewLabelGovernment {
+    return Intl.message(
+      'Government',
+      name: 'tabViewLabelGovernment',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get tabViewLabelNGO {
+    return Intl.message(
+      'NGO',
+      name: 'tabViewLabelNGO',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get settingLanguageLabelSystemDefault {
+    return Intl.message(
+      'System Default',
+      name: 'settingLanguageLabelSystemDefault',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

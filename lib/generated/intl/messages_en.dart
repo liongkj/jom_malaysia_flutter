@@ -32,6 +32,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "placeDetailMerchantSSMLabel" : MessageLookupByLibrary.simpleMessage("SSM ID"),
     "placeDetailOperatingCloseLabel" : MessageLookupByLibrary.simpleMessage("CLOSED"),
     "placeDetailOperatingOpenLabel" : MessageLookupByLibrary.simpleMessage("OPEN"),
-    "placeDetailOperatingSoonLabel" : MessageLookupByLibrary.simpleMessage("CLOSING SOON")
+    "placeDetailOperatingSoonLabel" : MessageLookupByLibrary.simpleMessage("CLOSING SOON"),
+    "settingLanguageLabelSystemDefault" : MessageLookupByLibrary.simpleMessage("System Default"),
+    "tabViewLabelAttraction" : MessageLookupByLibrary.simpleMessage("Attraction"),
+    "tabViewLabelGovernment" : MessageLookupByLibrary.simpleMessage("Government"),
+    "tabViewLabelNGO" : MessageLookupByLibrary.simpleMessage("NGO"),
+    "tabViewLabelProfessional" : MessageLookupByLibrary.simpleMessage("Professional"),
+    "tabViewLabelShop" : MessageLookupByLibrary.simpleMessage("Shop")
   };
 }

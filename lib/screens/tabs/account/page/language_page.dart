@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flustars/flustars.dart' as flutter_stars;
 import 'package:jom_malaysia/core/constants/common.dart';
 import 'package:jom_malaysia/core/constants/langauge.dart';
+import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/setting/provider/language_provider.dart';
 import 'package:jom_malaysia/widgets/app_bar.dart';
 import 'package:provider/provider.dart';
@@ -12,8 +13,6 @@ class LanguagePage extends StatefulWidget {
 }
 
 class _LanguagePageState extends State<LanguagePage> {
-  var _list = ["System Default", "English", "Bahasa Malaysia", "中文"];
-
   @override
   void initState() {
     super.initState();
@@ -24,6 +23,12 @@ class _LanguagePageState extends State<LanguagePage> {
 
   @override
   Widget build(BuildContext context) {
+    final _list = [
+      S.of(context).settingLanguageLabelSystemDefault,
+      "English",
+      "Bahasa Malaysia",
+      "中文"
+    ];
     String lang = flutter_stars.SpUtil.getString(Constant.language);
     String preferredLang;
     switch (lang) {
@@ -41,8 +46,8 @@ class _LanguagePageState extends State<LanguagePage> {
         break;
     }
     return Scaffold(
-      appBar: const MyAppBar(
-        title: "Language",
+      appBar: MyAppBar(
+        title: S.of(context).appBarTitleSettingLanguage,
       ),
       body: ListView.separated(
           shrinkWrap: true,
@@ -71,7 +76,7 @@ class _LanguagePageState extends State<LanguagePage> {
                     ),
                     Opacity(
                         opacity: preferredLang == _list[index] ? 1 : 0,
-                        child: Icon(Icons.done, color: Colors.blue))
+                        child: const Icon(Icons.done, color: Colors.blue))
                   ],
                 ),
               ),
