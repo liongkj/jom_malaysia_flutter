@@ -303,10 +303,12 @@ class _PlaceDescription extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: Row(
           children: <Widget>[
-            Text(
-              description
-                  ?.getDescription(lang ?? Localizations.localeOf(context)),
-              style: Theme.of(context).textTheme.body1,
+            Flexible(
+              child: Text(
+                description
+                    ?.getDescription(lang ?? Localizations.localeOf(context)),
+                style: Theme.of(context).textTheme.body1,
+              ),
             ),
           ],
         ),
