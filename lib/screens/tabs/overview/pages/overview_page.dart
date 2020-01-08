@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:jom_malaysia/core/mvp/base_page_state.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
@@ -38,7 +39,10 @@ class OverviewPageState
   PageController _pageController = PageController(initialPage: 0);
   BaseListProvider<ListingModel> listingProvider =
       BaseListProvider<ListingModel>();
-  PlaceDetailProvider detailProvider = PlaceDetailProvider();
+  final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
+
+  Position _currentPosition;
+  String _currentAddress = '';
 
   _onPageChange(int index) async {
     presenter.onPageChange(index);
@@ -56,10 +60,41 @@ class OverviewPageState
   void initState() {
     super.initState();
     _tabController = TabController(vsync: this, length: 5);
-
+    //Location
+    _getCurrentLocation();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       // _preCacheImage();
     });
+  }
+
+  //Get current location
+  _getCurrentLocation() {
+    final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
+    geolocator
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
+        .then((Position position) {
+      setState(() {
+        _currentPosition = position;
+        _getAddressFromLatLng(position);
+      });
+    }).catchError((e) {
+      print(e);
+    });
+  }
+
+  //Get Location Base on Latitude and Longtitude
+  _getAddressFromLatLng(position) async {
+    try {
+      List<Placemark> p = await geolocator.placemarkFromCoordinates(
+          _currentPosition.latitude, _currentPosition.longitude);
+      Placemark place = p[0];
+      setState(() {
+        _currentAddress =
+            "${place.locality}"; //, ${place.postalCode}, ${place.country}";
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 
   // _preCacheImage() {
@@ -197,23 +232,24 @@ class OverviewPageState
           floating: false, // 不随着滑动隐藏标题
           pinned: true, // 固定在顶部
           flexibleSpace: MyFlexibleSpaceBar(
-            background: isDark
-                ? Container(
-                    height: 113.0,
-                    color: Colours.dark_bg_color,
-                  )
-                : const LoadAssetImage(
-                    "order/order_bg",
-                    width: double.infinity,
-                    height: 113.0,
-                    fit: BoxFit.fill,
-                  ),
-            centerTitle: true,
-            titlePadding:
-                const EdgeInsetsDirectional.only(start: 16.0, bottom: 14.0),
-            collapseMode: CollapseMode.pin,
-            title: _CurrentLocation(),
-          ),
+              background: isDark
+                  ? Container(
+                      height: 113.0,
+                      color: Colours.dark_bg_color,
+                    )
+                  : const LoadAssetImage(
+                      "order/order_bg",
+                      width: double.infinity,
+                      height: 113.0,
+                      fit: BoxFit.fill,
+                    ),
+              centerTitle: true,
+              titlePadding:
+                  const EdgeInsetsDirectional.only(start: 16.0, bottom: 14.0),
+              collapseMode: CollapseMode.pin,
+              title: _CurrentLocation(
+                  address: _currentAddress) //(position: _currentPosition),
+              ),
         ),
       ),
       SliverPersistentHeader(
@@ -244,7 +280,11 @@ class OverviewPageState
 }
 
 class _CurrentLocation extends StatelessWidget {
+  final String address;
+  //final Position position;
   const _CurrentLocation({
+    this.address,
+    //this.position,
     Key key,
   }) : super(key: key);
 
@@ -260,7 +300,8 @@ class _CurrentLocation extends StatelessWidget {
           ),
           Gaps.hGap8,
           Text(
-            "Seremban",
+            address,
+            //position.latitude.toString()+','+position.longitude.toString(),
             style: TextStyle(
                 color: ThemeUtils.getIconColor(context),
                 fontSize: Dimens.font_sp16),
