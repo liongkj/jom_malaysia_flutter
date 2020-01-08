@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
-import 'package:jom_malaysia/widgets/load_image.dart';
 
 class ContactItem extends StatelessWidget {
   const ContactItem({

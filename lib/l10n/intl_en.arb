@@ -1,1 +1,21 @@
-{}
+{
+  "appTitle": "JomN9",
+  "appBarTitleHome": "Home",
+  "appBarTitleWiki": "Wiki",
+  "appBarTitleSetting": "Setting",
+  "appBarTitleSettingLanguage": "Language",
+  "placeDetailInfoLabel": "Detail",
+  "placeDetailMerchantInfoLabel": "Merchant Info",
+  "placeDetailMerchantRegistrationNameLabel": "Registration Name",
+  "placeDetailMerchantSSMLabel": "SSM ID",
+  "placeDetailOperatingOpenLabel": "OPEN",
+  "placeDetailOperatingCloseLabel": "CLOSED",
+  "placeDetailOperatingSoonLabel": "CLOSING SOON",
+  "tabViewLabelShop": "Shop",
+  "tabViewLabelAttraction": "Attraction",
+  "tabViewLabelProfessional": "Professional",
+  "tabViewLabelGovernment": "Government",
+  "tabViewLabelNGO": "NGO",
+  "settingLanguageLabelSystemDefault": "System Default",
+  "toastMessageTapToExit": "Tap again to quit."
+}

@@ -21,10 +21,10 @@ class ContactVM {
 
   Map<String, dynamic> toJson() => _$ContactVMToJson(this);
   String getContactNumber() {
-    if (mobileNumber.isNotEmpty) {
+    if (mobileNumber != null) {
       return mobileNumber;
     }
-    if (officeNumber.isNotEmpty) {
+    if (officeNumber != null) {
       return officeNumber;
     }
     return null;

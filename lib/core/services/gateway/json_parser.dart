@@ -15,7 +15,7 @@ class JsonParser {
     if (T == CategoryModel) {
       return CategoryModel.fromJson(json) as T;
     }
-    if (T   == ListingModel) {
+    if (T == ListingModel) {
       return ListingModel.fromJson(json) as T;
     }
     // } else if (T == UserDetails) {

@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
+import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/overview_router.dart';
+import 'package:jom_malaysia/screens/tabs/overview/providers/place_detail_provider.dart';
+import 'package:jom_malaysia/setting/provider/language_provider.dart';
+import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
 import 'package:jom_malaysia/widgets/my_card.dart';
 import 'package:jom_malaysia/widgets/my_rating.dart';
+import 'package:provider/provider.dart';
 
 class PlaceItem extends StatelessWidget {
   const PlaceItem({
@@ -35,8 +40,12 @@ class PlaceItem extends StatelessWidget {
             8.0,
           ),
           child: InkWell(
-            onTap: () => Navigator.pushNamed(context,
-                '${OverviewRouter.placeDetailPage}/${listing.listingId}'),
+            onTap: () {
+              Provider.of<PlaceDetailProvider>(context, listen: false)
+                  .setPlace(listing);
+              NavigatorUtils.push(context,
+                  '${OverviewRouter.placeDetailPage}/${listing.listingId}');
+            },
             child: Container(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -73,6 +82,7 @@ class _Description extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final lang = Provider.of<LanguageProvider>(context, listen: false).locale;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.max,
@@ -89,7 +99,7 @@ class _Description extends StatelessWidget {
               child: Rating(rating: 4),
             ),
             Text(
-              listing.tags[0],
+              '"${listing.tags[0]}"',
               style: TextStyle(
                   fontSize: Dimens.font_sp12,
                   color: Theme.of(context).errorColor),
@@ -101,7 +111,8 @@ class _Description extends StatelessWidget {
           children: <Widget>[
             Expanded(
               child: Text(
-                listing.category.toString(),
+                listing.category
+                    .getSubcategory(lang ?? Localizations.localeOf(context)),
                 overflow: TextOverflow.ellipsis,
               ),
             ),

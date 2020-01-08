@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/constants/common.dart';
 import 'package:jom_malaysia/screens/login/login_router.dart';
+import 'package:jom_malaysia/setting/provider/language_provider.dart';
 import 'package:jom_malaysia/setting/routers/routers.dart';
 import 'package:jom_malaysia/util/image_utils.dart';
 import 'package:rxdart/rxdart.dart';
@@ -29,7 +30,8 @@ class _SplashPageState extends State<SplashPage> {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await SpUtil.getInstance();
       // 由于SpUtil未初始化，所以MaterialApp获取的为默认主题配置，这里同步一下。
-      Provider.of<ThemeProvider>(context).syncTheme();
+      Provider.of<ThemeProvider>(context, listen: false).syncTheme();
+      Provider.of<LanguageProvider>(context, listen: false).syncLang();
       if (SpUtil.getBool(Constant.keyGuide, defValue: true)) {
         /// 预先缓存图片，避免直接使用时因为首次加载造成闪动
         _guideList.forEach((image) {
@@ -54,7 +56,7 @@ class _SplashPageState extends State<SplashPage> {
 
   void _initSplash() {
     _subscription =
-        Observable.just(1).delay(Duration(milliseconds: 1500)).listen((_) {
+        Observable.just(0.5).delay(Duration(milliseconds: 1500)).listen((_) {
       if (SpUtil.getBool(Constant.keyGuide, defValue: true)) {
         SpUtil.putBool(Constant.keyGuide, false);
         _initGuide();

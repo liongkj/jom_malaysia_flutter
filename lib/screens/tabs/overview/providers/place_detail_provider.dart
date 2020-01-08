@@ -19,7 +19,6 @@ class PlaceDetailProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  
   void setStateTypeNotNotify(StateType stateType) {
     _stateType = stateType;
   }

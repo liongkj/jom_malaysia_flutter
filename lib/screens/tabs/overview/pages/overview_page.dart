@@ -3,15 +3,19 @@ import 'dart:convert';
 import 'package:alphabet_list_scroll_view/alphabet_list_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:jom_malaysia/core/mvp/base_page_state.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
+import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/overview_router.dart';
 import 'package:jom_malaysia/screens/tabs/overview/presenter/overview_page_presenter.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/overview_page_provider.dart';
+import 'package:jom_malaysia/screens/tabs/overview/providers/place_detail_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/ads_space.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/place_list.dart';
 import 'package:jom_malaysia/setting/provider/base_list_provider.dart';
+import 'package:jom_malaysia/setting/provider/language_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/util/image_utils.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
@@ -51,6 +55,10 @@ class OverviewPageState
 
   Text locationText = Text('Please Select a City');
   TextEditingController searchController = TextEditingController();
+  final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
+
+  Position _currentPosition;
+  String _currentAddress = '';
 
   _onPageChange(int index) async {
     presenter.onPageChange(index);
@@ -73,6 +81,8 @@ class OverviewPageState
     searchController.addListener(() {
       filterList();
     });
+    //Location
+    _getCurrentLocation();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       // _preCacheImage();
     });
@@ -82,6 +92,33 @@ class OverviewPageState
     if (searchController.text.isNotEmpty) {
       _cities.retainWhere((cities) =>
           cities.toLowerCase().contains(searchController.text.toLowerCase()));
+  //Get current location
+  _getCurrentLocation() {
+    final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
+    geolocator
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
+        .then((Position position) {
+      setState(() {
+        _currentPosition = position;
+        _getAddressFromLatLng(position);
+      });
+    }).catchError((e) {
+      print(e);
+    });
+  }
+
+  //Get Location Base on Latitude and Longtitude
+  _getAddressFromLatLng(position) async {
+    try {
+      List<Placemark> p = await geolocator.placemarkFromCoordinates(
+          _currentPosition.latitude, _currentPosition.longitude);
+      Placemark place = p[0];
+      setState(() {
+        _currentAddress =
+            "${place.locality}"; //, ${place.postalCode}, ${place.country}";
+      });
+    } catch (e) {
+      print(e);
     }
   }
 
@@ -152,7 +189,10 @@ class OverviewPageState
                     bottom: false,
                     child: Builder(
                       builder: (BuildContext context) {
-                        return PlaceList(index: index);
+                        return PlaceList(
+                          index: index,
+                          presenter: presenter,
+                        );
                       },
                     ),
                   );
@@ -237,27 +277,29 @@ class OverviewPageState
           backgroundColor: Colors.transparent,
           elevation: 0.0,
           centerTitle: true,
-          expandedHeight: 140.0,
+          expandedHeight: MediaQuery.of(context).size.height * 0.18,
+          //  140.0,
           floating: false, // 不随着滑动隐藏标题
           pinned: true, // 固定在顶部
           flexibleSpace: MyFlexibleSpaceBar(
-            background: isDark
-                ? Container(
-                    height: 113.0,
-                    color: Colours.dark_bg_color,
-                  )
-                : const LoadAssetImage(
-                    "order/order_bg",
-                    width: double.infinity,
-                    height: 113.0,
-                    fit: BoxFit.fill,
-                  ),
-            centerTitle: true,
-            titlePadding:
-                const EdgeInsetsDirectional.only(start: 16.0, bottom: 14.0),
-            collapseMode: CollapseMode.pin,
-            title: _CurrentLocation(),
-          ),
+              background: isDark
+                  ? Container(
+                      height: 113.0,
+                      color: Colours.dark_bg_color,
+                    )
+                  : const LoadAssetImage(
+                      "order/order_bg",
+                      width: double.infinity,
+                      height: 113.0,
+                      fit: BoxFit.fill,
+                    ),
+              centerTitle: true,
+              titlePadding:
+                  const EdgeInsetsDirectional.only(start: 16.0, bottom: 14.0),
+              collapseMode: CollapseMode.pin,
+              title: _CurrentLocation(
+                  address: _currentAddress) //(position: _currentPosition),
+              ),
         ),
       ),
       SliverPersistentHeader(
@@ -288,7 +330,11 @@ class OverviewPageState
 }
 
 class _CurrentLocation extends StatelessWidget {
+  final String address;
+  //final Position position;
   const _CurrentLocation({
+    this.address,
+    //this.position,
     Key key,
   }) : super(key: key);
 
@@ -304,7 +350,8 @@ class _CurrentLocation extends StatelessWidget {
           ),
           Gaps.hGap8,
           Text(
-            "Seremban",
+            address,
+            //position.latitude.toString()+','+position.longitude.toString(),
             style: TextStyle(
                 color: ThemeUtils.getIconColor(context),
                 fontSize: Dimens.font_sp16),
@@ -335,34 +382,39 @@ class _ListingTypeTab extends StatelessWidget {
       child: Container(
         height: 80.0,
         padding: const EdgeInsets.only(top: 8.0),
-        child: TabBar(
-          isScrollable: true,
-          labelPadding: const EdgeInsets.symmetric(horizontal: 8.0),
-          controller: _tabController,
-          labelColor:
-              ThemeUtils.isDark(context) ? Colours.dark_text : Colours.text,
-          unselectedLabelColor: ThemeUtils.isDark(context)
-              ? Colours.dark_text_gray
-              : Colours.text,
-          labelStyle: TextStyles.textBold14,
-          unselectedLabelStyle: const TextStyle(
-            fontSize: Dimens.font_sp12,
-          ),
-          indicatorColor: Colors.transparent,
-          tabs: const <Widget>[
-            const _TabViewTab(0, 'Shops', Icons.restaurant),
-            const _TabViewTab(1, 'Attractions', Icons.local_play),
-            const _TabViewTab(2, 'Government', Icons.location_city),
-            const _TabViewTab(3, 'Professional', Icons.work),
-            const _TabViewTab(4, 'NGO', Icons.people),
-          ],
-          onTap: (index) {
-            if (!mounted) {
-              return;
-            }
-            _pageController.jumpToPage(index);
-          },
-        ),
+        child: Consumer<LanguageProvider>(builder: (_, __, ___) {
+          return TabBar(
+            isScrollable: true,
+            labelPadding: const EdgeInsets.symmetric(horizontal: 8.0),
+            controller: _tabController,
+            labelColor:
+                ThemeUtils.isDark(context) ? Colours.dark_text : Colours.text,
+            unselectedLabelColor: ThemeUtils.isDark(context)
+                ? Colours.dark_text_gray
+                : Colours.text,
+            labelStyle: TextStyles.textBold14,
+            unselectedLabelStyle: const TextStyle(
+              fontSize: Dimens.font_sp12,
+            ),
+            indicatorColor: Colors.transparent,
+            tabs: <Widget>[
+              _TabViewTab(0, S.of(context).tabViewLabelShop, Icons.restaurant),
+              _TabViewTab(
+                  1, S.of(context).tabViewLabelAttraction, Icons.local_play),
+              _TabViewTab(
+                  2, S.of(context).tabViewLabelGovernment, Icons.location_city),
+              _TabViewTab(
+                  3, S.of(context).tabViewLabelProfessional, Icons.work),
+              _TabViewTab(4, S.of(context).tabViewLabelNGO, Icons.people),
+            ],
+            onTap: (index) {
+              if (!mounted) {
+                return;
+              }
+              _pageController.jumpToPage(index);
+            },
+          );
+        }),
       ),
     );
   }

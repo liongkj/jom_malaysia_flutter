@@ -19,6 +19,7 @@ class Constant {
 
   static const String theme = "AppTheme";
 
+  static const String language = "PreferredLanguage";
   static const List<String> orderLeftButtonText = [
     "拒单",
     "拒单",

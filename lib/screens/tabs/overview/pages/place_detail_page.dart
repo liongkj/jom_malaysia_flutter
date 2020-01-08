@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:jom_malaysia/core/models/image_model.dart';
 import 'package:jom_malaysia/core/mvp/base_page_state.dart';
 import 'package:jom_malaysia/core/res/colors.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
+import 'package:jom_malaysia/generated/l10n.dart';
+import 'package:jom_malaysia/screens/tabs/overview/models/description_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/operating_hours_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/presenter/place_detail_page_presenter.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/place_detail_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/operating_hours_dialog.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/place_info.dart';
+import 'package:jom_malaysia/setting/provider/language_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
+import 'package:jom_malaysia/util/image_utils.dart';
 import 'package:jom_malaysia/util/utils.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
 import 'package:jom_malaysia/widgets/my_card.dart';
@@ -34,21 +39,13 @@ const kExpandedHeight = 250.0;
 class PlaceDetailPageState
     extends BasePageState<PlaceDetailPage, PlaceDetailPagePresenter> {
   bool isDark = false;
-  PlaceDetailProvider provider = PlaceDetailProvider();
-
-  void setPlace(ListingModel place) {
-    provider.setPlace(place);
-  }
 
   ScrollController _scrollController;
 
   @override
   void initState() {
     super.initState();
-    provider.setStateTypeNotNotify(StateType.empty);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      presenter.fetchDetail(widget.placeId);
-    });
+    WidgetsBinding.instance.addPostFrameCallback((_) {});
 
     _scrollController = ScrollController()..addListener(() => setState(() {}));
   }
@@ -71,65 +68,26 @@ class PlaceDetailPageState
   @override
   Widget build(BuildContext context) {
     isDark = ThemeUtils.isDark(context);
-    return ChangeNotifierProvider<PlaceDetailProvider>(
-        create: (_) => provider,
-        child: Consumer<PlaceDetailProvider>(builder: (_, detail, __) {
-          final place = detail.place;
-          return Scaffold(
-            body: SafeArea(
-                child: CustomScrollView(
-              controller: _scrollController,
-              key: const Key('place_detail'),
-              // physics: ClampingScrollPhysics(),
-              slivers: detail.stateType != StateType.loading
-                  ? <Widget>[]
-                  : _sliverBuilder(place),
-            )),
-          );
-        }));
+    final place =
+        Provider.of<PlaceDetailProvider>(context, listen: false).place;
+
+    return Scaffold(
+      body: SafeArea(
+          child: CustomScrollView(
+        controller: _scrollController,
+        key: const Key('place_detail'),
+        // physics: ClampingScrollPhysics(),
+        slivers: _sliverBuilder(place),
+      )),
+    );
   }
 
   List<Widget> _sliverBuilder(ListingModel place) {
     return <Widget>[
-      SliverAppBar(
-        brightness: Brightness.dark,
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-        titleSpacing: 0.0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios),
-          color: _showTitle ? Colours.text : ThemeUtils.getIconColor(context),
-          onPressed: () => NavigatorUtils.goBack(context),
-        ),
-        centerTitle: true,
-        title: _showTitle
-            ? Text(
-                '${place.listingName}',
-                style: Theme.of(context).textTheme.subtitle,
-              )
-            : null,
-        expandedHeight: kExpandedHeight,
-        floating: false, // 不随着滑动隐藏标题
-        pinned: true, // 固定在顶部
-        flexibleSpace: _showTitle
-            ? null
-            : FlexibleSpaceBar(
-                titlePadding:
-                    const EdgeInsetsDirectional.only(start: 16.0, bottom: 14.0),
-                collapseMode: CollapseMode.pin,
-                background: _CoverPhotos(),
-                centerTitle: true,
-              ),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(
-              Icons.more_vert,
-              color:
-                  _showTitle ? Colors.black : ThemeUtils.getIconColor(context),
-            ),
-            onPressed: () {},
-          )
-        ],
+      _AppBarWithSwiper(
+        showTitle: _showTitle,
+        context: context,
+        place: place,
       ),
       SliverToBoxAdapter(
         child: Gaps.vGap8,
@@ -144,30 +102,110 @@ class PlaceDetailPageState
               Gaps.vGap16,
               _OperatingHour(place.operatingHours),
               Gaps.vGap16,
-              _PlaceDescription(place),
+              if (place.description != null)
+                _PlaceDescription(place.description),
             ],
           ),
         ),
       ),
       SliverPersistentHeader(
         delegate: MySliverAppBarDelegate(
-          Center(child: MySectionDivider("Detail")),
+          Center(child: MySectionDivider(S.of(context).placeDetailInfoLabel)),
           50,
         ),
       ),
       SliverToBoxAdapter(
         child: Gaps.vGap16,
       ),
-      if (place.listingImages.ads.length > 0)
-        SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (BuildContext context, int index) {
-              return LoadImage(place.listingImages.ads[index].url);
-            },
-          ),
-        ),
+      // if (place.listingImages.ads != null && place.listingImages.ads.length > 0)
+      _PlaceImage(
+        images: place.listingImages.ads,
+      ),
       _MerchantInfo(merchant: place.merchant),
     ];
+  }
+}
+
+class _PlaceImage extends StatelessWidget {
+  final List<ImageModel> images;
+  const _PlaceImage({
+    Key key,
+    this.images,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final _dummyImage = [
+      "ads/listing-ad1",
+      "ads/listing-ad2",
+      "ads/listing-ad3"
+    ];
+    return SliverList(
+      delegate: SliverChildBuilderDelegate(
+        (BuildContext context, int index) {
+          // return LoadImage(images[index].url);
+          return LoadAssetImage(_dummyImage[index], format: 'jpg');
+        },
+        childCount: _dummyImage.length,
+      ),
+    );
+  }
+}
+
+class _AppBarWithSwiper extends StatelessWidget {
+  const _AppBarWithSwiper({
+    Key key,
+    @required bool showTitle,
+    @required this.context,
+    @required this.place,
+  })  : _showTitle = showTitle,
+        super(key: key);
+
+  final bool _showTitle;
+  final BuildContext context;
+  final ListingModel place;
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverAppBar(
+      brightness: Brightness.dark,
+      backgroundColor: Colors.white,
+      elevation: 0.0,
+      titleSpacing: 0.0,
+      leading: IconButton(
+        icon: Icon(Icons.arrow_back_ios),
+        color: _showTitle ? Colours.text : ThemeUtils.getIconColor(context),
+        onPressed: () => NavigatorUtils.goBack(context),
+      ),
+      centerTitle: true,
+      title: _showTitle
+          ? Text(
+              '${place.listingName}',
+              style: Theme.of(context).textTheme.subtitle,
+            )
+          : null,
+      expandedHeight: kExpandedHeight,
+      floating: false, // 不随着滑动隐藏标题
+      pinned: true, // 固定在顶部
+      flexibleSpace: _showTitle
+          ? null
+          : FlexibleSpaceBar(
+              titlePadding:
+                  const EdgeInsetsDirectional.only(start: 16.0, bottom: 14.0),
+              collapseMode: CollapseMode.pin,
+              background: _CoverPhotos(),
+              centerTitle: true,
+            ),
+      actions: <Widget>[
+        IconButton(
+          icon: Icon(
+            Icons.more_vert,
+            color: _showTitle ? Colors.black : ThemeUtils.getIconColor(context),
+          ),
+          onPressed: () {},
+        )
+      ],
+    );
   }
 }
 
@@ -193,17 +231,17 @@ class _MerchantInfo extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  "Merchant Info",
+                  S.of(context).placeDetailMerchantInfoLabel,
                   style: textTextStyle,
                 ),
                 Gaps.vGap12,
                 _MerchantInfoItem(
-                  title: "Registration Name",
+                  title: S.of(context).placeDetailMerchantRegistrationNameLabel,
                   data: merchant.registrationName,
                 ),
                 Gaps.vGap12,
                 _MerchantInfoItem(
-                  title: "SSM ID",
+                  title: S.of(context).placeDetailMerchantSSMLabel,
                   data: merchant.ssmId,
                 )
               ],
@@ -254,17 +292,25 @@ class _MerchantInfoItem extends StatelessWidget {
 }
 
 class _PlaceDescription extends StatelessWidget {
-  final ListingModel place;
-  _PlaceDescription(this.place);
+  final DescriptionVM description;
+  _PlaceDescription(this.description);
 
   @override
   Widget build(BuildContext context) {
+    final lang = Provider.of<LanguageProvider>(context, listen: false).locale;
     return MyCard(
       child: Container(
         padding: const EdgeInsets.all(16),
-        child: Text(
-          place.description,
-          style: Theme.of(context).textTheme.body1,
+        child: Row(
+          children: <Widget>[
+            Flexible(
+              child: Text(
+                description
+                    ?.getDescription(lang ?? Localizations.localeOf(context)),
+                style: Theme.of(context).textTheme.body1,
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -278,8 +324,9 @@ class _OperatingHour extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //weekday returns 1-7
-    final _today = DateTime.now().weekday;
-    final _oh = operatingHours[_today == 7 ? 0 : _today];
+    final _today = (DateTime.now().weekday == 7) ? 0 : DateTime.now().weekday;
+    final _oh = operatingHours.firstWhere((x) => x.dayOfWeek.index == _today,
+        orElse: () => null);
     return Material(
       child: InkWell(
         onTap: () => {},
@@ -300,22 +347,26 @@ class _OperatingHour extends StatelessWidget {
                           Gaps.hGap15,
                           !_oh.isOpen
                               ? Text(
-                                  'CLOSED',
+                                  S.of(context).placeDetailOperatingCloseLabel,
                                   style: TextStyle(
                                     color: Theme.of(context).errorColor,
                                     fontWeight: FontWeight.w800,
                                   ),
                                 )
-                              : _oh.closingSoon
+                              : !_oh.closingSoon
                                   ? Text(
-                                      'OPEN',
+                                      S
+                                          .of(context)
+                                          .placeDetailOperatingOpenLabel,
                                       style: TextStyle(
                                         color: Colors.green,
                                         fontWeight: FontWeight.w800,
                                       ),
                                     )
                                   : Text(
-                                      'CLOSING SOON',
+                                      S
+                                          .of(context)
+                                          .placeDetailOperatingSoonLabel,
                                       style: TextStyle(
                                         color: Colors.deepOrange,
                                         fontWeight: FontWeight.w800,
@@ -325,7 +376,7 @@ class _OperatingHour extends StatelessWidget {
                       : Row(
                           children: <Widget>[
                             Text(
-                              'CLOSED',
+                              S.of(context).placeDetailOperatingCloseLabel,
                               style: TextStyle(
                                   color: Theme.of(context).errorColor),
                             )

@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/enums/category_type_enum.dart';
 import 'package:jom_malaysia/core/models/image_model.dart';
-import 'package:jom_malaysia/util/text_utils.dart';
+import 'package:jom_malaysia/screens/tabs/overview/models/description_model.dart';
+import 'package:jom_malaysia/screens/tabs/overview/models/viewmodels/category_path_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import 'address_model.dart';
@@ -27,11 +27,11 @@ class ListingModel {
   String listingId;
   MerchantVM merchant;
   String listingName;
-  String description;
+  DescriptionVM description;
   AddressVM address;
 
   List<OperatingHours> operatingHours;
-  CategoryVM category;
+  CategoryPathModel category;
   CategoryType categoryType;
   List<String> tags;
   ListingImageVM listingImages;
@@ -60,32 +60,6 @@ class ListingImageVM {
       _$ListingImageVMFromJson(json);
 
   Map<String, dynamic> toJson() => _$ListingImageVMToJson(this);
-}
-
-@JsonSerializable()
-class CategoryVM {
-  CategoryVM(
-      {@required this.categoryId, @required this.category, this.subcategory});
-  String categoryId;
-  String category;
-  String subcategory;
-
-  factory CategoryVM.fromJson(Map<String, dynamic> json) =>
-      _$CategoryVMFromJson(json);
-
-  Map<String, dynamic> toJson() => _$CategoryVMToJson(this);
-
-  String getCategory({bool isCategory = true}) {
-    if (isCategory) {
-      return TextUtils.capitalize(category);
-    }
-    return TextUtils.capitalize(subcategory);
-  }
-
-  @override
-  String toString() {
-    return "$category ${subcategory ?? subcategory}";
-  }
 }
 
 @JsonSerializable()
