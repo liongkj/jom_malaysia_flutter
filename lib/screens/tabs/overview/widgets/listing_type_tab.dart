@@ -3,9 +3,54 @@ import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/overview_page_provider.dart';
 import 'package:jom_malaysia/setting/provider/language_provider.dart';
+import 'package:jom_malaysia/util/image_utils.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
 import 'package:jom_malaysia/widgets/my_card.dart';
+import 'package:jom_malaysia/widgets/sliver_appbar_delegate.dart';
 import 'package:provider/provider.dart';
+
+class ListingTypeTabs extends StatelessWidget {
+  const ListingTypeTabs({
+    Key key,
+    @required this.isDark,
+    @required TabController tabController,
+    @required this.mounted,
+    @required PageController pageController,
+  })  : _tabController = tabController,
+        _pageController = pageController,
+        super(key: key);
+
+  final bool isDark;
+  final TabController _tabController;
+  final bool mounted;
+  final PageController _pageController;
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverPersistentHeader(
+      pinned: true,
+      delegate: MySliverAppBarDelegate(
+        DecoratedBox(
+          decoration: BoxDecoration(
+              color: isDark ? Colours.dark_bg_color : null,
+              image: isDark
+                  ? null
+                  : DecorationImage(
+                      image: ImageUtils.getAssetImage("order/order_bg1"),
+                      fit: BoxFit.fill)),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: ListingTypeTab(
+                tabController: _tabController,
+                mounted: mounted,
+                pageController: _pageController),
+          ),
+        ),
+        80.0,
+      ),
+    );
+  }
+}
 
 class ListingTypeTab extends StatelessWidget {
   const ListingTypeTab({

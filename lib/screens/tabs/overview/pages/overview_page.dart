@@ -1,13 +1,12 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:jom_malaysia/core/mvp/base_page_state.dart';
+import 'package:jom_malaysia/core/services/location/location_utils.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/presenter/overview_page_presenter.dart';
+import 'package:jom_malaysia/screens/tabs/overview/providers/location_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/overview_page_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/ads_space.dart';
+import 'package:jom_malaysia/screens/tabs/overview/widgets/listing_type_tab.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/location_header.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/place_list.dart';
 import 'package:jom_malaysia/setting/provider/base_list_provider.dart';
@@ -32,57 +31,14 @@ class OverviewPageState
   PageController _pageController = PageController(initialPage: 0);
   BaseListProvider<ListingModel> listingProvider =
       BaseListProvider<ListingModel>();
-  //Load Cities from json file
-  List<String> _cities;
-  Future<String> loadJsonFile() async {
-    var jsonCities = await rootBundle.loadString('assets/json/cities.json');
-    setState(() {
-      _cities = (jsonDecode(jsonCities) as List<dynamic>).cast<String>();
-    });
-    //print(_cities);
-  }
 
   TextEditingController searchController = TextEditingController();
-  final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
-
-  Position _currentPosition;
-  String _currentAddress = '';
 
   _onPageChange(int index) async {
     presenter.onPageChange(index);
     provider.setIndex(index);
 
     _tabController.animateTo(index);
-  }
-
-  //Get Location Base on Latitude and Longtitude
-  _getAddressFromLatLng(position) async {
-    try {
-      List<Placemark> p = await geolocator.placemarkFromCoordinates(
-          _currentPosition.latitude, _currentPosition.longitude);
-      Placemark place = p[0];
-      setState(() {
-        _currentAddress =
-            "${place.locality}"; //, ${place.postalCode}, ${place.country}";
-      });
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  //Get current location
-  _getCurrentLocation() {
-    final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
-    geolocator
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
-        .then((Position position) {
-      setState(() {
-        _currentPosition = position;
-        _getAddressFromLatLng(position);
-      });
-    }).catchError((e) {
-      print(e);
-    });
   }
 
   @override
@@ -94,24 +50,12 @@ class OverviewPageState
   void initState() {
     super.initState();
     _tabController = TabController(vsync: this, length: 5);
-    this.loadJsonFile();
-    filterList();
-    searchController.addListener(() {
-      filterList();
-    });
-    //Location
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       // _preCacheImage();
-      _getCurrentLocation();
+      Provider.of<LocationProvider>(context, listen: false)
+          .setCurrentLocation(LocationUtils.getCurrentLocation());
     });
-  }
-
-  filterList() {
-    if (searchController.text.isNotEmpty) {
-      _cities.retainWhere((cities) =>
-          cities.toLowerCase().contains(searchController.text.toLowerCase()));
-    }
   }
 
   @override
@@ -191,8 +135,7 @@ class OverviewPageState
 
   List<Widget> _sliverBuilder(BuildContext context) {
     return <Widget>[
-      LocationHeader(
-          cities: _cities, isDark: isDark, currentAddress: _currentAddress),
+      LocationHeader(),
       ListingTypeTabs(
           isDark: isDark,
           tabController: _tabController,
