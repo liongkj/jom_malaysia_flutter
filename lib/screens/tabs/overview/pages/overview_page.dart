@@ -2,19 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:jom_malaysia/core/mvp/base_page_state.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
+import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/overview_router.dart';
 import 'package:jom_malaysia/screens/tabs/overview/presenter/overview_page_presenter.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/overview_page_provider.dart';
+import 'package:jom_malaysia/screens/tabs/overview/providers/place_detail_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/ads_space.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/place_list.dart';
 import 'package:jom_malaysia/setting/provider/base_list_provider.dart';
+import 'package:jom_malaysia/setting/provider/language_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/util/image_utils.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
 import 'package:jom_malaysia/widgets/my_card.dart';
 import 'package:jom_malaysia/widgets/my_flexible_space_bar.dart';
+import 'package:jom_malaysia/widgets/sliver_appbar_delegate.dart';
 import 'package:provider/provider.dart';
 
 class OverviewPage extends StatefulWidget {
@@ -38,11 +42,12 @@ class OverviewPageState
   final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
 
   Position _currentPosition;
-  String _currentAddress = '';  
+  String _currentAddress = '';
 
   _onPageChange(int index) async {
-    provider.setIndex(index);
     presenter.onPageChange(index);
+    provider.setIndex(index);
+
     _tabController.animateTo(index);
   }
 
@@ -61,7 +66,8 @@ class OverviewPageState
       // _preCacheImage();
     });
   }
-    //Get current location
+
+  //Get current location
   _getCurrentLocation() {
     final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
     geolocator
@@ -75,7 +81,8 @@ class OverviewPageState
       print(e);
     });
   }
-    //Get Location Base on Latitude and Longtitude
+
+  //Get Location Base on Latitude and Longtitude
   _getAddressFromLatLng(position) async {
     try {
       List<Placemark> p = await geolocator.placemarkFromCoordinates(
@@ -103,6 +110,7 @@ class OverviewPageState
     _tabController?.dispose();
     super.dispose();
   }
+
   bool isDark = false;
 
   @override
@@ -156,7 +164,10 @@ class OverviewPageState
                     bottom: false,
                     child: Builder(
                       builder: (BuildContext context) {
-                        return PlaceList(index: index);
+                        return PlaceList(
+                          index: index,
+                          presenter: presenter,
+                        );
                       },
                     ),
                   );
@@ -216,32 +227,34 @@ class OverviewPageState
           backgroundColor: Colors.transparent,
           elevation: 0.0,
           centerTitle: true,
-          expandedHeight: 140.0,
+          expandedHeight: MediaQuery.of(context).size.height * 0.18,
+          //  140.0,
           floating: false, // 不随着滑动隐藏标题
           pinned: true, // 固定在顶部
           flexibleSpace: MyFlexibleSpaceBar(
-            background: isDark
-                ? Container(
-                    height: 113.0,
-                    color: Colours.dark_bg_color,
-                  )
-                : const LoadAssetImage(
-                    "order/order_bg",
-                    width: double.infinity,
-                    height: 113.0,
-                    fit: BoxFit.fill,
-                  ),
-            centerTitle: true,
-            titlePadding:
-                const EdgeInsetsDirectional.only(start: 16.0, bottom: 14.0),
-            collapseMode: CollapseMode.pin,
-            title: _CurrentLocation(address: _currentAddress)//(position: _currentPosition),
-          ),
+              background: isDark
+                  ? Container(
+                      height: 113.0,
+                      color: Colours.dark_bg_color,
+                    )
+                  : const LoadAssetImage(
+                      "order/order_bg",
+                      width: double.infinity,
+                      height: 113.0,
+                      fit: BoxFit.fill,
+                    ),
+              centerTitle: true,
+              titlePadding:
+                  const EdgeInsetsDirectional.only(start: 16.0, bottom: 14.0),
+              collapseMode: CollapseMode.pin,
+              title: _CurrentLocation(
+                  address: _currentAddress) //(position: _currentPosition),
+              ),
         ),
       ),
       SliverPersistentHeader(
         pinned: true,
-        delegate: SliverAppBarDelegate(
+        delegate: MySliverAppBarDelegate(
           DecoratedBox(
             decoration: BoxDecoration(
                 color: isDark ? Colours.dark_bg_color : null,
@@ -274,7 +287,7 @@ class _CurrentLocation extends StatelessWidget {
     //this.position,
     Key key,
   }) : super(key: key);
-  
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -286,7 +299,8 @@ class _CurrentLocation extends StatelessWidget {
             color: ThemeUtils.getIconColor(context),
           ),
           Gaps.hGap8,
-          Text(address,
+          Text(
+            address,
             //position.latitude.toString()+','+position.longitude.toString(),
             style: TextStyle(
                 color: ThemeUtils.getIconColor(context),
@@ -318,34 +332,39 @@ class _ListingTypeTab extends StatelessWidget {
       child: Container(
         height: 80.0,
         padding: const EdgeInsets.only(top: 8.0),
-        child: TabBar(
-          isScrollable: true,
-          labelPadding: const EdgeInsets.symmetric(horizontal: 8.0),
-          controller: _tabController,
-          labelColor:
-              ThemeUtils.isDark(context) ? Colours.dark_text : Colours.text,
-          unselectedLabelColor: ThemeUtils.isDark(context)
-              ? Colours.dark_text_gray
-              : Colours.text,
-          labelStyle: TextStyles.textBold14,
-          unselectedLabelStyle: const TextStyle(
-            fontSize: Dimens.font_sp12,
-          ),
-          indicatorColor: Colors.transparent,
-          tabs: const <Widget>[
-            const _TabViewTab(0, 'Shops', Icons.restaurant),
-            const _TabViewTab(1, 'Attractions', Icons.local_play),
-            const _TabViewTab(2, 'Government', Icons.location_city),
-            const _TabViewTab(3, 'Professional', Icons.work),
-            const _TabViewTab(4, 'NGO', Icons.people),
-          ],
-          onTap: (index) {
-            if (!mounted) {
-              return;
-            }
-            _pageController.jumpToPage(index);
-          },
-        ),
+        child: Consumer<LanguageProvider>(builder: (_, __, ___) {
+          return TabBar(
+            isScrollable: true,
+            labelPadding: const EdgeInsets.symmetric(horizontal: 8.0),
+            controller: _tabController,
+            labelColor:
+                ThemeUtils.isDark(context) ? Colours.dark_text : Colours.text,
+            unselectedLabelColor: ThemeUtils.isDark(context)
+                ? Colours.dark_text_gray
+                : Colours.text,
+            labelStyle: TextStyles.textBold14,
+            unselectedLabelStyle: const TextStyle(
+              fontSize: Dimens.font_sp12,
+            ),
+            indicatorColor: Colors.transparent,
+            tabs: <Widget>[
+              _TabViewTab(0, S.of(context).tabViewLabelShop, Icons.restaurant),
+              _TabViewTab(
+                  1, S.of(context).tabViewLabelAttraction, Icons.local_play),
+              _TabViewTab(
+                  2, S.of(context).tabViewLabelGovernment, Icons.location_city),
+              _TabViewTab(
+                  3, S.of(context).tabViewLabelProfessional, Icons.work),
+              _TabViewTab(4, S.of(context).tabViewLabelNGO, Icons.people),
+            ],
+            onTap: (index) {
+              if (!mounted) {
+                return;
+              }
+              _pageController.jumpToPage(index);
+            },
+          );
+        }),
       ),
     );
   }
@@ -388,29 +407,5 @@ class _TabViewTab extends StatelessWidget {
         );
       },
     );
-  }
-}
-
-class SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
-  final Widget widget;
-  final double height;
-  SliverAppBarDelegate(this.widget, this.height);
-
-  // minHeight 和 maxHeight 的值设置为相同时，header就不会收缩了
-  @override
-  double get minExtent => height;
-
-  @override
-  double get maxExtent => height;
-
-  @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return widget;
-  }
-
-  @override
-  bool shouldRebuild(SliverAppBarDelegate oldDelegate) {
-    return true;
   }
 }

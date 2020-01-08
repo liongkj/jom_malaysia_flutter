@@ -1,10 +1,12 @@
-import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/enums/category_type_enum.dart';
-import 'package:jom_malaysia/core/enums/day_of_week_enum.dart';
-import 'package:jom_malaysia/core/models/coordinates_model.dart';
 import 'package:jom_malaysia/core/models/image_model.dart';
-import 'package:jom_malaysia/util/date_utils.dart';
+import 'package:jom_malaysia/screens/tabs/overview/models/description_model.dart';
+import 'package:jom_malaysia/screens/tabs/overview/models/viewmodels/category_path_model.dart';
 import 'package:json_annotation/json_annotation.dart';
+
+import 'address_model.dart';
+import 'contact_model.dart';
+import 'operating_hours_model.dart';
 
 part 'listing_model.g.dart';
 
@@ -25,14 +27,15 @@ class ListingModel {
   String listingId;
   MerchantVM merchant;
   String listingName;
-  String description;
+  DescriptionVM description;
   AddressVM address;
 
   List<OperatingHours> operatingHours;
-  CategoryVM category;
+  CategoryPathModel category;
   CategoryType categoryType;
   List<String> tags;
   ListingImageVM listingImages;
+  ContactVM officialContact;
 
   factory ListingModel.fromJson(Map<String, dynamic> json) =>
       _$ListingModelFromJson(json);
@@ -47,78 +50,16 @@ class ListingImageVM {
   ImageModel coverPhoto;
   List<ImageModel> ads;
 
+  List<String> get getCarousel {
+    var _images = [coverPhoto.url];
+    _images.addAll(ads.map((x) => x.url).toList());
+    return _images;
+  }
+
   factory ListingImageVM.fromJson(Map<String, dynamic> json) =>
       _$ListingImageVMFromJson(json);
 
   Map<String, dynamic> toJson() => _$ListingImageVMToJson(this);
-}
-
-@JsonSerializable()
-class CategoryVM {
-  CategoryVM(
-      {@required this.categoryId, @required this.category, this.subcategory});
-  String categoryId;
-  String category;
-  String subcategory;
-
-  factory CategoryVM.fromJson(Map<String, dynamic> json) =>
-      _$CategoryVMFromJson(json);
-
-  Map<String, dynamic> toJson() => _$CategoryVMToJson(this);
-
-  @override
-  String toString() {
-    return "$category ${subcategory ?? subcategory}";
-  }
-}
-
-@JsonSerializable()
-class OperatingHours {
-  OperatingHours(
-      {@required this.dayofWeek,
-      @required this.openTime,
-      @required this.closeTime});
-  // https://github.com/flutter/flutter/issues/18748
-  DayOfWeek dayofWeek;
-  String openTime;
-  String closeTime;
-
-  DateTime get openHour {
-    return DateUtils.apiTimeFormat(openTime);
-  }
-
-  DateTime get closeHour {
-    return DateUtils.apiTimeFormat(closeTime);
-  }
-
-  factory OperatingHours.fromJson(Map<String, dynamic> json) =>
-      _$OperatingHoursFromJson(json);
-
-  Map<String, dynamic> toJson() => _$OperatingHoursToJson(this);
-}
-
-@JsonSerializable()
-class AddressVM {
-  AddressVM(
-      {@required this.add1,
-      this.add2,
-      @required this.city,
-      @required this.state,
-      @required this.postalCode,
-      @required this.coordinates,
-      @required this.country});
-  String add1;
-  String add2;
-  String city;
-  String state;
-  String postalCode;
-  String country;
-  CoordinatesModel coordinates;
-
-  factory AddressVM.fromJson(Map<String, dynamic> json) =>
-      _$AddressVMFromJson(json);
-
-  Map<String, dynamic> toJson() => _$AddressVMToJson(this);
 }
 
 @JsonSerializable()

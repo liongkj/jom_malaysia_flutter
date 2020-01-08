@@ -53,18 +53,14 @@ class ThemeProvider with ChangeNotifier {
       // 文字选择色（输入框复制粘贴菜单）
       textSelectionColor: Colours.app_main.withAlpha(70),
       textSelectionHandleColor: Colours.app_main,
-      textTheme: isDarkMode
-          ? Typography.whiteMountainView
-          : Typography.blackMountainView,
-
-      // TextTheme(
-      //   // TextField输入文字颜色
-      //   subhead: isDarkMode ? TextStyles.textDark : TextStyles.text,
-      //   // Text文字样式
-      //   body1: isDarkMode ? TextStyles.textDark : TextStyles.text,
-      //   subtitle:
-      //       isDarkMode ? TextStyles.textDarkGray12 : TextStyles.textGray12,
-      // ),
+      textTheme: TextTheme(
+        // TextField输入文字颜色
+        subhead: isDarkMode ? TextStyles.textDark : TextStyles.text,
+        // Text文字样式
+        body1: isDarkMode ? TextStyles.textDark : TextStyles.text,
+        subtitle:
+            isDarkMode ? TextStyles.textDarkGray12 : TextStyles.textGray12,
+      ),
       inputDecorationTheme: InputDecorationTheme(
         hintStyle:
             isDarkMode ? TextStyles.textHint14 : TextStyles.textDarkGray14,

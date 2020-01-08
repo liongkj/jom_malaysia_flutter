@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/screens/tabs/facts/provider/facts_page_provider.dart';
+import 'package:jom_malaysia/setting/provider/language_provider.dart';
+import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
 import 'package:provider/provider.dart';
 
@@ -27,6 +29,10 @@ class _FactsPageState extends State<FactsPage>
   void initState() {
     super.initState();
     _tabController = new TabController(vsync: this, length: 3);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      NavigatorUtils.goWebViewPage(context, "Negeri Sembilan",
+          "https://en.wikipedia.org/wiki/Negeri_Sembilan");
+    });
   }
 
   @override
@@ -39,12 +45,8 @@ class _FactsPageState extends State<FactsPage>
   Widget build(BuildContext context) {
     super.build(context);
     final Color _iconColor = ThemeUtils.getIconColor(context);
-    return ChangeNotifierProvider<FactsPageProvider>(
-      create: (_) => provider,
-      child: Scaffold(
-        appBar: AppBar(),
-        body: Text("Webview"),
-      ),
-    );
+    return Consumer<LanguageProvider>(builder: (_, provider, __) {
+      return Scaffold(appBar: AppBar(), body: Text(""));
+    });
   }
 }

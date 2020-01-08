@@ -5,6 +5,11 @@ import 'package:jom_malaysia/screens/tabs/overview/providers/overview_page_provi
 import 'package:provider/provider.dart';
 
 class AdsSpace extends StatelessWidget {
+  final List<String> _adList = [
+    "https://res.cloudinary.com/jomn9-com/image/upload/v1578318037/ads/ad1_eowzgj.jpg",
+    "https://res.cloudinary.com/jomn9-com/image/upload/v1578318038/ads/ad2_j6fpt4.jpg"
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Consumer<OverviewPageProvider>(builder: (_, provider, child) {
@@ -16,15 +21,15 @@ class AdsSpace extends StatelessWidget {
             child: Swiper(
               itemBuilder: (BuildContext context, int index) {
                 return new Image.network(
-                  "http://via.placeholder.com/288x188",
+                  _adList[index],
                   fit: BoxFit.fill,
                 );
               },
-              itemCount: 10,
+              itemCount: _adList.length,
               viewportFraction: 0.8,
               scale: 0.9,
               autoplay: true,
-              autoplayDelay: 5000,
+              autoplayDelay: 7000,
             ),
           ),
         ]),

@@ -1,45 +1,53 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:jom_malaysia/core/models/image_model.dart';
 import 'package:jom_malaysia/core/mvp/base_page_state.dart';
 import 'package:jom_malaysia/core/res/colors.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
+import 'package:jom_malaysia/generated/l10n.dart';
+import 'package:jom_malaysia/screens/tabs/overview/models/description_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
+import 'package:jom_malaysia/screens/tabs/overview/models/operating_hours_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/presenter/place_detail_page_presenter.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/place_detail_provider.dart';
+import 'package:jom_malaysia/screens/tabs/overview/widgets/operating_hours_dialog.dart';
+import 'package:jom_malaysia/screens/tabs/overview/widgets/place_info.dart';
+import 'package:jom_malaysia/setting/provider/language_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
+import 'package:jom_malaysia/util/image_utils.dart';
+import 'package:jom_malaysia/util/utils.dart';
+import 'package:jom_malaysia/widgets/load_image.dart';
+import 'package:jom_malaysia/widgets/my_card.dart';
+import 'package:jom_malaysia/widgets/my_section_divider.dart';
+import 'package:jom_malaysia/widgets/sliver_appbar_delegate.dart';
 import 'package:jom_malaysia/widgets/state_layout.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../util/theme_utils.dart';
 
 class PlaceDetailPage extends StatefulWidget {
-  const PlaceDetailPage(this.placeId);
+  const PlaceDetailPage({@required this.placeId});
 
   final String placeId;
   @override
   PlaceDetailPageState createState() => PlaceDetailPageState();
 }
 
+const kExpandedHeight = 250.0;
+
 class PlaceDetailPageState
     extends BasePageState<PlaceDetailPage, PlaceDetailPagePresenter> {
   bool isDark = false;
-  var _isloading = false;
 
-  PlaceDetailProvider provider = PlaceDetailProvider();
-
-  void setPlace(ListingModel place) {
-    provider.setPlace(place);
-  }
+  ScrollController _scrollController;
 
   @override
   void initState() {
     super.initState();
-    provider.setStateTypeNotNotify(StateType.empty);
+    WidgetsBinding.instance.addPostFrameCallback((_) {});
 
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   presenter.fetchDetail(widget.placeId);
-    // });
+    _scrollController = ScrollController()..addListener(() => setState(() {}));
   }
 
   @override
@@ -52,264 +60,395 @@ class PlaceDetailPageState
     super.dispose();
   }
 
+  bool get _showTitle {
+    return _scrollController.hasClients &&
+        _scrollController.offset > kExpandedHeight - kToolbarHeight;
+  }
+
   @override
   Widget build(BuildContext context) {
-    // isDark = ThemeUtils.isDark(context);
-    // final Color _iconColor = ThemeUtils.getIconColor(context);
-    return ChangeNotifierProvider<PlaceDetailProvider>(
-        create: (_) => provider,
-        child: Consumer<PlaceDetailProvider>(
-          builder: (_, detail, __) {
-            final List<String> images = [
-              detail.place.listingImages.coverPhoto.url
-            ];
-            images.addAll(
-                detail.place.listingImages.ads.map((x) => x.url).toList());
+    isDark = ThemeUtils.isDark(context);
+    final place =
+        Provider.of<PlaceDetailProvider>(context, listen: false).place;
 
-            return Scaffold(
-              body: CustomScrollView(slivers: <Widget>[
-                SliverAppBar(
-                  backgroundColor: Colors.transparent,
-                  elevation: 0.0,
-                  centerTitle: true,
-                  expandedHeight: 200.0,
-                  floating: false, // 不随着滑动隐藏标题
-                  pinned: true, // 固定在顶部
-                  leading: Gaps.empty,
-                  brightness: Brightness.dark,
-                  flexibleSpace: FlexibleSpaceBar(
-                    background: _CoverPhotos(images),
-                  ),
+    return Scaffold(
+      body: SafeArea(
+          child: CustomScrollView(
+        controller: _scrollController,
+        key: const Key('place_detail'),
+        // physics: ClampingScrollPhysics(),
+        slivers: _sliverBuilder(place),
+      )),
+    );
+  }
 
-                  actions: <Widget>[],
+  List<Widget> _sliverBuilder(ListingModel place) {
+    return <Widget>[
+      _AppBarWithSwiper(
+        showTitle: _showTitle,
+        context: context,
+        place: place,
+      ),
+      SliverToBoxAdapter(
+        child: Gaps.vGap8,
+      ),
+      SliverToBoxAdapter(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              PlaceInfo(place),
+              Gaps.vGap16,
+              _OperatingHour(place.operatingHours),
+              Gaps.vGap16,
+              if (place.description != null)
+                _PlaceDescription(place.description),
+            ],
+          ),
+        ),
+      ),
+      SliverPersistentHeader(
+        delegate: MySliverAppBarDelegate(
+          Center(child: MySectionDivider(S.of(context).placeDetailInfoLabel)),
+          50,
+        ),
+      ),
+      SliverToBoxAdapter(
+        child: Gaps.vGap16,
+      ),
+      // if (place.listingImages.ads != null && place.listingImages.ads.length > 0)
+      _PlaceImage(
+        images: place.listingImages.ads,
+      ),
+      _MerchantInfo(merchant: place.merchant),
+    ];
+  }
+}
+
+class _PlaceImage extends StatelessWidget {
+  final List<ImageModel> images;
+  const _PlaceImage({
+    Key key,
+    this.images,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final _dummyImage = [
+      "ads/listing-ad1",
+      "ads/listing-ad2",
+      "ads/listing-ad3"
+    ];
+    return SliverList(
+      delegate: SliverChildBuilderDelegate(
+        (BuildContext context, int index) {
+          // return LoadImage(images[index].url);
+          return LoadAssetImage(_dummyImage[index], format: 'jpg');
+        },
+        childCount: _dummyImage.length,
+      ),
+    );
+  }
+}
+
+class _AppBarWithSwiper extends StatelessWidget {
+  const _AppBarWithSwiper({
+    Key key,
+    @required bool showTitle,
+    @required this.context,
+    @required this.place,
+  })  : _showTitle = showTitle,
+        super(key: key);
+
+  final bool _showTitle;
+  final BuildContext context;
+  final ListingModel place;
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverAppBar(
+      brightness: Brightness.dark,
+      backgroundColor: Colors.white,
+      elevation: 0.0,
+      titleSpacing: 0.0,
+      leading: IconButton(
+        icon: Icon(Icons.arrow_back_ios),
+        color: _showTitle ? Colours.text : ThemeUtils.getIconColor(context),
+        onPressed: () => NavigatorUtils.goBack(context),
+      ),
+      centerTitle: true,
+      title: _showTitle
+          ? Text(
+              '${place.listingName}',
+              style: Theme.of(context).textTheme.subtitle,
+            )
+          : null,
+      expandedHeight: kExpandedHeight,
+      floating: false, // 不随着滑动隐藏标题
+      pinned: true, // 固定在顶部
+      flexibleSpace: _showTitle
+          ? null
+          : FlexibleSpaceBar(
+              titlePadding:
+                  const EdgeInsetsDirectional.only(start: 16.0, bottom: 14.0),
+              collapseMode: CollapseMode.pin,
+              background: _CoverPhotos(),
+              centerTitle: true,
+            ),
+      actions: <Widget>[
+        IconButton(
+          icon: Icon(
+            Icons.more_vert,
+            color: _showTitle ? Colors.black : ThemeUtils.getIconColor(context),
+          ),
+          onPressed: () {},
+        )
+      ],
+    );
+  }
+}
+
+class _MerchantInfo extends StatelessWidget {
+  const _MerchantInfo({
+    Key key,
+    @required this.merchant,
+  }) : super(key: key);
+
+  final MerchantVM merchant;
+
+  @override
+  Widget build(BuildContext context) {
+    final TextStyle textTextStyle =
+        Theme.of(context).textTheme.body1.copyWith(fontSize: Dimens.font_sp12);
+    return SliverToBoxAdapter(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+        child: MyCard(
+          child: Container(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  S.of(context).placeDetailMerchantInfoLabel,
+                  style: textTextStyle,
                 ),
-                // SliverToBoxAdapter(
-                //   child: Column(
-                //     crossAxisAlignment: CrossAxisAlignment.stretch,
-                //     children: <Widget>[
-                //       PlaceDetail(detail.place),
-                //     ],
-                //   ),
-                // ),
-                SliverFillRemaining(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: <Widget>[
-                      PlaceDetail(detail.place),
-                    ],
+                Gaps.vGap12,
+                _MerchantInfoItem(
+                  title: S.of(context).placeDetailMerchantRegistrationNameLabel,
+                  data: merchant.registrationName,
+                ),
+                Gaps.vGap12,
+                _MerchantInfoItem(
+                  title: S.of(context).placeDetailMerchantSSMLabel,
+                  data: merchant.ssmId,
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _MerchantInfoItem extends StatelessWidget {
+  const _MerchantInfoItem({
+    @required this.title,
+    this.data,
+    Key key,
+  }) : super(key: key);
+  final String title;
+  final String data;
+  @override
+  Widget build(BuildContext context) {
+    final TextStyle textTextStyle =
+        Theme.of(context).textTheme.body1.copyWith(fontSize: Dimens.font_sp12);
+    return Row(
+      children: <Widget>[
+        Expanded(
+          flex: 4,
+          child: Text(
+            title,
+            style: textTextStyle,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+        Gaps.vGap12,
+        Expanded(
+          flex: 5,
+          child: Text(
+            data,
+            style: Theme.of(context).textTheme.subtitle,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+        )
+      ],
+    );
+  }
+}
+
+class _PlaceDescription extends StatelessWidget {
+  final DescriptionVM description;
+  _PlaceDescription(this.description);
+
+  @override
+  Widget build(BuildContext context) {
+    final lang = Provider.of<LanguageProvider>(context, listen: false).locale;
+    return MyCard(
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        child: Row(
+          children: <Widget>[
+            Flexible(
+              child: Text(
+                description
+                    ?.getDescription(lang ?? Localizations.localeOf(context)),
+                style: Theme.of(context).textTheme.body1,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _OperatingHour extends StatelessWidget {
+  final List<OperatingHours> operatingHours;
+
+  _OperatingHour(this.operatingHours);
+  @override
+  Widget build(BuildContext context) {
+    //weekday returns 1-7
+    final _today = (DateTime.now().weekday == 7) ? 0 : DateTime.now().weekday;
+    final _oh = operatingHours.firstWhere((x) => x.dayOfWeek.index == _today,
+        orElse: () => null);
+    return Material(
+      child: InkWell(
+        onTap: () => {},
+        child: MyCard(
+          child: Container(
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                const LoadAssetImage("place/icon_wait",
+                    width: 18.0, height: 18.0),
+                Gaps.hGap12,
+                Expanded(
+                  flex: 6,
+                  child: _oh != null
+                      ? Row(children: <Widget>[
+                          Text('${_oh.openHour} - ${_oh.closeHour}'),
+                          Gaps.hGap15,
+                          !_oh.isOpen
+                              ? Text(
+                                  S.of(context).placeDetailOperatingCloseLabel,
+                                  style: TextStyle(
+                                    color: Theme.of(context).errorColor,
+                                    fontWeight: FontWeight.w800,
+                                  ),
+                                )
+                              : !_oh.closingSoon
+                                  ? Text(
+                                      S
+                                          .of(context)
+                                          .placeDetailOperatingOpenLabel,
+                                      style: TextStyle(
+                                        color: Colors.green,
+                                        fontWeight: FontWeight.w800,
+                                      ),
+                                    )
+                                  : Text(
+                                      S
+                                          .of(context)
+                                          .placeDetailOperatingSoonLabel,
+                                      style: TextStyle(
+                                        color: Colors.deepOrange,
+                                        fontWeight: FontWeight.w800,
+                                      ),
+                                    )
+                        ])
+                      : Row(
+                          children: <Widget>[
+                            Text(
+                              S.of(context).placeDetailOperatingCloseLabel,
+                              style: TextStyle(
+                                  color: Theme.of(context).errorColor),
+                            )
+                          ],
+                        ),
+                ),
+                Gaps.vLine,
+                Expanded(
+                  flex: 1,
+                  child: IconButton(
+                    icon: Icon(
+                      Icons.navigate_next,
+                      size: 24,
+                      color: ThemeUtils.getIconColor(context),
+                    ),
+                    onPressed: () {
+                      showElasticDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (BuildContext context) {
+                            return OperatingHoursDialog(
+                              hours: operatingHours,
+                            );
+                          });
+                    },
                   ),
                 ),
-              ]),
-            );
-          },
-        ));
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
 
 class _CoverPhotos extends StatelessWidget {
-  _CoverPhotos(this.swiperImage);
-  final List<String> swiperImage;
-
   @override
   Widget build(BuildContext context) {
-    final int count = swiperImage.length;
-    //  ListView.separated(
-    //   scrollDirection: Axis.horizontal,
-    //   separatorBuilder: (BuildContext context, int index) => Divider(),
-    //   itemCount: count,
-    //   itemBuilder: (context, index) {
-    return Swiper(
-      itemBuilder: (BuildContext context, int index) {
-        return Image.network(
-          swiperImage[index],
-          fit: BoxFit.fill,
-        );
-      },
-      itemCount: count,
-      loop: false,
-    );
-    //   return Stack(children: <Widget>[
-    //     Container(
-    //       width: MediaQuery.of(context).size.width,
-    //       padding: EdgeInsets.all(5),
-    //       child: Image.network(
-    //         cover.url,
-    //         fit: BoxFit.cover,
-    //       ),
-    //     ),
-    //     Positioned(
-    //         top: 200,
-    //         left: 260,
-    //         child: FlatButton.icon(
-    //             color: Colors.white,
-    //             onPressed: null,
-    //             icon: Icon(Icons.photo_camera, color: Colors.white),
-    //             label: Text(
-    //               (index + 1).toString() + "/" + count.toString(),
-    //               style: TextStyle(color: Colors.white),
-    //             )))
-    //   ]);
-  }
-}
-
-class PlaceDetail extends StatelessWidget {
-  PlaceDetail(this.place);
-  double top = 0.0;
-  final ListingModel place;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        body: NestedScrollView(
-            headerSliverBuilder:
-                (BuildContext context, bool innerBoxIsScrolled) {
-              return <Widget>[
-                SliverAppBar(
-                    automaticallyImplyLeading: false,
-                    expandedHeight: 250.0,
-                    floating: false,
-                    pinned: true,
-                    flexibleSpace: LayoutBuilder(builder:
-                        (BuildContext context, BoxConstraints constraints) {
-                      top = constraints.biggest.height;
-                      return FlexibleSpaceBar(
-                          centerTitle: true,
-                          title: AnimatedOpacity(
-                              duration: Duration(milliseconds: 300),
-                              opacity: 1.0,
-                              child: top == 83.0
-                                  ? Text(
-                                      place.merchant.registrationName,
-                                      style: TextStyle(
-                                          fontSize: 20.0,
-                                          color: ThemeUtils.isDark(context)
-                                              ? Colours.dark_text
-                                              : Colours.text),
-                                    )
-                                  : Text(
-                                      top.toString(),
-                                      style: TextStyle(
-                                          fontSize: 12.0,
-                                          color: Colors.transparent),
-                                    )),
-                          background: Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.only(
-                                    topLeft: const Radius.circular(20.0),
-                                    topRight: const Radius.circular(20.0)),
-                                border: Border.all(
-                                    color: ThemeUtils.isDark(context)
-                                        ? Colours.dark_text
-                                        : Colours.text,
-                                    width: 2.0)),
-                            child: Container(
-                                margin: EdgeInsets.only(left: 10, right: 10),
-                                child: PlaceInfo(place)),
-                          ));
-                    })),
-              ];
-            },
-            body: GridView.count(
-                crossAxisCount: 3,
-                padding: EdgeInsets.all(2.0),
-                children: List<Widget>.generate(15, (index) {
-                  return GridTile(
-                    child: Card(
-                      semanticContainer: true,
-                      clipBehavior: Clip.antiAliasWithSaveLayer,
-                      child: Image.network(
-                        place.listingImages.listingLogo.url,
-                        fit: BoxFit.fill,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                    ),
-                  );
-                }))));
-  }
-}
-
-class PlaceInfo extends StatelessWidget {
-  PlaceInfo(this.place);
-  final ListingModel place;
-  @override
-  Widget build(BuildContext context) {
-    return ListView(children: <Widget>[
-      Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Expanded(
-              flex: 8,
-              child: Text(
-                place.merchant.registrationName,
-                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-              )),
-          Expanded(
-              flex: 2,
-              //Is favorite?
-              child: Icon(
-                Icons.star_border,
-                size: 30,
-              ))
-        ],
-      ),
-      SizedBox(height: 10),
-      Row(children: <Widget>[
-        Expanded(
-          flex: 2,
-          child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Text('5', textAlign: TextAlign.right),
-                Icon(Icons.star)
-              ]),
-        ),
-        Expanded(
-            flex: 9,
-            child: Wrap(runSpacing: 5, children: <Widget>[
-              Text(place.category.category + ' ' + place.category.subcategory,
-                  style:
-                      TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
-              Text(place.tags[0],
-                  style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold))
-            ]))
-      ]),
-      Column(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
-        FlatButton.icon(
-            onPressed: () => print('Location'),
-            icon: Icon(Icons.location_on),
-            label: Flexible(
-                child: Text(place.address.add1 +
-                    place.address.add2 +
-                    place.address.city +
-                    place.address.postalCode))),
-        FlatButton.icon(
-            onPressed: () => print('Calling'),
-            icon: Icon(Icons.phone),
-            label: Text('+60 18-762 7267')),
-        FlatButton.icon(
-            onPressed: () => print('Operating Hours'),
-            icon: Icon(Icons.timer),
-            label: Text.rich(
-              TextSpan(
-                children: <TextSpan>[
-                  TextSpan(
-                      text: place.operatingHours[0].openTime +
-                          '-' +
-                          place.operatingHours[0].closeTime),
-                  TextSpan(
-                      //Function to check time and decide open and close
-                      text: ' Open',
-                      style: TextStyle(color: Colors.green)),
-                ],
+    return Consumer<PlaceDetailProvider>(builder: (_, provider, child) {
+      List<String> swiper = provider.place.listingImages.getCarousel;
+      return Swiper(
+        itemBuilder: (BuildContext context, int index) {
+          return Stack(
+            fit: StackFit.expand,
+            alignment: AlignmentDirectional.center,
+            children: <Widget>[
+              LoadImage(
+                provider.stateType == StateType.loading
+                    ? (swiper[index])
+                    : "none",
+                fit: BoxFit.fill,
               ),
-            )),
-        FlatButton.icon(
-            onPressed: () => print('Visit'),
-            icon: Icon(Icons.link),
-            label: Flexible(child: Text('www.cornhab.com')))
-      ])
-    ]);
+              Positioned(
+                bottom: 10,
+                right: 10,
+                child: FlatButton.icon(
+                  color: Colors.white,
+                  onPressed: null,
+                  icon: Icon(Icons.photo_camera, color: Colors.white),
+                  label: Text(
+                    (index + 1).toString() + "/" + swiper.length.toString(),
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              )
+            ],
+          );
+        },
+        itemCount: swiper.length,
+        loop: false,
+      );
+    });
   }
 }

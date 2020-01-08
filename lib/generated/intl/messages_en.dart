@@ -21,6 +21,24 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
-
+    "appBarTitleHome" : MessageLookupByLibrary.simpleMessage("Home"),
+    "appBarTitleSetting" : MessageLookupByLibrary.simpleMessage("Setting"),
+    "appBarTitleSettingLanguage" : MessageLookupByLibrary.simpleMessage("Language"),
+    "appBarTitleWiki" : MessageLookupByLibrary.simpleMessage("Wiki"),
+    "appTitle" : MessageLookupByLibrary.simpleMessage("JomN9"),
+    "placeDetailInfoLabel" : MessageLookupByLibrary.simpleMessage("Detail"),
+    "placeDetailMerchantInfoLabel" : MessageLookupByLibrary.simpleMessage("Merchant Info"),
+    "placeDetailMerchantRegistrationNameLabel" : MessageLookupByLibrary.simpleMessage("Registration Name"),
+    "placeDetailMerchantSSMLabel" : MessageLookupByLibrary.simpleMessage("SSM ID"),
+    "placeDetailOperatingCloseLabel" : MessageLookupByLibrary.simpleMessage("CLOSED"),
+    "placeDetailOperatingOpenLabel" : MessageLookupByLibrary.simpleMessage("OPEN"),
+    "placeDetailOperatingSoonLabel" : MessageLookupByLibrary.simpleMessage("CLOSING SOON"),
+    "settingLanguageLabelSystemDefault" : MessageLookupByLibrary.simpleMessage("System Default"),
+    "tabViewLabelAttraction" : MessageLookupByLibrary.simpleMessage("Attraction"),
+    "tabViewLabelGovernment" : MessageLookupByLibrary.simpleMessage("Government"),
+    "tabViewLabelNGO" : MessageLookupByLibrary.simpleMessage("NGO"),
+    "tabViewLabelProfessional" : MessageLookupByLibrary.simpleMessage("Professional"),
+    "tabViewLabelShop" : MessageLookupByLibrary.simpleMessage("Shop"),
+    "toastMessageTapToExit" : MessageLookupByLibrary.simpleMessage("Tap again to quit.")
   };
 }

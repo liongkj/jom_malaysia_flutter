@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
+import 'package:jom_malaysia/screens/tabs/overview/presenter/overview_page_presenter.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/overview_page_provider.dart';
+import 'package:jom_malaysia/screens/tabs/overview/widgets/place_item.dart';
 import 'package:jom_malaysia/setting/provider/base_list_provider.dart';
 import 'package:jom_malaysia/widgets/my_refresh_list.dart';
 import 'package:jom_malaysia/widgets/state_layout.dart';
 import 'package:provider/provider.dart';
-import 'category_item.dart';
 
 class PlaceList extends StatefulWidget {
   const PlaceList({
     Key key,
     @required this.index,
+    @required this.presenter,
   }) : super(key: key);
 
   final int index;
-
+  final OverviewPagePresenter presenter;
   @override
   _PlaceListState createState() => _PlaceListState();
 }
@@ -35,7 +37,7 @@ class _PlaceListState extends State<PlaceList>
   void initState() {
     super.initState();
     _index = widget.index;
-    _onRefresh();
+    // _onRefresh();
   }
 
   @override
@@ -50,7 +52,7 @@ class _PlaceListState extends State<PlaceList>
       },
       child: RefreshIndicator(
         onRefresh: _onRefresh,
-        displacement: 120.0, //40 + 120(header)
+        displacement: 40.0, //40 + 120(header)
         child: Consumer<OverviewPageProvider>(
           builder: (_, provider, child) {
             return CustomScrollView(
@@ -75,7 +77,7 @@ class _PlaceListState extends State<PlaceList>
                               delegate: SliverChildBuilderDelegate(
                                   (BuildContext context, int index) {
                                 return index < listingProvider.list.length
-                                    ? CategoryItem(
+                                    ? PlaceItem(
                                         key: Key('order_item_$index'),
                                         index: index,
                                         tabIndex: _index,
@@ -98,7 +100,9 @@ class _PlaceListState extends State<PlaceList>
 
   List _list = [];
 
-  Future _onRefresh() async {}
+  Future _onRefresh() async {
+    widget.presenter.refresh(widget.index);
+  }
 
   bool _hasMore() {
     return _page < _maxPage;

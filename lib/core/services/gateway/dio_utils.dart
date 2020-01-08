@@ -36,10 +36,22 @@ class DioUtils {
     );
     _dio = Dio(options);
 
+    // var cacheConfig = CacheConfig(
+    //         baseUrl: "https://jommalaysiaapi.azurewebsites.net/api/"),
+
+    /// add authenticator
+    _dio.interceptors.add(AuthInterceptor());
+
+    /// add cache for offline access
+    _dio.interceptors.add(CacheInterceptor());
+
+    /// Refresh token
+
     /// 统一添加身份验证请求头
     _dio.interceptors.add(AuthInterceptor());
 
     /// 刷新Token
+
     _dio.interceptors.add(TokenInterceptor());
 
     /// 打印Log(生产模式去除)
@@ -76,6 +88,10 @@ class DioUtils {
       options = new Options();
     }
     options.method = method;
+    // options.cache = buildCacheOptions(
+    //   Duration(days: 3),
+    // );
+
     return options;
   }
 

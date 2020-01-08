@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:jom_malaysia/core/enums/category_type_enum.dart';
 import 'package:jom_malaysia/core/mvp/base_page_presenter.dart';
@@ -19,12 +20,13 @@ class OverviewPagePresenter extends BasePagePresenter<OverviewPageState> {
     fetchListingByType(type);
   }
 
-  Future fetchListingByType(CategoryType type) async {
-    print("fetch" + type.toString());
+  Future fetchListingByType(CategoryType type, {bool refresh = false}) async {
     final String listingType = type.toString().split('.').last;
+    final Options options = new Options(extra: {"refresh": refresh});
     view.listingProvider.setStateType(StateType.loading);
     asyncRequestNetwork<List<ListingModel>, ListingModel>(Method.get,
         url: APIEndpoint.listingQuery,
+        options: options,
         queryParameters: {QueryParam.listingType: listingType},
         isShow: false, onSuccess: (data) {
       view.listingProvider.clear();
@@ -44,5 +46,12 @@ class OverviewPagePresenter extends BasePagePresenter<OverviewPageState> {
       view.listingProvider.setHasMore(false);
       view.listingProvider.setStateType(StateType.network);
     });
+  }
+
+  void refresh(int index) {
+    fetchListingByType(
+      CategoryType.values[index],
+      refresh: true,
+    );
   }
 }
