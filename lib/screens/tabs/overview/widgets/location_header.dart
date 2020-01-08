@@ -49,56 +49,55 @@ class _LocationHeaderState extends State<LocationHeader> {
             // key: _buttonKey,
             child: Padding(
               padding: const EdgeInsets.only(left: 16.0, right: 8.0),
-              child: Consumer<LocationProvider>(builder: (_, location, __) {
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      location.selected ?? "Select a City",
-                      style: TextStyles.textBold16,
-                    ),
-                    //statelist drop down
-                    IconButton(
-                      onPressed: () {
-                        //Location Selector Starts Here
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: Text('Select a City'),
-                              content: Container(
-                                height: 600.0,
-                                width: 300.0,
-                                child: AlphabetListScrollView(
-                                  showPreview: true,
-                                  strList: _cities,
-                                  indexedHeight: (i) => 40,
-                                  keyboardUsage: true,
-                                  itemBuilder: (context, index) {
-                                    return ListTile(
-                                      onTap: () {
-                                        Provider.of<LocationProvider>(context,
-                                                listen: false)
-                                            .selectPlace(_cities[index]);
-                                        Navigator.pop(context);
-                                      },
-                                      title: Text(_cities[index]),
-                                    );
-                                  },
-                                ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    Provider.of<LocationProvider>(context).selected ??
+                        "Select a City",
+                    style: TextStyles.textBold16,
+                  ),
+                  //statelist drop down
+                  IconButton(
+                    onPressed: () {
+                      //Location Selector Starts Here
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('Select a City'),
+                            content: Container(
+                              height: 600.0,
+                              width: 300.0,
+                              child: AlphabetListScrollView(
+                                showPreview: true,
+                                strList: _cities,
+                                indexedHeight: (i) => 40,
+                                keyboardUsage: true,
+                                itemBuilder: (context, index) {
+                                  return ListTile(
+                                    onTap: () {
+                                      Provider.of<LocationProvider>(context,
+                                              listen: false)
+                                          .selectPlace(_cities[index]);
+                                      Navigator.pop(context);
+                                    },
+                                    title: Text(_cities[index]),
+                                  );
+                                },
                               ),
-                            );
-                          },
-                        );
-                      },
-                      icon: Icon(
-                        Icons.keyboard_arrow_down,
-                        color: ThemeUtils.getIconColor(context),
-                      ),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                    icon: Icon(
+                      Icons.keyboard_arrow_down,
+                      color: ThemeUtils.getIconColor(context),
                     ),
-                  ],
-                );
-              }),
+                  ),
+                ],
+              ),
             ),
           ),
           IconButton(

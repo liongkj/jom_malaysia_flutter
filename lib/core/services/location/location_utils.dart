@@ -4,15 +4,16 @@ class LocationUtils {
   static Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
 
   //Get current location
-  static getCurrentLocation() {
-    final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
-    geolocator
+  static Future<String> getCurrentLocation() async {
+    String loc;
+    await geolocator
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
-        .then((Position position) {
-      return _getAddressFromLatLng(position);
-    }).catchError((e) {
+        .then((Position position) async =>
+            loc = await _getAddressFromLatLng(position))
+        .catchError((e) {
       print(e);
     });
+    return loc;
   }
 
   //Get Location Base on Latitude and Longtitude

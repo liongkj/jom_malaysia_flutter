@@ -50,12 +50,6 @@ class OverviewPageState
   void initState() {
     super.initState();
     _tabController = TabController(vsync: this, length: 5);
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      // _preCacheImage();
-      Provider.of<LocationProvider>(context, listen: false)
-          .setCurrentLocation(LocationUtils.getCurrentLocation());
-    });
   }
 
   @override
