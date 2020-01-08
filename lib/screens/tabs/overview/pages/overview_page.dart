@@ -67,46 +67,6 @@ class OverviewPageState
     _tabController.animateTo(index);
   }
 
-  @override
-  OverviewPagePresenter createPresenter() {
-    return OverviewPagePresenter();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(vsync: this, length: 5);
-    this.loadJsonFile();
-    filterList();
-    searchController.addListener(() {
-      filterList();
-    });
-    //Location
-    _getCurrentLocation();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      // _preCacheImage();
-    });
-  }
-
-  filterList() {
-    if (searchController.text.isNotEmpty) {
-      _cities.retainWhere((cities) =>
-          cities.toLowerCase().contains(searchController.text.toLowerCase()));
-  //Get current location
-  _getCurrentLocation() {
-    final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
-    geolocator
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
-        .then((Position position) {
-      setState(() {
-        _currentPosition = position;
-        _getAddressFromLatLng(position);
-      });
-    }).catchError((e) {
-      print(e);
-    });
-  }
-
   //Get Location Base on Latitude and Longtitude
   _getAddressFromLatLng(position) async {
     try {
@@ -122,13 +82,49 @@ class OverviewPageState
     }
   }
 
-  // _preCacheImage() {
-  //   precacheImage(ImageUtils.getAssetImage("order/xdd_n"), context);
-  //   precacheImage(ImageUtils.getAssetImage("order/dps_s"), context);
-  //   precacheImage(ImageUtils.getAssetImage("order/dwc_s"), context);
-  //   precacheImage(ImageUtils.getAssetImage("order/ywc_s"), context);
-  //   precacheImage(ImageUtils.getAssetImage("order/yqx_s"), context);
-  // }
+  //Get current location
+  _getCurrentLocation() {
+    final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
+    geolocator
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
+        .then((Position position) {
+      setState(() {
+        _currentPosition = position;
+        _getAddressFromLatLng(position);
+      });
+    }).catchError((e) {
+      print(e);
+    });
+  }
+
+  @override
+  OverviewPagePresenter createPresenter() {
+    return OverviewPagePresenter();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(vsync: this, length: 5);
+    this.loadJsonFile();
+    filterList();
+    searchController.addListener(() {
+      filterList();
+    });
+    //Location
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      // _preCacheImage();
+      _getCurrentLocation();
+    });
+  }
+
+  filterList() {
+    if (searchController.text.isNotEmpty) {
+      _cities.retainWhere((cities) =>
+          cities.toLowerCase().contains(searchController.text.toLowerCase()));
+    }
+  }
 
   @override
   void dispose() {
@@ -297,7 +293,7 @@ class OverviewPageState
               titlePadding:
                   const EdgeInsetsDirectional.only(start: 16.0, bottom: 14.0),
               collapseMode: CollapseMode.pin,
-              title: _CurrentLocation(
+              title: CurrentLocation(
                   address: _currentAddress) //(position: _currentPosition),
               ),
         ),
@@ -329,10 +325,10 @@ class OverviewPageState
   }
 }
 
-class _CurrentLocation extends StatelessWidget {
+class CurrentLocation extends StatelessWidget {
   final String address;
   //final Position position;
-  const _CurrentLocation({
+  const CurrentLocation({
     this.address,
     //this.position,
     Key key,
