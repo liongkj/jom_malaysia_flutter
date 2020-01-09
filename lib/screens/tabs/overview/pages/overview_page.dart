@@ -10,6 +10,7 @@ import 'package:jom_malaysia/screens/tabs/overview/widgets/listing_type_tab.dart
 import 'package:jom_malaysia/screens/tabs/overview/widgets/location_header.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/place_list.dart';
 import 'package:jom_malaysia/setting/provider/base_list_provider.dart';
+import 'package:jom_malaysia/setting/provider/language_provider.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
 import 'package:provider/provider.dart';
 
@@ -129,7 +130,10 @@ class OverviewPageState
 
   List<Widget> _sliverBuilder(BuildContext context) {
     return <Widget>[
-      LocationHeader(),
+      LocationHeader(
+        locale: Provider.of<LanguageProvider>(context).locale ??
+            Localizations.localeOf(context),
+      ),
       ListingTypeTabs(
           isDark: isDark,
           tabController: _tabController,

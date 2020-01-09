@@ -199,6 +199,24 @@ class S {
       args: [],
     );
   }
+
+  String get locationSelectCityMessage {
+    return Intl.message(
+      'Select a City',
+      name: 'locationSelectCityMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get locationSelectDistrictMessage {
+    return Intl.message(
+      'Select a District',
+      name: 'locationSelectDistrictMessage',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

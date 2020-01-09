@@ -26,6 +26,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "appBarTitleSettingLanguage" : MessageLookupByLibrary.simpleMessage("语言"),
     "appBarTitleWiki" : MessageLookupByLibrary.simpleMessage("科普"),
     "appTitle" : MessageLookupByLibrary.simpleMessage("走森州"),
+    "locationSelectCityMessage" : MessageLookupByLibrary.simpleMessage("选择城市"),
+    "locationSelectDistrictMessage" : MessageLookupByLibrary.simpleMessage("选择县属"),
     "placeDetailInfoLabel" : MessageLookupByLibrary.simpleMessage("产品详情"),
     "placeDetailMerchantInfoLabel" : MessageLookupByLibrary.simpleMessage("商家信息"),
     "placeDetailMerchantRegistrationNameLabel" : MessageLookupByLibrary.simpleMessage("注册名字"),

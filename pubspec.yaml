@@ -59,7 +59,7 @@ dependencies:
   flutter_rating_bar: ^3.0.0
   json_annotation: ^3.0.0
   logger: ^0.7.0+2
-  alphabet_list_scroll_view: ^1.0.5
+  # alphabet_list_scroll_view: ^1.0.5
   geolocator: ^5.1.5
 
   shared_preferences: ^0.5.6
@@ -70,7 +70,7 @@ dependencies:
   # # 列表悬浮头 https://github.com/fluttercommunity/flutter_sticky_headers
   # sticky_headers: ^0.1.8+1
   # # 城市选择列表 https://github.com/flutterchina/azlistview
-  # azlistview: ^0.1.2
+  azlistview: ^0.1.2
   # # 用于日历功能 https://github.com/apptreesoftware/date_utils
   # # date_utils: ^0.1.0+2
 
