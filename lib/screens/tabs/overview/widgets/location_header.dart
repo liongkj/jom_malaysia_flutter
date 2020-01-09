@@ -13,6 +13,7 @@ import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
 import 'package:jom_malaysia/widgets/my_flexible_space_bar.dart';
+import 'package:lpinyin/lpinyin.dart';
 import 'package:provider/provider.dart';
 
 class LocationHeader extends StatefulWidget {
@@ -42,7 +43,6 @@ class _LocationHeaderState extends State<LocationHeader> {
     if (list == null || list.isEmpty) return;
     for (var c in list) {
       String tag = c.getFirstChar(widget.locale);
-
       if (RegExp("[A-Z]").hasMatch(tag)) {
         c.tagIndex = tag;
       } else {

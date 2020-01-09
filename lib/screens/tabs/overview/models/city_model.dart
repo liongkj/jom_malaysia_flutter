@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:azlistview/azlistview.dart';
 import 'package:jom_malaysia/util/text_utils.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:lpinyin/lpinyin.dart';
 
 part 'city_model.g.dart';
 
@@ -36,7 +37,6 @@ class CityModel extends ISuspensionBean {
     data['cityNameZh'] = cityNameZh;
     data['firstChar'] = firstChar;
     data['isHot'] = isHot;
-    data['firstCharZh'] = firstCharZh;
     return data;
   }
 
@@ -52,7 +52,8 @@ class CityModel extends ISuspensionBean {
   }
 
   String getFirstChar(Locale lang) {
-    if (lang.languageCode == 'zh') return TextUtils.capitalize(firstCharZh);
+    if (lang.languageCode == 'zh')
+      return TextUtils.capitalize(PinyinHelper.getPinyin(cityNameZh));
 
     return TextUtils.capitalize(firstChar);
   }
