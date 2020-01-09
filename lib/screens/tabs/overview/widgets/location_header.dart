@@ -25,15 +25,16 @@ class LocationHeader extends StatefulWidget {
 class _LocationHeaderState extends State<LocationHeader> {
 //Load Cities from json file
   List<CityModel> _cities = [];
+  var selectedLocationStr;
+  var selectedLocation;
 
   void _loadData() async {
     var jsonCities = await rootBundle.loadString('assets/json/cities.json');
     List decoded = json.decode(jsonCities);
     decoded.forEach((f) => _cities.add(CityModel.fromJsonMap(f)));
     _processList(_cities);
-    setState(() {
-      // _cities = JsonParser.fromJson<CityModel, Null>(decoded);
-    });
+
+    setState(() {});
     //print(_cities);
   }
 
@@ -55,6 +56,7 @@ class _LocationHeaderState extends State<LocationHeader> {
   @override
   void didUpdateWidget(LocationHeader oldWidget) {
     super.didUpdateWidget(oldWidget);
+    //call process list again during rebuild. etc switch language
     _processList(_cities);
   }
 
@@ -66,7 +68,6 @@ class _LocationHeaderState extends State<LocationHeader> {
 
   @override
   Widget build(BuildContext context) {
-    final selectedLocation = Provider.of<LocationProvider>(context).selected;
     return SliverOverlapAbsorber(
       handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
       child: SliverAppBar(
@@ -74,51 +75,35 @@ class _LocationHeaderState extends State<LocationHeader> {
         brightness: Brightness.dark,
         actions: <Widget>[
           GestureDetector(
+            onTap: () => _showCityPickerDialog(context),
             // key: _buttonKey,
             child: Padding(
               padding: const EdgeInsets.only(left: 16.0, right: 8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    selectedLocation != null
-                        ? selectedLocation.getCityName(widget.locale)
-                        : S.of(context).locationSelectDistrictMessage,
-                    style: TextStyles.textBold16,
-                  ),
-                  //statelist drop down
-                  IconButton(
-                    onPressed: () {
-                      //Location Selector Starts Here
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Text(
-                                S.of(context).locationSelectDistrictMessage),
-                            content: Container(
-                              height: 600.0,
-                              width: 300.0,
-                              child: AzListView(
-                                data: _cities,
-                                isUseRealIndex: true,
-                                itemHeight: 40,
-                                suspensionWidget: null,
-                                suspensionHeight: 0,
-                                itemBuilder: (context, city) =>
-                                    buildListTile(city),
-                              ),
-                            ),
-                          );
-                        },
-                      );
-                    },
-                    icon: Icon(
-                      Icons.keyboard_arrow_down,
-                      color: ThemeUtils.getIconColor(context),
-                    ),
-                  ),
-                ],
+              child: Consumer<LocationProvider>(
+                child: Icon(
+                  Icons.keyboard_arrow_down,
+                  color: ThemeUtils.getIconColor(context),
+                ),
+                builder: (_, location, child) {
+                  selectedLocation = _cities.isNotEmpty
+                      ? _cities.firstWhere(
+                          (x) => x.cityName == location.selected,
+                          orElse: null)
+                      : null;
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        selectedLocation == null
+                            ? S.of(context).locationSelectDistrictMessage
+                            : selectedLocation.getCityName(widget.locale),
+                        style: TextStyles.textBold16,
+                      ),
+                      Gaps.hGap8,
+                      child,
+                    ],
+                  );
+                },
               ),
             ),
           ),
@@ -162,11 +147,34 @@ class _LocationHeaderState extends State<LocationHeader> {
     );
   }
 
-  Widget buildListTile(CityModel city) {
+  Future _showCityPickerDialog(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(S.of(context).locationSelectDistrictMessage),
+          content: Container(
+            height: 600.0,
+            width: 300.0,
+            child: AzListView(
+              data: _cities,
+              isUseRealIndex: true,
+              itemHeight: 40,
+              suspensionWidget: null,
+              suspensionHeight: 0,
+              itemBuilder: (context, city) => _buildListTile(city),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildListTile(CityModel city) {
     return ListTile(
       onTap: () {
         Provider.of<LocationProvider>(context, listen: false).selectPlace(city);
-        Navigator.pop(context);
+        NavigatorUtils.goBack(context);
       },
       title: Text(city.getCityName(widget.locale)),
     );
