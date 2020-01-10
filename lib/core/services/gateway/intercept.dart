@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:flustars/flustars.dart';
 import 'package:jom_malaysia/core/constants/common.dart';
 import 'package:jom_malaysia/logger.dart';
@@ -23,32 +24,8 @@ class AuthInterceptor extends Interceptor {
   }
 }
 
-class CacheInterceptor extends Interceptor {
-  CacheInterceptor();
-
-  var _cache = Map<Uri, Response>();
-
-  @override
-  Future onRequest(RequestOptions options) async {
-    Response response = _cache[options.uri];
-    if (options.extra["refresh"] == true) {
-      print("${options.uri}: force refresh, ignore cache! \n");
-      return options;
-    } else if (response != null) {
-      print("cache hit: ${options.uri} \n");
-      return response;
-    }
-  }
-
-  @override
-  Future onResponse(Response response) async {
-    _cache[response.request.uri] = response;
-  }
-
-  @override
-  Future onError(DioError e) async {
-    print('onError: $e');
-  }
+class CacheInterceptor extends DioCacheManager {
+  CacheInterceptor(CacheConfig config) : super(config);
 }
 
 class TokenInterceptor extends Interceptor {

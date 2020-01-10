@@ -85,11 +85,12 @@ class _LocationHeaderState extends State<LocationHeader> {
                   color: ThemeUtils.getIconColor(context),
                 ),
                 builder: (_, location, child) {
-                  selectedLocation = _cities.isNotEmpty
-                      ? _cities.firstWhere(
-                          (x) => x.cityName == location.selected,
-                          orElse: null)
-                      : null;
+                  selectedLocation =
+                      _cities.isNotEmpty && location.selected != null
+                          ? _cities.firstWhere(
+                              (x) => x.cityName == location.selected,
+                              orElse: null)
+                          : null;
                   return Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[

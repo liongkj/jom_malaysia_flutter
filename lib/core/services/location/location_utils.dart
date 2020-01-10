@@ -1,29 +1,32 @@
+import 'package:flutter/cupertino.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:jom_malaysia/setting/provider/user_current_location_provider.dart';
+import 'package:provider/provider.dart';
 
 class LocationUtils {
   static Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
 
   //Get current location
-  static Future<String> getCurrentLocation() async {
-    String loc;
+  static Future<void> getCurrentLocation(BuildContext context) async {
     await geolocator
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
+        .getCurrentPosition()
         .then((Position position) async =>
-            loc = await _getAddressFromLatLng(position))
+            await _getAddressFromLatLng(position, context))
         .catchError((e) {
       print(e);
     });
-    return loc;
   }
 
   //Get Location Base on Latitude and Longtitude
-  static Future<String> _getAddressFromLatLng(position) async {
+  static Future<void> _getAddressFromLatLng(
+      Position position, BuildContext context) async {
     try {
       List<Placemark> p = await geolocator.placemarkFromCoordinates(
           position.latitude, position.longitude);
       Placemark place = p[0];
-
-      return "${place.locality}"; //, ${place.postalCode}, ${place.country}";
+      Provider.of<UserCurrentLocationProvider>(context, listen: false)
+          .setCurrentLocation(place.locality);
+      //, ${place.postalCode}, ${place.country}";
 
     } catch (e) {
       print(e);

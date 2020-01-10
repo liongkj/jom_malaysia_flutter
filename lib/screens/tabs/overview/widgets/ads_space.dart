@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/overview_page_provider.dart';
+import 'package:jom_malaysia/util/image_utils.dart';
 
 import 'package:provider/provider.dart';
 
@@ -20,9 +21,10 @@ class AdsSpace extends StatelessWidget {
             margin: const EdgeInsets.only(top: 100),
             child: Swiper(
               itemBuilder: (BuildContext context, int index) {
-                return new Image.network(
-                  _adList[index],
-                  fit: BoxFit.fill,
+                return Image(
+                  image: ImageUtils.getImageProvider(
+                    _adList[index],
+                  ),
                 );
               },
               itemCount: _adList.length,

@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:jom_malaysia/core/constants/common.dart';
 import 'package:jom_malaysia/core/services/gateway/json_parser.dart';
 import 'package:rxdart/rxdart.dart';
@@ -26,10 +27,7 @@ class DioUtils {
       connectTimeout: 30000, //15000
       receiveTimeout: 15000,
       responseType: ResponseType.json,
-      // validateStatus: (status) {
-      //   // 不使用http状态码判断状态，使用AdapterInterceptor来处理（适用于标准REST风格）
-      //   return true;
-      // },
+
       baseUrl: "https://jommalaysiaapi.azurewebsites.net/api/",
       // baseUrl: "https://localhost:44368/api/",
 //      contentType: ContentType('application', 'x-www-form-urlencoded', charset: 'utf-8'),
@@ -43,7 +41,8 @@ class DioUtils {
     _dio.interceptors.add(AuthInterceptor());
 
     /// add cache for offline access
-    _dio.interceptors.add(CacheInterceptor());
+    _dio.interceptors.add(
+        CacheInterceptor(CacheConfig(baseUrl: options.baseUrl)).interceptor);
 
     /// Refresh token
 
