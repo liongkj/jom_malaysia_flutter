@@ -13,10 +13,12 @@ class PlaceList extends StatefulWidget {
     Key key,
     @required this.index,
     @required this.presenter,
+    this.city,
   }) : super(key: key);
 
   final int index;
   final OverviewPagePresenter presenter;
+  final String city;
   @override
   _PlaceListState createState() => _PlaceListState();
 }
@@ -37,7 +39,14 @@ class _PlaceListState extends State<PlaceList>
   void initState() {
     super.initState();
     _index = widget.index;
-    // _onRefresh();
+  }
+
+  @override
+  void didUpdateWidget(PlaceList oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _onRefresh();
+    });
   }
 
   @override
@@ -60,7 +69,6 @@ class _PlaceListState extends State<PlaceList>
               /// 这种方法的缺点是会重新layout列表
               controller: _index != provider.index ? _controller : null,
               key: PageStorageKey<String>("$_index"),
-
               slivers: <Widget>[
                 Consumer<BaseListProvider<ListingModel>>(
                   builder: (_, listingProvider, child) {

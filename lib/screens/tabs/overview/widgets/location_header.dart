@@ -95,7 +95,7 @@ class _LocationHeaderState extends State<LocationHeader> {
                     children: <Widget>[
                       Text(
                         selectedLocation == null
-                            ? S.of(context).locationSelectDistrictMessage
+                            ? S.of(context).locationSelectCityMessage
                             : selectedLocation.getCityName(widget.locale),
                         style: TextStyles.textBold16,
                       ),
@@ -152,7 +152,7 @@ class _LocationHeaderState extends State<LocationHeader> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(S.of(context).locationSelectDistrictMessage),
+          title: Text(S.of(context).locationSelectCityMessage),
           content: Container(
             height: 600.0,
             width: 300.0,

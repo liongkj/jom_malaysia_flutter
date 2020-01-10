@@ -53,7 +53,9 @@ class CityModel extends ISuspensionBean {
 
   String getFirstChar(Locale lang) {
     if (lang.languageCode == 'zh')
-      return TextUtils.capitalize(PinyinHelper.getPinyin(cityNameZh));
+      return TextUtils.capitalize(
+        PinyinHelper.getPinyin(cityNameZh).substring(0, 1),
+      );
 
     return TextUtils.capitalize(firstChar);
   }

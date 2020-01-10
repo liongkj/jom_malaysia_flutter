@@ -30,7 +30,7 @@ class OverviewPagePresenter extends BasePagePresenter<OverviewPageState> {
     CategoryType type, {
     bool refresh = false,
   }) async {
-    final String districtFilter =
+    final String cityFilter =
         Provider.of<LocationProvider>(view.context, listen: false).selected;
     final String listingType = type.toString().split('.').last;
     final Options options = new Options(extra: {"refresh": refresh});
@@ -40,7 +40,7 @@ class OverviewPagePresenter extends BasePagePresenter<OverviewPageState> {
         options: options,
         queryParameters: {
           QueryParam.listingType: listingType,
-          QueryParam.locationBiasDistrict: districtFilter
+          QueryParam.locationBiasCity: cityFilter
         },
         isShow: false, onSuccess: (data) {
       view.listingProvider.clear();

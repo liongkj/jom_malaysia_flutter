@@ -101,24 +101,26 @@ class OverviewPageState
               headerSliverBuilder: (context, innerBoxIsScrolled) {
                 return _sliverBuilder(context);
               },
-              body: PageView.builder(
+              body:
+                  //  Consumer<LocationProvider>(
+                  //   builder: (BuildContext context, LocationProvider value,
+                  //       Widget child) {
+                  //     return
+                  PageView.builder(
                 key: const Key('pageView'),
                 itemCount: 5,
                 onPageChanged: _onPageChange,
                 controller: _pageController,
                 itemBuilder: (_, index) {
                   return SafeArea(
-                    top: false,
-                    bottom: false,
-                    child: Builder(
-                      builder: (BuildContext context) {
+                      top: false,
+                      bottom: false,
+                      child: Consumer<LocationProvider>(builder: (_, loc, __) {
                         return PlaceList(
                           index: index,
                           presenter: presenter,
                         );
-                      },
-                    ),
-                  );
+                      }));
                 },
               ),
             ),

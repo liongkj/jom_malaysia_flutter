@@ -208,15 +208,6 @@ class S {
       args: [],
     );
   }
-
-  String get locationSelectDistrictMessage {
-    return Intl.message(
-      'Select a District',
-      name: 'locationSelectDistrictMessage',
-      desc: '',
-      args: [],
-    );
-  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
