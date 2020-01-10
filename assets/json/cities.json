@@ -1,0 +1,46 @@
+[
+  {
+    "cityName": "Tampin",
+    "cityNameZh": "淡边",
+    "firstChar": "T",
+    "firstCharZh": "D"
+  },
+  {
+    "cityName": "Seremban",
+    "cityNameZh": "芙蓉（首府）",
+    "isHot": true,
+    "firstChar": "S",
+    "firstCharZh": "F"
+  },
+  {
+    "cityName": "Rembau",
+    "cityNameZh": "林茂",
+    "firstChar": "R",
+    "firstCharZh": "L"
+  },
+  {
+    "cityName": "Port Dickson",
+    "cityNameZh": "波德申",
+    "firstChar": "P",
+    "firstCharZh": "B",
+    "isHot": true
+  },
+  {
+    "cityName": "Kuala Pilah",
+    "cityNameZh": "瓜拉庇劳",
+    "firstChar": "K",
+    "firstCharZh": "G"
+  },
+  {
+    "cityName": "Jelebu",
+    "cityNameZh": "日叻务",
+    "firstChar": "J",
+    "firstCharZh": "R"
+  },
+  {
+    "cityName": "Jempol",
+    "cityNameZh": "仁保",
+    "firstChar": "J",
+    "firstCharZh": "R"
+  }
+]

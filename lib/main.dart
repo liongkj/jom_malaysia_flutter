@@ -4,8 +4,10 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:jom_malaysia/screens/tabs/overview/providers/location_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/place_detail_provider.dart';
 import 'package:jom_malaysia/setting/provider/language_provider.dart';
+import 'package:jom_malaysia/setting/provider/user_current_location_provider.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 
@@ -59,6 +61,12 @@ class MyApp extends StatelessWidget {
           ),
           ChangeNotifierProvider<PlaceDetailProvider>(
             create: (_) => PlaceDetailProvider(),
+          ),
+          ChangeNotifierProvider<LocationProvider>(
+            create: (_) => LocationProvider(),
+          ),
+          ChangeNotifierProvider<UserCurrentLocationProvider>(
+            create: (_) => UserCurrentLocationProvider(),
           ),
         ],
         child: Consumer<LanguageProvider>(

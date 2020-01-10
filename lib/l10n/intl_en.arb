@@ -17,5 +17,6 @@
   "tabViewLabelGovernment": "Government",
   "tabViewLabelNGO": "NGO",
   "settingLanguageLabelSystemDefault": "System Default",
-  "toastMessageTapToExit":"Tap again to quit."
+  "toastMessageTapToExit": "Tap again to quit.",
+  "locationSelectCityMessage": "Select a City"
 }

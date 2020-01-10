@@ -7,4 +7,6 @@ class APIEndpoint {
 class QueryParam {
   static const String listingType = 'type';
   static const String listingStatus = 'status';
+
+  static const String locationBiasCity = 'selectedCity';
 }

@@ -11,7 +11,7 @@ class LanguageProvider extends ChangeNotifier {
     Language.EN: "en"
   };
 
-  Locale _locale;
+  // Locale _locale;
   Locale get locale {
     String preference = SpUtil.getString(Constant.language);
     return preference == "" ? null : Locale(preference, null);
@@ -21,10 +21,10 @@ class LanguageProvider extends ChangeNotifier {
     final String _l = languages[lang];
     if (_l == null) {
       SpUtil.remove(Constant.language);
-      _locale = null;
+      // _locale = null;
     } else {
       SpUtil.putString(Constant.language, _l);
-      _locale = Locale(_l, null);
+      // _locale = Locale(_l, null);
     }
     notifyListeners();
   }

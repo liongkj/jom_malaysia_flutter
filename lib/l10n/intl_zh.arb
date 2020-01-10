@@ -17,5 +17,7 @@
   "tabViewLabelGovernment": "政府部门",
   "tabViewLabelNGO": "非政府组织",
   "settingLanguageLabelSystemDefault": "跟随系统",
-  "toastMessageTapToExit": "再次点击退出应用"
+  "toastMessageTapToExit": "再次点击退出应用",
+  "locationSelectCityMessage": "选择城市",
+  "locationSelectDistrictMessage": "选择县属"
 }

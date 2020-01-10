@@ -199,6 +199,15 @@ class S {
       args: [],
     );
   }
+
+  String get locationSelectCityMessage {
+    return Intl.message(
+      'Select a City',
+      name: 'locationSelectCityMessage',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

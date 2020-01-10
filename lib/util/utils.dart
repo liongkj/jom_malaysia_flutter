@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:jom_malaysia/core/enums/map_type.dart';
 import 'package:jom_malaysia/core/models/coordinates_model.dart';
 import 'package:jom_malaysia/util/toast.dart';
