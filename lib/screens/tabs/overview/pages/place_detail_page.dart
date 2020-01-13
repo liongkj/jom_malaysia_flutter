@@ -11,8 +11,10 @@ import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/operating_hours_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/presenter/place_detail_page_presenter.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/place_detail_provider.dart';
+import 'package:jom_malaysia/screens/tabs/overview/widgets/merchant_info.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/operating_hours_dialog.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/place_info.dart';
+import 'package:jom_malaysia/setting/provider/base_list_provider.dart';
 import 'package:jom_malaysia/setting/provider/language_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/util/image_utils.dart';
@@ -121,7 +123,7 @@ class PlaceDetailPageState
       _PlaceImage(
         images: place.listingImages.ads,
       ),
-      _MerchantInfo(merchant: place.merchant),
+      MerchantInfo(merchant: place.merchant),
     ];
   }
 }
@@ -144,9 +146,13 @@ class _PlaceImage extends StatelessWidget {
       delegate: SliverChildBuilderDelegate(
         (BuildContext context, int index) {
           // return LoadImage(images[index].url);
-          return LoadAssetImage(_dummyImage[index], format: 'jpg');
+          return new Image.network(
+            images[index].url,
+            fit: BoxFit.fill,
+          );
+          // return LoadAssetImage(_dummyImage[index], format: 'jpg');
         },
-        childCount: _dummyImage.length,
+        childCount: images.length,
       ),
     );
   }
@@ -169,7 +175,7 @@ class _AppBarWithSwiper extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverAppBar(
       brightness: Brightness.dark,
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.grey.shade200,
       elevation: 0.0,
       titleSpacing: 0.0,
       leading: IconButton(
@@ -203,88 +209,6 @@ class _AppBarWithSwiper extends StatelessWidget {
             color: _showTitle ? Colors.black : ThemeUtils.getIconColor(context),
           ),
           onPressed: () {},
-        )
-      ],
-    );
-  }
-}
-
-class _MerchantInfo extends StatelessWidget {
-  const _MerchantInfo({
-    Key key,
-    @required this.merchant,
-  }) : super(key: key);
-
-  final MerchantVM merchant;
-
-  @override
-  Widget build(BuildContext context) {
-    final TextStyle textTextStyle =
-        Theme.of(context).textTheme.body1.copyWith(fontSize: Dimens.font_sp12);
-    return SliverToBoxAdapter(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
-        child: MyCard(
-          child: Container(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  S.of(context).placeDetailMerchantInfoLabel,
-                  style: textTextStyle,
-                ),
-                Gaps.vGap12,
-                _MerchantInfoItem(
-                  title: S.of(context).placeDetailMerchantRegistrationNameLabel,
-                  data: merchant.registrationName,
-                ),
-                Gaps.vGap12,
-                _MerchantInfoItem(
-                  title: S.of(context).placeDetailMerchantSSMLabel,
-                  data: merchant.ssmId,
-                )
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _MerchantInfoItem extends StatelessWidget {
-  const _MerchantInfoItem({
-    @required this.title,
-    this.data,
-    Key key,
-  }) : super(key: key);
-  final String title;
-  final String data;
-  @override
-  Widget build(BuildContext context) {
-    final TextStyle textTextStyle =
-        Theme.of(context).textTheme.body1.copyWith(fontSize: Dimens.font_sp12);
-    return Row(
-      children: <Widget>[
-        Expanded(
-          flex: 4,
-          child: Text(
-            title,
-            style: textTextStyle,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
-        Gaps.vGap12,
-        Expanded(
-          flex: 5,
-          child: Text(
-            data,
-            style: Theme.of(context).textTheme.subtitle,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-          ),
         )
       ],
     );
