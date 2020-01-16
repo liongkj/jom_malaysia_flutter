@@ -18,5 +18,6 @@
   "tabViewLabelNGO": "NGO",
   "settingLanguageLabelSystemDefault": "System Default",
   "toastMessageTapToExit": "Tap again to quit.",
-  "locationSelectCityMessage": "Select a City"
+  "locationSelectCityMessage": "Select a City",
+  "labelSearch": "Search"
 }

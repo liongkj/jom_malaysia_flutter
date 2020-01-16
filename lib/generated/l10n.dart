@@ -208,6 +208,15 @@ class S {
       args: [],
     );
   }
+
+  String get labelSearch {
+    return Intl.message(
+      'Search',
+      name: 'labelSearch',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

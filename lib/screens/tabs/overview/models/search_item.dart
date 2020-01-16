@@ -1,0 +1,3 @@
+class SearchItem {
+  String name;
+}
