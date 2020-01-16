@@ -19,7 +19,8 @@ class PlaceSearchPresenter extends BasePagePresenter<PlaceSearchPageState> {
         options: options,
         queryParameters: {
           QueryParam.keyword: text,
-          QueryParam.language: locale.languageCode,
+          QueryParam.language: "en",
+          // locale.languageCode,
         },
         isShow: isShowDialog, onSuccess: (data) {
       view.provider.clear();
@@ -38,6 +39,7 @@ class PlaceSearchPresenter extends BasePagePresenter<PlaceSearchPageState> {
     }, onError: (_, __) {
       view.provider.setHasMore(false);
       view.provider.setStateType(StateType.network);
+      view.showToast(__);
     });
   }
 }
