@@ -35,9 +35,20 @@ class LocationUtils {
     return "";
   }
 
-  static Future<double> getDistanceBetween(
-      CoordinatesModel current, CoordinatesModel place) async {
-    return await _geolocator.distanceBetween(
+  static Future<String> getDistanceBetween(
+      CoordinatesModel current, CoordinatesModel place,
+      {bool precise = false}) async {
+    var distance = await _geolocator.distanceBetween(
         current.latitude, current.longitude, place.latitude, place.longitude);
+    var km = distance / 1000;
+    String s;
+    if (!precise) {
+      s = km > 100
+          ? "Very far away"
+          : km < 1 ? "${km * 1000} m" : "${km.toStringAsFixed(2)} km";
+    } else {
+      s = "${km.toStringAsFixed(1)} km";
+    }
+    return s;
   }
 }

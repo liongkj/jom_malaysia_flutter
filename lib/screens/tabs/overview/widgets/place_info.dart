@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/enums/map_type.dart';
 import 'package:jom_malaysia/core/models/coordinates_model.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
+import 'package:jom_malaysia/core/services/location/location_utils.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/address_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/contact_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/contact_item.dart';
 import 'package:jom_malaysia/setting/provider/language_provider.dart';
+import 'package:jom_malaysia/setting/provider/user_current_location_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/util/utils.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
@@ -29,10 +31,11 @@ class PlaceInfo extends StatelessWidget {
           child: Column(
             children: <Widget>[
               Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   Expanded(
+                    flex: 3,
                     child: Text(
                       place?.listingName,
                       maxLines: 3,
@@ -40,7 +43,26 @@ class PlaceInfo extends StatelessWidget {
                       style: Theme.of(context).textTheme.title,
                     ),
                   ),
-                  Text("1km"),
+                  Expanded(
+                    child: Consumer<UserCurrentLocationProvider>(
+                      builder: (_, location, __) {
+                        return FutureBuilder<String>(
+                            future: LocationUtils.getDistanceBetween(
+                                location.currentCoordinate,
+                                place.address.coordinates,
+                                precise: true),
+                            builder: (context, snapshot) {
+                              return snapshot.hasData
+                                  ? Text(
+                                      snapshot.data,
+                                      style:
+                                          Theme.of(context).textTheme.subtitle,
+                                    )
+                                  : CircularProgressIndicator();
+                            });
+                      },
+                    ),
+                  ),
                   Icon(Icons.star_border)
                 ],
               ),

@@ -7,6 +7,7 @@ import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/overview_router.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/place_detail_provider.dart';
 import 'package:jom_malaysia/setting/provider/language_provider.dart';
+import 'package:jom_malaysia/setting/provider/user_current_location_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
@@ -85,6 +86,7 @@ class _Description extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final lang = Provider.of<LanguageProvider>(context, listen: false).locale;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.max,
@@ -118,12 +120,24 @@ class _Description extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
               ),
             ),
-            Text(
-              LocationUtils.getDistanceBetween(listing.address.coordinates),
-              style: Theme.of(context)
-                  .textTheme
-                  .subtitle
-                  .copyWith(fontSize: Dimens.font_sp10),
+            Consumer<UserCurrentLocationProvider>(
+              builder: (_, location, __) {
+                return FutureBuilder<String>(
+                    future: LocationUtils.getDistanceBetween(
+                        location.currentCoordinate,
+                        listing.address.coordinates),
+                    builder: (context, snapshot) {
+                      return snapshot.hasData
+                          ? Text(
+                              snapshot.data,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .subtitle
+                                  .copyWith(fontSize: Dimens.font_sp10),
+                            )
+                          : CircularProgressIndicator();
+                    });
+              },
             ),
           ],
         )
