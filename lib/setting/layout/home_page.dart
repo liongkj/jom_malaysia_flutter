@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/tabs/account/page/setting_page.dart';
-import 'package:jom_malaysia/screens/tabs/facts/pages/facts_page.dart';
-import 'package:jom_malaysia/screens/tabs/nearby/pages/nearby_page.dart';
+import 'package:jom_malaysia/screens/tabs/explore/pages/explore_page.dart';
 import 'package:jom_malaysia/screens/tabs/overview/pages/overview_page.dart';
-import 'package:jom_malaysia/setting/provider/language_provider.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
 import 'package:jom_malaysia/util/toast.dart';
 import 'package:provider/provider.dart';
@@ -21,7 +19,7 @@ class _HomeState extends State<Home> {
   final _pageList = [
     OverviewPage(),
     // NearbyPage(),
-    FactsPage(),
+    ExplorePage(),
     SettingPage(),
   ];
   final _pageController = PageController();
@@ -43,7 +41,7 @@ class _HomeState extends State<Home> {
       BuildContext context) {
     final _appBarTitles = [
       S.of(context).appBarTitleHome,
-      S.of(context).appBarTitleWiki,
+      S.of(context).appBarTitleExplore,
       S.of(context).appBarTitleSetting
     ];
 
@@ -57,7 +55,7 @@ class _HomeState extends State<Home> {
       //   size: iconSize,
       // ),
       Icon(
-        Icons.language,
+        Icons.explore,
         size: iconSize,
       ),
       Icon(

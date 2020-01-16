@@ -2,7 +2,7 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/screens/login/login_router.dart';
 import 'package:jom_malaysia/screens/tabs/account/setting_router.dart';
-import 'package:jom_malaysia/screens/tabs/facts/facts_router.dart';
+import 'package:jom_malaysia/screens/tabs/explore/explore_router.dart';
 import 'package:jom_malaysia/screens/tabs/nearby/nearby_router.dart';
 import 'package:jom_malaysia/screens/tabs/overview/overview_router.dart';
 import 'package:jom_malaysia/setting/layout/home_page.dart';
@@ -40,7 +40,7 @@ class Routes {
 
     /// 各自路由由各自模块管理，统一在此添加初始化
     _listRouter.add(OverviewRouter());
-    _listRouter.add(FactsRouter());
+    _listRouter.add(ExploreRouter());
     _listRouter.add(NearbyRouter());
     _listRouter.add(LoginRouter());
     _listRouter.add(AccountRouter());
