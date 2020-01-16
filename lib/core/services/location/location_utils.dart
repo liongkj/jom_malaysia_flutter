@@ -1,30 +1,33 @@
+import 'package:flutter/cupertino.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:jom_malaysia/core/models/coordinates_model.dart';
+import 'package:jom_malaysia/setting/provider/user_current_location_provider.dart';
+import 'package:provider/provider.dart';
 
 class LocationUtils {
-  static Geolocator _geolocator = Geolocator()..forceAndroidLocationManager;
+  static Geolocator _geolocator = Geolocator();
 
   //Get current location
-  static Future<String> getCurrentLocation() async {
-    String loc;
+  static Future<void> getCurrentLocation(BuildContext context) async {
     await _geolocator
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
+        .getCurrentPosition()
         .then((Position position) async =>
-            loc = await _getAddressFromLatLng(position))
+            await _getAddressFromLatLng(position, context))
         .catchError((e) {
       print(e);
     });
-    return loc;
   }
 
   //Get Location Base on Latitude and Longtitude
-  static Future<String> _getAddressFromLatLng(position) async {
+  static Future<void> _getAddressFromLatLng(
+      Position position, BuildContext context) async {
     try {
       List<Placemark> p = await _geolocator.placemarkFromCoordinates(
           position.latitude, position.longitude);
       Placemark place = p[0];
-
-      return "${place.locality}"; //, ${place.postalCode}, ${place.country}";
+      Provider.of<UserCurrentLocationProvider>(context, listen: false)
+          .setCurrentLocation(place.locality, position);
+      //, ${place.postalCode}, ${place.country}";
 
     } catch (e) {
       print(e);
@@ -32,8 +35,9 @@ class LocationUtils {
     return "";
   }
 
-  static Future<String> getDistanceBetween(
-      CoordinatesModel coordinates) async {
-        await _geolocator.distanceBetween(startLatitude, startLongitude, endLatitude, endLongitude)
-      }
+  static Future<double> getDistanceBetween(
+      CoordinatesModel current, CoordinatesModel place) async {
+    return await _geolocator.distanceBetween(
+        current.latitude, current.longitude, place.latitude, place.longitude);
+  }
 }

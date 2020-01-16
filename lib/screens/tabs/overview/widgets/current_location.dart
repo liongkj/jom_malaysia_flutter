@@ -25,9 +25,7 @@ class _CurrentLocationState extends State<CurrentLocation> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       // _preCacheImage();
-      String loc = await LocationUtils.getCurrentLocation();
-      Provider.of<UserCurrentLocationProvider>(context, listen: false)
-          .setCurrentLocation(loc);
+      await LocationUtils.getCurrentLocation(context);
     });
   }
 

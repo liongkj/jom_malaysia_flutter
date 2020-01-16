@@ -2,14 +2,18 @@
 
 ## 后续计划：
 
-- [] 添加地图功能，具体实现插件见 [flutter_2d_amap](https://github.com/simplezhli/flutter_2d_amap)
+- [ ] Add map to show nearby listing of a particular area
 
-- [] 下拉刷新 + 上拉加载更多
+- [ ] Check how to do pagination?
 
-- [x] 引入状态管理，预计使用 [provider](https://github.com/rrousselGit/provider)
+- [x] Implement state management [provider](https://github.com/rrousselGit/provider)
 
-- [] 添加集成测试。
+- [ ] Find how to do testing
 
-- [] 深色模式支持。
+- [x] Localization
+
+- [ ] Dark mode
+
+- [ ] Redesign splash image and overall color
 
 ## 已知问题：

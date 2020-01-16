@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:jom_malaysia/core/enums/category_type_enum.dart';
 import 'package:jom_malaysia/core/mvp/base_page_presenter.dart';
@@ -33,7 +34,9 @@ class OverviewPagePresenter extends BasePagePresenter<OverviewPageState> {
     final String cityFilter =
         Provider.of<LocationProvider>(view.context, listen: false).selected;
     final String listingType = type.toString().split('.').last;
-    final Options options = new Options(extra: {"refresh": refresh});
+    final Options options =
+        buildCacheOptions(Duration(days: 7), forceRefresh: refresh);
+
     view.listingProvider.setStateType(StateType.loading);
     asyncRequestNetwork<List<ListingModel>, ListingModel>(Method.get,
         url: APIEndpoint.listingQuery,
