@@ -14,7 +14,7 @@ class TextUtils {
       var processed = "";
       for (var i = 0; i < words.length - 1; i++) {
         processed += words[i].substring(0, 1).toUpperCase();
-        processed += '.';
+        processed += '. ';
       }
       processed += capitalize(words.last);
       return processed;

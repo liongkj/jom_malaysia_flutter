@@ -13,12 +13,14 @@ class PlaceList extends StatefulWidget {
     Key key,
     @required this.index,
     @required this.presenter,
+    @required this.controller,
     this.city,
   }) : super(key: key);
 
   final int index;
   final OverviewPagePresenter presenter;
   final String city;
+  final ScrollController controller;
   @override
   _PlaceListState createState() => _PlaceListState();
 }
@@ -30,7 +32,7 @@ class _PlaceListState extends State<PlaceList>
   int _page = 1;
   final int _maxPage = 3;
   int _index = 0;
-  ScrollController _controller = ScrollController();
+  // ScrollController _controller = ScrollController();
 
   @override
   bool get wantKeepAlive => true;
@@ -67,7 +69,7 @@ class _PlaceListState extends State<PlaceList>
             return CustomScrollView(
               /// 这里指定controller可以与外层NestedScrollView的滚动分离，避免一处滑动，5个Tab中的列表同步滑动。
               /// 这种方法的缺点是会重新layout列表
-              controller: _index != provider.index ? _controller : null,
+              controller: _index != provider.index ? widget.controller : null,
               key: PageStorageKey<String>("$_index"),
               slivers: <Widget>[
                 Consumer<BaseListProvider<ListingModel>>(

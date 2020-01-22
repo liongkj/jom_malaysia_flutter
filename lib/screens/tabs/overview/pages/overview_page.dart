@@ -52,7 +52,7 @@ class OverviewPageState
   void initState() {
     super.initState();
     _tabController = TabController(vsync: this, length: 5);
-    _scrollController = ScrollController()..addListener(() => setState(() {}));
+    _scrollController = ScrollController();
   }
 
   @override
@@ -101,7 +101,7 @@ class OverviewPageState
             NestedScrollView(
               key: const Key('order_list'),
               physics: ClampingScrollPhysics(),
-              controller: _scrollController,
+              controller: _scrollController ?? null,
               headerSliverBuilder: (context, innerBoxIsScrolled) {
                 return _sliverBuilder(context);
               },
@@ -117,6 +117,7 @@ class OverviewPageState
                     child: Consumer<LocationProvider>(
                       builder: (_, loc, __) {
                         return PlaceList(
+                          controller: this._scrollController,
                           index: index,
                           presenter: presenter,
                         );
@@ -137,7 +138,6 @@ class OverviewPageState
       LocationHeader(
         locale: Provider.of<LanguageProvider>(context).locale ??
             Localizations.localeOf(context),
-        scrollController: _scrollController,
       ),
       ListingTypeTabs(
           isDark: isDark,

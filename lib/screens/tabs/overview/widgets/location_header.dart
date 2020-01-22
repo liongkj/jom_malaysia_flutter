@@ -23,10 +23,9 @@ class LocationHeader extends StatefulWidget {
   const LocationHeader({
     Key key,
     this.locale,
-    this.scrollController,
   }) : super(key: key);
   final locale;
-  final ScrollController scrollController;
+
   @override
   _LocationHeaderState createState() => _LocationHeaderState();
 }
@@ -85,11 +84,6 @@ class _LocationHeaderState extends State<LocationHeader> {
   void initState() {
     super.initState();
     _loadData();
-  }
-
-  bool get _showShortTitle {
-    return widget.scrollController.hasClients &&
-        widget.scrollController.offset > kExpandedHeight - kToolbarHeight;
   }
 
   @override
@@ -158,11 +152,7 @@ class _LocationHeaderState extends State<LocationHeader> {
                       Text(
                         selectedLocation == null
                             ? S.of(context).locationSelectCityMessage
-                            :
-                            // _showShortTitle
-                            // ? "hdahaha"
-                            selectedLocation.getCityName(
-                                widget.locale, _showShortTitle),
+                            : selectedLocation.getCityName(widget.locale),
                         style: TextStyles.textBold16,
                         maxLines: 2,
                       ),
@@ -214,7 +204,7 @@ class _LocationHeaderState extends State<LocationHeader> {
         NavigatorUtils.goBack(context);
       },
       title: Text(
-        city.getCityName(widget.locale, _showShortTitle),
+        city.getCityName(widget.locale),
       ),
     );
   }
