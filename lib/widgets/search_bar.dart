@@ -9,15 +9,18 @@ import 'load_image.dart';
 
 /// 搜索页的AppBar
 class SearchBar extends StatefulWidget implements PreferredSizeWidget {
-  const SearchBar({
-    Key key,
-    this.hintText: "",
-    this.backImg: "assets/images/ic_back_black.png",
-    this.onPressed,
-  }) : super(key: key);
-
+  const SearchBar(
+      {Key key,
+      this.hintText: "",
+      this.backImg: "assets/images/ic_back_black.png",
+      this.onPressed,
+      this.onTap,
+      this.showBack = true})
+      : super(key: key);
+  final bool showBack;
   final String backImg;
   final String hintText;
+  final Function onTap;
   final Function(String) onPressed;
 
   @override
@@ -46,30 +49,14 @@ class _SearchBarState extends State<SearchBar> {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: overlayStyle,
       child: Material(
-        color: ThemeUtils.getBackgroundColor(context),
+        color: widget.showBack
+            ? ThemeUtils.getBackgroundColor(context)
+            : Colors.transparent,
         child: SafeArea(
           child: Container(
               child: Row(
             children: <Widget>[
-              SizedBox(
-                width: 48.0,
-                height: 48.0,
-                child: InkWell(
-                  onTap: () {
-                    FocusScope.of(context).unfocus();
-                    Navigator.maybePop(context);
-                  },
-                  borderRadius: BorderRadius.circular(24.0),
-                  child: Padding(
-                    key: const Key('search_back'),
-                    padding: const EdgeInsets.all(12.0),
-                    child: Image.asset(
-                      widget.backImg,
-                      color: getColor(),
-                    ),
-                  ),
-                ),
-              ),
+              if (widget.showBack) _showBackButton(),
               Expanded(
                 child: Container(
                   height: 32.0,
@@ -78,8 +65,9 @@ class _SearchBarState extends State<SearchBar> {
                     borderRadius: BorderRadius.circular(4.0),
                   ),
                   child: TextField(
+                    enabled: widget.showBack,
                     key: const Key('search_text_field'),
-                    autofocus: true,
+                    autofocus: widget.showBack,
                     controller: _controller,
                     maxLines: 1,
                     decoration: InputDecoration(
@@ -90,7 +78,7 @@ class _SearchBarState extends State<SearchBar> {
                         padding: const EdgeInsets.only(
                             top: 8.0, bottom: 8.0, left: 8.0),
                         child: LoadAssetImage(
-                          "order/order_search",
+                          "place/place_search",
                           color: iconColor,
                         ),
                       ),
@@ -99,7 +87,7 @@ class _SearchBarState extends State<SearchBar> {
                         child: Padding(
                           padding: const EdgeInsets.only(
                               left: 16.0, top: 8.0, bottom: 8.0),
-                          child: LoadAssetImage("order/order_delete",
+                          child: LoadAssetImage("place/place_delete",
                               color: iconColor),
                         ),
                         onTap: () {
@@ -114,31 +102,52 @@ class _SearchBarState extends State<SearchBar> {
                 ),
               ),
               Gaps.hGap8,
-              Theme(
-                data: Theme.of(context).copyWith(
-                  buttonTheme: ButtonThemeData(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      height: 32.0,
-                      minWidth: 44.0,
-                      materialTapTargetSize:
-                          MaterialTapTargetSize.shrinkWrap, // 距顶部距离为0
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(4.0),
-                      )),
+              if (widget.showBack)
+                Theme(
+                  data: Theme.of(context).copyWith(
+                    buttonTheme: ButtonThemeData(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        height: 32.0,
+                        minWidth: 44.0,
+                        materialTapTargetSize:
+                            MaterialTapTargetSize.shrinkWrap, // 距顶部距离为0
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(4.0),
+                        )),
+                  ),
+                  child: FlatButton(
+                    textColor: isDark ? Colours.dark_button_text : Colors.white,
+                    color: isDark ? Colours.dark_app_main : Colours.app_main,
+                    onPressed: () => widget.onPressed(_controller.text),
+                    child: Text(S.of(context).labelSearch,
+                        style: TextStyle(fontSize: Dimens.font_sp14)),
+                  ),
                 ),
-                child: FlatButton(
-                  textColor: isDark ? Colours.dark_button_text : Colors.white,
-                  color: isDark ? Colours.dark_app_main : Colours.app_main,
-                  onPressed: () {
-                    widget.onPressed(_controller.text);
-                  },
-                  child: Text(S.of(context).labelSearch,
-                      style: TextStyle(fontSize: Dimens.font_sp14)),
-                ),
-              ),
               Gaps.hGap16,
             ],
           )),
+        ),
+      ),
+    );
+  }
+
+  Widget _showBackButton() {
+    return SizedBox(
+      width: 48.0,
+      height: 48.0,
+      child: InkWell(
+        onTap: () {
+          FocusScope.of(context).unfocus();
+          Navigator.maybePop(context);
+        },
+        borderRadius: BorderRadius.circular(24.0),
+        child: Padding(
+          key: const Key('search_back'),
+          padding: const EdgeInsets.all(12.0),
+          child: Image.asset(
+            widget.backImg,
+            color: getColor(),
+          ),
         ),
       ),
     );

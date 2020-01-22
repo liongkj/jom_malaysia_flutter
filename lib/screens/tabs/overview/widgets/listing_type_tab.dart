@@ -36,7 +36,7 @@ class ListingTypeTabs extends StatelessWidget {
               image: isDark
                   ? null
                   : DecorationImage(
-                      image: ImageUtils.getAssetImage("order/order_bg1"),
+                      image: ImageUtils.getAssetImage("overview/overview_bg1"),
                       fit: BoxFit.fill)),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),

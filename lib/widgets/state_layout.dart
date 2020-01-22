@@ -24,15 +24,15 @@ class _StateLayoutState extends State<StateLayout> {
   Widget build(BuildContext context) {
     switch (widget.type) {
       case StateType.places:
-        _img = "zwdd";
+        _img = "coming_soon";
         _hintText = "More places coming soon";
         break;
       case StateType.goods:
-        _img = "zwsp";
+        _img = "not_found";
         _hintText = "暂无商品";
         break;
       case StateType.network:
-        _img = "zwwl";
+        _img = "network_error";
         _hintText = "无网络连接";
         break;
       case StateType.message:

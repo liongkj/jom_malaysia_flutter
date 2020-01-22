@@ -100,17 +100,8 @@ flutter:
     - assets/data/
     - assets/images/explore/
     - assets/images/
-    - assets/images/ads/
-    - assets/images/home/
-    - assets/images/store/
     - assets/images/state/
-    - assets/images/order/
-    - assets/images/order/dark/
-    - assets/images/login/
-    - assets/images/goods/
-    - assets/images/shop/
-    - assets/images/account/
-    - assets/images/statistic/
+    - assets/images/ads/
     - assets/images/overview/
     - assets/images/widgets/rating/
     - assets/json/
