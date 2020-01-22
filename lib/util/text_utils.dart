@@ -18,6 +18,7 @@ class TextUtils {
       }
       processed += capitalize(words.last);
       return processed;
-    }
+    } else
+      return text;
   }
 }
