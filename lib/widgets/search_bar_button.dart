@@ -26,7 +26,6 @@ class SearchBarButton extends StatefulWidget implements PreferredSizeWidget {
 
 class _SearchBarButtonState extends State<SearchBarButton> {
   SystemUiOverlayStyle overlayStyle = SystemUiOverlayStyle.light;
-  TextEditingController _controller = TextEditingController();
 
   Color getColor() {
     return overlayStyle == SystemUiOverlayStyle.light
@@ -45,49 +44,55 @@ class _SearchBarButtonState extends State<SearchBarButton> {
       child: Material(
         color: Colors.transparent,
         child: SafeArea(
-          child: Container(
-              child: Row(
-            children: <Widget>[
-              Expanded(
-                child: Container(
-                  height: 32.0,
-                  decoration: BoxDecoration(
-                    color: isDark ? Colours.dark_material_bg : Colours.bg_gray,
-                    borderRadius: BorderRadius.circular(4.0),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Expanded(
-                          child: LoadAssetImage(
-                            "place/place_search",
-                            color: Colors.black,
+          child: GestureDetector(
+            onTap: widget.onTap,
+            child: Container(
+                width: MediaQuery.of(context).size.width / 2,
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: Container(
+                        height: 32.0,
+                        decoration: BoxDecoration(
+                          color: isDark
+                              ? Colours.dark_material_bg
+                              : Colours.bg_gray,
+                          borderRadius: BorderRadius.circular(4.0),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Expanded(
+                                child: LoadAssetImage(
+                                  "place/place_search",
+                                  color: Colors.black,
+                                ),
+                              ),
+                              Expanded(
+                                flex: 4,
+                                child: Text(
+                                  widget.hintText,
+                                  style: Theme.of(context).textTheme.caption,
+                                ),
+                              ),
+                              Expanded(
+                                child: LoadAssetImage(
+                                  "place/place_delete",
+                                  color: iconColor,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                        Expanded(
-                          flex: 4,
-                          child: Text(
-                            widget.hintText,
-                            style: Theme.of(context).textTheme.caption,
-                          ),
-                        ),
-                        Expanded(
-                          child: LoadAssetImage(
-                            "place/place_delete",
-                            color: iconColor,
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
-                ),
-              ),
-              Gaps.hGap8,
-            ],
-          )),
+                    Gaps.hGap8,
+                  ],
+                )),
+          ),
         ),
       ),
     );

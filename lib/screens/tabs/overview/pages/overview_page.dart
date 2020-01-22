@@ -34,6 +34,7 @@ class OverviewPageState
       BaseListProvider<ListingModel>();
 
   TextEditingController searchController = TextEditingController();
+  ScrollController _scrollController;
 
   _onPageChange(int index) async {
     presenter.onPageChange(index);
@@ -51,11 +52,13 @@ class OverviewPageState
   void initState() {
     super.initState();
     _tabController = TabController(vsync: this, length: 5);
+    _scrollController = ScrollController()..addListener(() => setState(() {}));
   }
 
   @override
   void dispose() {
     _tabController?.dispose();
+    _scrollController?.dispose();
     super.dispose();
   }
 
@@ -98,6 +101,7 @@ class OverviewPageState
             NestedScrollView(
               key: const Key('order_list'),
               physics: ClampingScrollPhysics(),
+              controller: _scrollController,
               headerSliverBuilder: (context, innerBoxIsScrolled) {
                 return _sliverBuilder(context);
               },
@@ -108,14 +112,17 @@ class OverviewPageState
                 controller: _pageController,
                 itemBuilder: (_, index) {
                   return SafeArea(
-                      top: false,
-                      bottom: false,
-                      child: Consumer<LocationProvider>(builder: (_, loc, __) {
+                    top: false,
+                    bottom: false,
+                    child: Consumer<LocationProvider>(
+                      builder: (_, loc, __) {
                         return PlaceList(
                           index: index,
                           presenter: presenter,
                         );
-                      }));
+                      },
+                    ),
+                  );
                 },
               ),
             ),
@@ -130,6 +137,7 @@ class OverviewPageState
       LocationHeader(
         locale: Provider.of<LanguageProvider>(context).locale ??
             Localizations.localeOf(context),
+        scrollController: _scrollController,
       ),
       ListingTypeTabs(
           isDark: isDark,

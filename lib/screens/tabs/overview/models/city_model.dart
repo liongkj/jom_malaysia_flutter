@@ -45,9 +45,9 @@ class CityModel extends ISuspensionBean {
     return tagIndex;
   }
 
-  String getCityName(Locale lang) {
-    if (lang.languageCode == 'zh') return TextUtils.capitalize(cityNameZh);
-
+  String getCityName(Locale lang, bool showShortTitle) {
+    if (lang.languageCode == 'zh') return cityNameZh;
+    if (showShortTitle) return TextUtils.shorten(cityName);
     return TextUtils.capitalize(cityName);
   }
 

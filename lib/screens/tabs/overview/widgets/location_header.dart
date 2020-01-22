@@ -20,17 +20,24 @@ import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 
 class LocationHeader extends StatefulWidget {
-  const LocationHeader({Key key, this.locale}) : super(key: key);
+  const LocationHeader({
+    Key key,
+    this.locale,
+    this.scrollController,
+  }) : super(key: key);
   final locale;
+  final ScrollController scrollController;
   @override
   _LocationHeaderState createState() => _LocationHeaderState();
 }
+
+const kExpandedHeight = 113.0;
 
 class _LocationHeaderState extends State<LocationHeader> {
 //Load Cities from json file
   List<CityModel> _cities = [];
   var selectedLocationStr;
-  var selectedLocation;
+  CityModel selectedLocation;
 
   void _loadData() async {
     var jsonCities;
@@ -80,6 +87,11 @@ class _LocationHeaderState extends State<LocationHeader> {
     _loadData();
   }
 
+  bool get _showShortTitle {
+    return widget.scrollController.hasClients &&
+        widget.scrollController.offset > kExpandedHeight - kToolbarHeight;
+  }
+
   @override
   Widget build(BuildContext context) {
     return SliverOverlapAbsorber(
@@ -87,33 +99,25 @@ class _LocationHeaderState extends State<LocationHeader> {
       child: SliverAppBar(
         leading: Gaps.empty,
         brightness: Brightness.dark,
-
         actions: <Widget>[
-          // CurrentLocation(),
-          Icon(Icons.feedback),
-          // IconButton(
-          //   onPressed: () {
-          //     NavigatorUtils.push(context, OverviewRouter.placeSearchPage);
-          //   },
-          //   tooltip: 'Search',
-          //   icon: Icon(
-          //     Icons.search,
-          //     color: ThemeUtils.getIconColor(context),
-          //   ),
-          // )
+          SearchBarButton(
+            hintText: "Search for a name or keyword",
+            onTap: () {
+              print("tap");
+              NavigatorUtils.push(context, OverviewRouter.placeSearchPage);
+            },
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Icon(Icons.feedback),
+          ),
         ],
-        title: SearchBarButton(
-          hintText: "Search for a name or keyword",
-          onTap: () {
-            print("tap");
-            NavigatorUtils.push(context, OverviewRouter.placeSearchPage);
-          },
-        ),
+
         backgroundColor: Colors.transparent,
+
         elevation: 0.0,
         centerTitle: true,
         expandedHeight: MediaQuery.of(context).size.height * 0.18,
-        //  140.0,
         floating: false, // 不随着滑动隐藏标题
         pinned: true, // 固定在顶部
         flexibleSpace: MyFlexibleSpaceBar(
@@ -134,12 +138,12 @@ class _LocationHeaderState extends State<LocationHeader> {
           collapseMode: CollapseMode.pin,
           title: GestureDetector(
             onTap: () => _showCityPickerDialog(context),
-            child: Padding(
+            child: Container(
               padding: const EdgeInsets.only(left: 16.0, right: 8.0),
               child: Consumer<LocationProvider>(
                 child: Icon(
                   Icons.keyboard_arrow_down,
-                  color: ThemeUtils.getIconColor(context),
+                  color: Colors.white,
                 ),
                 builder: (_, location, child) {
                   selectedLocation =
@@ -154,8 +158,13 @@ class _LocationHeaderState extends State<LocationHeader> {
                       Text(
                         selectedLocation == null
                             ? S.of(context).locationSelectCityMessage
-                            : selectedLocation.getCityName(widget.locale),
+                            :
+                            // _showShortTitle
+                            // ? "hdahaha"
+                            selectedLocation.getCityName(
+                                widget.locale, _showShortTitle),
                         style: TextStyles.textBold16,
+                        maxLines: 2,
                       ),
                       Gaps.hGap8,
                       child,
@@ -180,6 +189,11 @@ class _LocationHeaderState extends State<LocationHeader> {
             height: 600.0,
             width: 300.0,
             child: AzListView(
+              header: AzListViewHeader(
+                  builder: (_) {
+                    return CurrentLocation();
+                  },
+                  height: 100),
               data: _cities,
               isUseRealIndex: true,
               itemHeight: 40,
@@ -199,7 +213,9 @@ class _LocationHeaderState extends State<LocationHeader> {
         Provider.of<LocationProvider>(context, listen: false).selectPlace(city);
         NavigatorUtils.goBack(context);
       },
-      title: Text(city.getCityName(widget.locale)),
+      title: Text(
+        city.getCityName(widget.locale, _showShortTitle),
+      ),
     );
   }
 }
