@@ -52,7 +52,6 @@ class _PlaceListState extends State<PlaceList>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    print("build place list" + _index.toString());
     return NotificationListener(
       onNotification: (ScrollNotification note) {
         if (note.metrics.pixels == note.metrics.maxScrollExtent) {

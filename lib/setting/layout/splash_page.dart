@@ -81,7 +81,7 @@ class _SplashPageState extends State<SplashPage> {
     return Material(
       child: _status == 0
           ? Image.asset(
-              ImageUtils.getImgPath("start_page", format: "jpg"),
+              ImageUtils.getImgPath("splash_page", format: "jpg"),
               width: double.infinity,
               fit: BoxFit.fill,
               height: double.infinity,
