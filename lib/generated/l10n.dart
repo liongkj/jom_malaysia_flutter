@@ -245,6 +245,15 @@ class S {
     );
   }
 
+  String get locationSelectTownMessage {
+    return Intl.message(
+      'Select a Town',
+      name: 'locationSelectTownMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
   String get labelSearch {
     return Intl.message(
       'Search',
