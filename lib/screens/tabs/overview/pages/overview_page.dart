@@ -101,12 +101,7 @@ class OverviewPageState
               headerSliverBuilder: (context, innerBoxIsScrolled) {
                 return _sliverBuilder(context);
               },
-              body:
-                  //  Consumer<LocationProvider>(
-                  //   builder: (BuildContext context, LocationProvider value,
-                  //       Widget child) {
-                  //     return
-                  PageView.builder(
+              body: PageView.builder(
                 key: const Key('pageView'),
                 itemCount: 5,
                 onPageChanged: _onPageChange,

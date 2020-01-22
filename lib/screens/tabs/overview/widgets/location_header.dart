@@ -13,7 +13,6 @@ import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
 import 'package:jom_malaysia/widgets/my_flexible_space_bar.dart';
-import 'package:lpinyin/lpinyin.dart';
 import 'package:provider/provider.dart';
 
 class LocationHeader extends StatefulWidget {
@@ -76,7 +75,6 @@ class _LocationHeaderState extends State<LocationHeader> {
         actions: <Widget>[
           GestureDetector(
             onTap: () => _showCityPickerDialog(context),
-            // key: _buttonKey,
             child: Padding(
               padding: const EdgeInsets.only(left: 16.0, right: 8.0),
               child: Consumer<LocationProvider>(
@@ -110,7 +108,7 @@ class _LocationHeaderState extends State<LocationHeader> {
           ),
           IconButton(
             onPressed: () {
-              NavigatorUtils.push(context, OverviewRouter.placeDetailPage);
+              NavigatorUtils.push(context, OverviewRouter.placeSearchPage);
             },
             tooltip: 'Search',
             icon: Icon(

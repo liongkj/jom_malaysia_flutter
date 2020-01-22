@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
+import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
 
 import 'load_image.dart';
@@ -77,13 +78,13 @@ class _SearchBarState extends State<SearchBar> {
                     borderRadius: BorderRadius.circular(4.0),
                   ),
                   child: TextField(
-                    key: const Key('srarch_text_field'),
+                    key: const Key('search_text_field'),
                     autofocus: true,
                     controller: _controller,
                     maxLines: 1,
                     decoration: InputDecoration(
                       contentPadding: const EdgeInsets.only(
-                          top: 6.0, left: -8.0, right: -16.0, bottom: 6.0),
+                          top: 6.0, left: -8.0, right: -16.0, bottom: 15.0),
                       border: InputBorder.none,
                       icon: Padding(
                         padding: const EdgeInsets.only(
@@ -131,8 +132,8 @@ class _SearchBarState extends State<SearchBar> {
                   onPressed: () {
                     widget.onPressed(_controller.text);
                   },
-                  child:
-                      Text("搜索", style: TextStyle(fontSize: Dimens.font_sp14)),
+                  child: Text(S.of(context).labelSearch,
+                      style: TextStyle(fontSize: Dimens.font_sp14)),
                 ),
               ),
               Gaps.hGap16,

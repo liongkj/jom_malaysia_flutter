@@ -38,6 +38,24 @@ class S {
     );
   }
 
+  String get stateTitle {
+    return Intl.message(
+      'Negeri Sembilan',
+      name: 'stateTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get stateSubtitle {
+    return Intl.message(
+      'Malaysian state',
+      name: 'stateSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
   String get appBarTitleHome {
     return Intl.message(
       'Home',
@@ -47,10 +65,28 @@ class S {
     );
   }
 
-  String get appBarTitleWiki {
+  String get appBarTitleExplore {
     return Intl.message(
-      'Wiki',
-      name: 'appBarTitleWiki',
+      'Explore',
+      name: 'appBarTitleExplore',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get tabTitleExploreOverview {
+    return Intl.message(
+      'Overview',
+      name: 'tabTitleExploreOverview',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get tabTitleExploreTodo {
+    return Intl.message(
+      'TODO',
+      name: 'tabTitleExploreTodo',
       desc: '',
       args: [],
     );
@@ -204,6 +240,114 @@ class S {
     return Intl.message(
       'Select a City',
       name: 'locationSelectCityMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get locationSelectTownMessage {
+    return Intl.message(
+      'Select a Town',
+      name: 'locationSelectTownMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelSearch {
+    return Intl.message(
+      'Search',
+      name: 'labelSearch',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get overviewSection1Para1 {
+    return Intl.message(
+      'Negeri Sembilan is a Malaysian state on the Malay Peninsula\'s southwest coast, known for its beaches, nature parks and palaces. To the west, on the Malacca Strait, the area around Port Dickson has seaside resorts, the Wan Loong Chinese Temple and the Kota Lukut hilltop fort. South along the coast, in the neighboring state of Malacca, is Cape Rachado (Tanjung Tuan), a nature reserve with a lighthouse.',
+      name: 'overviewSection1Para1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get overviewSection1Para2 {
+    return Intl.message(
+      'Northeast from Port Dickson, the state capital of Seremban is known for its colonial architecture, Lake Garden park and wooden palaces of the Minangkabau people, an ethnic group with Indonesian roots. Their influence can also be seen in the town of Seri Menanti to the east, where a former palace is now the Sri Menanti Royal Museum. The nearby town of Kuala Pilah is home to the San Sheng Gong Chinese Temple and the colorful Hindu temple of Kuil Sri Kanthasamy. To the west, Ulu Bendul Recreational Park encompasses jungle, waterfalls and Gunung Angsi mountain.',
+      name: 'overviewSection1Para2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get overviewSection2Title {
+    return Intl.message(
+      'The Name',
+      name: 'overviewSection2Title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get overviewSection2Para1 {
+    return Intl.message(
+      'The name is believed to derive from the nine (sembilan) villages or nagari in the Minangkabau language (now known as luak) settled by the Minangkabau, a people originally from West Sumatra (in present-day Indonesia). Minangkabau features are still visible today in traditional architecture and the dialect of Malay spoken.',
+      name: 'overviewSection2Para1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get overviewSection3Title {
+    return Intl.message(
+      'Negeri Sembilan Ruler',
+      name: 'overviewSection3Title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get overviewSection3Para1 {
+    return Intl.message(
+      'Unlike the hereditary monarchs of the other royal Malay states, the ruler of Negeri Sembilan is known as Yang di-Pertuan Besar instead of Sultan. The election of the Ruler is also unique. He is selected by the council of Undangs who lead the four biggest territories of Sungai Ujong, Jelebu, Johol, and Rembau, making it one of the more democratic monarchies. The capital of Negeri Sembilan is Seremban. The royal capital is Seri Menanti in Kuala Pilah District. Other important towns are Port Dickson, Bahau and Nilai.',
+      name: 'overviewSection3Para1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get overviewSection4Title {
+    return Intl.message(
+      'Capital (Seremban)',
+      name: 'overviewSection4Title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get overviewSection4Para1 {
+    return Intl.message(
+      'Seremban is the capital of Negeri Sembilan and today the state has an economy based mainly in the agricultural sector with palm, rubber and fruit and vegetable farms taking up half the state\'s land area. They are also one of the leaders in the country in organic farming. Recently, residential growth demand has seen housing estates with affordable homes being built at a furious pace in and around Seremban which is just 40 minutes from Kuala Lumpur, a plus point for middle-class Malays who cannot afford the astronomical cost of living in the capital.',
+      name: 'overviewSection4Para1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get overviewSection5Title {
+    return Intl.message(
+      'Demographic',
+      name: 'overviewSection5Title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get overviewSection5Para1 {
+    return Intl.message(
+      'Negeri Sembilan has a collective population of 1,098,500 as of 2015; the ethnic composition consisting of Malay 622,000 (56.6%) (mostly are Minangkabau descent), other Bumiputras 20,700 (1.9%), Chinese 234,300 (21.3%), Indian 154,000 (14%), Others 4,200 (0.4%), and Non Citizens 63,300 (5.8%). The state has the highest percentage of Indians when compared to other Malaysian states.',
+      name: 'overviewSection5Para1',
       desc: '',
       args: [],
     );

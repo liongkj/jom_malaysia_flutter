@@ -75,12 +75,12 @@ class PlaceDetailPageState
 
     return Scaffold(
       body: SafeArea(
-          child: CustomScrollView(
-        controller: _scrollController,
-        key: const Key('place_detail'),
-        // physics: ClampingScrollPhysics(),
-        slivers: _sliverBuilder(place),
-      )),
+        child: CustomScrollView(
+          controller: _scrollController,
+          key: const Key('place_detail'),
+          slivers: _sliverBuilder(place),
+        ),
+      ),
     );
   }
 
@@ -112,7 +112,9 @@ class PlaceDetailPageState
       ),
       SliverPersistentHeader(
         delegate: MySliverAppBarDelegate(
-          Center(child: MySectionDivider(S.of(context).placeDetailInfoLabel)),
+          Center(
+            child: MySectionDivider(S.of(context).placeDetailInfoLabel),
+          ),
           50,
         ),
       ),

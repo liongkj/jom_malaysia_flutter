@@ -98,6 +98,7 @@ flutter:
   assets:
     - assets/images/place/
     - assets/data/
+    - assets/images/explore/
     - assets/images/
     - assets/images/ads/
     - assets/images/home/
