@@ -204,7 +204,7 @@ class _LocationHeaderState extends State<LocationHeader> {
         NavigatorUtils.goBack(context);
       },
       title: Text(
-        city.getCityName(widget.locale),
+        city.getCityName(widget.locale, fullName: true),
       ),
     );
   }

@@ -38,17 +38,34 @@ class LocationUtils {
   static Future<String> getDistanceBetween(
       CoordinatesModel current, CoordinatesModel place,
       {bool precise = false}) async {
-    var distance = await _geolocator.distanceBetween(
-        current.latitude, current.longitude, place.latitude, place.longitude);
-    var km = distance / 1000;
-    String s;
-    if (!precise) {
-      s = km > 100
-          ? "Very far away"
-          : km < 1 ? "${km * 1000} m" : "${km.toStringAsFixed(2)} km";
+    double distance;
+
+    if (current != null) {
+      //user location is opened
+      distance = await _geolocator.distanceBetween(
+          current.latitude, current.longitude, place.latitude, place.longitude);
+      var km = distance / 1000;
+      String s;
+      if (!precise) {
+        if (km > 50) {
+          return await _getDistanceToTown(place);
+        } else {
+          s = km < 1 ? "${km * 1000} m" : "${km.toStringAsFixed(2)} km";
+        }
+      } else {
+        s = "${km.toStringAsFixed(1)} km";
+      }
+      return s;
     } else {
-      s = "${km.toStringAsFixed(1)} km";
+      return await _getDistanceToTown(place);
     }
-    return s;
+  }
+
+  static Future<String> _getDistanceToTown(CoordinatesModel place) async {
+    final CoordinatesModel serembanTown =
+        CoordinatesModel(longitude: 2.7297, latitude: 101.9381);
+    var s = await _geolocator.distanceBetween(serembanTown.latitude,
+        serembanTown.longitude, place.latitude, place.longitude);
+    return "$s km to Seremban town ";
   }
 }

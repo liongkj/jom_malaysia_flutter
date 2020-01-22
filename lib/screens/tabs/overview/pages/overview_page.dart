@@ -13,6 +13,8 @@ import 'package:jom_malaysia/setting/provider/base_list_provider.dart';
 import 'package:jom_malaysia/setting/provider/language_provider.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
 import 'package:provider/provider.dart';
+import 'package:provider/provider.dart';
+import 'package:provider/provider.dart';
 
 class OverviewPage extends StatefulWidget {
   @override
@@ -114,14 +116,11 @@ class OverviewPageState
                   return SafeArea(
                     top: false,
                     bottom: false,
-                    child: Consumer<LocationProvider>(
-                      builder: (_, loc, __) {
-                        return PlaceList(
-                          controller: this._scrollController,
-                          index: index,
-                          presenter: presenter,
-                        );
-                      },
+                    child: PlaceList(
+                      controller: this._scrollController,
+                      index: index,
+                      city: Provider.of<LocationProvider>(context).selected,
+                      presenter: presenter,
                     ),
                   );
                 },

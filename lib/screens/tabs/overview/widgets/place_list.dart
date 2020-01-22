@@ -63,7 +63,8 @@ class _PlaceListState extends State<PlaceList>
       },
       child: RefreshIndicator(
         onRefresh: _onRefresh,
-        displacement: 40.0, //40 + 120(header)
+        displacement:
+            MediaQuery.of(context).size.height * 0.06, //40 + 120(header)
         child: Consumer<OverviewPageProvider>(
           builder: (_, provider, child) {
             return CustomScrollView(

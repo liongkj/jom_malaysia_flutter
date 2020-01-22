@@ -33,6 +33,7 @@ class OverviewPagePresenter extends BasePagePresenter<OverviewPageState> {
   }) async {
     final String cityFilter =
         Provider.of<LocationProvider>(view.context, listen: false).selected;
+    print(cityFilter);
     final String listingType = type.toString().split('.').last;
     final Options options =
         buildCacheOptions(Duration(days: 7), forceRefresh: refresh);

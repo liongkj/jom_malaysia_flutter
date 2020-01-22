@@ -18,7 +18,6 @@ class ImageUtils {
     if (TextUtil.isEmpty(imageUrl)){
       return AssetImage(getImgPath(holderImg));
     }
-    return CachedNetworkImageProvider(imageUrl);
+    return CachedNetworkImageProvider(imageUrl,);
   }
 }
-
