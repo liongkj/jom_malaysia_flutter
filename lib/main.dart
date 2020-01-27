@@ -71,10 +71,10 @@ class MyApp extends StatelessWidget {
             create: (_) => UserCurrentLocationProvider(),
           ),
         ],
-        child: Consumer<LanguageProvider>(
-          builder: (_, lang, __) {
-            return Consumer<ThemeProvider>(
-              builder: (_, provider, __) {
+        child: Consumer<ThemeProvider>(
+          builder: (_, provider, __) {
+            return Consumer<LanguageProvider>(
+              builder: (_, lang, __) {
                 return MaterialApp(
                   locale: lang.locale,
                   onGenerateTitle: (BuildContext context) =>
