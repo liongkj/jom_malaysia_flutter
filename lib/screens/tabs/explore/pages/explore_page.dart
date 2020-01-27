@@ -21,13 +21,21 @@ class ExplorePageState extends State<ExplorePage>
         AutomaticKeepAliveClientMixin<ExplorePage> {
   TabController _tabController;
 
+  int _currentIndex = 0;
+
   @override
   bool get wantKeepAlive => true;
 
   @override
   void initState() {
     super.initState();
-    _tabController = new TabController(vsync: this, length: 2);
+    _tabController = new TabController(vsync: this, length: 2)
+      ..addListener(
+        () => setState(() {
+          _currentIndex = _tabController.index;
+        }),
+      );
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _preCacheImage();
     });
@@ -56,6 +64,7 @@ class ExplorePageState extends State<ExplorePage>
       Choice(title: S.of(context).tabTitleExploreTodo, icon: Icons.done),
       // const Choice(title: 'TRANSPORT', icon: Icons.directions),
     ];
+
     return Scaffold(
       body: NestedScrollView(
         headerSliverBuilder: (_, __) {
@@ -64,7 +73,8 @@ class ExplorePageState extends State<ExplorePage>
               backgroundColor: Colors.redAccent,
               expandedHeight: 200.0,
               floating: false,
-              title: Text(S.of(context).appBarTitleExplore),
+              // title: Text(S.of(context).appBarTitleExplore),
+              title: Text(choices[_currentIndex].title),
               pinned: false,
               bottom: TabBar(
                 indicatorColor: Colors.white,
