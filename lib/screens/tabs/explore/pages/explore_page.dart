@@ -1,26 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
+import 'package:jom_malaysia/screens/tabs/explore/models/featured_place.dart';
 import 'package:jom_malaysia/screens/tabs/explore/pages/overview_tab.dart';
 import 'package:jom_malaysia/screens/tabs/explore/pages/todo_tab.dart';
-import 'package:jom_malaysia/setting/provider/language_provider.dart';
-import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
+import 'package:jom_malaysia/setting/provider/base_list_provider.dart';
 import 'package:jom_malaysia/util/image_utils.dart';
-import 'package:jom_malaysia/util/theme_utils.dart';
-import 'package:jom_malaysia/widgets/app_bar.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
-import 'package:jom_malaysia/widgets/my_card.dart';
-import 'package:jom_malaysia/widgets/sliver_appbar_delegate.dart';
 import 'package:provider/provider.dart';
 
 class ExplorePage extends StatefulWidget {
   ExplorePage({Key key}) : super(key: key);
 
   @override
-  _ExplorePageState createState() => _ExplorePageState();
+  ExplorePageState createState() => ExplorePageState();
 }
 
-class _ExplorePageState extends State<ExplorePage>
-    with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
+class ExplorePageState extends State<ExplorePage>
+    with
+        SingleTickerProviderStateMixin,
+        AutomaticKeepAliveClientMixin<ExplorePage> {
   TabController _tabController;
 
   @override
@@ -37,7 +35,8 @@ class _ExplorePageState extends State<ExplorePage>
 
   _preCacheImage() {
     precacheImage(
-        ImageUtils.getAssetImage('explore/featured/pd_bird_eye'), context);
+        ImageUtils.getAssetImage('explore/featured/pd_bird_eye', format: "jpg"),
+        context);
   }
 
   @override
