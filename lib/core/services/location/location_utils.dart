@@ -44,18 +44,18 @@ class LocationUtils {
       //user location is opened
       distance = await _geolocator.distanceBetween(
           current.latitude, current.longitude, place.latitude, place.longitude);
-      var km = distance / 1000;
-      String s;
+      var km = convertToKm(distance);
+      String formattedDistance;
       if (!precise) {
         if (km > 50) {
           return await _getDistanceToTown(place);
         } else {
-          s = km < 1 ? "${km * 1000} m" : "${km.toStringAsFixed(2)} km";
+          formattedDistance = km < 1 ? "$distance m" : "$km km";
         }
       } else {
-        s = "${km.toStringAsFixed(1)} km";
+        formattedDistance = "$km km";
       }
-      return s;
+      return formattedDistance;
     } else {
       return await _getDistanceToTown(place);
     }
@@ -64,8 +64,15 @@ class LocationUtils {
   static Future<String> _getDistanceToTown(CoordinatesModel place) async {
     final CoordinatesModel serembanTown =
         CoordinatesModel(longitude: 2.7297, latitude: 101.9381);
-    var s = await _geolocator.distanceBetween(serembanTown.latitude,
+    double s = await _geolocator.distanceBetween(serembanTown.latitude,
         serembanTown.longitude, place.latitude, place.longitude);
-    return "$s km to Seremban town ";
+    String formattedDistance = s < 1 ? "$s m" : "${convertToKm(s)} km";
+    return "$formattedDistance to Seremban town ";
+  }
+
+  static double convertToKm(double distance) {
+    var km = (distance / 1000).toStringAsFixed(1);
+
+    return double.parse(km);
   }
 }

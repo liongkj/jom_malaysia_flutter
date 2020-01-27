@@ -27,15 +27,16 @@ class ListingModel {
   String listingId;
   MerchantVM merchant;
   String listingName;
+  bool isFeatured;
+  List<String> tags;
+  ListingImageVM listingImages;
+  ContactVM officialContact;
   DescriptionVM description;
   AddressVM address;
 
   List<OperatingHours> operatingHours;
   CategoryPathModel category;
   CategoryType categoryType;
-  List<String> tags;
-  ListingImageVM listingImages;
-  ContactVM officialContact;
 
   factory ListingModel.fromJson(Map<String, dynamic> json) =>
       _$ListingModelFromJson(json);

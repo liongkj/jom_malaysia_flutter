@@ -33,9 +33,11 @@ ListingModel _$ListingModelFromJson(Map<String, dynamic> json) {
         ? null
         : ListingImageVM.fromJson(
             json['listingImages'] as Map<String, dynamic>),
-  )..officialContact = json['officialContact'] == null
-      ? null
-      : ContactVM.fromJson(json['officialContact'] as Map<String, dynamic>);
+  )
+    ..isFeatured = json['isFeatured'] as bool
+    ..officialContact = json['officialContact'] == null
+        ? null
+        : ContactVM.fromJson(json['officialContact'] as Map<String, dynamic>);
 }
 
 Map<String, dynamic> _$ListingModelToJson(ListingModel instance) =>
@@ -43,14 +45,15 @@ Map<String, dynamic> _$ListingModelToJson(ListingModel instance) =>
       'listingId': instance.listingId,
       'merchant': instance.merchant,
       'listingName': instance.listingName,
+      'isFeatured': instance.isFeatured,
+      'tags': instance.tags,
+      'listingImages': instance.listingImages,
+      'officialContact': instance.officialContact,
       'description': instance.description,
       'address': instance.address,
       'operatingHours': instance.operatingHours,
       'category': instance.category,
       'categoryType': _$CategoryTypeEnumMap[instance.categoryType],
-      'tags': instance.tags,
-      'listingImages': instance.listingImages,
-      'officialContact': instance.officialContact,
     };
 
 T _$enumDecode<T>(
