@@ -4,6 +4,7 @@ import 'package:jom_malaysia/screens/tabs/explore/pages/overview_tab.dart';
 import 'package:jom_malaysia/screens/tabs/explore/pages/todo_tab.dart';
 import 'package:jom_malaysia/setting/provider/language_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
+import 'package:jom_malaysia/util/image_utils.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
 import 'package:jom_malaysia/widgets/app_bar.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
@@ -29,7 +30,14 @@ class _ExplorePageState extends State<ExplorePage>
   void initState() {
     super.initState();
     _tabController = new TabController(vsync: this, length: 2);
-    WidgetsBinding.instance.addPostFrameCallback((_) {});
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _preCacheImage();
+    });
+  }
+
+  _preCacheImage() {
+    precacheImage(
+        ImageUtils.getAssetImage('explore/featured/pd_bird_eye'), context);
   }
 
   @override
@@ -41,7 +49,7 @@ class _ExplorePageState extends State<ExplorePage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    final Color _iconColor = ThemeUtils.getIconColor(context);
+
     List<Choice> choices = <Choice>[
       Choice(
           title: S.of(context).tabTitleExploreOverview,
@@ -77,9 +85,6 @@ class _ExplorePageState extends State<ExplorePage>
                     LoadImage("explore/featured/pd_bird_eye", format: "jpg"),
               ),
             ),
-            // SliverPersistentHeader(
-            //   // delegate: MySliverAppBarDelegate(80.0),
-            // ),
           ];
         },
         body: TabBarView(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/screens/tabs/explore/widgets/attraction_card.dart';
-import 'package:jom_malaysia/widgets/my_card.dart';
+import 'package:provider/provider.dart';
 
 class TodoTab extends StatelessWidget {
   const TodoTab({
