@@ -13,6 +13,7 @@ class LocationProvider extends ChangeNotifier {
 
   selectPlace(CityModel city) {
     SpUtil.putString(Constant.prefLocation, city.cityName);
+
     notifyListeners();
   }
 }
