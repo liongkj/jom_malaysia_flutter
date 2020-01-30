@@ -75,9 +75,9 @@ class OverviewPageState
         ChangeNotifierProvider<OverviewPageProvider>.value(
           value: provider,
         ),
-        ChangeNotifierProvider<BaseListProvider<ListingModel>>(
-          create: (_) => listingProvider,
-        ),
+        ChangeNotifierProvider<BaseListProvider<ListingModel>>.value(
+          value: listingProvider,
+        )
       ],
       child: Scaffold(
         body: Stack(
@@ -100,38 +100,34 @@ class OverviewPageState
                       ),
               ),
             ),
-            NestedScrollView(
-              key: const Key('order_list'),
-              physics: ClampingScrollPhysics(),
-              controller: _scrollController ?? null,
-              headerSliverBuilder: (context, innerBoxIsScrolled) {
-                return _sliverBuilder(context);
-              },
-              body: Consumer<LocationProvider>(
-                builder: (_, locationProvider, child) {
-                  return PageView.builder(
-                    key: const Key('pageView'),
-                    itemCount: 5,
-                    onPageChanged: _onPageChange,
-                    controller: _pageController,
-                    itemBuilder: (_, index) {
-                      presenter.refresh(index);
-                      print("outside" + index.toString());
-                      return SafeArea(
-                        top: false,
-                        bottom: false,
-                        child: PlaceList(
-                          controller: this._scrollController,
-                          index: index,
-                          // city: Provider.of<LocationProvider>(context).selected,
-                          presenter: presenter,
-                        ),
-                      );
-                    },
-                  );
+            Consumer<LocationProvider>(builder: (_, locationProvider, child) {
+              return NestedScrollView(
+                key: const Key('order_list'),
+                physics: ClampingScrollPhysics(),
+                controller: _scrollController ?? null,
+                headerSliverBuilder: (context, innerBoxIsScrolled) {
+                  return _sliverBuilder(context);
                 },
-              ),
-            ),
+                body: PageView.builder(
+                  key: const Key('pageView'),
+                  itemCount: 5,
+                  onPageChanged: _onPageChange,
+                  controller: _pageController,
+                  itemBuilder: (_, index) {
+                    return SafeArea(
+                      top: false,
+                      bottom: false,
+                      child: PlaceList(
+                        controller: this._scrollController,
+                        index: index,
+                        // city: Provider.of<LocationProvider>(context).selected,
+                        presenter: presenter,
+                      ),
+                    );
+                  },
+                ),
+              );
+            })
           ],
         ),
       ),

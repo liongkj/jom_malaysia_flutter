@@ -33,8 +33,6 @@ class _PlaceListState extends State<PlaceList>
   int _page = 1;
   final int _maxPage = 3;
   int _index = 0;
-  // ScrollController _controller = ScrollController();
-  LocationProvider locProvider = LocationProvider();
 
   @override
   bool get wantKeepAlive => true;
@@ -43,11 +41,13 @@ class _PlaceListState extends State<PlaceList>
   void initState() {
     super.initState();
     _index = widget.index;
+    print("init");
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+  void didUpdateWidget(PlaceList oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    print("dcd");
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _onRefresh();
     });
@@ -77,7 +77,6 @@ class _PlaceListState extends State<PlaceList>
               slivers: <Widget>[
                 Consumer<BaseListProvider<ListingModel>>(
                   builder: (_, listingProvider, child) {
-                    print(listingProvider.list.length);
                     return SliverPadding(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 16.0,
