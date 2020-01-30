@@ -4,6 +4,7 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:jom_malaysia/screens/tabs/explore/models/featured_place.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/location_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/place_detail_provider.dart';
 import 'package:jom_malaysia/setting/provider/language_provider.dart';
@@ -13,6 +14,7 @@ import 'package:provider/provider.dart';
 
 import 'generated/l10n.dart';
 import 'setting/layout/splash_page.dart';
+import 'setting/provider/base_list_provider.dart';
 import 'setting/provider/theme_provider.dart';
 import 'setting/routers/application.dart';
 import 'setting/routers/routers.dart';
@@ -29,8 +31,10 @@ void main() {
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
   if (Platform.isAndroid) {
-    SystemUiOverlayStyle systemUiOverlayStyle =
-        SystemUiOverlayStyle(statusBarColor: Colors.transparent);
+    SystemUiOverlayStyle systemUiOverlayStyle = SystemUiOverlayStyle(
+      statusBarColor: Color(0x80CACACA), //top bar color
+      statusBarIconBrightness: Brightness.light, //top bar icons
+    );
     SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
   }
 }
@@ -62,24 +66,24 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider<PlaceDetailProvider>(
             create: (_) => PlaceDetailProvider(),
           ),
-          ChangeNotifierProvider<LocationProvider>(
-            create: (_) => LocationProvider(),
-          ),
           ChangeNotifierProvider<UserCurrentLocationProvider>(
             create: (_) => UserCurrentLocationProvider(),
           ),
+          ChangeNotifierProvider<LocationProvider>(
+            create: (_) => LocationProvider(),
+          ),
         ],
-        child: Consumer<LanguageProvider>(
-          builder: (_, lang, __) {
-            return Consumer<ThemeProvider>(
-              builder: (_, provider, __) {
+        child: Consumer<ThemeProvider>(
+          builder: (_, provider, __) {
+            return Consumer<LanguageProvider>(
+              builder: (_, lang, __) {
                 return MaterialApp(
                   locale: lang.locale,
                   onGenerateTitle: (BuildContext context) =>
                       S.of(context).appTitle,
                   // title: 'Jom N9',
                   theme: provider.getTheme(),
-                  darkTheme: provider.getTheme(isDarkMode: true),
+                  // darkTheme: provider.getTheme(isDarkMode: true),
                   home: home ?? SplashPage(),
 
                   onGenerateRoute: Application.router.generator,

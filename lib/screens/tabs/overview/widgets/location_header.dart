@@ -7,11 +7,14 @@ import 'package:jom_malaysia/core/constants/common.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/city_model.dart';
+import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/overview_router.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/location_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/current_location.dart';
+import 'package:jom_malaysia/setting/provider/base_list_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
+import 'package:jom_malaysia/util/toast.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
 import 'package:jom_malaysia/widgets/my_flexible_space_bar.dart';
 import 'package:jom_malaysia/widgets/search_bar.dart';
@@ -103,8 +106,9 @@ class _LocationHeaderState extends State<LocationHeader> {
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Icon(Icons.feedback),
+            child: Icon(Icons.notifications),
           ),
+          // overflow menu
         ],
 
         backgroundColor: Colors.transparent,
@@ -204,7 +208,7 @@ class _LocationHeaderState extends State<LocationHeader> {
         NavigatorUtils.goBack(context);
       },
       title: Text(
-        city.getCityName(widget.locale),
+        city.getCityName(widget.locale, fullName: true),
       ),
     );
   }

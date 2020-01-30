@@ -65,7 +65,7 @@ class _StateLayoutState extends State<StateLayout> {
                   : Opacity(
                       opacity: ThemeUtils.isDark(context) ? 0.5 : 1,
                       child: Container(
-                        height: 120.0,
+                        height: MediaQuery.of(context).size.height * 0.1,
                         width: 120.0,
                         decoration: BoxDecoration(
                           image: DecorationImage(

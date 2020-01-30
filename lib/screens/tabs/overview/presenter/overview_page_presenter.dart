@@ -33,18 +33,22 @@ class OverviewPagePresenter extends BasePagePresenter<OverviewPageState> {
   }) async {
     final String cityFilter =
         Provider.of<LocationProvider>(view.context, listen: false).selected;
+    print(cityFilter);
     final String listingType = type.toString().split('.').last;
     final Options options =
         buildCacheOptions(Duration(days: 7), forceRefresh: refresh);
+    //queries
+    Map<String, dynamic> queries = Map<String, dynamic>();
+    if (listingType != "" || listingType != null)
+      queries[QueryParam.listingType] = listingType;
+    if (cityFilter != "" || cityFilter != null)
+      queries[QueryParam.locationBiasCity] = cityFilter;
 
     view.listingProvider.setStateType(StateType.loading);
     asyncRequestNetwork<List<ListingModel>, ListingModel>(Method.get,
         url: APIEndpoint.listingQuery,
         options: options,
-        queryParameters: {
-          QueryParam.listingType: listingType,
-          QueryParam.locationBiasCity: cityFilter
-        },
+        queryParameters: queries,
         isShow: false, onSuccess: (data) {
       view.listingProvider.clear();
 

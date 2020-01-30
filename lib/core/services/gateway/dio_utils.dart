@@ -54,9 +54,9 @@ class DioUtils {
     _dio.interceptors.add(TokenInterceptor());
 
     /// 打印Log(生产模式去除)
-    if (!Constant.inProduction) {
-      _dio.interceptors.add(LoggingInterceptor());
-    }
+    // if (!Constant.inProduction) {
+    //   _dio.interceptors.add(LoggingInterceptor());
+    // }
 
     /// 适配数据(根据自己的数据结构，可自行选择添加)
     // _dio.interceptors.add(AdapterInterceptor());

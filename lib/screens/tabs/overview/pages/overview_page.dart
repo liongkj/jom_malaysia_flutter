@@ -13,6 +13,8 @@ import 'package:jom_malaysia/setting/provider/base_list_provider.dart';
 import 'package:jom_malaysia/setting/provider/language_provider.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
 import 'package:provider/provider.dart';
+import 'package:provider/provider.dart';
+import 'package:provider/provider.dart';
 
 class OverviewPage extends StatefulWidget {
   @override
@@ -32,7 +34,7 @@ class OverviewPageState
   PageController _pageController = PageController(initialPage: 0);
   BaseListProvider<ListingModel> listingProvider =
       BaseListProvider<ListingModel>();
-
+  LocationProvider locationProvider = LocationProvider();
   TextEditingController searchController = TextEditingController();
   ScrollController _scrollController;
 
@@ -75,7 +77,7 @@ class OverviewPageState
         ),
         ChangeNotifierProvider<BaseListProvider<ListingModel>>.value(
           value: listingProvider,
-        ),
+        )
       ],
       child: Scaffold(
         body: Stack(
@@ -98,35 +100,34 @@ class OverviewPageState
                       ),
               ),
             ),
-            NestedScrollView(
-              key: const Key('order_list'),
-              physics: ClampingScrollPhysics(),
-              controller: _scrollController ?? null,
-              headerSliverBuilder: (context, innerBoxIsScrolled) {
-                return _sliverBuilder(context);
-              },
-              body: PageView.builder(
-                key: const Key('pageView'),
-                itemCount: 5,
-                onPageChanged: _onPageChange,
-                controller: _pageController,
-                itemBuilder: (_, index) {
-                  return SafeArea(
-                    top: false,
-                    bottom: false,
-                    child: Consumer<LocationProvider>(
-                      builder: (_, loc, __) {
-                        return PlaceList(
-                          controller: this._scrollController,
-                          index: index,
-                          presenter: presenter,
-                        );
-                      },
-                    ),
-                  );
+            Consumer<LocationProvider>(builder: (_, locationProvider, child) {
+              return NestedScrollView(
+                key: const Key('order_list'),
+                physics: ClampingScrollPhysics(),
+                controller: _scrollController ?? null,
+                headerSliverBuilder: (context, innerBoxIsScrolled) {
+                  return _sliverBuilder(context);
                 },
-              ),
-            ),
+                body: PageView.builder(
+                  key: const Key('pageView'),
+                  itemCount: 5,
+                  onPageChanged: _onPageChange,
+                  controller: _pageController,
+                  itemBuilder: (_, index) {
+                    return SafeArea(
+                      top: false,
+                      bottom: false,
+                      child: PlaceList(
+                        controller: this._scrollController,
+                        index: index,
+                        // city: Provider.of<LocationProvider>(context).selected,
+                        presenter: presenter,
+                      ),
+                    );
+                  },
+                ),
+              );
+            })
           ],
         ),
       ),

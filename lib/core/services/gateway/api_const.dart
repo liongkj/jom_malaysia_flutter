@@ -12,4 +12,5 @@ class QueryParam {
   static const String locationBiasCity = 'selectedCity';
   static const String keyword = 'q';
   static const String language = 'lang';
+  static const String featured = 'featured';
 }

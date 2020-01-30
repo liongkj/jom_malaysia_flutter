@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'listing_model.dart';
+part of 'featured_place.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-ListingModel _$ListingModelFromJson(Map<String, dynamic> json) {
-  return ListingModel(
+FeaturedPlaceModel _$FeaturedPlaceModelFromJson(Map<String, dynamic> json) {
+  return FeaturedPlaceModel(
     json['listingId'] as String,
     json['merchant'] == null
         ? null
@@ -40,7 +40,7 @@ ListingModel _$ListingModelFromJson(Map<String, dynamic> json) {
         : ContactVM.fromJson(json['officialContact'] as Map<String, dynamic>);
 }
 
-Map<String, dynamic> _$ListingModelToJson(ListingModel instance) =>
+Map<String, dynamic> _$FeaturedPlaceModelToJson(FeaturedPlaceModel instance) =>
     <String, dynamic>{
       'listingId': instance.listingId,
       'merchant': instance.merchant,
@@ -95,40 +95,3 @@ const _$CategoryTypeEnumMap = {
   CategoryType.Professional: 'Professional',
   CategoryType.Nonprofit: 'Nonprofit',
 };
-
-ListingImageVM _$ListingImageVMFromJson(Map<String, dynamic> json) {
-  return ListingImageVM(
-    listingLogo: json['listingLogo'] == null
-        ? null
-        : ImageModel.fromJson(json['listingLogo'] as Map<String, dynamic>),
-    coverPhoto: json['coverPhoto'] == null
-        ? null
-        : ImageModel.fromJson(json['coverPhoto'] as Map<String, dynamic>),
-    ads: (json['ads'] as List)
-        ?.map((e) =>
-            e == null ? null : ImageModel.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-  );
-}
-
-Map<String, dynamic> _$ListingImageVMToJson(ListingImageVM instance) =>
-    <String, dynamic>{
-      'listingLogo': instance.listingLogo,
-      'coverPhoto': instance.coverPhoto,
-      'ads': instance.ads,
-    };
-
-MerchantVM _$MerchantVMFromJson(Map<String, dynamic> json) {
-  return MerchantVM(
-    json['merchantId'] as String,
-    json['ssmId'] as String,
-    json['registrationName'] as String,
-  );
-}
-
-Map<String, dynamic> _$MerchantVMToJson(MerchantVM instance) =>
-    <String, dynamic>{
-      'merchantId': instance.merchantId,
-      'ssmId': instance.ssmId,
-      'registrationName': instance.registrationName,
-    };

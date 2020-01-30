@@ -263,6 +263,15 @@ class S {
     );
   }
 
+  String get clickItemSettingFeedback {
+    return Intl.message(
+      'Feedback',
+      name: 'clickItemSettingFeedback',
+      desc: '',
+      args: [],
+    );
+  }
+
   String get overviewSection1Para1 {
     return Intl.message(
       'Negeri Sembilan is a Malaysian state on the Malay Peninsula\'s southwest coast, known for its beaches, nature parks and palaces. To the west, on the Malacca Strait, the area around Port Dickson has seaside resorts, the Wan Loong Chinese Temple and the Kota Lukut hilltop fort. South along the coast, in the neighboring state of Malacca, is Cape Rachado (Tanjung Tuan), a nature reserve with a lighthouse.',

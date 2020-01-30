@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/presenter/overview_page_presenter.dart';
+import 'package:jom_malaysia/screens/tabs/overview/providers/location_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/overview_page_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/place_item.dart';
 import 'package:jom_malaysia/setting/provider/base_list_provider.dart';
@@ -32,7 +33,6 @@ class _PlaceListState extends State<PlaceList>
   int _page = 1;
   final int _maxPage = 3;
   int _index = 0;
-  // ScrollController _controller = ScrollController();
 
   @override
   bool get wantKeepAlive => true;
@@ -41,11 +41,13 @@ class _PlaceListState extends State<PlaceList>
   void initState() {
     super.initState();
     _index = widget.index;
+    print("init");
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+  void didUpdateWidget(PlaceList oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    print("dcd");
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _onRefresh();
     });
@@ -63,7 +65,8 @@ class _PlaceListState extends State<PlaceList>
       },
       child: RefreshIndicator(
         onRefresh: _onRefresh,
-        displacement: 40.0, //40 + 120(header)
+        displacement:
+            MediaQuery.of(context).size.height * 0.06, //40 + 120(header)
         child: Consumer<OverviewPageProvider>(
           builder: (_, provider, child) {
             return CustomScrollView(

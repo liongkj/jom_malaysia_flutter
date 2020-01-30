@@ -26,6 +26,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "appBarTitleSetting" : MessageLookupByLibrary.simpleMessage("Setting"),
     "appBarTitleSettingLanguage" : MessageLookupByLibrary.simpleMessage("Language"),
     "appTitle" : MessageLookupByLibrary.simpleMessage("JomN9"),
+    "clickItemSettingFeedback" : MessageLookupByLibrary.simpleMessage("Feedback"),
     "labelSearch" : MessageLookupByLibrary.simpleMessage("Search"),
     "locationSelectCityMessage" : MessageLookupByLibrary.simpleMessage("Select a City"),
     "locationSelectTownMessage" : MessageLookupByLibrary.simpleMessage("Select a Town"),

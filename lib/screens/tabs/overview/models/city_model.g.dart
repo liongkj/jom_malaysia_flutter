@@ -12,6 +12,8 @@ CityModel _$CityModelFromJson(Map<String, dynamic> json) {
     cityNameZh: json['cityNameZh'] as String,
     isHot: json['isHot'] as bool,
     firstChar: json['firstChar'] as String,
+    firstCharZh: json['firstCharZh'] as String,
+    tagIndex: json['tagIndex'] as String,
   )..isShowSuspension = json['isShowSuspension'] as bool;
 }
 
@@ -20,5 +22,7 @@ Map<String, dynamic> _$CityModelToJson(CityModel instance) => <String, dynamic>{
       'cityName': instance.cityName,
       'cityNameZh': instance.cityNameZh,
       'firstChar': instance.firstChar,
+      'firstCharZh': instance.firstCharZh,
+      'tagIndex': instance.tagIndex,
       'isHot': instance.isHot,
     };

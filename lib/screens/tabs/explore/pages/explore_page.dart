@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
+import 'package:jom_malaysia/screens/tabs/explore/models/featured_place.dart';
 import 'package:jom_malaysia/screens/tabs/explore/pages/overview_tab.dart';
 import 'package:jom_malaysia/screens/tabs/explore/pages/todo_tab.dart';
-import 'package:jom_malaysia/setting/provider/language_provider.dart';
-import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
-import 'package:jom_malaysia/util/theme_utils.dart';
-import 'package:jom_malaysia/widgets/app_bar.dart';
-import 'package:jom_malaysia/widgets/my_card.dart';
+import 'package:jom_malaysia/setting/provider/base_list_provider.dart';
+import 'package:jom_malaysia/util/image_utils.dart';
+import 'package:jom_malaysia/widgets/load_image.dart';
 import 'package:provider/provider.dart';
 
 class ExplorePage extends StatefulWidget {
   ExplorePage({Key key}) : super(key: key);
 
   @override
-  _ExplorePageState createState() => _ExplorePageState();
+  ExplorePageState createState() => ExplorePageState();
 }
 
-class _ExplorePageState extends State<ExplorePage>
-    with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
+class ExplorePageState extends State<ExplorePage>
+    with
+        SingleTickerProviderStateMixin,
+        AutomaticKeepAliveClientMixin<ExplorePage> {
   TabController _tabController;
 
   @override
@@ -27,7 +28,15 @@ class _ExplorePageState extends State<ExplorePage>
   void initState() {
     super.initState();
     _tabController = new TabController(vsync: this, length: 2);
-    WidgetsBinding.instance.addPostFrameCallback((_) {});
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _preCacheImage();
+    });
+  }
+
+  _preCacheImage() {
+    precacheImage(
+        ImageUtils.getAssetImage('explore/featured/pd_bird_eye', format: "jpg"),
+        context);
   }
 
   @override
@@ -39,7 +48,7 @@ class _ExplorePageState extends State<ExplorePage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    final Color _iconColor = ThemeUtils.getIconColor(context);
+
     List<Choice> choices = <Choice>[
       Choice(
           title: S.of(context).tabTitleExploreOverview,
@@ -48,32 +57,42 @@ class _ExplorePageState extends State<ExplorePage>
       // const Choice(title: 'TRANSPORT', icon: Icons.directions),
     ];
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.redAccent,
-        elevation: 20,
-        title: Text(S.of(context).appBarTitleExplore),
-        bottom: TabBar(
-          indicatorColor: Colors.white,
+      body: NestedScrollView(
+        headerSliverBuilder: (_, __) {
+          return <Widget>[
+            SliverAppBar(
+              backgroundColor: Colors.redAccent,
+              expandedHeight: 200.0,
+              floating: false,
+              title: Text(S.of(context).appBarTitleExplore),
+              pinned: false,
+              bottom: TabBar(
+                indicatorColor: Colors.white,
+                controller: _tabController,
+                tabs: choices.map(
+                  (Choice choice) {
+                    return Tab(
+                      text: choice.title,
+                      icon: Icon(choice.icon),
+                    );
+                  },
+                ).toList(),
+              ),
+              flexibleSpace: FlexibleSpaceBar(
+                centerTitle: true,
+                background:
+                    LoadImage("explore/featured/pd_bird_eye", format: "jpg"),
+              ),
+            ),
+          ];
+        },
+        body: TabBarView(
           controller: _tabController,
-          tabs: choices.map((Choice choice) {
-            return Tab(
-              text: choice.title,
-              icon: Icon(choice.icon),
-            );
-          }).toList(),
+          children: <Widget>[
+            OverviewTab(),
+            TodoTab(),
+          ],
         ),
-      ),
-      body: new TabBarView(
-        controller: _tabController,
-        children: <Widget>[
-          OverviewTab(),
-          TodoTab(),
-          // MyCard(
-          //   child: Container(
-          //     child: Text("Transport"),
-          //   ),
-          // )
-        ],
       ),
     );
   }

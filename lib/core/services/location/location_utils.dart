@@ -38,17 +38,41 @@ class LocationUtils {
   static Future<String> getDistanceBetween(
       CoordinatesModel current, CoordinatesModel place,
       {bool precise = false}) async {
-    var distance = await _geolocator.distanceBetween(
-        current.latitude, current.longitude, place.latitude, place.longitude);
-    var km = distance / 1000;
-    String s;
-    if (!precise) {
-      s = km > 100
-          ? "Very far away"
-          : km < 1 ? "${km * 1000} m" : "${km.toStringAsFixed(2)} km";
+    double distance;
+
+    if (current != null) {
+      //user location is opened
+      distance = await _geolocator.distanceBetween(
+          current.latitude, current.longitude, place.latitude, place.longitude);
+      var km = convertToKm(distance);
+      String formattedDistance;
+      if (!precise) {
+        if (km > 50) {
+          return await _getDistanceToTown(place);
+        } else {
+          formattedDistance = km < 1 ? "$distance m" : "$km km";
+        }
+      } else {
+        formattedDistance = "$km km";
+      }
+      return formattedDistance;
     } else {
-      s = "${km.toStringAsFixed(1)} km";
+      return await _getDistanceToTown(place);
     }
-    return s;
+  }
+
+  static Future<String> _getDistanceToTown(CoordinatesModel place) async {
+    final CoordinatesModel serembanTown =
+        CoordinatesModel(latitude: 2.7297, longitude: 101.9381);
+    double s = await _geolocator.distanceBetween(serembanTown.latitude,
+        serembanTown.longitude, place.latitude, place.longitude);
+    String formattedDistance = s < 1 ? "$s m" : "${convertToKm(s)} km";
+    return "$formattedDistance to Seremban town ";
+  }
+
+  static double convertToKm(double distance) {
+    var km = (distance / 1000).toStringAsFixed(1);
+
+    return double.parse(km);
   }
 }
