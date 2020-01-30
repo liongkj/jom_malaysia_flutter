@@ -51,6 +51,7 @@ class _SettingPageState extends State<SettingPage> {
     return Scaffold(
       appBar: MyAppBar(
         centerTitle: S.of(context).appBarTitleSettingLanguage,
+        isBack: false,
       ),
       body: Column(
         children: <Widget>[
