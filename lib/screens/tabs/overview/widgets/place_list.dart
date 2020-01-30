@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/presenter/overview_page_presenter.dart';
+import 'package:jom_malaysia/screens/tabs/overview/providers/location_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/overview_page_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/place_item.dart';
 import 'package:jom_malaysia/setting/provider/base_list_provider.dart';
@@ -33,6 +34,7 @@ class _PlaceListState extends State<PlaceList>
   final int _maxPage = 3;
   int _index = 0;
   // ScrollController _controller = ScrollController();
+  LocationProvider locProvider = LocationProvider();
 
   @override
   bool get wantKeepAlive => true;
@@ -75,6 +77,7 @@ class _PlaceListState extends State<PlaceList>
               slivers: <Widget>[
                 Consumer<BaseListProvider<ListingModel>>(
                   builder: (_, listingProvider, child) {
+                    print(listingProvider.list.length);
                     return SliverPadding(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 16.0,

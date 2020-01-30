@@ -64,11 +64,11 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider<PlaceDetailProvider>(
             create: (_) => PlaceDetailProvider(),
           ),
-          ChangeNotifierProvider<LocationProvider>(
-            create: (_) => LocationProvider(),
-          ),
           ChangeNotifierProvider<UserCurrentLocationProvider>(
             create: (_) => UserCurrentLocationProvider(),
+          ),
+          ChangeNotifierProvider<LocationProvider>(
+            create: (_) => LocationProvider(),
           ),
         ],
         child: Consumer<ThemeProvider>(
@@ -81,7 +81,7 @@ class MyApp extends StatelessWidget {
                       S.of(context).appTitle,
                   // title: 'Jom N9',
                   theme: provider.getTheme(),
-                  darkTheme: provider.getTheme(isDarkMode: true),
+                  // darkTheme: provider.getTheme(isDarkMode: true),
                   home: home ?? SplashPage(),
 
                   onGenerateRoute: Application.router.generator,

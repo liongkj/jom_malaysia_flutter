@@ -34,7 +34,7 @@ class OverviewPageState
   PageController _pageController = PageController(initialPage: 0);
   BaseListProvider<ListingModel> listingProvider =
       BaseListProvider<ListingModel>();
-
+  LocationProvider locationProvider = LocationProvider();
   TextEditingController searchController = TextEditingController();
   ScrollController _scrollController;
 
@@ -72,8 +72,8 @@ class OverviewPageState
     isDark = ThemeUtils.isDark(context);
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<OverviewPageProvider>(
-          create: (_) => provider,
+        ChangeNotifierProvider<OverviewPageProvider>.value(
+          value: provider,
         ),
         ChangeNotifierProvider<BaseListProvider<ListingModel>>(
           create: (_) => listingProvider,
@@ -107,23 +107,27 @@ class OverviewPageState
               headerSliverBuilder: (context, innerBoxIsScrolled) {
                 return _sliverBuilder(context);
               },
-              body: PageView.builder(
-                key: const Key('pageView'),
-                itemCount: 5,
-                onPageChanged: _onPageChange,
-                controller: _pageController,
-                itemBuilder: (_, index) {
-                  presenter.refresh(index);
-                  print("outside" + index.toString());
-                  return SafeArea(
-                    top: false,
-                    bottom: false,
-                    child: PlaceList(
-                      controller: this._scrollController,
-                      index: index,
-                      // city: Provider.of<LocationProvider>(context).selected,
-                      presenter: presenter,
-                    ),
+              body: Consumer<LocationProvider>(
+                builder: (_, locationProvider, child) {
+                  return PageView.builder(
+                    key: const Key('pageView'),
+                    itemCount: 5,
+                    onPageChanged: _onPageChange,
+                    controller: _pageController,
+                    itemBuilder: (_, index) {
+                      presenter.refresh(index);
+                      print("outside" + index.toString());
+                      return SafeArea(
+                        top: false,
+                        bottom: false,
+                        child: PlaceList(
+                          controller: this._scrollController,
+                          index: index,
+                          // city: Provider.of<LocationProvider>(context).selected,
+                          presenter: presenter,
+                        ),
+                      );
+                    },
                   );
                 },
               ),
