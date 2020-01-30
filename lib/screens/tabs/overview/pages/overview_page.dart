@@ -72,11 +72,11 @@ class OverviewPageState
     isDark = ThemeUtils.isDark(context);
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<OverviewPageProvider>(
-          create: (_) => provider,
+        ChangeNotifierProvider<OverviewPageProvider>.value(
+          value: provider,
         ),
-        ChangeNotifierProvider<BaseListProvider<ListingModel>>(
-          create: (_) => listingProvider,
+        ChangeNotifierProvider<BaseListProvider<ListingModel>>.value(
+          value: listingProvider,
         ),
       ],
       child: Scaffold(
@@ -113,15 +113,13 @@ class OverviewPageState
                 onPageChanged: _onPageChange,
                 controller: _pageController,
                 itemBuilder: (_, index) {
-                  presenter.refresh(index);
-                  print("outside" + index.toString());
                   return SafeArea(
                     top: false,
                     bottom: false,
                     child: PlaceList(
                       controller: this._scrollController,
                       index: index,
-                      // city: Provider.of<LocationProvider>(context).selected,
+                      city: Provider.of<LocationProvider>(context).selected,
                       presenter: presenter,
                     ),
                   );
