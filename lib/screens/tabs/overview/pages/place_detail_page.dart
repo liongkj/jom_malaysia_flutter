@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:jom_malaysia/core/models/image_model.dart';
 import 'package:jom_malaysia/core/mvp/base_page_state.dart';
@@ -57,11 +58,6 @@ class PlaceDetailPageState
     return PlaceDetailPagePresenter();
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
   bool get _showTitle {
     return _scrollController.hasClients &&
         _scrollController.offset > kExpandedHeight - kToolbarHeight;
@@ -75,6 +71,7 @@ class PlaceDetailPageState
 
     return Scaffold(
       body: SafeArea(
+        top: false,
         child: CustomScrollView(
           controller: _scrollController,
           key: const Key('place_detail'),

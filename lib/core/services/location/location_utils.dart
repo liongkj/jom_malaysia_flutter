@@ -63,7 +63,7 @@ class LocationUtils {
 
   static Future<String> _getDistanceToTown(CoordinatesModel place) async {
     final CoordinatesModel serembanTown =
-        CoordinatesModel(longitude: 2.7297, latitude: 101.9381);
+        CoordinatesModel(latitude: 2.7297, longitude: 101.9381);
     double s = await _geolocator.distanceBetween(serembanTown.latitude,
         serembanTown.longitude, place.latitude, place.longitude);
     String formattedDistance = s < 1 ? "$s m" : "${convertToKm(s)} km";
