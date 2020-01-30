@@ -18,8 +18,8 @@ import 'package:provider/provider.dart';
 class PlaceItem extends StatelessWidget {
   const PlaceItem({
     Key key,
-    this.tabIndex,
-    this.index,
+    @required this.tabIndex,
+    @required this.index,
     @required this.listing,
   }) : super(key: key);
 

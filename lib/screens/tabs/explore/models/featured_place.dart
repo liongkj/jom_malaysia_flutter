@@ -10,7 +10,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'featured_place.g.dart';
 
 @JsonSerializable()
-class FeaturedPlaceModel extends ListingModel {
+class FeaturedPlaceModel {
   FeaturedPlaceModel(
     this.listingId,
     this.merchant,
@@ -22,7 +22,7 @@ class FeaturedPlaceModel extends ListingModel {
     this.category,
     this.tags,
     this.listingImages,
-  ) : super('', null, '', null, null, null, null, null, null, null);
+  );
   String listingId;
   MerchantVM merchant;
   String listingName;
