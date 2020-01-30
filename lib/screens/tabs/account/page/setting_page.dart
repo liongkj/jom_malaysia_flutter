@@ -62,6 +62,10 @@ class _SettingPageState extends State<SettingPage> {
                 NavigatorUtils.push(context, AccountRouter.languagePage),
           ),
           ClickItem(
+              title: S.of(context).clickItemSettingFeedback,
+              content: "Suggestion and feedback",
+              onTap: () => {}),
+          ClickItem(
               title: "About JomN9",
               onTap: () =>
                   NavigatorUtils.push(context, AccountRouter.aboutPage)),
