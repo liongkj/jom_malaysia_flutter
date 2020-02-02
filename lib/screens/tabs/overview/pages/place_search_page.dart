@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:jom_malaysia/core/enums/category_type_enum.dart';
 import 'package:jom_malaysia/core/mvp/base_page_state.dart';
+import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/search_item.dart';
+import 'package:jom_malaysia/screens/tabs/overview/overview_router.dart';
 import 'package:jom_malaysia/screens/tabs/overview/presenter/place_search_presenter.dart';
 import 'package:jom_malaysia/setting/provider/base_list_provider.dart';
 import 'package:jom_malaysia/setting/provider/language_provider.dart';
+import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
+import 'package:jom_malaysia/widgets/my_rating.dart';
 import 'package:jom_malaysia/widgets/my_refresh_list.dart';
 import 'package:jom_malaysia/widgets/search_bar.dart';
 import 'package:jom_malaysia/widgets/state_layout.dart';
@@ -59,11 +64,7 @@ class PlaceSearchPageState
             itemExtent: 50.0,
             hasMore: provider.hasMore,
             itemBuilder: (_, index) {
-              return Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                alignment: Alignment.centerLeft,
-                child: Text(provider.list[index].listingName),
-              );
+              return _BuildListTile(provider.list[index]);
             },
           );
         }),
@@ -84,5 +85,89 @@ class PlaceSearchPageState
   Future _loadMore() async {
     _page++;
     await presenter.search(_keyword, _page, false, locale: locale);
+  }
+}
+
+class _BuildListTile extends StatelessWidget {
+  _BuildListTile(this.place);
+  final ListingModel place;
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      onTap: () => NavigatorUtils.push(
+          context, '${OverviewRouter.placeDetailPage}/${place.listingId}'),
+      leading: Icon(
+        _getTypeIcon(place.categoryType),
+      ),
+      title: Text(
+        place.listingName,
+        overflow: TextOverflow.ellipsis,
+        style: Theme.of(context).textTheme.title.copyWith(fontSize: 14.0),
+      ),
+      isThreeLine: true,
+      subtitle: _BuildSubtitle(place),
+      trailing: Text(place.address.city),
+    );
+  }
+
+  IconData _getTypeIcon(CategoryType category) {
+    switch (category) {
+      case CategoryType.Private:
+        return Icons.restaurant;
+        break;
+      case CategoryType.Attraction:
+        return Icons.local_play;
+        break;
+      case CategoryType.Government:
+        return Icons.location_city;
+        break;
+      case CategoryType.Professional:
+        return Icons.work;
+        break;
+      case CategoryType.Nonprofit:
+        return Icons.people;
+        break;
+      default:
+        return Icons.search;
+    }
+  }
+}
+
+class _BuildSubtitle extends StatelessWidget {
+  _BuildSubtitle(this.place);
+  final ListingModel place;
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: <Widget>[
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Rating(
+              rating: 0.0,
+            )
+          ],
+        ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              place.category.subcategory.categoryName,
+              style: Theme.of(context).textTheme.subtitle,
+            ),
+            Gaps.hGap8,
+            Gaps.vLine,
+            Gaps.hGap8,
+            Text(
+              place.category.category.categoryName,
+              style: Theme.of(context).textTheme.subtitle,
+            ),
+          ],
+        ),
+      ],
+    );
   }
 }

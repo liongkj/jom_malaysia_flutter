@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/models/coordinates_model.dart';
+import 'package:jom_malaysia/util/text_utils.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'address_model.g.dart';
@@ -28,6 +29,10 @@ class AddressVM {
   @override
   String toString() {
     return '$add1, ${add2?.toString()}, $postalCode $city, ${_stateList[this.state]}, ${_countryList[this.country]}';
+  }
+
+  String getState() {
+    return TextUtils.shorten(_stateList[this.state]);
   }
 
   factory AddressVM.fromJson(Map<String, dynamic> json) =>
