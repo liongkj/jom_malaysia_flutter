@@ -14,27 +14,25 @@ class AdsSpace extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<OverviewPageProvider>(builder: (_, provider, child) {
-      return SliverList(
-        delegate: SliverChildListDelegate.fixed([
-          Container(
-            height: MediaQuery.of(context).size.height * 0.24,
-            margin: const EdgeInsets.only(top: 100),
-            child: Swiper(
-              itemBuilder: (BuildContext context, int index) {
-                return LoadImage(
-                  _adList[index],
-                );
-              },
-              itemCount: _adList.length,
-              viewportFraction: 0.8,
-              scale: 0.9,
-              autoplay: true,
-              autoplayDelay: 7000,
-            ),
+    return SliverList(
+      delegate: SliverChildListDelegate.fixed([
+        Container(
+          height: MediaQuery.of(context).size.height * 0.24,
+          margin: const EdgeInsets.only(top: 100),
+          child: Swiper(
+            itemBuilder: (BuildContext context, int index) {
+              return LoadImage(
+                _adList[index],
+              );
+            },
+            itemCount: _adList.length,
+            viewportFraction: 0.8,
+            scale: 0.9,
+            autoplay: true,
+            autoplayDelay: 7000,
           ),
-        ]),
-      );
-    });
+        ),
+      ]),
+    );
   }
 }
