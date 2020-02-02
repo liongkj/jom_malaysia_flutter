@@ -6,6 +6,7 @@ import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/search_item.dart';
 import 'package:jom_malaysia/screens/tabs/overview/overview_router.dart';
 import 'package:jom_malaysia/screens/tabs/overview/presenter/place_search_presenter.dart';
+import 'package:jom_malaysia/screens/tabs/overview/providers/place_detail_provider.dart';
 import 'package:jom_malaysia/setting/provider/base_list_provider.dart';
 import 'package:jom_malaysia/setting/provider/language_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
@@ -94,8 +95,12 @@ class _BuildListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      onTap: () => NavigatorUtils.push(
-          context, '${OverviewRouter.placeDetailPage}/${place.listingId}'),
+      onTap: () {
+        Provider.of<PlaceDetailProvider>(context, listen: false)
+            .setPlace(place);
+        NavigatorUtils.push(
+            context, '${OverviewRouter.placeDetailPage}/${place.listingId}');
+      },
       leading: Icon(
         _getTypeIcon(place.categoryType),
       ),
