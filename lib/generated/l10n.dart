@@ -263,12 +263,30 @@ class S {
     );
   }
 
+  String get labelNone {
+    return Intl.message(
+      'None',
+      name: 'labelNone',
+      desc: '',
+      args: [],
+    );
+  }
+
   String get clickItemSettingFeedback {
     return Intl.message(
       'Feedback',
       name: 'clickItemSettingFeedback',
       desc: '',
       args: [],
+    );
+  }
+
+  String cityPickerCurrentCity(dynamic selected) {
+    return Intl.message(
+      'Current: $selected',
+      name: 'cityPickerCurrentCity',
+      desc: '',
+      args: [selected],
     );
   }
 
