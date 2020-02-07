@@ -1,4 +1,4 @@
-package com.example.jom_malaysia
+package com.jomjommalaysia.jomn9
 
 import android.os.Bundle
 
