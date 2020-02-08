@@ -22,6 +22,9 @@ class LocationProvider extends ChangeNotifier {
   selectPlace(CityModel city) {
     SpUtil.putString(Constant.prefLocation, city.cityName);
     _cityModel = city;
+    rebuildHome = true;
     notifyListeners();
   }
+
+  bool rebuildHome = true;
 }

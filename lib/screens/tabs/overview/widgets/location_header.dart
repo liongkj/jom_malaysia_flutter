@@ -177,7 +177,6 @@ class _LocationHeaderState extends State<LocationHeader> {
       builder: (BuildContext context) {
         return Consumer<LocationProvider>(
           builder: (_, locationProvider, child) {
-            print("rebuild picker dialog");
             final selected = locationProvider.cityModel;
             var c = selected == null
                 ? S.of(context).labelNone

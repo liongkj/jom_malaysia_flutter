@@ -4,6 +4,7 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:jom_malaysia/core/services/gateway/http_service.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/location_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/place_detail_provider.dart';
 import 'package:jom_malaysia/setting/provider/language_provider.dart';
@@ -48,6 +49,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("main build");
     return OKToast(
       backgroundColor: Colors.black54,
       textPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
@@ -70,11 +72,14 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider<LocationProvider>(
             create: (_) => LocationProvider(),
           ),
+          InheritedProvider(create: (_) => HttpService())
         ],
         child: Consumer<ThemeProvider>(
           builder: (_, provider, __) {
+            print("set theme");
             return Consumer<LanguageProvider>(
               builder: (_, lang, __) {
+                print("set language");
                 return MaterialApp(
                   locale: lang.locale,
                   onGenerateTitle: (BuildContext context) =>
