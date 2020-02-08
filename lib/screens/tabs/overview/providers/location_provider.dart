@@ -4,16 +4,27 @@ import 'package:jom_malaysia/core/constants/common.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/city_model.dart';
 
 class LocationProvider extends ChangeNotifier {
-  // CityModel get selected => _selected;
+  CityModel get cityModel => _cityModel;
+  CityModel _cityModel;
 
   String get selected {
     String cityName = SpUtil.getString(Constant.prefLocation);
     return cityName == "" ? null : cityName;
   }
 
-  selectPlace(CityModel city) {
-    SpUtil.putString(Constant.prefLocation, city.cityName);
-
+  clear() {
+    SpUtil.remove(Constant.prefLocation);
+    _cityModel = null;
+    print("clear");
     notifyListeners();
   }
+
+  selectPlace(CityModel city) {
+    SpUtil.putString(Constant.prefLocation, city.cityName);
+    _cityModel = city;
+    rebuildHome = true;
+    notifyListeners();
+  }
+
+  bool rebuildHome = true;
 }

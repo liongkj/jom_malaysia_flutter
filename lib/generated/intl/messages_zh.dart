@@ -19,6 +19,8 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'zh';
 
+  static m0(selected) => "当前城市: ${selected}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
     "appBarTitleExplore" : MessageLookupByLibrary.simpleMessage("探索"),
@@ -26,6 +28,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "appBarTitleSetting" : MessageLookupByLibrary.simpleMessage("设置"),
     "appBarTitleSettingLanguage" : MessageLookupByLibrary.simpleMessage("语言"),
     "appTitle" : MessageLookupByLibrary.simpleMessage("走森州"),
+    "cityPickerCurrentCity" : m0,
+    "labelNone" : MessageLookupByLibrary.simpleMessage("无"),
     "labelSearch" : MessageLookupByLibrary.simpleMessage("搜索"),
     "locationSelectCityMessage" : MessageLookupByLibrary.simpleMessage("选择城市"),
     "locationSelectTownMessage" : MessageLookupByLibrary.simpleMessage("选择区"),
