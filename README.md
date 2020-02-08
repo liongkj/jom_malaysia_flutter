@@ -14,8 +14,7 @@
 
 - [x] Localization
 
-- [ ] Dark mode
-
 - [ ] Redesign splash image and overall color
 
 ## 已知问题：
+- [ ] Dark mode for next iteration
