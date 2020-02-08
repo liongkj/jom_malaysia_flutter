@@ -65,7 +65,9 @@ class _SearchBarState extends State<SearchBar> {
                     borderRadius: BorderRadius.circular(4.0),
                   ),
                   child: TextField(
+                    textInputAction: TextInputAction.search,
                     enabled: widget.showBack,
+                    onSubmitted: (text) => widget.onPressed(text),
                     key: const Key('search_text_field'),
                     autofocus: widget.showBack,
                     controller: _controller,
