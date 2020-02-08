@@ -69,15 +69,6 @@ class OverviewPageState extends State<OverviewPage>
           ChangeNotifierProvider<OverviewPageProvider>.value(
             value: provider,
           ),
-          ChangeNotifierProxyProvider<LocationProvider, ListingProvider>(
-            update: (ctx, location, listingProvider) =>
-                listingProvider..fetchAndInitPlaces(city: location.selected),
-            create: (BuildContext context) {
-              return ListingProvider(
-                  httpService:
-                      Provider.of<HttpService>(context, listen: false));
-            },
-          )
         ],
         child: Scaffold(
           body: Stack(

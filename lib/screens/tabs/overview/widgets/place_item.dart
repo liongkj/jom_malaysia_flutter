@@ -5,7 +5,6 @@ import 'package:jom_malaysia/core/services/location/location_utils.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/overview_router.dart';
-import 'package:jom_malaysia/screens/tabs/overview/providers/place_detail_provider.dart';
 import 'package:jom_malaysia/setting/provider/language_provider.dart';
 import 'package:jom_malaysia/setting/provider/user_current_location_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
@@ -44,8 +43,6 @@ class PlaceItem extends StatelessWidget {
           ),
           child: InkWell(
             onTap: () {
-              Provider.of<PlaceDetailProvider>(context, listen: false)
-                  .setPlace(listing);
               NavigatorUtils.push(context,
                   '${OverviewRouter.placeDetailPage}/${listing.listingId}');
             },
