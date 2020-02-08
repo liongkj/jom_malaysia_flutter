@@ -98,11 +98,11 @@ class _PlaceListState extends State<PlaceList>
                             index: index,
                             tabIndex: _index,
                             listing: listingProvider
-                                .fetchListingByType(widget.index)[index],
+                                .fetchListingByType(_index)[index],
                           );
                         },
                             childCount: listingProvider
-                                .fetchListingByType(widget.index)
+                                .fetchListingByType(_index)
                                 .length),
                       ),
               );
