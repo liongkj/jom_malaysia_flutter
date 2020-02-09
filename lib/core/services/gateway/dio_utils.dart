@@ -34,9 +34,6 @@ class DioUtils {
     );
     _dio = Dio(options);
 
-    // var cacheConfig = CacheConfig(
-    //         baseUrl: "https://jommalaysiaapi.azurewebsites.net/api/"),
-
     /// add authenticator
     _dio.interceptors.add(AuthInterceptor());
 
@@ -57,9 +54,6 @@ class DioUtils {
     if (!Constant.inProduction) {
       _dio.interceptors.add(LoggingInterceptor());
     }
-
-    /// 适配数据(根据自己的数据结构，可自行选择添加)
-    // _dio.interceptors.add(AdapterInterceptor());
   }
 
   // 数据返回格式统一，统一处理异常
@@ -75,10 +69,10 @@ class DioUtils {
         cancelToken: cancelToken);
     try {
       /// 集成测试无法使用 isolate
+
       return JsonParser.fromJson<T, K>(response.data);
     } catch (e) {
       throw e;
-      //  return BaseEntity(ExceptionHandle.parse_error, "数据解析错误", null);
     }
   }
 
@@ -87,9 +81,6 @@ class DioUtils {
       options = new Options();
     }
     options.method = method;
-    // options.cache = buildCacheOptions(
-    //   Duration(days: 3),
-    // );
 
     return options;
   }

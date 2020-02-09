@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/services/gateway/http_service.dart';
+import 'package:jom_malaysia/screens/tabs/overview/providers/ads_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/listing_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/location_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/overview_page_provider.dart';
@@ -68,6 +69,11 @@ class OverviewPageState extends State<OverviewPage>
         providers: [
           ChangeNotifierProvider<OverviewPageProvider>.value(
             value: provider,
+          ),
+          ChangeNotifierProvider<AdsProvider>(
+            create: (_) => AdsProvider(
+              httpService: Provider.of<HttpService>(context, listen: false),
+            ),
           ),
         ],
         child: Scaffold(

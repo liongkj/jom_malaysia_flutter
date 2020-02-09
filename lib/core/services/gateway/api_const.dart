@@ -3,6 +3,8 @@ class APIEndpoint {
   static const String listings = 'listings';
   static const String listingQuery = 'listings/query';
   static const String listingSearch = 'listings/search';
+  static const String getAdsRequest =
+      "https://jomn9-ads.easybrother.workers.dev/";
 }
 
 class QueryParam {

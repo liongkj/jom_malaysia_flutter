@@ -29,7 +29,6 @@ class _PlaceListState extends State<PlaceList>
   final int _maxPage = 3;
   int _index = 0;
   bool _isInit = true;
-  StateType _stateType = StateType.loading;
 
   @override
   void initState() {
