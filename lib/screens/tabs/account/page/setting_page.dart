@@ -17,20 +17,6 @@ class SettingPage extends StatefulWidget {
 class _SettingPageState extends State<SettingPage> {
   @override
   Widget build(BuildContext context) {
-    // String theme = flutter_stars.SpUtil.getString(Constant.theme);
-    // String themeMode;
-    // switch (theme) {
-    //   case "Dark":
-    //     themeMode = "开启";
-    //     break;
-    //   case "Light":
-    //     themeMode = "关闭";
-    //     break;
-    //   default:
-    //     themeMode = "跟随系统";
-    //     break;
-    // }
-
     String language = flutter_stars.SpUtil.getString(Constant.language);
     String preferredLang;
     switch (language) {
@@ -63,11 +49,11 @@ class _SettingPageState extends State<SettingPage> {
                 NavigatorUtils.push(context, AccountRouter.languagePage),
           ),
           ClickItem(
-              title: S.of(context).clickItemSettingFeedback,
-              content: "Suggestion and feedback",
+              title: S.of(context).clickItemSettingFeedbackTitle,
+              content: S.of(context).clickItemSettingFeedbackDescription,
               onTap: () => {}),
           ClickItem(
-              title: "About JomN9",
+              title: S.of(context).clickItemSettingAboutTitle,
               onTap: () =>
                   NavigatorUtils.push(context, AccountRouter.aboutPage)),
         ],
