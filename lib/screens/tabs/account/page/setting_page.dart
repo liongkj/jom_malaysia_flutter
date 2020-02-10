@@ -51,7 +51,10 @@ class _SettingPageState extends State<SettingPage> {
           ClickItem(
               title: S.of(context).clickItemSettingFeedbackTitle,
               content: S.of(context).clickItemSettingFeedbackDescription,
-              onTap: () => {}),
+              onTap: () => {
+                    NavigatorUtils.goWebViewPage(
+                        context, "Feedback", "https://www.jomn9.com/feedback")
+                  }),
           ClickItem(
               title: S.of(context).clickItemSettingAboutTitle,
               onTap: () =>
