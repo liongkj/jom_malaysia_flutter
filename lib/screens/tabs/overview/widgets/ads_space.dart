@@ -51,6 +51,7 @@ class _AdsSpaceState extends State<AdsSpace> {
                     ),
                     child: LoadImage(
                       adsProvider.adList[index].imageUrl,
+                      fit: BoxFit.fitWidth,
                     ),
                   );
                 },
@@ -58,7 +59,7 @@ class _AdsSpaceState extends State<AdsSpace> {
                 viewportFraction: 0.8,
                 scale: 0.9,
                 autoplay: true,
-                autoplayDelay: 7000,
+                autoplayDelay: 8000,
               ),
             ),
           ),

@@ -10,7 +10,11 @@
     "cityNameZh": "芙蓉",
     "isHot": true,
     "firstChar": "S",
-    "firstCharZh": "F"
+    "firstCharZh": "F",
+    "coordinates": {
+      "latitude": 2.7297,
+      "longitude": 101.9381
+    }
   },
   {
     "cityName": "Rembau",

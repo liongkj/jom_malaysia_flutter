@@ -8,6 +8,7 @@ import 'package:jom_malaysia/core/services/location/location_utils.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/address_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/contact_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
+import 'package:jom_malaysia/screens/tabs/overview/providers/location_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/contact_item.dart';
 import 'package:jom_malaysia/setting/provider/language_provider.dart';
 import 'package:jom_malaysia/setting/provider/user_current_location_provider.dart';
@@ -49,8 +50,10 @@ class PlaceInfo extends StatelessWidget {
                         return FutureBuilder<String>(
                             future: LocationUtils.getDistanceBetween(
                                 location.currentCoordinate,
-                                place.address.coordinates,
-                                precise: true),
+                                place,
+                                Provider.of<LocationProvider>(context,
+                                        listen: false)
+                                    .cityModel),
                             builder: (context, snapshot) {
                               return snapshot.hasData
                                   ? Text(
