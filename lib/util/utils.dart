@@ -19,7 +19,10 @@ class Utils {
   static void launchWebURL(String web) async {
     String url = 'https:' + web;
     if (await canLaunch(url)) {
-      await launch(url);
+      await launch(
+        url,
+        // forceWebView: true,
+      );
     } else {
       Toast.show('Failed opening web address');
     }

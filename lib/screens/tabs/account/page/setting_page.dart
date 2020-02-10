@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/constants/common.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
+import 'package:jom_malaysia/screens/tabs/account/account_router.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/widgets/app_bar.dart';
 import 'package:jom_malaysia/widgets/click_item.dart';
-import '../setting_router.dart';
 
 /// design/8设置/index.html
 class SettingPage extends StatefulWidget {
