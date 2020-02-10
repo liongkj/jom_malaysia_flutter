@@ -58,7 +58,7 @@ class _AdsSpaceState extends State<AdsSpace> {
                 itemCount: adsProvider.adList.length,
                 viewportFraction: 0.8,
                 scale: 0.9,
-                autoplay: true,
+                autoplay: adsProvider.adList.isNotEmpty,
                 autoplayDelay: 8000,
               ),
             ),
