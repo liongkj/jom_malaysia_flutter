@@ -41,11 +41,15 @@ class _PlaceListState extends State<PlaceList>
   @override
   void didChangeDependencies() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (_isInit ||
-          Provider.of<LocationProvider>(context, listen: false).rebuildHome) {
-        Provider.of<ListingProvider>(context, listen: false).fetchAndInitPlaces(
-            refresh: Provider.of<LocationProvider>(context, listen: false)
-                .rebuildHome);
+      final shouldRebuild =
+          Provider.of<LocationProvider>(context, listen: false).rebuildHome;
+      if (_isInit || shouldRebuild) {
+        Provider.of<ListingProvider>(context, listen: false)
+            .fetchAndInitPlaces(refresh: shouldRebuild);
+        print("loading place from " +
+            Provider.of<LocationProvider>(context, listen: false).selected +
+            " status: " +
+            shouldRebuild.toString());
       }
       Provider.of<LocationProvider>(context, listen: false).rebuildHome = false;
       _isInit = false;

@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
-import 'package:jom_malaysia/screens/tabs/explore/models/featured_place.dart';
 import 'package:jom_malaysia/screens/tabs/explore/pages/overview_tab.dart';
 import 'package:jom_malaysia/screens/tabs/explore/pages/todo_tab.dart';
-import 'package:jom_malaysia/setting/provider/base_list_provider.dart';
 import 'package:jom_malaysia/util/image_utils.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
-import 'package:provider/provider.dart';
 
 class ExplorePage extends StatefulWidget {
   ExplorePage({Key key}) : super(key: key);

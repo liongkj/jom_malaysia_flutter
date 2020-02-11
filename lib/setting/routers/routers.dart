@@ -6,7 +6,6 @@ import 'package:jom_malaysia/screens/tabs/explore/explore_router.dart';
 import 'package:jom_malaysia/screens/tabs/overview/overview_router.dart';
 import 'package:jom_malaysia/setting/layout/home_page.dart';
 import 'package:jom_malaysia/setting/layout/webview_native_page.dart';
-import 'package:jom_malaysia/setting/layout/webview_page.dart';
 import './404.dart';
 import 'router_init.dart';
 

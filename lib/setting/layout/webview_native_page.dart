@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
-import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/widgets/app_bar.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 

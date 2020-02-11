@@ -36,6 +36,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "clickItemSettingShareTitle" : MessageLookupByLibrary.simpleMessage("Tell a friend"),
     "labelNone" : MessageLookupByLibrary.simpleMessage("None"),
     "labelSearch" : MessageLookupByLibrary.simpleMessage("Search"),
+    "labelSearchHint" : MessageLookupByLibrary.simpleMessage("Search for a name or keyword"),
+    "labelSearchHintNotEmpty" : MessageLookupByLibrary.simpleMessage("Keyword cannot be blank"),
     "locationSelectCityMessage" : MessageLookupByLibrary.simpleMessage("Select a City"),
     "locationSelectTownMessage" : MessageLookupByLibrary.simpleMessage("Select a Town"),
     "overviewSection1Para1" : MessageLookupByLibrary.simpleMessage("Negeri Sembilan is a Malaysian state on the Malay Peninsula\'s southwest coast, known for its beaches, nature parks and palaces. To the west, on the Malacca Strait, the area around Port Dickson has seaside resorts, the Wan Loong Chinese Temple and the Kota Lukut hilltop fort. South along the coast, in the neighboring state of Malacca, is Cape Rachado (Tanjung Tuan), a nature reserve with a lighthouse."),

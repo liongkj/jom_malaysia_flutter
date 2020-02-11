@@ -49,7 +49,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("main build");
     return OKToast(
       backgroundColor: Colors.black54,
       textPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
@@ -84,10 +83,8 @@ class MyApp extends StatelessWidget {
         ],
         child: Consumer<ThemeProvider>(
           builder: (_, provider, __) {
-            print("set theme");
             return Consumer<LanguageProvider>(
               builder: (_, lang, __) {
-                print("set language");
                 return MaterialApp(
                   locale: lang.locale,
                   onGenerateTitle: (BuildContext context) =>

@@ -1,12 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:jom_malaysia/core/enums/category_type_enum.dart';
 import 'package:jom_malaysia/core/mvp/base_page_presenter.dart';
 import 'package:jom_malaysia/core/services/gateway/net.dart';
 import 'package:jom_malaysia/screens/tabs/explore/models/featured_place.dart';
 import 'package:jom_malaysia/screens/tabs/explore/pages/todo_tab.dart';
-import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
 import 'package:jom_malaysia/widgets/state_layout.dart';
 
 class FeaturedPagePresenter extends BasePagePresenter<TodoTabState> {

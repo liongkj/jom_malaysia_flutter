@@ -26,6 +26,8 @@
   "locationSelectTownMessage": "Select a Town",
   "labelSearch": "Search",
   "labelNone": "None",
+  "labelSearchHint": "Search for a name or keyword",
+  "labelSearchHintNotEmpty": "Keyword cannot be blank",
   "clickItemSettingFeedbackTitle": "Feedback",
   "clickItemSettingFeedbackDescription": "Let us serve you better",
   "clickItemSettingAboutTitle": "About Us",

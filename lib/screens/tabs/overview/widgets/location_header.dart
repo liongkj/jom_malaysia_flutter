@@ -14,7 +14,6 @@ import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
 import 'package:jom_malaysia/widgets/my_flexible_space_bar.dart';
-import 'package:jom_malaysia/widgets/search_bar_button.dart';
 import 'package:provider/provider.dart';
 
 class LocationHeader extends StatefulWidget {
@@ -92,17 +91,24 @@ class _LocationHeaderState extends State<LocationHeader> {
         leading: Gaps.empty,
         brightness: Brightness.dark,
         actions: <Widget>[
-          SearchBarButton(
-            hintText: "Search for a name or keyword",
-            onTap: () {
-              print("tap");
-              NavigatorUtils.push(context, OverviewRouter.placeSearchPage);
-            },
+          // SearchBarButton(
+          IconButton(
+            icon: LoadAssetImage(
+              "overview/icon_search",
+              width: 24,
+            ),
+            onPressed: () =>
+                NavigatorUtils.push(context, OverviewRouter.placeSearchPage),
           ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Icon(Icons.notifications),
+          //   hintText: "Search for a name or keyword",
+
+          // ),
+
+          IconButton(
+            icon: Icon(Icons.notifications),
+            onPressed: () {},
           ),
+
           // overflow menu
         ],
 

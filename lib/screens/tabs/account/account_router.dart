@@ -1,7 +1,6 @@
 import 'package:fluro/fluro.dart';
 import 'package:jom_malaysia/screens/tabs/account/page/account_manager_page.dart';
 import 'package:jom_malaysia/screens/tabs/account/page/language_page.dart';
-import 'package:jom_malaysia/setting/layout/webview_native_page.dart';
 import 'package:jom_malaysia/setting/routers/router_init.dart';
 import './page/about_page.dart';
 import './page/setting_page.dart';

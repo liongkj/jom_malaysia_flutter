@@ -25,6 +25,8 @@
   "locationSelectTownMessage": "选择区",
   "labelSearch": "搜索",
   "labelNone": "无",
+  "labelSearchHint": "请输入关键词查询",
+  "labelSearchHintNotEmpty": "搜索关键词不能为空！",
   "clickItemSettingFeedbackTitle": "意见反馈",
   "clickItemSettingFeedbackDescription": "让我们更好",
   "clickItemSettingAboutTitle": "关于我们",

@@ -272,6 +272,24 @@ class S {
     );
   }
 
+  String get labelSearchHint {
+    return Intl.message(
+      'Search for a name or keyword',
+      name: 'labelSearchHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelSearchHintNotEmpty {
+    return Intl.message(
+      'Keyword cannot be blank',
+      name: 'labelSearchHintNotEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
   String get clickItemSettingFeedbackTitle {
     return Intl.message(
       'Feedback',

@@ -4,11 +4,8 @@ import 'package:jom_malaysia/core/mvp/base_page_presenter.dart';
 import 'package:jom_malaysia/core/services/gateway/api_const.dart';
 import 'package:jom_malaysia/core/services/gateway/dio_utils.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
-import 'package:jom_malaysia/screens/tabs/overview/models/search_item.dart';
 import 'package:jom_malaysia/screens/tabs/overview/pages/place_search_page.dart';
-import 'package:jom_malaysia/setting/provider/language_provider.dart';
 import 'package:jom_malaysia/widgets/state_layout.dart';
-import 'package:provider/provider.dart';
 
 class PlaceSearchPresenter extends BasePagePresenter<PlaceSearchPageState> {
   Future search(String text, int page, bool isShowDialog,

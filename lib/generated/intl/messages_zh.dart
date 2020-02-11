@@ -36,6 +36,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "clickItemSettingShareTitle" : MessageLookupByLibrary.simpleMessage("告诉朋友"),
     "labelNone" : MessageLookupByLibrary.simpleMessage("无"),
     "labelSearch" : MessageLookupByLibrary.simpleMessage("搜索"),
+    "labelSearchHint" : MessageLookupByLibrary.simpleMessage("请输入关键词查询"),
+    "labelSearchHintNotEmpty" : MessageLookupByLibrary.simpleMessage("搜索关键词不能为空！"),
     "locationSelectCityMessage" : MessageLookupByLibrary.simpleMessage("选择城市"),
     "locationSelectTownMessage" : MessageLookupByLibrary.simpleMessage("选择区"),
     "overviewSection1Para1" : MessageLookupByLibrary.simpleMessage("森美兰州是马来半岛西南海岸的马来西亚州，以其海滩，自然公园和宫殿而闻名。在西部，马六甲海峡，波德申港附近的地区有海滨度假胜地，万隆华人圣殿和哥打卢库特山顶堡垒。在沿海南部，在邻近的马六甲州，是拉查多角（Tanjung Tuan），这是一座带有灯塔的自然保护区。"),
