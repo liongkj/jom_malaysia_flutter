@@ -29,6 +29,7 @@ class _PlaceListState extends State<PlaceList>
   final int _maxPage = 3;
   int _index = 0;
   bool _isInit = true;
+  StateType _stateType = StateType.places;
 
   @override
   void initState() {
@@ -41,15 +42,10 @@ class _PlaceListState extends State<PlaceList>
   @override
   void didChangeDependencies() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final shouldRebuild =
-          Provider.of<LocationProvider>(context, listen: false).rebuildHome;
-      if (_isInit || shouldRebuild) {
-        Provider.of<ListingProvider>(context, listen: false)
-            .fetchAndInitPlaces(refresh: shouldRebuild);
-        print("loading place from " +
-            Provider.of<LocationProvider>(context, listen: false).selected +
-            " status: " +
-            shouldRebuild.toString());
+      final location = Provider.of<LocationProvider>(context, listen: false);
+      if (_isInit || location.rebuildHome) {
+        Provider.of<ListingProvider>(context, listen: false).fetchAndInitPlaces(
+            city: location.selected, refresh: location.rebuildHome);
       }
       Provider.of<LocationProvider>(context, listen: false).rebuildHome = false;
       _isInit = false;
@@ -93,7 +89,7 @@ class _PlaceListState extends State<PlaceList>
                 ),
                 sliver: placeList.isEmpty
                     ? SliverFillRemaining(
-                        child: StateLayout(type: listingProvider.stateType),
+                        child: StateLayout(type: _stateType),
                       )
                     : SliverList(
                         delegate: SliverChildBuilderDelegate(

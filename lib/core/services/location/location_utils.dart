@@ -60,7 +60,7 @@ class LocationUtils {
 
     return distance < 1000
         ? "${distance.toStringAsFixed(0)}m"
-        : convertToKm(distance);
+        : _convertToKm(distance);
   }
 
   static Future<String> _getDistanceToTown(
@@ -68,11 +68,11 @@ class LocationUtils {
     double s = await _geolocator.distanceBetween(
         town.latitude, town.longitude, place.latitude, place.longitude);
     String formattedDistance =
-        s < 1 ? "${s.toStringAsFixed(0)}m" : convertToKm(s);
+        s < 1 ? "${s.toStringAsFixed(0)}m" : _convertToKm(s);
     return "$formattedDistance to town ";
   }
 
-  static String convertToKm(double distance) {
+  static String _convertToKm(double distance) {
     var converted = distance / 1000;
     var km = converted.toStringAsFixed(1);
     return "${km}km";

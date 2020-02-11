@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/core/services/location/location_utils.dart';
+import 'package:jom_malaysia/screens/tabs/overview/models/city_model.dart';
+import 'package:jom_malaysia/setting/provider/language_provider.dart';
 import 'package:jom_malaysia/setting/provider/user_current_location_provider.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
 import 'package:provider/provider.dart';
 
 class CurrentLocation extends StatefulWidget {
-  final String address;
-  //final Position position;
-  const CurrentLocation({
-    this.address,
-    //this.position,
+  final List<CityModel> cities;
+  const CurrentLocation(
+    this.cities, {
     Key key,
   }) : super(key: key);
 
@@ -19,17 +19,15 @@ class CurrentLocation extends StatefulWidget {
 }
 
 class _CurrentLocationState extends State<CurrentLocation> {
+  CityModel currentCity;
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      // _preCacheImage();
-      await LocationUtils.getCurrentLocation(context);
-    });
   }
 
   @override
   Widget build(BuildContext context) {
+    final locale = Provider.of<LanguageProvider>(context, listen: false).locale;
     return Consumer<UserCurrentLocationProvider>(builder: (_, location, __) {
       return Container(
         child: Row(
@@ -41,7 +39,9 @@ class _CurrentLocationState extends State<CurrentLocation> {
             ),
             Gaps.hGap8,
             Text(
-              location.currentLocation ?? "Gps not open",
+              currentCity == null
+                  ? "Not in service area"
+                  : currentCity.getCityName(locale),
               //position.latitude.toString()+','+position.longitude.toString(),
               style: TextStyle(
                   color: ThemeUtils.getIconColor(context),

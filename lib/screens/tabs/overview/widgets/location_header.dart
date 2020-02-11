@@ -5,11 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jom_malaysia/core/constants/common.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
+import 'package:jom_malaysia/core/services/location/location_utils.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/city_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/overview_router.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/location_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/current_location.dart';
+import 'package:jom_malaysia/setting/provider/user_current_location_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
@@ -75,12 +77,21 @@ class _LocationHeaderState extends State<LocationHeader> {
     super.didUpdateWidget(oldWidget);
     //call process list again during rebuild. etc switch language
     _processList(_cities);
+    _fetchCurrentLocation();
+  }
+
+  void _fetchCurrentLocation() {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      // _preCacheImage();
+      await LocationUtils.getCurrentLocation(context);
+    });
   }
 
   @override
   void initState() {
     super.initState();
     _loadData();
+    _fetchCurrentLocation();
   }
 
   @override
@@ -100,9 +111,6 @@ class _LocationHeaderState extends State<LocationHeader> {
             onPressed: () =>
                 NavigatorUtils.push(context, OverviewRouter.placeSearchPage),
           ),
-          //   hintText: "Search for a name or keyword",
-
-          // ),
 
           IconButton(
             icon: Icon(Icons.notifications),
@@ -146,7 +154,7 @@ class _LocationHeaderState extends State<LocationHeader> {
                 ),
                 builder: (_, location, child) {
                   selectedLocation =
-                      _cities.isNotEmpty && location.selected != null
+                      _cities.isNotEmpty && location.selected != ""
                           ? _cities.firstWhere(
                               (x) => x.cityName == location.selected,
                               orElse: null)
@@ -199,26 +207,22 @@ class _LocationHeaderState extends State<LocationHeader> {
                           ),
                     ),
                   ),
-                  if (selected != null)
-                    IconButton(
-                      onPressed:
-                          Provider.of<LocationProvider>(context, listen: false)
-                              .clear,
-                      icon: LoadAssetImage(
-                        "place/place_delete",
-                        color: iconColor,
-                        width: 18,
-                      ),
-                    ),
                 ],
               ),
               Expanded(
                 child: AzListView(
                   header: AzListViewHeader(
                       builder: (_) {
-                        return CurrentLocation();
+                        final currentLocation =
+                            Provider.of<UserCurrentLocationProvider>(context,
+                                    listen: false)
+                                .currentLocation;
+                        // if (location.currentLocation != null)
+                        //   currentCity = _cities.firstWhere(
+                        //       (x) => x.cityName == location.currentLocation);
+                        return CurrentLocation(_cities);
                       },
-                      height: 100),
+                      height: 0),
                   data: _cities,
                   isUseRealIndex: true,
                   itemHeight: 40,
@@ -235,7 +239,11 @@ class _LocationHeaderState extends State<LocationHeader> {
   }
 
   Widget _buildListTile(CityModel city) {
+    final bool selected =
+        Provider.of<LocationProvider>(context, listen: false).selected ==
+            city.cityName;
     return ListTile(
+      selected: selected,
       onTap: () {
         Provider.of<LocationProvider>(context, listen: false).selectPlace(city);
         NavigatorUtils.goBack(context);
