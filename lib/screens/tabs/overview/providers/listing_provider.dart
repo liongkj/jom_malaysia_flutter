@@ -29,8 +29,7 @@ class ListingProvider with ChangeNotifier {
   List<ListingModel> fetchListingByType(int index) {
     var cat = CategoryType.values[index];
     var list = _listing.where((x) => x.categoryType == cat).toList();
-    // if (list.isEmpty) setStateType(StateType.places);
-    // notifyListeners();
+
     return list;
   }
 
