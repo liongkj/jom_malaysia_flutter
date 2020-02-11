@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/services/gateway/http_service.dart';
+import 'package:jom_malaysia/screens/tabs/overview/providers/ads_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/listing_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/location_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/overview_page_provider.dart';
@@ -69,15 +70,11 @@ class OverviewPageState extends State<OverviewPage>
           ChangeNotifierProvider<OverviewPageProvider>.value(
             value: provider,
           ),
-          ChangeNotifierProxyProvider<LocationProvider, ListingProvider>(
-            update: (ctx, location, listingProvider) =>
-                listingProvider..fetchAndInitPlaces(city: location.selected),
-            create: (BuildContext context) {
-              return ListingProvider(
-                  httpService:
-                      Provider.of<HttpService>(context, listen: false));
-            },
-          )
+          ChangeNotifierProvider<AdsProvider>(
+            create: (_) => AdsProvider(
+              httpService: Provider.of<HttpService>(context, listen: false),
+            ),
+          ),
         ],
         child: Scaffold(
           body: Stack(

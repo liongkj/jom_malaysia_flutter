@@ -4,8 +4,10 @@ import 'package:jom_malaysia/screens/tabs/explore/models/featured_place.dart';
 import 'package:jom_malaysia/screens/tabs/explore/presenter/featured_page_presenter.dart';
 import 'package:jom_malaysia/screens/tabs/explore/widgets/attraction_card.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
+import 'package:jom_malaysia/screens/tabs/overview/overview_router.dart';
 import 'package:jom_malaysia/setting/provider/base_list_provider.dart';
 import 'package:jom_malaysia/setting/provider/language_provider.dart';
+import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/widgets/state_layout.dart';
 import 'package:provider/provider.dart';
 
@@ -82,6 +84,10 @@ class TodoTabState extends BasePageState<TodoTab, FeaturedPagePresenter>
                                       place.description?.getDescription(
                                     lang ?? Localizations.localeOf(context),
                                   ),
+                                  onTap: () {
+                                    NavigatorUtils.push(context,
+                                        '${OverviewRouter.placeDetailPage}/${place.listingId}');
+                                  },
                                   image: place.listingImages.listingLogo.url,
                                 );
                               },

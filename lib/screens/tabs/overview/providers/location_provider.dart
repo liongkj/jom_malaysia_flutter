@@ -27,4 +27,12 @@ class LocationProvider extends ChangeNotifier {
   }
 
   bool rebuildHome = true;
+
+  void syncLoc() {
+    String loc = SpUtil.getString(Constant.prefLocation);
+    print(loc + " saved");
+    if (loc.isNotEmpty) {
+      notifyListeners();
+    }
+  }
 }

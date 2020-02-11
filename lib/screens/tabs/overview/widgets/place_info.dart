@@ -8,6 +8,7 @@ import 'package:jom_malaysia/core/services/location/location_utils.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/address_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/contact_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
+import 'package:jom_malaysia/screens/tabs/overview/providers/location_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/contact_item.dart';
 import 'package:jom_malaysia/setting/provider/language_provider.dart';
 import 'package:jom_malaysia/setting/provider/user_current_location_provider.dart';
@@ -49,8 +50,10 @@ class PlaceInfo extends StatelessWidget {
                         return FutureBuilder<String>(
                             future: LocationUtils.getDistanceBetween(
                                 location.currentCoordinate,
-                                place.address.coordinates,
-                                precise: true),
+                                place,
+                                Provider.of<LocationProvider>(context,
+                                        listen: false)
+                                    .cityModel),
                             builder: (context, snapshot) {
                               return snapshot.hasData
                                   ? Text(
@@ -199,7 +202,10 @@ class _ContactCardState extends State<_ContactCard> {
                   if (contact.mobileNumber != null &&
                       contact.mobileNumber.isNotEmpty)
                     SimpleDialogOption(
-                      child: LoadAssetImage("place/icon_phone"),
+                      child: LoadAssetImage(
+                        "place/icon_phone",
+                        height: 50,
+                      ),
                       onPressed: () {
                         Utils.launchTelURL(contact.mobileNumber);
                         NavigatorUtils.goBack(context);
@@ -231,20 +237,29 @@ class _ContactCardState extends State<_ContactCard> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   SimpleDialogOption(
-                    child: LoadAssetImage("place/google_maps"),
+                    child: LoadAssetImage(
+                      "place/google_maps",
+                      height: 50,
+                    ),
                     onPressed: () {
                       Navigator.pop(context, MapType.google);
                     },
                   ),
                   if (Platform.isIOS)
                     SimpleDialogOption(
-                      child: LoadAssetImage("place/apple_maps"),
+                      child: LoadAssetImage(
+                        "place/apple_maps",
+                        height: 50,
+                      ),
                       onPressed: () {
                         Navigator.pop(context, MapType.apple);
                       },
                     ),
                   SimpleDialogOption(
-                    child: LoadAssetImage("place/waze"),
+                    child: LoadAssetImage(
+                      "place/waze",
+                      height: 50,
+                    ),
                     onPressed: () {
                       Navigator.pop(context, MapType.waze);
                     },

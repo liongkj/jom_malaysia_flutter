@@ -5,7 +5,7 @@ import 'package:jom_malaysia/core/services/location/location_utils.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/overview_router.dart';
-import 'package:jom_malaysia/screens/tabs/overview/providers/place_detail_provider.dart';
+import 'package:jom_malaysia/screens/tabs/overview/providers/location_provider.dart';
 import 'package:jom_malaysia/setting/provider/language_provider.dart';
 import 'package:jom_malaysia/setting/provider/user_current_location_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
@@ -44,8 +44,6 @@ class PlaceItem extends StatelessWidget {
           ),
           child: InkWell(
             onTap: () {
-              Provider.of<PlaceDetailProvider>(context, listen: false)
-                  .setPlace(listing);
               NavigatorUtils.push(context,
                   '${OverviewRouter.placeDetailPage}/${listing.listingId}');
             },
@@ -120,24 +118,28 @@ class _Description extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
               ),
             ),
-            Consumer<UserCurrentLocationProvider>(
-              builder: (_, location, __) {
-                return FutureBuilder<String>(
-                    future: LocationUtils.getDistanceBetween(
-                        location.currentCoordinate,
-                        listing.address.coordinates),
-                    builder: (context, snapshot) {
-                      return snapshot.hasData
-                          ? Text(
-                              snapshot.data,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .subtitle
-                                  .copyWith(fontSize: Dimens.font_sp10),
-                            )
-                          : CircularProgressIndicator();
-                    });
-              },
+            Consumer<LocationProvider>(
+              builder: (_, selectedCity, locChild) =>
+                  Consumer<UserCurrentLocationProvider>(
+                builder: (_, userLocation, __) {
+                  return FutureBuilder<String>(
+                      future: LocationUtils.getDistanceBetween(
+                          userLocation.currentCoordinate,
+                          listing,
+                          selectedCity.cityModel),
+                      builder: (context, snapshot) {
+                        return snapshot.hasData
+                            ? Text(
+                                snapshot.data,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .subtitle
+                                    .copyWith(fontSize: Dimens.font_sp10),
+                              )
+                            : Text("N/A");
+                      });
+                },
+              ),
             ),
           ],
         )

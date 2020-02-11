@@ -36,7 +36,6 @@ class ListingProvider with ChangeNotifier {
     String city,
     bool refresh = false,
   }) async {
-    print("fetching");
     setStateType(StateType.loading);
 
     final Options options =
@@ -70,5 +69,9 @@ class ListingProvider with ChangeNotifier {
       setStateType(StateType.network);
       notifyListeners();
     });
+  }
+
+  ListingModel findById(String placeId) {
+    return _listing.firstWhere((x) => x.listingId == placeId);
   }
 }

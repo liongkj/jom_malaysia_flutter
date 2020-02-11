@@ -82,13 +82,14 @@ class _PlaceListState extends State<PlaceList>
           },
           child: Consumer<ListingProvider>(
             builder: (_, listingProvider, child) {
+              final placeList = listingProvider.fetchListingByType(_index);
               return SliverPadding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 16.0,
                 ),
-                sliver: listingProvider.fetchListingByType(widget.index).isEmpty
+                sliver: placeList.isEmpty
                     ? SliverFillRemaining(
-                        child: StateLayout(type: StateType.places),
+                        child: StateLayout(type: listingProvider.stateType),
                       )
                     : SliverList(
                         delegate: SliverChildBuilderDelegate(
@@ -97,13 +98,9 @@ class _PlaceListState extends State<PlaceList>
                             key: Key('order_item_$index'),
                             index: index,
                             tabIndex: _index,
-                            listing: listingProvider
-                                .fetchListingByType(widget.index)[index],
+                            listing: placeList[index],
                           );
-                        },
-                            childCount: listingProvider
-                                .fetchListingByType(widget.index)
-                                .length),
+                        }, childCount: placeList.length),
                       ),
               );
             },

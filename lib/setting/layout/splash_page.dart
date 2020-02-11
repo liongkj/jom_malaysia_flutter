@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/constants/common.dart';
 import 'package:jom_malaysia/screens/login/login_router.dart';
+import 'package:jom_malaysia/screens/tabs/overview/providers/location_provider.dart';
 import 'package:jom_malaysia/setting/provider/language_provider.dart';
 import 'package:jom_malaysia/setting/routers/routers.dart';
 import 'package:jom_malaysia/util/image_utils.dart';
@@ -32,6 +33,7 @@ class _SplashPageState extends State<SplashPage> {
       // 由于SpUtil未初始化，所以MaterialApp获取的为默认主题配置，这里同步一下。
       Provider.of<ThemeProvider>(context, listen: false).syncTheme();
       Provider.of<LanguageProvider>(context, listen: false).syncLang();
+      Provider.of<LocationProvider>(context, listen: false).syncLoc();
       if (SpUtil.getBool(Constant.keyGuide, defValue: true)) {
         /// 预先缓存图片，避免直接使用时因为首次加载造成闪动
         _guideList.forEach((image) {

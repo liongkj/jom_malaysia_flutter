@@ -43,13 +43,14 @@ dependencies:
   # 启动URL的插件 https://github.com/flutter/plugins/tree/master/packages/url_launcher
   url_launcher: ^5.4.1
   # 图片缓存 https://github.com/renefloor/flutter_cached_network_image
-  cached_network_image: ^2.0.0-rc
+  cached_network_image: ^2.0.0
   # Toast插件 https://github.com/OpenFlutter/flutter_oktoast
   oktoast: ^2.2.1
   # 路由框架 https://github.com/theyakka/fluro
   fluro: ^1.5.1
   # WebView插件 https://github.com/flutter/plugins/tree/master/packages/webview_flutter
-  webview_flutter: ^0.3.16
+  webview_flutter: ^0.3.19+6
+  flutter_webview_plugin: ^0.3.10+1
   # For future implementation
   flutter_cupertino_localizations: ^1.0.1
   # 格式化String https://github.com/Naddiseo/dart-sprintf
@@ -96,6 +97,7 @@ flutter:
   uses-material-design: true
   # To add assets to your application, add an assets section, like this:
   assets:
+    - assets/icons/
     - assets/images/place/
     - assets/data/
     - assets/images/explore/
@@ -106,6 +108,7 @@ flutter:
     - assets/images/widgets/rating/
     - assets/images/explore/featured/
     - assets/json/
+
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
   # For details regarding adding assets from package dependencies, see

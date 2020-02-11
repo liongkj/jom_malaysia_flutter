@@ -272,10 +272,46 @@ class S {
     );
   }
 
-  String get clickItemSettingFeedback {
+  String get clickItemSettingFeedbackTitle {
     return Intl.message(
       'Feedback',
-      name: 'clickItemSettingFeedback',
+      name: 'clickItemSettingFeedbackTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get clickItemSettingFeedbackDescription {
+    return Intl.message(
+      'Let us serve you better',
+      name: 'clickItemSettingFeedbackDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get clickItemSettingAboutTitle {
+    return Intl.message(
+      'About Us',
+      name: 'clickItemSettingAboutTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get clickItemSettingShareTitle {
+    return Intl.message(
+      'Tell a friend',
+      name: 'clickItemSettingShareTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get clickItemSettingRecommendPlaceTitle {
+    return Intl.message(
+      'Add a missing place',
+      name: 'clickItemSettingRecommendPlaceTitle',
       desc: '',
       args: [],
     );

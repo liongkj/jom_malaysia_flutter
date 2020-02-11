@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:jom_malaysia/core/models/coordinates_model.dart';
+import 'package:jom_malaysia/screens/tabs/overview/models/city_model.dart';
+import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
 import 'package:jom_malaysia/setting/provider/user_current_location_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -36,43 +38,43 @@ class LocationUtils {
   }
 
   static Future<String> getDistanceBetween(
-      CoordinatesModel current, CoordinatesModel place,
-      {bool precise = false}) async {
-    double distance;
-
-    if (current != null) {
-      //user location is opened
-      distance = await _geolocator.distanceBetween(
-          current.latitude, current.longitude, place.latitude, place.longitude);
-      var km = convertToKm(distance);
-      String formattedDistance;
-      if (!precise) {
-        if (km > 50) {
-          return await _getDistanceToTown(place);
-        } else {
-          formattedDistance = km < 1 ? "$distance m" : "$km km";
-        }
-      } else {
-        formattedDistance = "$km km";
+      CoordinatesModel current, ListingModel place, CityModel town) async {
+    ///user select town from different city
+    if (town != null) {
+      if (place.address.city.toLowerCase() != town.cityName.toLowerCase())
+        return "";
+      if (current == null) {
+        return await _getDistanceToTown(place.getCoord, town.coordinates);
       }
-      return formattedDistance;
-    } else {
-      return await _getDistanceToTown(place);
+    } else if (current != null) {
+      //user location is opened
+      return _getDistanceToUser(current, place);
     }
+    return "";
   }
 
-  static Future<String> _getDistanceToTown(CoordinatesModel place) async {
-    final CoordinatesModel serembanTown =
-        CoordinatesModel(latitude: 2.7297, longitude: 101.9381);
-    double s = await _geolocator.distanceBetween(serembanTown.latitude,
-        serembanTown.longitude, place.latitude, place.longitude);
-    String formattedDistance = s < 1 ? "$s m" : "${convertToKm(s)} km";
-    return "$formattedDistance to Seremban town ";
+  static Future<String> _getDistanceToUser(
+      CoordinatesModel current, ListingModel place) async {
+    double distance = await _geolocator.distanceBetween(current.latitude,
+        current.longitude, place.getCoord.latitude, place.getCoord.longitude);
+
+    return distance < 1000
+        ? "${distance.toStringAsFixed(0)}m"
+        : convertToKm(distance);
   }
 
-  static double convertToKm(double distance) {
-    var km = (distance / 1000).toStringAsFixed(1);
+  static Future<String> _getDistanceToTown(
+      CoordinatesModel place, CoordinatesModel town) async {
+    double s = await _geolocator.distanceBetween(
+        town.latitude, town.longitude, place.latitude, place.longitude);
+    String formattedDistance =
+        s < 1 ? "${s.toStringAsFixed(0)}m" : convertToKm(s);
+    return "$formattedDistance to town ";
+  }
 
-    return double.parse(km);
+  static String convertToKm(double distance) {
+    var converted = distance / 1000;
+    var km = converted.toStringAsFixed(1);
+    return "${km}km";
   }
 }

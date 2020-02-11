@@ -3,44 +3,72 @@
     "cityName": "Tampin",
     "cityNameZh": "淡边",
     "firstChar": "T",
-    "firstCharZh": "D"
+    "firstCharZh": "D",
+    "coordinates": {
+      "latitude": 2.47297,
+      "longitude": 102.23119
+    }
   },
   {
     "cityName": "Seremban",
     "cityNameZh": "芙蓉",
     "isHot": true,
     "firstChar": "S",
-    "firstCharZh": "F"
+    "firstCharZh": "F",
+    "coordinates": {
+      "latitude": 2.7297,
+      "longitude": 101.9381
+    }
   },
   {
     "cityName": "Rembau",
     "cityNameZh": "林茂",
     "firstChar": "R",
-    "firstCharZh": "L"
+    "firstCharZh": "L",
+    "coordinates": {
+      "latitude": 2.583331,
+      "longitude": 102.0999996
+    }
   },
   {
     "cityName": "Port Dickson",
     "cityNameZh": "波德申",
     "firstChar": "P",
     "firstCharZh": "B",
-    "isHot": true
+    "isHot": true,
+    "coordinates": {
+      "latitude": 2.53718,
+      "longitude": 101.80571
+    }
   },
   {
     "cityName": "Kuala Pilah",
     "cityNameZh": "瓜拉庇劳",
     "firstChar": "K",
-    "firstCharZh": "G"
+    "firstCharZh": "G",
+    "coordinates": {
+      "latitude": 2.7389,
+      "longitude": 102.2487
+    }
   },
   {
     "cityName": "Jelebu",
     "cityNameZh": "日叻务",
     "firstChar": "J",
-    "firstCharZh": "R"
+    "firstCharZh": "R",
+    "coordinates": {
+      "latitude": 2.94107,
+      "longitude": 102.07191
+    }
   },
   {
     "cityName": "Jempol",
     "cityNameZh": "仁保",
     "firstChar": "J",
-    "firstCharZh": "R"
+    "firstCharZh": "R",
+    "coordinates": {
+      "latitude": 2.89658,
+      "longitude": 102.40545
+    }
   }
 ]

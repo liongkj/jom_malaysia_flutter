@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:jom_malaysia/core/services/gateway/http_service.dart';
+import 'package:jom_malaysia/screens/tabs/overview/providers/listing_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/location_provider.dart';
-import 'package:jom_malaysia/screens/tabs/overview/providers/place_detail_provider.dart';
 import 'package:jom_malaysia/setting/provider/language_provider.dart';
 import 'package:jom_malaysia/setting/provider/user_current_location_provider.dart';
 import 'package:oktoast/oktoast.dart';
@@ -57,22 +57,30 @@ class MyApp extends StatelessWidget {
       position: ToastPosition.bottom,
       child: MultiProvider(
         providers: [
+          InheritedProvider(
+            create: (_) => HttpService(),
+          ),
           ChangeNotifierProvider<LanguageProvider>(
             create: (_) => LanguageProvider(),
           ),
           ChangeNotifierProvider<ThemeProvider>(
             create: (_) => ThemeProvider(),
           ),
-          ChangeNotifierProvider<PlaceDetailProvider>(
-            create: (_) => PlaceDetailProvider(),
+          ChangeNotifierProvider<LocationProvider>(
+            create: (_) => LocationProvider(),
+          ),
+          ChangeNotifierProxyProvider<LocationProvider, ListingProvider>(
+            update: (ctx, location, listingProvider) =>
+                listingProvider..fetchAndInitPlaces(city: location.selected),
+            create: (BuildContext context) {
+              return ListingProvider(
+                  httpService:
+                      Provider.of<HttpService>(context, listen: false));
+            },
           ),
           ChangeNotifierProvider<UserCurrentLocationProvider>(
             create: (_) => UserCurrentLocationProvider(),
           ),
-          ChangeNotifierProvider<LocationProvider>(
-            create: (_) => LocationProvider(),
-          ),
-          InheritedProvider(create: (_) => HttpService())
         ],
         child: Consumer<ThemeProvider>(
           builder: (_, provider, __) {

@@ -130,7 +130,7 @@ class _LocationHeaderState extends State<LocationHeader> {
               const EdgeInsetsDirectional.only(start: 16.0, bottom: 14.0),
           collapseMode: CollapseMode.pin,
           title: GestureDetector(
-            onTap: () => _showCityPickerDialog(context),
+            onTap: () => _showCityPickerDialog(context, selectedLocation),
             child: Container(
               padding: const EdgeInsets.only(left: 16.0, right: 8.0),
               child: Consumer<LocationProvider>(
@@ -168,69 +168,61 @@ class _LocationHeaderState extends State<LocationHeader> {
     );
   }
 
-  Future _showCityPickerDialog(BuildContext context) {
+  Future _showCityPickerDialog(BuildContext context, CityModel selected) {
     bool isDark = ThemeUtils.isDark(context);
 
     Color iconColor = isDark ? Colours.dark_text_gray : Colours.text_gray_c;
     return showDialog(
       context: context,
       builder: (BuildContext context) {
-        return Consumer<LocationProvider>(
-          builder: (_, locationProvider, child) {
-            final selected = locationProvider.cityModel;
-            var c = selected == null
-                ? S.of(context).labelNone
-                : selected.getCityName(
-                    widget.locale,
-                    fullName: true,
-                  );
-            return AlertDialog(
-              title: Text(S.of(context).locationSelectCityMessage),
-              content: Container(
-                height: 600.0,
-                width: 300.0,
-                child: Column(children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: Text(
-                          S.of(context).cityPickerCurrentCity(
-                                c,
-                              ),
-                        ),
-                      ),
-                      if (selected != null)
-                        IconButton(
-                          onPressed: Provider.of<LocationProvider>(context,
-                                  listen: false)
-                              .clear,
-                          icon: LoadAssetImage(
-                            "place/place_delete",
-                            color: iconColor,
-                            width: 18,
-                          ),
-                        ),
-                    ],
-                  ),
+        var c = selected == null
+            ? S.of(context).labelNone
+            : selected.getCityName(widget.locale, fullName: true);
+        return AlertDialog(
+          title: Text(S.of(context).locationSelectCityMessage),
+          content: Container(
+            height: 600.0,
+            width: 300.0,
+            child: Column(children: <Widget>[
+              Row(
+                children: <Widget>[
                   Expanded(
-                    child: AzListView(
-                      header: AzListViewHeader(
-                          builder: (_) {
-                            return CurrentLocation();
-                          },
-                          height: 100),
-                      data: _cities,
-                      isUseRealIndex: true,
-                      itemHeight: 40,
-                      suspensionWidget: null,
-                      suspensionHeight: 0,
-                      itemBuilder: (context, city) => _buildListTile(city),
+                    child: Text(
+                      S.of(context).cityPickerCurrentCity(
+                            c,
+                          ),
                     ),
                   ),
-                ]),
+                  if (selected != null)
+                    IconButton(
+                      onPressed:
+                          Provider.of<LocationProvider>(context, listen: false)
+                              .clear,
+                      icon: LoadAssetImage(
+                        "place/place_delete",
+                        color: iconColor,
+                        width: 18,
+                      ),
+                    ),
+                ],
               ),
-            );
-          },
+              Expanded(
+                child: AzListView(
+                  header: AzListViewHeader(
+                      builder: (_) {
+                        return CurrentLocation();
+                      },
+                      height: 100),
+                  data: _cities,
+                  isUseRealIndex: true,
+                  itemHeight: 40,
+                  suspensionWidget: null,
+                  suspensionHeight: 0,
+                  itemBuilder: (context, city) => _buildListTile(city),
+                ),
+              ),
+            ]),
+          ),
         );
       },
     );
