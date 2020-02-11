@@ -91,9 +91,9 @@ class _AboutPageState extends State<AboutPage> {
           // ),
           Gaps.vGap10,
           ClickItem(
-              title: S.of(context).clickItemSettingShareTitle,
-              onTap: () =>
-                  NavigatorUtils.push(context, AccountRouter.feedbackPage)),
+            title: S.of(context).clickItemSettingShareTitle,
+            onTap: () => {},
+          ),
           // .goWebViewPage(context, "Flutter Deer",
           //     "https://github.com/simplezhli/flutter_deer")),
           ClickItem(
