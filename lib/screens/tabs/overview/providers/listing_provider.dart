@@ -38,7 +38,7 @@ class ListingProvider with ChangeNotifier {
     bool refresh = false,
   }) async {
     setStateType(StateType.loading);
-    if (city != "") print("fetching " + city + " from API");
+
     final Options options =
         buildCacheOptions(Duration(days: 7), forceRefresh: refresh);
     //queries

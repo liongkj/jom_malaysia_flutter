@@ -16,6 +16,7 @@ import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
 import 'package:jom_malaysia/widgets/my_flexible_space_bar.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 
 class LocationHeader extends StatefulWidget {
@@ -113,8 +114,13 @@ class _LocationHeaderState extends State<LocationHeader> {
           ),
 
           IconButton(
-            icon: Icon(Icons.notifications),
-            onPressed: () {},
+            icon: LoadAssetImage(
+              "overview/icon_notification",
+              color: Colors.white,
+            ),
+            onPressed: () {
+              showToast(S.of(context).labelNoNotification);
+            },
           ),
 
           // overflow menu
@@ -182,56 +188,46 @@ class _LocationHeaderState extends State<LocationHeader> {
     );
   }
 
-  Future _showCityPickerDialog(BuildContext context, CityModel selected) {
-    bool isDark = ThemeUtils.isDark(context);
-
-    Color iconColor = isDark ? Colours.dark_text_gray : Colours.text_gray_c;
+  Future<void> _showCityPickerDialog(
+      BuildContext context, CityModel selected) async {
     return showDialog(
       context: context,
       builder: (BuildContext context) {
-        var c = selected == null
-            ? S.of(context).labelNone
-            : selected.getCityName(widget.locale, fullName: true);
-        return AlertDialog(
-          title: Text(S.of(context).locationSelectCityMessage),
-          content: Container(
-            height: 600.0,
-            width: 300.0,
-            child: Column(children: <Widget>[
-              Row(
-                children: <Widget>[
-                  Expanded(
-                    child: Text(
-                      S.of(context).cityPickerCurrentCity(
-                            c,
-                          ),
-                    ),
-                  ),
-                ],
-              ),
-              Expanded(
-                child: AzListView(
-                  header: AzListViewHeader(
-                      builder: (_) {
-                        final currentLocation =
-                            Provider.of<UserCurrentLocationProvider>(context,
-                                    listen: false)
-                                .currentLocation;
-                        // if (location.currentLocation != null)
-                        //   currentCity = _cities.firstWhere(
-                        //       (x) => x.cityName == location.currentLocation);
-                        return CurrentLocation(_cities);
-                      },
-                      height: 0),
-                  data: _cities,
-                  isUseRealIndex: true,
-                  itemHeight: 40,
-                  suspensionWidget: null,
-                  suspensionHeight: 0,
-                  itemBuilder: (context, city) => _buildListTile(city),
+        return Consumer<UserCurrentLocationProvider>(
+          builder: (_, userLoc, __) => AlertDialog(
+            title: Text(S.of(context).locationSelectCityMessage),
+            content: Container(
+              height: 600.0,
+              width: 300.0,
+              child: Column(children: <Widget>[
+                Expanded(
+                  child: AzListView(
+                      header: AzListViewHeader(
+                          builder: (_) {
+                            CityModel currentCity;
+                            if (userLoc.currentLocation != null)
+                              currentCity = _cities.firstWhere(
+                                  (x) => x.cityName == userLoc.currentLocation,
+                                  orElse: () => null);
+                            return CurrentLocation(currentCity, widget.locale);
+                          },
+                          height: 60),
+                      data: userLoc.currentLocation == null
+                          ? _cities
+                          : _cities
+                              .where(
+                                  (x) => x.cityName != userLoc.currentLocation)
+                              .toList(),
+                      isUseRealIndex: true,
+                      itemHeight: 40,
+                      suspensionWidget: null,
+                      suspensionHeight: 0,
+                      itemBuilder: (context, city) {
+                        return _buildListTile(city);
+                      }),
                 ),
-              ),
-            ]),
+              ]),
+            ),
           ),
         );
       },
@@ -242,14 +238,30 @@ class _LocationHeaderState extends State<LocationHeader> {
     final bool selected =
         Provider.of<LocationProvider>(context, listen: false).selected ==
             city.cityName;
-    return ListTile(
-      selected: selected,
-      onTap: () {
-        Provider.of<LocationProvider>(context, listen: false).selectPlace(city);
-        NavigatorUtils.goBack(context);
-      },
-      title: Text(
-        city.getCityName(widget.locale, fullName: true),
+    return Container(
+      child: Column(
+        children: [
+          ListTile(
+            leading: selected
+                ? Icon(Icons.keyboard_arrow_right)
+                : Container(
+                    width: 20,
+                  ),
+            selected: selected,
+            onTap: () {
+              Provider.of<LocationProvider>(context, listen: false)
+                  .selectPlace(city);
+              NavigatorUtils.goBack(context);
+            },
+            title: Text(
+              city.getCityName(widget.locale, fullName: true),
+              style: TextStyle(
+                  color: ThemeUtils.getIconColor(context),
+                  fontSize: Dimens.font_sp16),
+            ),
+          ),
+          Gaps.line
+        ],
       ),
     );
   }

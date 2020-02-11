@@ -52,7 +52,6 @@ class _PlaceListState extends State<PlaceList>
       Provider.of<LocationProvider>(context, listen: false).rebuildHome = false;
       _isInit = false;
     });
-    print("change dependecies");
     super.didChangeDependencies();
   }
 

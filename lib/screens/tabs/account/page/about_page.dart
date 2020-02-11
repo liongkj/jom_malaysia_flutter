@@ -7,6 +7,7 @@ import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/widgets/app_bar.dart';
 import 'package:jom_malaysia/widgets/click_item.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
+import 'package:share/share.dart';
 
 class AboutPage extends StatefulWidget {
   @override
@@ -51,14 +52,16 @@ class _AboutPageState extends State<AboutPage> {
           Gaps.vGap10,
           ClickItem(
             title: S.of(context).clickItemSettingShareTitle,
-            onTap: () => {},
+            onTap: () => Share.share("Check out this cool travel app"),
           ),
           // .goWebViewPage(context, "Flutter Deer",
           //     "https://github.com/simplezhli/flutter_deer")),
           ClickItem(
               title: S.of(context).clickItemSettingRecommendPlaceTitle,
               onTap: () => NavigatorUtils.goWebViewPage(
-                  context, "作者博客", "https://weilu.blog.csdn.net")),
+                  context,
+                  S.of(context).clickItemSettingAddAPlace,
+                  "https://jomn9.com/add-a-place/")),
         ],
       ),
     );

@@ -9,7 +9,12 @@ import 'package:provider/provider.dart';
 class LocationUtils {
   static Geolocator _geolocator = Geolocator();
 
-  //Get current location
+  static Future<bool> isLocationServiceDisabled() async {
+    return await _geolocator.checkGeolocationPermissionStatus() ==
+        GeolocationStatus.disabled;
+  }
+
+  ///Get current location
   static Future<void> getCurrentLocation(BuildContext context) async {
     await _geolocator
         .getCurrentPosition()
