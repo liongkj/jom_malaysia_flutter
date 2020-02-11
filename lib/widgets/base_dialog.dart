@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:jom_malaysia/core/res/resources.dart';
-import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
 
 /// 自定义dialog的模板

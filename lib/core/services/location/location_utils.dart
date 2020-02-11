@@ -9,7 +9,12 @@ import 'package:provider/provider.dart';
 class LocationUtils {
   static Geolocator _geolocator = Geolocator();
 
-  //Get current location
+  static Future<bool> isLocationServiceDisabled() async {
+    return await _geolocator.checkGeolocationPermissionStatus() ==
+        GeolocationStatus.disabled;
+  }
+
+  ///Get current location
   static Future<void> getCurrentLocation(BuildContext context) async {
     await _geolocator
         .getCurrentPosition()
@@ -60,7 +65,7 @@ class LocationUtils {
 
     return distance < 1000
         ? "${distance.toStringAsFixed(0)}m"
-        : convertToKm(distance);
+        : _convertToKm(distance);
   }
 
   static Future<String> _getDistanceToTown(
@@ -68,11 +73,11 @@ class LocationUtils {
     double s = await _geolocator.distanceBetween(
         town.latitude, town.longitude, place.latitude, place.longitude);
     String formattedDistance =
-        s < 1 ? "${s.toStringAsFixed(0)}m" : convertToKm(s);
+        s < 1 ? "${s.toStringAsFixed(0)}m" : _convertToKm(s);
     return "$formattedDistance to town ";
   }
 
-  static String convertToKm(double distance) {
+  static String _convertToKm(double distance) {
     var converted = distance / 1000;
     var km = converted.toStringAsFixed(1);
     return "${km}km";

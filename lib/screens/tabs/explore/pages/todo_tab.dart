@@ -3,7 +3,6 @@ import 'package:jom_malaysia/core/mvp/base_page_state.dart';
 import 'package:jom_malaysia/screens/tabs/explore/models/featured_place.dart';
 import 'package:jom_malaysia/screens/tabs/explore/presenter/featured_page_presenter.dart';
 import 'package:jom_malaysia/screens/tabs/explore/widgets/attraction_card.dart';
-import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/overview_router.dart';
 import 'package:jom_malaysia/setting/provider/base_list_provider.dart';
 import 'package:jom_malaysia/setting/provider/language_provider.dart';

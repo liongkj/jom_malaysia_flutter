@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/constants/common.dart';
-import 'package:jom_malaysia/screens/login/login_router.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/location_provider.dart';
 import 'package:jom_malaysia/setting/provider/language_provider.dart';
 import 'package:jom_malaysia/setting/routers/routers.dart';
@@ -67,10 +66,6 @@ class _SplashPageState extends State<SplashPage> {
         // _goLogin();
       }
     });
-  }
-
-  _goLogin() {
-    NavigatorUtils.push(context, LoginRouter.loginPage, replace: true);
   }
 
   _goHome() {

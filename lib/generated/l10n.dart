@@ -272,6 +272,51 @@ class S {
     );
   }
 
+  String get labelNoDetail {
+    return Intl.message(
+      'No more details',
+      name: 'labelNoDetail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelNoNotification {
+    return Intl.message(
+      'No Notification',
+      name: 'labelNoNotification',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelSearchHint {
+    return Intl.message(
+      'Search for a name or keyword',
+      name: 'labelSearchHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelSearchHintNotEmpty {
+    return Intl.message(
+      'Keyword cannot be blank',
+      name: 'labelSearchHintNotEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get clickItemSettingAddAPlace {
+    return Intl.message(
+      'Recommend a place',
+      name: 'clickItemSettingAddAPlace',
+      desc: '',
+      args: [],
+    );
+  }
+
   String get clickItemSettingFeedbackTitle {
     return Intl.message(
       'Feedback',
@@ -319,7 +364,7 @@ class S {
 
   String cityPickerCurrentCity(dynamic selected) {
     return Intl.message(
-      'Current: $selected',
+      'Selected: $selected',
       name: 'cityPickerCurrentCity',
       desc: '',
       args: [selected],

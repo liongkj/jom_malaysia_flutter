@@ -13,10 +13,12 @@ class ListingProvider with ChangeNotifier {
   ListingProvider({@required HttpService httpService})
       : _httpService = httpService;
 
-  StateType _stateType = StateType.empty;
+  StateType _stateType = StateType.loading;
+
   StateType get stateType => _stateType;
   void setStateType(StateType value) {
     _stateType = value;
+    notifyListeners();
   }
 
   List<ListingModel> _listing = [];
@@ -27,8 +29,7 @@ class ListingProvider with ChangeNotifier {
   List<ListingModel> fetchListingByType(int index) {
     var cat = CategoryType.values[index];
     var list = _listing.where((x) => x.categoryType == cat).toList();
-    if (list.isEmpty) setStateType(StateType.places);
-    // notifyListeners();
+
     return list;
   }
 
@@ -43,7 +44,7 @@ class ListingProvider with ChangeNotifier {
     //queries
     Map<String, dynamic> queries = Map<String, dynamic>();
 
-    if (city != "" || city != null) queries[QueryParam.locationBiasCity] = city;
+    if (city != "") queries[QueryParam.locationBiasCity] = city;
 
     _httpService.asyncRequestNetwork<List<ListingModel>, ListingModel>(
         Method.get,
@@ -59,15 +60,14 @@ class ListingProvider with ChangeNotifier {
           notifyListeners();
         } else {
           setStateType(StateType.places);
-          notifyListeners();
         }
       } else {
-        setStateType(StateType.network);
-        notifyListeners();
+        // setStateType(StateType.network);
+
       }
     }, onError: (_, __) {
       setStateType(StateType.network);
-      notifyListeners();
+      // notifyListeners();
     });
   }
 

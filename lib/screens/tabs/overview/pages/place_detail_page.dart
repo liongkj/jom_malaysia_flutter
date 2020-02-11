@@ -124,20 +124,13 @@ class _PlaceImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _dummyImage = [
-      "ads/listing-ad1",
-      "ads/listing-ad2",
-      "ads/listing-ad3"
-    ];
     return SliverList(
       delegate: SliverChildBuilderDelegate(
         (BuildContext context, int index) {
-          // return LoadImage(images[index].url);
-          return new Image.network(
+          return LoadImage(
             images[index].url,
             fit: BoxFit.fill,
           );
-          // return LoadAssetImage(_dummyImage[index], format: 'jpg');
         },
         childCount: images.length,
       ),

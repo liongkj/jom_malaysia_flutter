@@ -29,23 +29,25 @@ class _PlaceListState extends State<PlaceList>
   final int _maxPage = 3;
   int _index = 0;
   bool _isInit = true;
+  StateType _stateType = StateType.places;
+  String _selectedCity;
 
   @override
   void initState() {
     super.initState();
     _index = widget.index;
-
+    _selectedCity =
+        Provider.of<LocationProvider>(context, listen: false).selected;
     print("place list init");
   }
 
   @override
   void didChangeDependencies() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (_isInit ||
-          Provider.of<LocationProvider>(context, listen: false).rebuildHome) {
+      final location = Provider.of<LocationProvider>(context, listen: false);
+      if (_isInit || location.rebuildHome) {
         Provider.of<ListingProvider>(context, listen: false).fetchAndInitPlaces(
-            refresh: Provider.of<LocationProvider>(context, listen: false)
-                .rebuildHome);
+            city: location.selected, refresh: location.rebuildHome);
       }
       Provider.of<LocationProvider>(context, listen: false).rebuildHome = false;
       _isInit = false;
@@ -56,9 +58,9 @@ class _PlaceListState extends State<PlaceList>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+
     final height = MediaQuery.of(context).size.height * 0.06;
-    // final places = Provider.of<ListingProvider>(context, listen: false)
-    //     .fetchListingByType("seremban");
+
     return NotificationListener(
       onNotification: (ScrollNotification note) {
         if (note.metrics.pixels == note.metrics.maxScrollExtent) {
@@ -82,14 +84,17 @@ class _PlaceListState extends State<PlaceList>
           },
           child: Consumer<ListingProvider>(
             builder: (_, listingProvider, child) {
-              final placeList = listingProvider.fetchListingByType(_index);
+              // final placeList = listingProvider.fetchListingByType(_index);
+              final placeList =
+                  Provider.of<ListingProvider>(context, listen: false)
+                      .fetchListingByType(_index);
               return SliverPadding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 16.0,
                 ),
                 sliver: placeList.isEmpty
                     ? SliverFillRemaining(
-                        child: StateLayout(type: listingProvider.stateType),
+                        child: StateLayout(type: _stateType),
                       )
                     : SliverList(
                         delegate: SliverChildBuilderDelegate(
@@ -114,7 +119,7 @@ class _PlaceListState extends State<PlaceList>
 
   Future _onRefresh() async {
     Provider.of<ListingProvider>(context, listen: false)
-        .fetchAndInitPlaces(refresh: true);
+        .fetchAndInitPlaces(city: _selectedCity, refresh: true);
     print("refreshed");
   }
 

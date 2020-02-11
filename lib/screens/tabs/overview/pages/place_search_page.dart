@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/enums/category_type_enum.dart';
 import 'package:jom_malaysia/core/mvp/base_page_state.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
+import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/overview_router.dart';
 import 'package:jom_malaysia/screens/tabs/overview/presenter/place_search_presenter.dart';
@@ -39,10 +40,10 @@ class PlaceSearchPageState
       create: (_) => provider,
       child: Scaffold(
         appBar: SearchBar(
-          hintText: "Search for a name or keyword",
+          hintText: S.of(context).labelSearchHint,
           onPressed: (text) {
             if (text.isEmpty) {
-              showToast("Keyword cannot be blank");
+              showToast(S.of(context).labelSearchHintNotEmpty);
               return;
             }
             FocusScope.of(context).unfocus();

@@ -5,16 +5,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jom_malaysia/core/constants/common.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
+import 'package:jom_malaysia/core/services/location/location_utils.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/city_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/overview_router.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/location_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/current_location.dart';
+import 'package:jom_malaysia/setting/provider/user_current_location_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
 import 'package:jom_malaysia/widgets/my_flexible_space_bar.dart';
-import 'package:jom_malaysia/widgets/search_bar_button.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 
 class LocationHeader extends StatefulWidget {
@@ -76,12 +78,21 @@ class _LocationHeaderState extends State<LocationHeader> {
     super.didUpdateWidget(oldWidget);
     //call process list again during rebuild. etc switch language
     _processList(_cities);
+    _fetchCurrentLocation();
+  }
+
+  void _fetchCurrentLocation() {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      // _preCacheImage();
+      await LocationUtils.getCurrentLocation(context);
+    });
   }
 
   @override
   void initState() {
     super.initState();
     _loadData();
+    _fetchCurrentLocation();
   }
 
   @override
@@ -92,17 +103,26 @@ class _LocationHeaderState extends State<LocationHeader> {
         leading: Gaps.empty,
         brightness: Brightness.dark,
         actions: <Widget>[
-          SearchBarButton(
-            hintText: "Search for a name or keyword",
-            onTap: () {
-              print("tap");
-              NavigatorUtils.push(context, OverviewRouter.placeSearchPage);
+          // SearchBarButton(
+          IconButton(
+            icon: LoadAssetImage(
+              "overview/icon_search",
+              width: 24,
+            ),
+            onPressed: () =>
+                NavigatorUtils.push(context, OverviewRouter.placeSearchPage),
+          ),
+
+          IconButton(
+            icon: LoadAssetImage(
+              "overview/icon_notification",
+              color: Colors.white,
+            ),
+            onPressed: () {
+              showToast(S.of(context).labelNoNotification);
             },
           ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Icon(Icons.notifications),
-          ),
+
           // overflow menu
         ],
 
@@ -140,7 +160,7 @@ class _LocationHeaderState extends State<LocationHeader> {
                 ),
                 builder: (_, location, child) {
                   selectedLocation =
-                      _cities.isNotEmpty && location.selected != null
+                      _cities.isNotEmpty && location.selected != ""
                           ? _cities.firstWhere(
                               (x) => x.cityName == location.selected,
                               orElse: null)
@@ -168,60 +188,46 @@ class _LocationHeaderState extends State<LocationHeader> {
     );
   }
 
-  Future _showCityPickerDialog(BuildContext context, CityModel selected) {
-    bool isDark = ThemeUtils.isDark(context);
-
-    Color iconColor = isDark ? Colours.dark_text_gray : Colours.text_gray_c;
+  Future<void> _showCityPickerDialog(
+      BuildContext context, CityModel selected) async {
     return showDialog(
       context: context,
       builder: (BuildContext context) {
-        var c = selected == null
-            ? S.of(context).labelNone
-            : selected.getCityName(widget.locale, fullName: true);
-        return AlertDialog(
-          title: Text(S.of(context).locationSelectCityMessage),
-          content: Container(
-            height: 600.0,
-            width: 300.0,
-            child: Column(children: <Widget>[
-              Row(
-                children: <Widget>[
-                  Expanded(
-                    child: Text(
-                      S.of(context).cityPickerCurrentCity(
-                            c,
-                          ),
-                    ),
-                  ),
-                  if (selected != null)
-                    IconButton(
-                      onPressed:
-                          Provider.of<LocationProvider>(context, listen: false)
-                              .clear,
-                      icon: LoadAssetImage(
-                        "place/place_delete",
-                        color: iconColor,
-                        width: 18,
-                      ),
-                    ),
-                ],
-              ),
-              Expanded(
-                child: AzListView(
-                  header: AzListViewHeader(
-                      builder: (_) {
-                        return CurrentLocation();
-                      },
-                      height: 100),
-                  data: _cities,
-                  isUseRealIndex: true,
-                  itemHeight: 40,
-                  suspensionWidget: null,
-                  suspensionHeight: 0,
-                  itemBuilder: (context, city) => _buildListTile(city),
+        return Consumer<UserCurrentLocationProvider>(
+          builder: (_, userLoc, __) => AlertDialog(
+            title: Text(S.of(context).locationSelectCityMessage),
+            content: Container(
+              height: 600.0,
+              width: 300.0,
+              child: Column(children: <Widget>[
+                Expanded(
+                  child: AzListView(
+                      header: AzListViewHeader(
+                          builder: (_) {
+                            CityModel currentCity;
+                            if (userLoc.currentLocation != null)
+                              currentCity = _cities.firstWhere(
+                                  (x) => x.cityName == userLoc.currentLocation,
+                                  orElse: () => null);
+                            return CurrentLocation(currentCity, widget.locale);
+                          },
+                          height: 60),
+                      data: userLoc.currentLocation == null
+                          ? _cities
+                          : _cities
+                              .where(
+                                  (x) => x.cityName != userLoc.currentLocation)
+                              .toList(),
+                      isUseRealIndex: true,
+                      itemHeight: 40,
+                      suspensionWidget: null,
+                      suspensionHeight: 0,
+                      itemBuilder: (context, city) {
+                        return _buildListTile(city);
+                      }),
                 ),
-              ),
-            ]),
+              ]),
+            ),
           ),
         );
       },
@@ -229,13 +235,33 @@ class _LocationHeaderState extends State<LocationHeader> {
   }
 
   Widget _buildListTile(CityModel city) {
-    return ListTile(
-      onTap: () {
-        Provider.of<LocationProvider>(context, listen: false).selectPlace(city);
-        NavigatorUtils.goBack(context);
-      },
-      title: Text(
-        city.getCityName(widget.locale, fullName: true),
+    final bool selected =
+        Provider.of<LocationProvider>(context, listen: false).selected ==
+            city.cityName;
+    return Container(
+      child: Column(
+        children: [
+          ListTile(
+            leading: selected
+                ? Icon(Icons.keyboard_arrow_right)
+                : Container(
+                    width: 20,
+                  ),
+            selected: selected,
+            onTap: () {
+              Provider.of<LocationProvider>(context, listen: false)
+                  .selectPlace(city);
+              NavigatorUtils.goBack(context);
+            },
+            title: Text(
+              city.getCityName(widget.locale, fullName: true),
+              style: TextStyle(
+                  color: ThemeUtils.getIconColor(context),
+                  fontSize: Dimens.font_sp16),
+            ),
+          ),
+          Gaps.line
+        ],
       ),
     );
   }
