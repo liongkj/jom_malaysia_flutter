@@ -2,12 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/ads_provider.dart';
-import 'package:jom_malaysia/screens/tabs/overview/providers/overview_page_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
-import 'package:jom_malaysia/util/image_utils.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
 import 'package:oktoast/oktoast.dart';
-
 import 'package:provider/provider.dart';
 
 class AdsSpace extends StatefulWidget {
@@ -16,11 +13,6 @@ class AdsSpace extends StatefulWidget {
 }
 
 class _AdsSpaceState extends State<AdsSpace> {
-  final List<String> _adList = [
-    "https://res.cloudinary.com/jomn9-com/image/upload/v1578318037/ads/ad1_eowzgj.jpg",
-    "https://res.cloudinary.com/jomn9-com/image/upload/v1578318038/ads/ad2_j6fpt4.jpg"
-  ];
-
   bool _isInit = true;
 
   @override
