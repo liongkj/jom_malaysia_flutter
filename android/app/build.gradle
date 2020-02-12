@@ -23,6 +23,7 @@ if (flutterVersionName == null) {
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'com.google.gms.google-services'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
   def keystoreProperties = new Properties()
@@ -44,7 +45,7 @@ apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
     defaultConfig {
         applicationId "com.jomjommalaysia.jomn9"
-        minSdkVersion 16
+        minSdkVersion 26
         targetSdkVersion 29
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -61,7 +62,9 @@ apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
    }
    buildTypes {
        release {
+
            signingConfig signingConfigs.release
+           minifyEnabled true
        }
    }
 }
@@ -71,8 +74,10 @@ flutter {
 }
 
 dependencies {
+    implementation "androidx.annotation:annotation:1.1.0"
+    implementation 'com.google.firebase:firebase-analytics:17.2.2'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }

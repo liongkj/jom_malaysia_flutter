@@ -30,6 +30,7 @@ class ListingProvider with ChangeNotifier {
     var cat = CategoryType.values[index];
     var list = _listing.where((x) => x.categoryType == cat).toList();
 
+    // notifyListeners();
     return list;
   }
 
@@ -37,7 +38,7 @@ class ListingProvider with ChangeNotifier {
     String city,
     bool refresh = false,
   }) async {
-    setStateType(StateType.loading);
+    // setStateType(StateType.loading);
 
     final Options options =
         buildCacheOptions(Duration(days: 7), forceRefresh: refresh);
@@ -52,18 +53,14 @@ class ListingProvider with ChangeNotifier {
         options: options,
         queryParameters: queries,
         isShow: false, onSuccess: (data) {
-      // view.listingProvider.clear();
       _listing.clear();
       if (data != null) {
         if (data.length > 0) {
           _listing.addAll(data);
           notifyListeners();
-        } else {
-          setStateType(StateType.places);
         }
       } else {
-        // setStateType(StateType.network);
-
+        setStateType(StateType.network);
       }
     }, onError: (_, __) {
       setStateType(StateType.network);
