@@ -38,7 +38,6 @@ class _PlaceListState extends State<PlaceList>
     _index = widget.index;
     _selectedCity =
         Provider.of<LocationProvider>(context, listen: false).selected;
-    print("place list init");
   }
 
   @override
@@ -120,7 +119,6 @@ class _PlaceListState extends State<PlaceList>
   Future _onRefresh() async {
     Provider.of<ListingProvider>(context, listen: false)
         .fetchAndInitPlaces(city: _selectedCity, refresh: true);
-    print("refreshed");
   }
 
   bool _hasMore() {

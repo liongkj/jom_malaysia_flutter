@@ -23,13 +23,11 @@ class LocationProvider extends ChangeNotifier {
     SpUtil.putString(Constant.prefLocation, city.cityName);
     _cityModel = city;
     rebuildHome = true;
-    print(city.cityName);
     notifyListeners();
   }
 
   void syncLoc() {
     String loc = SpUtil.getString(Constant.prefLocation);
-    print(loc + " saved");
     if (loc.isNotEmpty) {
       notifyListeners();
     }

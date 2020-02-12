@@ -7,7 +7,6 @@ import 'package:jom_malaysia/screens/tabs/overview/providers/location_provider.d
 import 'package:jom_malaysia/setting/provider/language_provider.dart';
 import 'package:jom_malaysia/setting/provider/user_current_location_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
-import 'package:jom_malaysia/util/theme_utils.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
 import 'package:jom_malaysia/widgets/my_card.dart';
 import 'package:jom_malaysia/widgets/my_rating.dart';
@@ -27,9 +26,6 @@ class PlaceItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextStyle textTextStyle =
-        Theme.of(context).textTheme.body1.copyWith(fontSize: Dimens.font_sp12);
-    bool isDark = ThemeUtils.isDark(context);
     return Container(
       margin: const EdgeInsets.only(top: 8.0),
       child: MyCard(
