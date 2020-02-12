@@ -41,8 +41,6 @@ class OverviewPageState extends State<OverviewPage>
     super.initState();
     _tabController = TabController(vsync: this, length: 5);
     _scrollController = ScrollController();
-
-    print("overviewpage init");
   }
 
   @override

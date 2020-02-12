@@ -3,11 +3,8 @@ import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/core/services/location/location_utils.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/city_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/location_provider.dart';
-import 'package:jom_malaysia/setting/provider/language_provider.dart';
-import 'package:jom_malaysia/setting/provider/user_current_location_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
-import 'package:jom_malaysia/widgets/load_image.dart';
 import 'package:provider/provider.dart';
 
 class CurrentLocation extends StatelessWidget {
