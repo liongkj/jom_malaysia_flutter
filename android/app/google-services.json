@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "877570527217",
+    "firebase_url": "https://jomn9-1566369147288.firebaseio.com",
+    "project_id": "jomn9-1566369147288",
+    "storage_bucket": "jomn9-1566369147288.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:877570527217:android:988f0caba5be8e0eb1be50",
+        "android_client_info": {
+          "package_name": "com.jomjommalaysia.jomn9"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "877570527217-p9qfitjljtrp8j403dbil51puj6vdtp4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDb2AYGb7LfU1GzM-ZtHFrs9sOdhAkisyM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "877570527217-p9qfitjljtrp8j403dbil51puj6vdtp4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
