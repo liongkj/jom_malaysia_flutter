@@ -21,23 +21,23 @@ class OverviewTab extends StatelessWidget {
           children: <Widget>[
             Text(
               S.of(context).stateTitle,
-              style: Theme.of(context).textTheme.title,
+              style: TextStyles.textStyle_pageHeader,
             ),
             Text(
               S.of(context).stateSubtitle,
-              style: Theme.of(context).textTheme.subhead,
+              style: TextStyles.textStyle_pageSubheader,
             ),
             Gaps.vGap16,
             Text(
               S.of(context).overviewSection1Para1,
-              style: Theme.of(context).textTheme.body1,
+              style: TextStyles.textStyle_normalParagraph,
             ),
             Gaps.vGap16,
             Text(
               S.of(context).overviewSection1Para2,
-              style: Theme.of(context).textTheme.body1,
+              style: TextStyles.textStyle_normalParagraph,
             ),
-            Gaps.vGap16,
+            Gaps.sectionGap,
             LoadAssetImage(
               "explore/minangkabau",
               format: "webp",
@@ -45,24 +45,24 @@ class OverviewTab extends StatelessWidget {
             Gaps.vGap16,
             Text(
               S.of(context).overviewSection2Title,
-              style: Theme.of(context).textTheme.body2,
+              style: TextStyles.textStyle_sectionTitle,
             ),
             Gaps.vGap16,
             Text(
               S.of(context).overviewSection2Para1,
-              style: Theme.of(context).textTheme.body1,
+              style: TextStyles.textStyle_normalParagraph
             ),
-            Gaps.vGap16,
+            Gaps.sectionGap,
             Text(
               S.of(context).overviewSection3Title,
-              style: Theme.of(context).textTheme.body2,
+              style: TextStyles.textStyle_sectionTitle,
             ),
             Gaps.vGap16,
             Text(
               S.of(context).overviewSection3Para1,
-              style: Theme.of(context).textTheme.body1,
+              style: TextStyles.textStyle_normalParagraph,
             ),
-            Gaps.vGap16,
+            Gaps.sectionGap,
             LoadAssetImage(
               "explore/nsmap",
               format: "jpg",
@@ -70,22 +70,22 @@ class OverviewTab extends StatelessWidget {
             Gaps.vGap16,
             Text(
               S.of(context).overviewSection4Title,
-              style: Theme.of(context).textTheme.body2,
+              style: TextStyles.textStyle_sectionTitle,
             ),
             Gaps.vGap16,
             Text(
               S.of(context).overviewSection4Para1,
-              style: Theme.of(context).textTheme.body1,
+              style: TextStyles.textStyle_normalParagraph,
             ),
-            Gaps.vGap16,
+            Gaps.sectionGap,
             Text(
               S.of(context).overviewSection5Title,
-              style: Theme.of(context).textTheme.body2,
+              style: TextStyles.textStyle_sectionTitle,
             ),
             Gaps.vGap16,
             Text(
               S.of(context).overviewSection5Para1,
-              style: Theme.of(context).textTheme.body1,
+              style: TextStyles.textStyle_normalParagraph,
             ),
           ],
         ),

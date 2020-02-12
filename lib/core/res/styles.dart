@@ -58,4 +58,30 @@ class TextStyles {
 
   static const TextStyle textHint14 = const TextStyle(
       fontSize: Dimens.font_sp14, color: Colours.dark_unselected_item_color);
+
+  static const TextStyle textStyle_normalParagraph = const TextStyle(
+    fontSize: Dimens.font_sp15,
+    color: Colours.dark_text_gray,
+    height:1.5
+  );
+
+  static const TextStyle textStyle_pageHeader= const TextStyle(
+      fontSize: Dimens.font_sp20,
+      color: Colours.text,
+      fontWeight: FontWeight.bold,
+      height:1.5
+  );
+
+  static const TextStyle textStyle_sectionTitle = const TextStyle(
+      fontSize: Dimens.font_sp16,
+      color: Colours.text,
+      fontWeight: FontWeight.bold,
+      height:1.5
+  );
+
+  static const TextStyle textStyle_pageSubheader = const TextStyle(
+      fontSize: Dimens.font_sp15,
+      color: Colours.button_disabled,
+      height:1.5
+  );
 }
