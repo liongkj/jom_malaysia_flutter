@@ -32,8 +32,10 @@ class OperatingHoursDialog extends StatelessWidget {
                   ? Text("Closed")
                   : Text('${today.openHour} - ${today.closeHour}'),
             ),
-            LoadAssetImage(today != null ? "shop/xz" : "shop/xztm",
-                width: 16.0, height: 16.0),
+            LoadAssetImage(
+                today != null ? "overview/icon_done" : "overview/icon_close",
+                width: 16.0,
+                height: 16.0),
             Gaps.hGap16,
           ],
         ),

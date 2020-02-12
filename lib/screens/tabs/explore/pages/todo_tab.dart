@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/mvp/base_page_state.dart';
 import 'package:jom_malaysia/screens/tabs/explore/models/featured_place.dart';
 import 'package:jom_malaysia/screens/tabs/explore/presenter/featured_page_presenter.dart';
-import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
-import 'package:jom_malaysia/screens/tabs/overview/widgets/place_item.dart';
+import 'package:jom_malaysia/screens/tabs/explore/widgets/attraction_card.dart';
+import 'package:jom_malaysia/screens/tabs/overview/overview_router.dart';
 import 'package:jom_malaysia/setting/provider/base_list_provider.dart';
 import 'package:jom_malaysia/setting/provider/language_provider.dart';
+import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/widgets/state_layout.dart';
 import 'package:provider/provider.dart';
 
@@ -46,7 +47,7 @@ class TodoTabState extends BasePageState<TodoTab, FeaturedPagePresenter>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-
+    final lang = Provider.of<LanguageProvider>(context, listen: false).locale;
     return SafeArea(
       child: ChangeNotifierProvider<BaseListProvider<FeaturedPlaceModel>>.value(
         value: provider,
@@ -76,8 +77,17 @@ class TodoTabState extends BasePageState<TodoTab, FeaturedPagePresenter>
                             delegate: SliverChildBuilderDelegate(
                               (BuildContext context, int index) {
                                 final place = provider.list[index];
-                                return PlaceItem(
-                                  listing: place,
+                                return AttractionCard(
+                                  name: place.listingName,
+                                  description:
+                                      place.description?.getDescription(
+                                    lang ?? Localizations.localeOf(context),
+                                  ),
+                                  onTap: () {
+                                    NavigatorUtils.push(context,
+                                        '${OverviewRouter.placeDetailPage}/${place.listingId}');
+                                  },
+                                  image: place.listingImages.listingLogo.url,
                                 );
                               },
                               childCount: provider.list.length,

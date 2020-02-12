@@ -1,4 +1,5 @@
 import 'package:jom_malaysia/core/enums/category_type_enum.dart';
+import 'package:jom_malaysia/core/models/coordinates_model.dart';
 import 'package:jom_malaysia/core/models/image_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/description_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/viewmodels/category_path_model.dart';
@@ -37,6 +38,8 @@ class ListingModel {
   List<OperatingHours> operatingHours;
   CategoryPathModel category;
   CategoryType categoryType;
+
+  CoordinatesModel get getCoord => address.coordinates;
 
   factory ListingModel.fromJson(Map<String, dynamic> json) =>
       _$ListingModelFromJson(json);

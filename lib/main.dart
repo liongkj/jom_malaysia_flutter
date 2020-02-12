@@ -4,9 +4,9 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:jom_malaysia/screens/tabs/explore/models/featured_place.dart';
+import 'package:jom_malaysia/core/services/gateway/http_service.dart';
+import 'package:jom_malaysia/screens/tabs/overview/providers/listing_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/location_provider.dart';
-import 'package:jom_malaysia/screens/tabs/overview/providers/place_detail_provider.dart';
 import 'package:jom_malaysia/setting/provider/language_provider.dart';
 import 'package:jom_malaysia/setting/provider/user_current_location_provider.dart';
 import 'package:oktoast/oktoast.dart';
@@ -14,7 +14,6 @@ import 'package:provider/provider.dart';
 
 import 'generated/l10n.dart';
 import 'setting/layout/splash_page.dart';
-import 'setting/provider/base_list_provider.dart';
 import 'setting/provider/theme_provider.dart';
 import 'setting/routers/application.dart';
 import 'setting/routers/routers.dart';
@@ -31,8 +30,10 @@ void main() {
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
   if (Platform.isAndroid) {
-    SystemUiOverlayStyle systemUiOverlayStyle =
-        SystemUiOverlayStyle(statusBarColor: Colors.transparent);
+    SystemUiOverlayStyle systemUiOverlayStyle = SystemUiOverlayStyle(
+      statusBarColor: Color(0x80CACACA), //top bar color
+      statusBarIconBrightness: Brightness.light, //top bar icons
+    );
     SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
   }
 }
@@ -55,17 +56,26 @@ class MyApp extends StatelessWidget {
       position: ToastPosition.bottom,
       child: MultiProvider(
         providers: [
+          InheritedProvider(
+            create: (_) => HttpService(),
+          ),
           ChangeNotifierProvider<LanguageProvider>(
             create: (_) => LanguageProvider(),
           ),
           ChangeNotifierProvider<ThemeProvider>(
             create: (_) => ThemeProvider(),
           ),
-          ChangeNotifierProvider<PlaceDetailProvider>(
-            create: (_) => PlaceDetailProvider(),
-          ),
           ChangeNotifierProvider<LocationProvider>(
             create: (_) => LocationProvider(),
+          ),
+          ChangeNotifierProxyProvider<LocationProvider, ListingProvider>(
+            update: (ctx, location, listingProvider) =>
+                listingProvider..fetchAndInitPlaces(city: location.selected),
+            create: (BuildContext context) {
+              return ListingProvider(
+                  httpService:
+                      Provider.of<HttpService>(context, listen: false));
+            },
           ),
           ChangeNotifierProvider<UserCurrentLocationProvider>(
             create: (_) => UserCurrentLocationProvider(),
@@ -81,7 +91,7 @@ class MyApp extends StatelessWidget {
                       S.of(context).appTitle,
                   // title: 'Jom N9',
                   theme: provider.getTheme(),
-                  darkTheme: provider.getTheme(isDarkMode: true),
+                  // darkTheme: provider.getTheme(isDarkMode: true),
                   home: home ?? SplashPage(),
 
                   onGenerateRoute: Application.router.generator,
@@ -92,7 +102,7 @@ class MyApp extends StatelessWidget {
                   ],
                   supportedLocales: S.delegate.supportedLocales,
                   // showPerformanceOverlay: true, //显示性能标签
-                  // debugShowCheckedModeBanner: false,
+                  debugShowCheckedModeBanner: false,
                   //checkerboardRasterCacheImages: true,
                 );
               },

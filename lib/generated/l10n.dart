@@ -263,6 +263,114 @@ class S {
     );
   }
 
+  String get labelNone {
+    return Intl.message(
+      'None',
+      name: 'labelNone',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelNoDetail {
+    return Intl.message(
+      'No more details',
+      name: 'labelNoDetail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelNoNotification {
+    return Intl.message(
+      'No Notification',
+      name: 'labelNoNotification',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelSearchHint {
+    return Intl.message(
+      'Search for a name or keyword',
+      name: 'labelSearchHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelSearchHintNotEmpty {
+    return Intl.message(
+      'Keyword cannot be blank',
+      name: 'labelSearchHintNotEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get clickItemSettingAddAPlace {
+    return Intl.message(
+      'Recommend a place',
+      name: 'clickItemSettingAddAPlace',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get clickItemSettingFeedbackTitle {
+    return Intl.message(
+      'Feedback',
+      name: 'clickItemSettingFeedbackTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get clickItemSettingFeedbackDescription {
+    return Intl.message(
+      'Let us serve you better',
+      name: 'clickItemSettingFeedbackDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get clickItemSettingAboutTitle {
+    return Intl.message(
+      'About Us',
+      name: 'clickItemSettingAboutTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get clickItemSettingShareTitle {
+    return Intl.message(
+      'Tell a friend',
+      name: 'clickItemSettingShareTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get clickItemSettingRecommendPlaceTitle {
+    return Intl.message(
+      'Add a missing place',
+      name: 'clickItemSettingRecommendPlaceTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String cityPickerCurrentCity(dynamic selected) {
+    return Intl.message(
+      'Selected: $selected',
+      name: 'cityPickerCurrentCity',
+      desc: '',
+      args: [selected],
+    );
+  }
+
   String get overviewSection1Para1 {
     return Intl.message(
       'Negeri Sembilan is a Malaysian state on the Malay Peninsula\'s southwest coast, known for its beaches, nature parks and palaces. To the west, on the Malacca Strait, the area around Port Dickson has seaside resorts, the Wan Loong Chinese Temple and the Kota Lukut hilltop fort. South along the coast, in the neighboring state of Malacca, is Cape Rachado (Tanjung Tuan), a nature reserve with a lighthouse.',

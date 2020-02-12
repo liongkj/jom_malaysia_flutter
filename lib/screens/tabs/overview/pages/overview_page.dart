@@ -1,19 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:jom_malaysia/core/mvp/base_page_state.dart';
-import 'package:jom_malaysia/core/services/location/location_utils.dart';
-import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
-import 'package:jom_malaysia/screens/tabs/overview/presenter/overview_page_presenter.dart';
-import 'package:jom_malaysia/screens/tabs/overview/providers/location_provider.dart';
+import 'package:jom_malaysia/core/services/gateway/http_service.dart';
+import 'package:jom_malaysia/screens/tabs/overview/providers/ads_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/overview_page_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/ads_space.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/listing_type_tab.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/location_header.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/place_list.dart';
-import 'package:jom_malaysia/setting/provider/base_list_provider.dart';
 import 'package:jom_malaysia/setting/provider/language_provider.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
-import 'package:provider/provider.dart';
-import 'package:provider/provider.dart';
 import 'package:provider/provider.dart';
 
 class OverviewPage extends StatefulWidget {
@@ -21,8 +15,7 @@ class OverviewPage extends StatefulWidget {
   OverviewPageState createState() => OverviewPageState();
 }
 
-class OverviewPageState
-    extends BasePageState<OverviewPage, OverviewPagePresenter>
+class OverviewPageState extends State<OverviewPage>
     with
         AutomaticKeepAliveClientMixin<OverviewPage>,
         SingleTickerProviderStateMixin {
@@ -32,22 +25,15 @@ class OverviewPageState
   TabController _tabController;
   OverviewPageProvider provider = OverviewPageProvider();
   PageController _pageController = PageController(initialPage: 0);
-  BaseListProvider<ListingModel> listingProvider =
-      BaseListProvider<ListingModel>();
 
   TextEditingController searchController = TextEditingController();
   ScrollController _scrollController;
 
   _onPageChange(int index) async {
-    presenter.onPageChange(index);
+    // presenter.onPageChange(index, city);
     provider.setIndex(index);
 
     _tabController.animateTo(index);
-  }
-
-  @override
-  OverviewPagePresenter createPresenter() {
-    return OverviewPagePresenter();
   }
 
   @override
@@ -55,6 +41,13 @@ class OverviewPageState
     super.initState();
     _tabController = TabController(vsync: this, length: 5);
     _scrollController = ScrollController();
+
+    print("overviewpage init");
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
   }
 
   @override
@@ -71,67 +64,64 @@ class OverviewPageState
     super.build(context);
     isDark = ThemeUtils.isDark(context);
     return MultiProvider(
-      providers: [
-        ChangeNotifierProvider<OverviewPageProvider>(
-          create: (_) => provider,
-        ),
-        ChangeNotifierProvider<BaseListProvider<ListingModel>>(
-          create: (_) => listingProvider,
-        ),
-      ],
-      child: Scaffold(
-        body: Stack(
-          children: <Widget>[
-            SafeArea(
-              child: SizedBox(
-                height: 105,
-                width: double.infinity,
-                child: isDark
-                    ? null
-                    : const DecoratedBox(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: const [
-                              Color(0xFF5793FA),
-                              Color(0xFF4647FA)
-                            ],
+        providers: [
+          ChangeNotifierProvider<OverviewPageProvider>.value(
+            value: provider,
+          ),
+          ChangeNotifierProvider<AdsProvider>(
+            create: (_) => AdsProvider(
+              httpService: Provider.of<HttpService>(context, listen: false),
+            ),
+          ),
+        ],
+        child: Scaffold(
+          body: Stack(
+            children: <Widget>[
+              SafeArea(
+                child: SizedBox(
+                  height: 105,
+                  width: double.infinity,
+                  child: isDark
+                      ? null
+                      : const DecoratedBox(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: const [
+                                Color(0xFF5793FA),
+                                Color(0xFF4647FA)
+                              ],
+                            ),
                           ),
                         ),
-                      ),
+                ),
               ),
-            ),
-            NestedScrollView(
-              key: const Key('order_list'),
-              physics: ClampingScrollPhysics(),
-              controller: _scrollController ?? null,
-              headerSliverBuilder: (context, innerBoxIsScrolled) {
-                return _sliverBuilder(context);
-              },
-              body: PageView.builder(
-                key: const Key('pageView'),
-                itemCount: 5,
-                onPageChanged: _onPageChange,
-                controller: _pageController,
-                itemBuilder: (_, index) {
-                  presenter.refresh(index);
-                  print("outside" + index.toString());
-                  return SafeArea(
-                    top: false,
-                    bottom: false,
-                    child: PlaceList(
-                      controller: this._scrollController,
-                      index: index,
-                      // city: Provider.of<LocationProvider>(context).selected,
-                      presenter: presenter,
-                    ),
-                  );
+              NestedScrollView(
+                key: const Key('order_list'),
+                physics: ClampingScrollPhysics(),
+                controller: _scrollController ?? null,
+                headerSliverBuilder: (context, innerBoxIsScrolled) {
+                  return _sliverBuilder(context);
                 },
+                body: PageView.builder(
+                  key: const Key('pageView'),
+                  itemCount: 5,
+                  onPageChanged: _onPageChange,
+                  controller: _pageController,
+                  itemBuilder: (_, index) {
+                    return SafeArea(
+                      top: false,
+                      bottom: false,
+                      child: PlaceList(
+                        controller: this._scrollController,
+                        index: index,
+                      ),
+                    );
+                  },
+                ),
               ),
-            ),
-          ],
-        ),
-      ),
-    );
+            ],
+          ),
+        ));
   }
 
   List<Widget> _sliverBuilder(BuildContext context) {

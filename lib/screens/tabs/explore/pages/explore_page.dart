@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
-import 'package:jom_malaysia/screens/tabs/explore/models/featured_place.dart';
 import 'package:jom_malaysia/screens/tabs/explore/pages/overview_tab.dart';
 import 'package:jom_malaysia/screens/tabs/explore/pages/todo_tab.dart';
-import 'package:jom_malaysia/setting/provider/base_list_provider.dart';
 import 'package:jom_malaysia/util/image_utils.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
-import 'package:provider/provider.dart';
 
 class ExplorePage extends StatefulWidget {
   ExplorePage({Key key}) : super(key: key);
@@ -21,21 +18,13 @@ class ExplorePageState extends State<ExplorePage>
         AutomaticKeepAliveClientMixin<ExplorePage> {
   TabController _tabController;
 
-  int _currentIndex = 0;
-
   @override
   bool get wantKeepAlive => true;
 
   @override
   void initState() {
     super.initState();
-    _tabController = new TabController(vsync: this, length: 2)
-      ..addListener(
-        () => setState(() {
-          _currentIndex = _tabController.index;
-        }),
-      );
-
+    _tabController = new TabController(vsync: this, length: 2);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _preCacheImage();
     });
@@ -64,7 +53,6 @@ class ExplorePageState extends State<ExplorePage>
       Choice(title: S.of(context).tabTitleExploreTodo, icon: Icons.done),
       // const Choice(title: 'TRANSPORT', icon: Icons.directions),
     ];
-
     return Scaffold(
       body: NestedScrollView(
         headerSliverBuilder: (_, __) {
@@ -73,8 +61,7 @@ class ExplorePageState extends State<ExplorePage>
               backgroundColor: Colors.redAccent,
               expandedHeight: 200.0,
               floating: false,
-              // title: Text(S.of(context).appBarTitleExplore),
-              title: Text(choices[_currentIndex].title),
+              title: Text(S.of(context).appBarTitleExplore),
               pinned: false,
               bottom: TabBar(
                 indicatorColor: Colors.white,

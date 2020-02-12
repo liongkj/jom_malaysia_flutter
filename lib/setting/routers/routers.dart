@@ -1,11 +1,11 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/screens/login/login_router.dart';
-import 'package:jom_malaysia/screens/tabs/account/setting_router.dart';
+import 'package:jom_malaysia/screens/tabs/account/account_router.dart';
 import 'package:jom_malaysia/screens/tabs/explore/explore_router.dart';
 import 'package:jom_malaysia/screens/tabs/overview/overview_router.dart';
 import 'package:jom_malaysia/setting/layout/home_page.dart';
-import 'package:jom_malaysia/setting/layout/webview_page.dart';
+import 'package:jom_malaysia/setting/layout/webview_native_page.dart';
 import './404.dart';
 import 'router_init.dart';
 
@@ -32,7 +32,7 @@ class Routes {
     router.define(webViewPage, handler: Handler(handlerFunc: (_, params) {
       String title = params['title']?.first;
       String url = params['url']?.first;
-      return WebViewPage(title: title, url: url);
+      return WebviewNativePage(title: title, url: url);
     }));
 
     _listRouter.clear();

@@ -2,7 +2,6 @@ import 'package:flustars/flustars.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:jom_malaysia/core/constants/common.dart';
 import 'package:jom_malaysia/core/constants/langauge.dart';
-import 'package:jom_malaysia/generated/l10n.dart';
 
 class LanguageProvider extends ChangeNotifier {
   static const Map<Language, String> languages = {

@@ -1,29 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:jom_malaysia/core/models/image_model.dart';
-import 'package:jom_malaysia/core/mvp/base_page_state.dart';
 import 'package:jom_malaysia/core/res/colors.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/description_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/operating_hours_model.dart';
-import 'package:jom_malaysia/screens/tabs/overview/presenter/place_detail_page_presenter.dart';
-import 'package:jom_malaysia/screens/tabs/overview/providers/place_detail_provider.dart';
+import 'package:jom_malaysia/screens/tabs/overview/providers/listing_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/merchant_info.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/operating_hours_dialog.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/place_info.dart';
-import 'package:jom_malaysia/setting/provider/base_list_provider.dart';
 import 'package:jom_malaysia/setting/provider/language_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
-import 'package:jom_malaysia/util/image_utils.dart';
 import 'package:jom_malaysia/util/utils.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
 import 'package:jom_malaysia/widgets/my_card.dart';
 import 'package:jom_malaysia/widgets/my_section_divider.dart';
 import 'package:jom_malaysia/widgets/sliver_appbar_delegate.dart';
-import 'package:jom_malaysia/widgets/state_layout.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../util/theme_utils.dart';
@@ -38,8 +34,7 @@ class PlaceDetailPage extends StatefulWidget {
 
 const kExpandedHeight = 250.0;
 
-class PlaceDetailPageState
-    extends BasePageState<PlaceDetailPage, PlaceDetailPagePresenter> {
+class PlaceDetailPageState extends State<PlaceDetailPage> {
   bool isDark = false;
 
   ScrollController _scrollController;
@@ -52,16 +47,6 @@ class PlaceDetailPageState
     _scrollController = ScrollController()..addListener(() => setState(() {}));
   }
 
-  @override
-  PlaceDetailPagePresenter createPresenter() {
-    return PlaceDetailPagePresenter();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
   bool get _showTitle {
     return _scrollController.hasClients &&
         _scrollController.offset > kExpandedHeight - kToolbarHeight;
@@ -70,11 +55,12 @@ class PlaceDetailPageState
   @override
   Widget build(BuildContext context) {
     isDark = ThemeUtils.isDark(context);
-    final place =
-        Provider.of<PlaceDetailProvider>(context, listen: false).place;
+    final place = Provider.of<ListingProvider>(context, listen: false)
+        .findById(widget.placeId);
 
     return Scaffold(
       body: SafeArea(
+        top: false,
         child: CustomScrollView(
           controller: _scrollController,
           key: const Key('place_detail'),
@@ -121,7 +107,6 @@ class PlaceDetailPageState
       SliverToBoxAdapter(
         child: Gaps.vGap16,
       ),
-      // if (place.listingImages.ads != null && place.listingImages.ads.length > 0)
       _PlaceImage(
         images: place.listingImages.ads,
       ),
@@ -139,20 +124,13 @@ class _PlaceImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _dummyImage = [
-      "ads/listing-ad1",
-      "ads/listing-ad2",
-      "ads/listing-ad3"
-    ];
     return SliverList(
       delegate: SliverChildBuilderDelegate(
         (BuildContext context, int index) {
-          // return LoadImage(images[index].url);
-          return new Image.network(
+          return LoadImage(
             images[index].url,
             fit: BoxFit.fill,
           );
-          // return LoadAssetImage(_dummyImage[index], format: 'jpg');
         },
         childCount: images.length,
       ),
@@ -201,7 +179,7 @@ class _AppBarWithSwiper extends StatelessWidget {
               titlePadding:
                   const EdgeInsetsDirectional.only(start: 16.0, bottom: 14.0),
               collapseMode: CollapseMode.pin,
-              background: _CoverPhotos(),
+              background: _CoverPhotos(place),
               centerTitle: true,
             ),
       actions: <Widget>[
@@ -340,41 +318,40 @@ class _OperatingHour extends StatelessWidget {
 }
 
 class _CoverPhotos extends StatelessWidget {
+  _CoverPhotos(this.place);
+  final ListingModel place;
   @override
   Widget build(BuildContext context) {
-    return Consumer<PlaceDetailProvider>(builder: (_, provider, child) {
-      List<String> swiper = provider.place.listingImages.getCarousel;
-      return Swiper(
-        itemBuilder: (BuildContext context, int index) {
-          return Stack(
-            fit: StackFit.expand,
-            alignment: AlignmentDirectional.center,
-            children: <Widget>[
-              LoadImage(
-                provider.stateType == StateType.loading
-                    ? (swiper[index])
-                    : "none",
-                fit: BoxFit.fill,
-              ),
-              Positioned(
-                bottom: 10,
-                right: 10,
-                child: FlatButton.icon(
-                  color: Colors.white,
-                  onPressed: null,
-                  icon: Icon(Icons.photo_camera, color: Colors.white),
-                  label: Text(
-                    (index + 1).toString() + "/" + swiper.length.toString(),
-                    style: TextStyle(color: Colors.white),
-                  ),
+    List<String> swiper = place.listingImages.getCarousel;
+
+    return Swiper(
+      itemBuilder: (BuildContext context, int index) {
+        return Stack(
+          fit: StackFit.expand,
+          alignment: AlignmentDirectional.center,
+          children: <Widget>[
+            LoadImage(
+              swiper[index] ?? "none",
+              fit: BoxFit.fill,
+            ),
+            Positioned(
+              bottom: 10,
+              right: 10,
+              child: FlatButton.icon(
+                color: Colors.white,
+                onPressed: null,
+                icon: Icon(Icons.photo_camera, color: Colors.white),
+                label: Text(
+                  (index + 1).toString() + "/" + swiper.length.toString(),
+                  style: TextStyle(color: Colors.white),
                 ),
-              )
-            ],
-          );
-        },
-        itemCount: swiper.length,
-        loop: false,
-      );
-    });
+              ),
+            )
+          ],
+        );
+      },
+      itemCount: swiper.length,
+      loop: false,
+    );
   }
 }

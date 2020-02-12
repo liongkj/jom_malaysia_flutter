@@ -8,10 +8,12 @@ class AttractionCard extends StatelessWidget {
     @required this.name,
     @required this.description,
     @required this.image,
+    @required this.onTap,
   });
   final String name;
   final String image;
   final String description;
+  final Function() onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +28,7 @@ class AttractionCard extends StatelessWidget {
             8.0,
           ),
           child: InkWell(
-            onTap: () {},
+            onTap: onTap,
             child: Container(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
