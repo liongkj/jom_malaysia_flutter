@@ -10,6 +10,7 @@ import 'package:jom_malaysia/screens/tabs/overview/models/description_model.dart
 import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/operating_hours_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/listing_provider.dart';
+import 'package:jom_malaysia/screens/tabs/overview/widgets/comment_section.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/merchant_info.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/operating_hours_dialog.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/place_info.dart';
@@ -111,6 +112,7 @@ class PlaceDetailPageState extends State<PlaceDetailPage> {
         images: place.listingImages.ads,
       ),
       MerchantInfo(merchant: place.merchant),
+      CommentSection(place.listingId),
     ];
   }
 }

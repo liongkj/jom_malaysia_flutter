@@ -8,9 +8,10 @@ class SimpleLogPrinter extends LogPrinter {
   final String className;
   SimpleLogPrinter(this.className);
 
-  void log(LogEvent event) async {
+  @override
+  List<String> log(LogEvent event) {
     var color = PrettyPrinter.levelColors[event.level];
     var emoji = PrettyPrinter.levelEmojis[event.level];
-    println(color('$emoji $className - ${event.message}'));
+    return [color.toString() + "" + emoji];
   }
 }

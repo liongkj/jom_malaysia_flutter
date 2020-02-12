@@ -4,7 +4,9 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:jom_malaysia/core/services/gateway/firebase_api.dart';
 import 'package:jom_malaysia/core/services/gateway/http_service.dart';
+import 'package:jom_malaysia/screens/tabs/overview/providers/comments_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/listing_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/location_provider.dart';
 import 'package:jom_malaysia/setting/provider/language_provider.dart';
@@ -58,6 +60,13 @@ class MyApp extends StatelessWidget {
         providers: [
           InheritedProvider(
             create: (_) => HttpService(),
+          ),
+          InheritedProvider(
+            create: (_) => FirebaseApi('comments'),
+          ),
+          ChangeNotifierProvider<CommentsProvider>(
+            create: (_) => CommentsProvider(
+                Provider.of<FirebaseApi>(context, listen: false)),
           ),
           ChangeNotifierProvider<LanguageProvider>(
             create: (_) => LanguageProvider(),
