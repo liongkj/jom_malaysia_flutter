@@ -60,7 +60,6 @@ class PlaceDetailPageState extends State<PlaceDetailPage>
     isDark = ThemeUtils.isDark(context);
     final place = Provider.of<ListingProvider>(context, listen: false)
         .findById(widget.placeId);
-    print("place detail rebuild");
     return Scaffold(
       body: SafeArea(
         top: false,

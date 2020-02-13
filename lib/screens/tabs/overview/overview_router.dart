@@ -1,4 +1,5 @@
 import 'package:fluro/fluro.dart';
+import 'package:jom_malaysia/screens/tabs/overview/pages/new_review_page.dart';
 import 'package:jom_malaysia/screens/tabs/overview/pages/place_detail_page.dart';
 import 'package:jom_malaysia/screens/tabs/overview/pages/place_search_page.dart';
 import 'package:jom_malaysia/setting/routers/router_init.dart';
@@ -9,6 +10,7 @@ class OverviewRouter implements IRouterProvider {
   static String overviewPage = "/overview";
   static String placeDetailPage = "/overview/detail";
   static String placeSearchPage = "/overview/search";
+  static String reviewPage = "/overview/place/review";
 
   @override
   void initRouter(Router router) {
@@ -18,6 +20,11 @@ class OverviewRouter implements IRouterProvider {
         handler: Handler(handlerFunc: (_, params) {
       var placeId = params["id"]?.first;
       return PlaceDetailPage(placeId: placeId);
+    }));
+    router.define(reviewPage, handler: Handler(handlerFunc: (_, params) {
+      var placeId = params["id"]?.first;
+      var userId = params["userId"]?.first;
+      return NewReviewPage(placeId: placeId, userId: userId);
     }));
     router.define(placeSearchPage,
         handler: Handler(handlerFunc: (_, params) => PlaceSearchPage()));

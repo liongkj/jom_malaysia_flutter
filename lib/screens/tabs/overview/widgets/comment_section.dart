@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/comments/comment_model.dart';
+import 'package:jom_malaysia/screens/tabs/overview/overview_router.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/comments_provider.dart';
+import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
 import 'package:jom_malaysia/widgets/my_button.dart';
 import 'package:jom_malaysia/widgets/my_card.dart';
@@ -86,7 +88,8 @@ class _CommentSectionState extends State<CommentSection> {
                                     icon: Icon(Icons.rate_review),
                                     text: "Submit first review",
                                     onPressed: () {
-                                      showToast("go to add comment page");
+                                      NavigatorUtils.push(context,
+                                          '${OverviewRouter.reviewPage}?id=${widget.listingId}&userId=${"123"}');
                                     },
                                   ),
                               ]);
