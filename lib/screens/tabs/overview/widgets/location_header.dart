@@ -105,7 +105,7 @@ class _LocationHeaderState extends State<LocationHeader> {
         actions: <Widget>[
           // SearchBarButton(
           IconButton(
-            icon: LoadAssetImage(
+            icon: LoadImage(
               "overview/icon_search",
               width: 24,
             ),
@@ -139,7 +139,7 @@ class _LocationHeaderState extends State<LocationHeader> {
                   height: 113.0,
                   color: Colours.dark_bg_color,
                 )
-              : const LoadAssetImage(
+              : const LoadImage(
                   "overview/overview_bg",
                   width: double.infinity,
                   height: 113.0,

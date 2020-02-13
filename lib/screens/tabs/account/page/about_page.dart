@@ -70,7 +70,7 @@ class Jomn9Logo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: size,
-      child: LoadAssetImage('../icons/JomN9'),
+      child: LoadImage('../icons/JomN9'),
     );
   }
 }

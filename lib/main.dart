@@ -61,7 +61,6 @@ class MyApp extends StatelessWidget {
                   locale: lang.locale,
                   onGenerateTitle: (BuildContext context) =>
                       S.of(context).appTitle,
-                  // title: 'Jom N9',
                   theme: provider.getTheme(),
                   // darkTheme: provider.getTheme(isDarkMode: true),
                   home: home ?? SplashPage(),

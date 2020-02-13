@@ -38,7 +38,7 @@ class OverviewTab extends StatelessWidget {
               style: Theme.of(context).textTheme.body1,
             ),
             Gaps.vGap16,
-            LoadAssetImage(
+            LoadImage(
               "explore/minangkabau",
               format: "webp",
             ),
@@ -63,7 +63,7 @@ class OverviewTab extends StatelessWidget {
               style: Theme.of(context).textTheme.body1,
             ),
             Gaps.vGap16,
-            LoadAssetImage(
+            LoadImage(
               "explore/nsmap",
               format: "jpg",
             ),

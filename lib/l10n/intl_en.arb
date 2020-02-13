@@ -9,7 +9,7 @@
   "appBarTitleSetting": "Setting",
   "appBarTitleSettingLanguage": "Language",
   "placeDetailInfoLabel": "Detail",
-  "placeDetailCommentLabel": "Comment",
+  "placeDetailCommentLabel": "Comment ({commentCount})",
   "placeDetailMerchantInfoLabel": "Merchant Info",
   "placeDetailMerchantRegistrationNameLabel": "Registration Name",
   "placeDetailMerchantSSMLabel": "SSM ID",
