@@ -12,6 +12,6 @@ class SimpleLogPrinter extends LogPrinter {
   List<String> log(LogEvent event) {
     var color = PrettyPrinter.levelColors[event.level];
     var emoji = PrettyPrinter.levelEmojis[event.level];
-    return [color.toString() + "" + emoji];
+    return [color.toString() + "" + event.message.toString()];
   }
 }

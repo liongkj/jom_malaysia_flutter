@@ -78,8 +78,8 @@ class MyApp extends StatelessWidget {
             create: (_) => LocationProvider(),
           ),
           ChangeNotifierProxyProvider<LocationProvider, ListingProvider>(
-            update: (ctx, location, listingProvider) =>
-                listingProvider..fetchAndInitPlaces(city: location.selected),
+            update: (ctx, location, listingProvider) => listingProvider
+              ..fetchAndInitPlaces(city: location.selected, refresh: true),
             create: (BuildContext context) {
               return ListingProvider(
                   httpService:
