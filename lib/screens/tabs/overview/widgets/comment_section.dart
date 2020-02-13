@@ -85,7 +85,9 @@ class _CommentSectionState extends State<CommentSection> {
                                   MyButton(
                                     icon: Icon(Icons.rate_review),
                                     text: "Submit first review",
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      showToast("go to add comment page");
+                                    },
                                   ),
                               ]);
                             } else {
@@ -107,7 +109,6 @@ class _BuildCommentCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 500,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -119,45 +120,59 @@ class _BuildCommentCard extends StatelessWidget {
             ),
           ),
           Gaps.hGap16,
-          Container(
-            color: Colors.red,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text(comment.title),
-                    Text("Rating *****"),
-                  ],
-                ),
-                Text(comment.publishedTime ?? "2019/2/21"),
-                Text("Rating *****"),
-                Text(comment.commentText),
-                Row(children: [
-                  LoadImage(
-                    "",
-                    height: 80,
+          Expanded(
+            child: Container(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Expanded(child: Text("liongkj")),
+                      Text("Rating *****"),
+                    ],
                   ),
-                  Gaps.hGap4,
-                  LoadImage(
-                    "",
-                    height: 80,
-                  ),
-                  Gaps.hGap4,
-                  LoadImage(
-                    "",
-                    height: 80,
-                  )
-                ]),
-                Gaps.vGap12,
-                Gaps.line,
-                Gaps.vGap12,
-              ],
+                  Gaps.vGap12,
+                  Text(comment.title),
+                  Text(comment.publishedTime ?? "2019/2/21"),
+                  Text(comment.commentText),
+                  Gaps.vGap12,
+                  _BuildImageThumbnail(),
+                ],
+              ),
             ),
-          )
+          ),
+          Gaps.vGap12,
+          Gaps.line,
+          Gaps.vGap12,
         ],
       ),
     );
+  }
+}
+
+class _BuildImageThumbnail extends StatelessWidget {
+  const _BuildImageThumbnail({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(children: [
+      LoadImage(
+        "",
+        height: 80,
+      ),
+      Gaps.hGap4,
+      LoadImage(
+        "",
+        height: 80,
+      ),
+      Gaps.hGap4,
+      LoadImage(
+        "",
+        height: 80,
+      )
+    ]);
   }
 }
