@@ -35,7 +35,8 @@ class PlaceDetailPage extends StatefulWidget {
 
 const kExpandedHeight = 250.0;
 
-class PlaceDetailPageState extends State<PlaceDetailPage> {
+class PlaceDetailPageState extends State<PlaceDetailPage>
+    with AutomaticKeepAliveClientMixin {
   bool isDark = false;
 
   ScrollController _scrollController;
@@ -45,7 +46,7 @@ class PlaceDetailPageState extends State<PlaceDetailPage> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {});
 
-    _scrollController = ScrollController()..addListener(() => setState(() {}));
+    _scrollController = ScrollController()..addListener(() {});
   }
 
   bool get _showTitle {
@@ -55,10 +56,11 @@ class PlaceDetailPageState extends State<PlaceDetailPage> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     isDark = ThemeUtils.isDark(context);
     final place = Provider.of<ListingProvider>(context, listen: false)
         .findById(widget.placeId);
-
+    print("place detail rebuild");
     return Scaffold(
       body: SafeArea(
         top: false,
@@ -111,10 +113,13 @@ class PlaceDetailPageState extends State<PlaceDetailPage> {
       _PlaceImage(
         images: place.listingImages.ads,
       ),
-      MerchantInfo(merchant: place.merchant),
       CommentSection(place.listingId),
+      MerchantInfo(merchant: place.merchant),
     ];
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
 class _PlaceImage extends StatelessWidget {
@@ -126,6 +131,7 @@ class _PlaceImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("image widget rebuild");
     return SliverList(
       delegate: SliverChildBuilderDelegate(
         (BuildContext context, int index) {

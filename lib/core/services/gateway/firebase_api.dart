@@ -1,20 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class FirebaseApi {
+class FirebaseService {
   final Firestore _db = Firestore.instance;
-  final String path;
+  String path;
   CollectionReference ref;
 
-  FirebaseApi(this.path) {
-    ref = _db.collection(path);
+  FirebaseService() {
+    ref = _db.collection("places");
+    print("created");
   }
 
   Future<QuerySnapshot> getDataCollection() {
     return ref.getDocuments();
   }
 
-  Stream<QuerySnapshot> streamDataCollection() {
-    return ref.snapshots();
+  Stream<QuerySnapshot> streamDataCollection(
+      String collectionName, String listingId) {
+    return ref.document(listingId).collection(collectionName).snapshots();
   }
 
   Future<DocumentSnapshot> getDocumentById(String id) {

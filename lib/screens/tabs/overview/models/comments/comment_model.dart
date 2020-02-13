@@ -1,28 +1,37 @@
-import 'package:json_annotation/json_annotation.dart';
-
 class CommentModel {
-  CommentModel(this.userId, this.comment, this.rating, this.publishedTime,
-      this.username);
+  CommentModel(
+      {this.id,
+      this.userId,
+      this.commentText,
+      this.rating,
+      this.publishedTime,
+      this.username,
+      this.title});
+  String id;
   String userId;
   DateTime publishedTime;
-  String comment;
+  String commentText;
+  String title;
   double rating;
   String username;
 
   CommentModel.fromMap(Map snapshot, String id)
-      : userId = id ?? '',
-        comment = snapshot['comment'] ?? '',
+      : id = id ?? '',
+        title = snapshot['title'] ?? '',
+        userId = snapshot['userId'] ?? '',
+        commentText = snapshot['commentText'] ?? '',
         username = snapshot['username'] ?? '',
-        publishedTime = snapshot['publishedTime'] ?? '',
-        rating = snapshot['rating'] ?? '';
+        publishedTime = snapshot['publishedTime'] ?? null,
+        rating = snapshot['rating'] ?? 0.0;
 
   toJson() {
     return {
       "userId": userId,
-      "comment": comment,
+      "commentText": commentText,
       "publishedTime": publishedTime,
       "username": username,
       "rating": rating,
+      "title": title,
     };
   }
 }

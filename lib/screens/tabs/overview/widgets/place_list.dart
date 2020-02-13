@@ -28,8 +28,6 @@ class _PlaceListState extends State<PlaceList>
   int _page = 1;
   final int _maxPage = 3;
   int _index = 0;
-  bool _isInit = true;
-  StateType _stateType = StateType.places;
   String _selectedCity;
 
   @override

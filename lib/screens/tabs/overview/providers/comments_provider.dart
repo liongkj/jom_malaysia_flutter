@@ -4,39 +4,40 @@ import 'package:jom_malaysia/core/services/gateway/firebase_api.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/comments/comment_model.dart';
 
 class CommentsProvider extends ChangeNotifier {
-  FirebaseApi _api;
-  CommentsProvider(FirebaseApi apiService) : _api = apiService;
+  FirebaseService _api;
+  CommentsProvider({@required FirebaseService firebaseService})
+      : _api = firebaseService;
 
-  List<CommentModel> products;
+  List<CommentModel> comments;
 
-  Future<List<CommentModel>> fetchProducts() async {
+  Future<List<CommentModel>> fetchcomments() async {
     var result = await _api.getDataCollection();
-    products = result.documents
+    comments = result.documents
         .map((doc) => CommentModel.fromMap(doc.data, doc.documentID))
         .toList();
-    return products;
+    return comments;
   }
 
-  Stream<QuerySnapshot> fetchProductsAsStream() {
-    return _api.streamDataCollection();
+  Stream<QuerySnapshot> fetchCommentsAsStream(String listingId) {
+    return _api.streamDataCollection("comments", listingId);
   }
 
-  Future<CommentModel> getProductById(String id) async {
+  Future<CommentModel> getCommentsById(String id) async {
     var doc = await _api.getDocumentById(id);
     return CommentModel.fromMap(doc.data, doc.documentID);
   }
 
-  Future removeProduct(String id) async {
+  Future removeComments(String id) async {
     await _api.removeDocument(id);
     return;
   }
 
-  Future updateProduct(CommentModel data, String id) async {
+  Future updateComments(CommentModel data, String id) async {
     await _api.updateDocument(data.toJson(), id);
     return;
   }
 
-  Future addProduct(CommentModel data) async {
+  Future addComments(CommentModel data) async {
     var result = await _api.addDocument(data.toJson());
 
     return;
