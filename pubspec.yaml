@@ -69,6 +69,7 @@ dependencies:
   lpinyin: ^1.0.9
   dio_http_cache: ^0.2.5
   share: ^0.6.3+5
+  google_fonts: ^0.3.8
   # 图片选择插件 https://github.com/flutter/plugins/tree/master/packages/image_picker
   # image_picker: 0.6.2+1
   # # 侧滑删除 https://github.com/letsar/flutter_slidable

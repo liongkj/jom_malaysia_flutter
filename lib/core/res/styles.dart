@@ -5,6 +5,7 @@ import 'colors.dart';
 import 'dimens.dart';
 
 class TextStyles {
+  
   static const TextStyle textSize12 = const TextStyle(
     fontSize: Dimens.font_sp12,
   );

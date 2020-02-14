@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:jom_malaysia/core/constants/common.dart';
 import 'package:jom_malaysia/core/constants/themes.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
@@ -39,6 +40,9 @@ class ThemeProvider with ChangeNotifier {
     }
 
     return ThemeData(
+      //TODO change here chee chuen
+      // style in lib\core\res\styles.dart
+      fontFamily: GoogleFonts.roboto().fontFamily,
       errorColor: isDarkMode ? Colours.dark_red : Colours.red,
       brightness: isDarkMode ? Brightness.dark : Brightness.light,
       primaryColor: isDarkMode ? Colours.dark_app_main : Colours.app_main,
@@ -53,6 +57,7 @@ class ThemeProvider with ChangeNotifier {
       // 文字选择色（输入框复制粘贴菜单）
       textSelectionColor: Colours.app_main.withAlpha(70),
       textSelectionHandleColor: Colours.app_main,
+
       textTheme: TextTheme(
         // TextField输入文字颜色
         subhead: isDarkMode ? TextStyles.textDark : TextStyles.text,
