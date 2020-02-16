@@ -57,6 +57,11 @@ class ThemeProvider with ChangeNotifier {
       // 文字选择色（输入框复制粘贴菜单）
       textSelectionColor: Colours.app_main.withAlpha(70),
       textSelectionHandleColor: Colours.app_main,
+      iconTheme: new IconThemeData(
+          color: Colours.app_main,
+          opacity: 0.5,
+          size: Dimens.icon_sp50
+      ),
 
       textTheme: TextTheme(
         // TextField输入文字颜色

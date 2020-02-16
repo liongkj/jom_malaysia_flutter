@@ -129,10 +129,7 @@ class _TabViewTab extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Icon(icon,
-                  size: 24.0,
-                  color: index == selectIndex
-                      ? Theme.of(context).indicatorColor
-                      : Colors.black),
+                  color: Colours.app_secondary,),
               Gaps.vGap4,
               Text(
                 text,
