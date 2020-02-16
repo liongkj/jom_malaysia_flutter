@@ -34,22 +34,7 @@ class _PlaceListState extends State<PlaceList>
   void initState() {
     super.initState();
     _index = widget.index;
-    print("place init");
   }
-
-  // @override
-  // void didChangeDependencies() {
-  //   WidgetsBinding.instance.addPostFrameCallback((_) {
-  //     final location = Provider.of<LocationProvider>(context, listen: false);
-  //     if (_isInit || location.rebuildHome) {
-  //       Provider.of<ListingProvider>(context, listen: false).fetchAndInitPlaces(
-  //           city: location.selected, refresh: location.rebuildHome);
-  //     }
-  //     Provider.of<LocationProvider>(context, listen: false).rebuildHome = false;
-  //     _isInit = false;
-  //   });
-  //   super.didChangeDependencies();
-  // }
 
   @override
   Widget build(BuildContext context) {

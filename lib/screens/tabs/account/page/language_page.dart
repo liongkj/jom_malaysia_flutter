@@ -20,7 +20,7 @@ class _LanguagePageState extends State<LanguagePage> {
       "Bahasa Malaysia",
       "中文"
     ];
-    String lang = langProvider.locale.languageCode;
+    String lang = langProvider.locale?.languageCode;
     String preferredLang;
     switch (lang) {
       case "ms":

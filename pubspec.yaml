@@ -24,7 +24,7 @@ dependencies:
 
   cupertino_icons: ^0.1.3
   # 状态管理 https://github.com/rrousselGit/provider
-  provider: ^4.0.3
+  provider: ^4.0.4
 
   # 网络库 https://github.com/flutterchina/dio
   dio: ^3.0.7

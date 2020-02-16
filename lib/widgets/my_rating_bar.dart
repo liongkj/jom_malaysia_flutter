@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
-class Rating extends StatelessWidget {
-  const Rating({
+class MyRatingBar extends StatelessWidget {
+  const MyRatingBar({
     @required this.rating,
     Key key,
   }) : super(key: key);

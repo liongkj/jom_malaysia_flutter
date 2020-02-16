@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
@@ -14,8 +13,9 @@ import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 
 class CommentSection extends StatefulWidget {
-  CommentSection(this.listingId);
+  CommentSection({@required this.listingId, @required this.listingName});
   final String listingId;
+  final String listingName;
 
   @override
   _CommentSectionState createState() => _CommentSectionState();
@@ -89,7 +89,7 @@ class _CommentSectionState extends State<CommentSection> {
                                     text: "Submit first review",
                                     onPressed: () {
                                       NavigatorUtils.push(context,
-                                          '${OverviewRouter.reviewPage}?id=${widget.listingId}&userId=${"123"}');
+                                          '${OverviewRouter.reviewPage}?title=${widget.listingName}?id=${widget.listingId}&userId=${"123"}');
                                     },
                                   ),
                               ]);
@@ -138,7 +138,10 @@ class _BuildCommentCard extends StatelessWidget {
                   Gaps.vGap12,
                   Text(comment.title),
                   Text(comment.publishedTime ?? "2019/2/21"),
-                  Text(comment.commentText),
+                  Text(
+                    comment.commentText,
+                    maxLines: 3,
+                  ),
                   Gaps.vGap12,
                   _BuildImageThumbnail(),
                 ],

@@ -40,18 +40,17 @@ class PlaceDetailPageState extends State<PlaceDetailPage>
   bool isDark = false;
 
   ScrollController _scrollController;
-
+  bool _showTitle = false;
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {});
 
-    _scrollController = ScrollController()..addListener(() {});
-  }
-
-  bool get _showTitle {
-    return _scrollController.hasClients &&
-        _scrollController.offset > kExpandedHeight - kToolbarHeight;
+    _scrollController = ScrollController()
+      ..addListener(() {
+        _showTitle = (_scrollController.hasClients &&
+            _scrollController.offset > kExpandedHeight - kToolbarHeight);
+      });
   }
 
   @override
@@ -112,7 +111,10 @@ class PlaceDetailPageState extends State<PlaceDetailPage>
       _PlaceImage(
         images: place.listingImages.ads,
       ),
-      CommentSection(place.listingId),
+      CommentSection(
+        listingName: place.listingName,
+        listingId: place.listingId,
+      ),
       MerchantInfo(merchant: place.merchant),
     ];
   }
@@ -130,7 +132,6 @@ class _PlaceImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("image widget rebuild");
     return SliverList(
       delegate: SliverChildBuilderDelegate(
         (BuildContext context, int index) {

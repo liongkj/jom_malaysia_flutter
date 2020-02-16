@@ -24,7 +24,12 @@ class OverviewRouter implements IRouterProvider {
     router.define(reviewPage, handler: Handler(handlerFunc: (_, params) {
       var placeId = params["id"]?.first;
       var userId = params["userId"]?.first;
-      return NewReviewPage(placeId: placeId, userId: userId);
+      var title = params["title"]?.first;
+      return NewReviewPage(
+        placeId: placeId,
+        userId: userId,
+        placeName: title,
+      );
     }));
     router.define(placeSearchPage,
         handler: Handler(handlerFunc: (_, params) => PlaceSearchPage()));

@@ -10,18 +10,18 @@ import 'intl/messages_all.dart';
 
 class S {
   S(this.localeName);
-
-  static const AppLocalizationDelegate delegate = AppLocalizationDelegate();
+  
+  static const AppLocalizationDelegate delegate =
+    AppLocalizationDelegate();
 
   static Future<S> load(Locale locale) {
-    final String name =
-        locale.countryCode.isEmpty ? locale.languageCode : locale.toString();
+    final String name = locale.countryCode.isEmpty ? locale.languageCode : locale.toString();
     final String localeName = Intl.canonicalizedLocale(name);
     return initializeMessages(localeName).then((_) {
       Intl.defaultLocale = localeName;
       return S(localeName);
     });
-  }
+  } 
 
   static S of(BuildContext context) {
     return Localizations.of<S>(context, S);
@@ -317,6 +317,51 @@ class S {
     );
   }
 
+  String get labelRatingStatus1 {
+    return Intl.message(
+      'Labbish',
+      name: 'labelRatingStatus1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelRatingStatus2 {
+    return Intl.message(
+      'Better don\'t come',
+      name: 'labelRatingStatus2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelRatingStatus3 {
+    return Intl.message(
+      'Ok Ok la',
+      name: 'labelRatingStatus3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelRatingStatus4 {
+    return Intl.message(
+      'Not bad la',
+      name: 'labelRatingStatus4',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelRatingStatus5 {
+    return Intl.message(
+      'Sui!',
+      name: 'labelRatingStatus5',
+      desc: '',
+      args: [],
+    );
+  }
+
   String get clickItemSettingAddAPlace {
     return Intl.message(
       'Recommend a place',
@@ -476,9 +521,7 @@ class AppLocalizationDelegate extends LocalizationsDelegate<S> {
 
   List<Locale> get supportedLocales {
     return const <Locale>[
-      Locale('en', ''),
-      Locale('ms', ''),
-      Locale('zh', ''),
+      Locale('en', ''), Locale('zh', ''), Locale('ms', ''),
     ];
   }
 
