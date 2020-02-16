@@ -52,7 +52,6 @@ dependencies:
   webview_flutter: ^0.3.19+7
   #community-based, can upload file
   flutter_webview_plugin: ^0.3.10+1
-  # For future implementation
   flutter_cupertino_localizations: ^1.0.1
   # 格式化String https://github.com/Naddiseo/dart-sprintf
   flutter_spinkit: "^4.1.1"
@@ -60,22 +59,30 @@ dependencies:
   sprintf: ^4.0.2
   # google_maps_flutter: ^0.5.21+15
   flutter_launcher_icons: ^0.7.4
+  # used to generate app icon
   flutter_rating_bar: ^3.0.1+1
+  # used to build rating bar
   json_annotation: ^3.0.1
+  #json parser library
   logger: ^0.8.3
   geolocator: ^5.2.1
+  #used to detect user gps status and locate
   azlistview: ^0.1.2
+  #used for city picker
   shared_preferences: ^0.5.6+1
   lpinyin: ^1.0.9
+  #used to generate pinyin from mandarin char
   dio_http_cache: ^0.2.5
   share: ^0.6.3+5
+  #maybe will sub with firebase share
   cloud_firestore: ^0.13.2+1
   firebase_core: ^0.4.3+3
   firebase_analytics: ^5.0.11
   firebase_auth: ^0.15.4
 
   # 图片选择插件 https://github.com/flutter/plugins/tree/master/packages/image_picker
-  # image_picker: 0.6.2+1
+#  image_picker: 0.6.3+1
+  multi_image_picker: ^4.6.1
   # # 用于日历功能 https://github.com/apptreesoftware/date_utils
   # # date_utils: ^0.1.0+2
 
@@ -89,7 +96,6 @@ dev_dependencies:
   test: ^1.6.3
   build_runner: ^1.7.2
   json_serializable: ^3.2.3
-
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 # The following section is specific to Flutter.
@@ -111,6 +117,7 @@ flutter:
     - assets/images/widgets/rating/
     - assets/images/explore/featured/
     - assets/json/
+    - assets/images/comment/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

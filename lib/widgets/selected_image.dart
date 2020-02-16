@@ -26,7 +26,7 @@ class SelectedImage extends StatelessWidget {
           borderRadius: BorderRadius.circular(16.0),
           image: DecorationImage(
               image: image == null
-                  ? ImageUtils.getAssetImage("store/icon_zj")
+                  ? ImageUtils.getAssetImage("comment/icon_add_image")
                   : FileImage(image),
               fit: BoxFit.cover,
               colorFilter: image == null
