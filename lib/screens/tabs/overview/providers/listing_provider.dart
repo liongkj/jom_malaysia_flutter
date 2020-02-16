@@ -16,6 +16,11 @@ class ListingProvider with ChangeNotifier {
   StateType _stateType = StateType.loading;
 
   StateType get stateType => _stateType;
+  void setStateTypeWithoutNotify(StateType value) {
+    _stateType = value;
+    // notifyListeners();
+  }
+
   void setStateType(StateType value) {
     _stateType = value;
     notifyListeners();
@@ -46,7 +51,7 @@ class ListingProvider with ChangeNotifier {
     Map<String, dynamic> queries = Map<String, dynamic>();
 
     if (city != "") queries[QueryParam.locationBiasCity] = city;
-
+    setStateType(StateType.loading);
     _httpService.asyncRequestNetwork<List<ListingModel>, ListingModel>(
         Method.get,
         url: APIEndpoint.listingQuery,
@@ -57,6 +62,7 @@ class ListingProvider with ChangeNotifier {
       if (data != null) {
         if (data.length > 0) {
           _listing.addAll(data);
+          setStateTypeWithoutNotify(StateType.places);
           notifyListeners();
         }
       } else {

@@ -14,8 +14,6 @@ class MerchantInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextStyle textTextStyle =
-        Theme.of(context).textTheme.body1.copyWith(fontSize: Dimens.font_sp12);
     return SliverToBoxAdapter(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
@@ -27,7 +25,7 @@ class MerchantInfo extends StatelessWidget {
               children: <Widget>[
                 Text(
                   S.of(context).placeDetailMerchantInfoLabel,
-                  style: textTextStyle,
+                  style: Theme.of(context).textTheme.body1,
                 ),
                 Gaps.vGap12,
                 _MerchantInfoItem(

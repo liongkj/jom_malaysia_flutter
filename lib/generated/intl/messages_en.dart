@@ -21,6 +21,8 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m0(selected) => "Selected: ${selected}";
 
+  static m1(commentCount) => "Comment (${commentCount})";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
     "appBarTitleExplore" : MessageLookupByLibrary.simpleMessage("Explore"),
@@ -38,6 +40,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "labelNoDetail" : MessageLookupByLibrary.simpleMessage("No more details"),
     "labelNoNotification" : MessageLookupByLibrary.simpleMessage("No Notification"),
     "labelNone" : MessageLookupByLibrary.simpleMessage("None"),
+    "labelRatingStatus1" : MessageLookupByLibrary.simpleMessage("Labbish"),
+    "labelRatingStatus2" : MessageLookupByLibrary.simpleMessage("Better don\'t come"),
+    "labelRatingStatus3" : MessageLookupByLibrary.simpleMessage("Ok Ok la"),
+    "labelRatingStatus4" : MessageLookupByLibrary.simpleMessage("Not bad la"),
+    "labelRatingStatus5" : MessageLookupByLibrary.simpleMessage("Sui!"),
     "labelSearch" : MessageLookupByLibrary.simpleMessage("Search"),
     "labelSearchHint" : MessageLookupByLibrary.simpleMessage("Search for a name or keyword"),
     "labelSearchHintNotEmpty" : MessageLookupByLibrary.simpleMessage("Keyword cannot be blank"),
@@ -53,6 +60,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "overviewSection4Title" : MessageLookupByLibrary.simpleMessage("Capital (Seremban)"),
     "overviewSection5Para1" : MessageLookupByLibrary.simpleMessage("Negeri Sembilan has a collective population of 1,098,500 as of 2015; the ethnic composition consisting of Malay 622,000 (56.6%) (mostly are Minangkabau descent), other Bumiputras 20,700 (1.9%), Chinese 234,300 (21.3%), Indian 154,000 (14%), Others 4,200 (0.4%), and Non Citizens 63,300 (5.8%). The state has the highest percentage of Indians when compared to other Malaysian states."),
     "overviewSection5Title" : MessageLookupByLibrary.simpleMessage("Demographic"),
+    "placeDetailCommentLabel" : m1,
     "placeDetailInfoLabel" : MessageLookupByLibrary.simpleMessage("Detail"),
     "placeDetailMerchantInfoLabel" : MessageLookupByLibrary.simpleMessage("Merchant Info"),
     "placeDetailMerchantRegistrationNameLabel" : MessageLookupByLibrary.simpleMessage("Registration Name"),

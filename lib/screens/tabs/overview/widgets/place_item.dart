@@ -9,7 +9,7 @@ import 'package:jom_malaysia/setting/provider/user_current_location_provider.dar
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
 import 'package:jom_malaysia/widgets/my_card.dart';
-import 'package:jom_malaysia/widgets/my_rating.dart';
+import 'package:jom_malaysia/widgets/my_rating_bar.dart';
 import 'package:provider/provider.dart';
 
 class PlaceItem extends StatelessWidget {
@@ -92,7 +92,7 @@ class _Description extends StatelessWidget {
         Row(
           children: <Widget>[
             Expanded(
-              child: Rating(rating: 4),
+              child: MyRatingBar(rating: 4),
             ),
             Text(
               '"${listing.tags[0]}"',

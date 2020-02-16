@@ -40,15 +40,8 @@ class _AboutPageState extends State<AboutPage> {
       ),
       body: Column(
         children: <Widget>[
-          Gaps.vGap50,
+          Gaps.vGap10,
           Jomn9Logo(),
-          // FlutterLogo(
-          //   size: 100.0,
-          //   colors: _colors[Random.secure().nextInt(7)],
-          //   textColor: _randomColor(),
-          //   style: _styles[Random.secure().nextInt(3)],
-          //   curve: _curves[Random.secure().nextInt(12)],
-          // ),
           Gaps.vGap10,
           ClickItem(
             title: S.of(context).clickItemSettingShareTitle,
@@ -77,7 +70,7 @@ class Jomn9Logo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: size,
-      child: LoadAssetImage('../icons/JomN9'),
+      child: LoadImage('../icons/JomN9'),
     );
   }
 }

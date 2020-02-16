@@ -10,6 +10,7 @@ import 'package:jom_malaysia/screens/tabs/overview/models/description_model.dart
 import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/operating_hours_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/listing_provider.dart';
+import 'package:jom_malaysia/screens/tabs/overview/widgets/comment_section.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/merchant_info.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/operating_hours_dialog.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/place_info.dart';
@@ -34,30 +35,30 @@ class PlaceDetailPage extends StatefulWidget {
 
 const kExpandedHeight = 250.0;
 
-class PlaceDetailPageState extends State<PlaceDetailPage> {
+class PlaceDetailPageState extends State<PlaceDetailPage>
+    with AutomaticKeepAliveClientMixin {
   bool isDark = false;
 
   ScrollController _scrollController;
-
+  bool _showTitle = false;
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {});
 
-    _scrollController = ScrollController()..addListener(() => setState(() {}));
-  }
-
-  bool get _showTitle {
-    return _scrollController.hasClients &&
-        _scrollController.offset > kExpandedHeight - kToolbarHeight;
+    _scrollController = ScrollController()
+      ..addListener(() {
+        _showTitle = (_scrollController.hasClients &&
+            _scrollController.offset > kExpandedHeight - kToolbarHeight);
+      });
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     isDark = ThemeUtils.isDark(context);
     final place = Provider.of<ListingProvider>(context, listen: false)
         .findById(widget.placeId);
-
     return Scaffold(
       body: SafeArea(
         top: false,
@@ -110,9 +111,16 @@ class PlaceDetailPageState extends State<PlaceDetailPage> {
       _PlaceImage(
         images: place.listingImages.ads,
       ),
+      CommentSection(
+        listingName: place.listingName,
+        listingId: place.listingId,
+      ),
       MerchantInfo(merchant: place.merchant),
     ];
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
 class _PlaceImage extends StatelessWidget {

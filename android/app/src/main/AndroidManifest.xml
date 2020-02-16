@@ -1,21 +1,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.jomjommalaysia.jomn9"
     >
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <uses-permission android:name="android.permission.INTERNET" /> 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <application>
-    <meta-data
-      android:name="firebase_performance_logcat_enabled"
-      android:value="true" />
-</application>
 
     <application
         android:name="io.flutter.app.FlutterApplication"
         android:label="Jom N9"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+        tools:ignore="GoogleAppIndexingWarning">
 
         <activity
             android:name=".MainActivity"
@@ -28,6 +25,11 @@
                  until Flutter renders its first frame. It can be removed if
                  there is no splash screen (such as the default splash screen
                  defined in @style/LaunchTheme). -->
+            <meta-data android:name="com.google.android.gms.version"
+                android:value="4.3.3" />
+            <meta-data
+                android:name="firebase_performance_logcat_enabled"
+                android:value="false" />
             <meta-data
                 android:name="io.flutter.app.android.SplashScreenUntilFirstFrame"
                 android:value="true" />

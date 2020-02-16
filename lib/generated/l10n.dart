@@ -119,6 +119,15 @@ class S {
     );
   }
 
+  String placeDetailCommentLabel(dynamic commentCount) {
+    return Intl.message(
+      'Comment ($commentCount)',
+      name: 'placeDetailCommentLabel',
+      desc: '',
+      args: [commentCount],
+    );
+  }
+
   String get placeDetailMerchantInfoLabel {
     return Intl.message(
       'Merchant Info',
@@ -308,6 +317,51 @@ class S {
     );
   }
 
+  String get labelRatingStatus1 {
+    return Intl.message(
+      'Labbish',
+      name: 'labelRatingStatus1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelRatingStatus2 {
+    return Intl.message(
+      'Better don\'t come',
+      name: 'labelRatingStatus2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelRatingStatus3 {
+    return Intl.message(
+      'Ok Ok la',
+      name: 'labelRatingStatus3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelRatingStatus4 {
+    return Intl.message(
+      'Not bad la',
+      name: 'labelRatingStatus4',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelRatingStatus5 {
+    return Intl.message(
+      'Sui!',
+      name: 'labelRatingStatus5',
+      desc: '',
+      args: [],
+    );
+  }
+
   String get clickItemSettingAddAPlace {
     return Intl.message(
       'Recommend a place',
@@ -467,7 +521,7 @@ class AppLocalizationDelegate extends LocalizationsDelegate<S> {
 
   List<Locale> get supportedLocales {
     return const <Locale>[
-      Locale('en', ''), Locale('ms', ''), Locale('zh', ''),
+      Locale('en', ''), Locale('zh', ''), Locale('ms', ''),
     ];
   }
 
