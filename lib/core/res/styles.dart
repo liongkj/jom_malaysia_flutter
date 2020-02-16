@@ -5,7 +5,6 @@ import 'colors.dart';
 import 'dimens.dart';
 
 class TextStyles {
-  
   static const TextStyle textSize12 = const TextStyle(
     fontSize: Dimens.font_sp12,
   );
@@ -60,29 +59,28 @@ class TextStyles {
   static const TextStyle textHint14 = const TextStyle(
       fontSize: Dimens.font_sp14, color: Colours.dark_unselected_item_color);
 
-  static const TextStyle textStyle_normalParagraph = const TextStyle(
-    fontSize: Dimens.font_sp15,
-    color: Colours.dark_text_gray,
-    height:1.5
-  );
-
-  static const TextStyle textStyle_pageHeader= const TextStyle(
-      fontSize: Dimens.font_sp20,
+  static const TextStyle headline = const TextStyle(
       color: Colours.text,
-      fontWeight: FontWeight.bold,
-      height:1.5
-  );
+      height: 1.5);
 
-  static const TextStyle textStyle_sectionTitle = const TextStyle(
-      fontSize: Dimens.font_sp16,
-      color: Colours.text,
-      fontWeight: FontWeight.bold,
-      height:1.5
-  );
+  static const TextStyle title =
+      const TextStyle(color: Colours.text, height: 1.5);
 
-  static const TextStyle textStyle_pageSubheader = const TextStyle(
-      fontSize: Dimens.font_sp15,
-      color: Colours.button_disabled,
-      height:1.5
-  );
+  static const TextStyle subhead =
+      const TextStyle(color: Colours.button_disabled, height: 1.5);
+
+  static const TextStyle body2 =
+      const TextStyle(color: Colours.dark_text_gray, height: 1.5);
+
+  static const TextStyle body1 =
+      const TextStyle(color: Colours.dark_text_gray, height: 1.5);
+
+  static const TextStyle caption =
+      const TextStyle(color: Colours.dark_text_gray, height: 1.5);
+
+  static const TextStyle button =
+      const TextStyle(color: Colours.dark_text_gray, height: 1.5);
+
+  static const TextStyle subtitle =
+      const TextStyle(color: Colours.dark_text_gray, height: 1.5);
 }
