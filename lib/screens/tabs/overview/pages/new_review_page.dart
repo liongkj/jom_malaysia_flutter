@@ -1,9 +1,13 @@
 import 'dart:io';
+import 'dart:typed_data';
 
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
+import 'package:jom_malaysia/screens/tabs/overview/models/comments/comment_model.dart';
+import 'package:jom_malaysia/setting/provider/language_provider.dart';
 import 'package:jom_malaysia/util/toast.dart';
 import 'package:jom_malaysia/widgets/add_rating_bar.dart';
 import 'package:jom_malaysia/widgets/app_bar.dart';
@@ -11,6 +15,8 @@ import 'package:jom_malaysia/widgets/load_image.dart';
 import 'package:jom_malaysia/widgets/selected_image.dart';
 import 'package:jom_malaysia/widgets/text_field_item.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
+import 'package:oktoast/oktoast.dart';
+import 'package:provider/provider.dart';
 
 class NewReviewPage extends StatefulWidget {
   NewReviewPage(
@@ -27,12 +33,25 @@ class NewReviewPage extends StatefulWidget {
 
 class _NewReviewPageState extends State<NewReviewPage> {
   final _formKey = GlobalKey<FormState>();
-
+  CommentModel _commentModel = new CommentModel();
   @override
   Widget build(BuildContext context) {
+    ThemeData themeData = Theme.of(context);
     return Scaffold(
       appBar: MyAppBar(
         actionName: "Publish",
+        onPressed: () {
+          print(_formKey.currentState.validate());
+
+          if (_formKey.currentState.validate()) {
+            _formKey.currentState.save();
+            print(_commentModel.title);
+            print(_commentModel.images);
+            showToast("fk");
+          } else {
+            showToast("fk la");
+          }
+        },
         backImg: "assets/images/ic_close.png",
       ),
       body: SingleChildScrollView(
@@ -42,30 +61,131 @@ class _NewReviewPageState extends State<NewReviewPage> {
             horizontal: 20.0,
             vertical: 16.0,
           ),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  //title
-                  widget.placeName.toUpperCase(),
-                  maxLines: 1,
-                  style: Theme.of(context).textTheme.title,
-                ),
-                Gaps.vGap12,
-                _RatingArea(),
-                Gaps.vGap12,
-                _CommentArea(),
-                Gaps.vGap12,
-                _ImageArea(),
-                Gaps.vGap12,
-                _AverageCost()
-              ],
-            ),
-          ),
+          child: _CommentForm(
+              formKey: _formKey,
+              widget: widget,
+              commentModel: _commentModel,
+              themeData: themeData),
         ),
       ),
+    );
+  }
+}
+
+class _CommentForm extends StatelessWidget {
+  const _CommentForm({
+    Key key,
+    @required GlobalKey<FormState> formKey,
+    @required this.widget,
+    @required CommentModel commentModel,
+    @required this.themeData,
+  })  : _formKey = formKey,
+        _commentModel = commentModel,
+        super(key: key);
+
+  final GlobalKey<FormState> _formKey;
+  final NewReviewPage widget;
+  final CommentModel _commentModel;
+  final ThemeData themeData;
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      key: _formKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            //title
+            widget.placeName.toUpperCase(),
+            maxLines: 1,
+            style: Theme.of(context).textTheme.title,
+          ),
+          Gaps.vGap12,
+          _RatingArea(),
+          Gaps.vGap12,
+          _BuildCommentField(commentModel: _commentModel, themeData: themeData),
+          Gaps.vGap12,
+          _ImageArea(
+            commentModel: _commentModel,
+          ),
+          Gaps.vGap12,
+          _AverageCost(),
+          RaisedButton(
+            onPressed: () {
+              if (_formKey.currentState.validate()) {
+                // If the form is valid, display a Snackbar.
+                Scaffold.of(context)
+                    .showSnackBar(SnackBar(content: Text('Processing Data')));
+              } else {
+                Scaffold.of(context)
+                    .showSnackBar(SnackBar(content: Text('fuck Data')));
+              }
+            },
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class _BuildCommentField extends StatelessWidget {
+  const _BuildCommentField({
+    Key key,
+    @required CommentModel commentModel,
+    @required this.themeData,
+  })  : _commentModel = commentModel,
+        super(key: key);
+
+  final CommentModel _commentModel;
+  final ThemeData themeData;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        TextFormField(
+          validator: (value) {
+            if (value.isEmpty) {
+              return 'Please enter a interesting title';
+            }
+            return null;
+          },
+          onSaved: (value) => _commentModel.title = value,
+          decoration: InputDecoration(
+              contentPadding: const EdgeInsets.symmetric(vertical: 16.0),
+              hintText: "Add a title",
+              counterText: "",
+              focusedBorder: UnderlineInputBorder(
+                  borderSide:
+                      BorderSide(color: themeData.primaryColor, width: 0.8)),
+              enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                      color: Theme.of(context).dividerTheme.color,
+                      width: 0.8))),
+        ),
+        TextFormField(
+          validator: (value) {
+            if (value.isEmpty) {
+              return 'Please enter some comment';
+            }
+            return null;
+          },
+          onSaved: (value) => _commentModel.commentText = value,
+          maxLines: 5,
+          decoration: InputDecoration(
+              contentPadding: const EdgeInsets.symmetric(vertical: 16.0),
+              hintText: "Add your comment",
+              counterText: "",
+              focusedBorder: UnderlineInputBorder(
+                  borderSide:
+                      BorderSide(color: themeData.primaryColor, width: 0.8)),
+              enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                      color: Theme.of(context).dividerTheme.color,
+                      width: 0.8))),
+        ),
+      ],
     );
   }
 }
@@ -73,6 +193,14 @@ class _NewReviewPageState extends State<NewReviewPage> {
 class _ImageArea extends StatefulWidget {
   @override
   __ImageAreaState createState() => __ImageAreaState();
+
+  const _ImageArea({
+    Key key,
+    @required CommentModel commentModel,
+  })  : commentModel = commentModel,
+        super(key: key);
+
+  final CommentModel commentModel;
 }
 
 class __ImageAreaState extends State<_ImageArea> {
@@ -86,6 +214,7 @@ class __ImageAreaState extends State<_ImageArea> {
     try {
       resultList = await MultiImagePicker.pickImages(
         maxImages: 5 - _images.length,
+        enableCamera: true,
       );
     } on Exception catch (e) {
       error = e.toString();
@@ -98,11 +227,19 @@ class __ImageAreaState extends State<_ImageArea> {
 
     setState(() {
       _images += resultList;
-      print("update image list" +
-          resultList.length.toString() +
-          _images.length.toString());
+      resultList.forEach(
+          (f) async => widget.commentModel.images.add(await _saveImage(f)));
       if (error == null) _error = 'No Error Dectected';
     });
+  }
+
+  Future<String> _saveImage(Asset asset) async {
+    ByteData byteData = await asset.getByteData();
+    List<int> imageData = byteData.buffer.asUint8List();
+    StorageReference ref =
+        FirebaseStorage.instance.ref().child("some_image_bame.jpg");
+    StorageUploadTask uploadTask = ref.putData(imageData);
+    return await (await uploadTask.onComplete).ref.getDownloadURL();
   }
 
   void _deleteImage(int index) {
@@ -113,7 +250,6 @@ class __ImageAreaState extends State<_ImageArea> {
 
   @override
   Widget build(BuildContext context) {
-    print(_images.length);
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
@@ -147,7 +283,7 @@ class __ImageAreaState extends State<_ImageArea> {
                 )
               ],
             ),
-          )
+          ),
         ]);
   }
 
@@ -179,7 +315,19 @@ class __ImageAreaState extends State<_ImageArea> {
   }
 }
 
-class _AverageCost extends StatelessWidget {
+class _AverageCost extends StatefulWidget {
+  @override
+  __AverageCostState createState() => __AverageCostState();
+}
+
+class __AverageCostState extends State<_AverageCost> {
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  final TextEditingController _controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -188,9 +336,12 @@ class _AverageCost extends StatelessWidget {
         children: <Widget>[
           Expanded(
             child: TextFieldItem(
-              keyboardType: TextInputType.numberWithOptions(),
-              title: "Ren jun",
-            ),
+                hintText: S.of(context).labelInputCostAmount,
+                prefixIcon: Text(S.of(context).labelAveratePaxPrefix),
+                suffixIcon: Text(S.of(context).labelAveratePaxSuffix),
+                controller: _controller,
+                keyboardType: TextInputType.numberWithOptions(),
+                title: S.of(context).labelAveragePaxTitle),
           ),
         ],
       ),
@@ -238,61 +389,6 @@ class __RatingAreaState extends State<_RatingArea> {
                 _list[_currentRating],
               ),
             ))
-      ],
-    );
-  }
-}
-
-class _CommentArea extends StatefulWidget {
-  @override
-  __CommentAreaState createState() => __CommentAreaState();
-}
-
-class __CommentAreaState extends State<_CommentArea> {
-  @override
-  Widget build(BuildContext context) {
-    ThemeData themeData = Theme.of(context);
-    return Column(
-      children: <Widget>[
-        TextFormField(
-          validator: (value) {
-            if (value.isEmpty) {
-              return 'Please enter a interesting title';
-            }
-            return null;
-          },
-          decoration: InputDecoration(
-              contentPadding: const EdgeInsets.symmetric(vertical: 16.0),
-              hintText: "Add a title",
-              counterText: "",
-              focusedBorder: UnderlineInputBorder(
-                  borderSide:
-                      BorderSide(color: themeData.primaryColor, width: 0.8)),
-              enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(
-                      color: Theme.of(context).dividerTheme.color,
-                      width: 0.8))),
-        ),
-        TextFormField(
-          validator: (value) {
-            if (value.isEmpty) {
-              return 'Please enter some comment';
-            }
-            return null;
-          },
-          maxLines: 5,
-          decoration: InputDecoration(
-              contentPadding: const EdgeInsets.symmetric(vertical: 16.0),
-              hintText: "Add your comment",
-              counterText: "",
-              focusedBorder: UnderlineInputBorder(
-                  borderSide:
-                      BorderSide(color: themeData.primaryColor, width: 0.8)),
-              enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(
-                      color: Theme.of(context).dividerTheme.color,
-                      width: 0.8))),
-        ),
       ],
     );
   }

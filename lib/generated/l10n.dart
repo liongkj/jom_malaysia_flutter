@@ -371,6 +371,42 @@ class S {
     );
   }
 
+  String get labelAveratePaxPrefix {
+    return Intl.message(
+      'RM ',
+      name: 'labelAveratePaxPrefix',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelAveragePaxTitle {
+    return Intl.message(
+      'Spending',
+      name: 'labelAveragePaxTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelAveratePaxSuffix {
+    return Intl.message(
+      'PAX',
+      name: 'labelAveratePaxSuffix',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelInputCostAmount {
+    return Intl.message(
+      'Please enter your spending',
+      name: 'labelInputCostAmount',
+      desc: '',
+      args: [],
+    );
+  }
+
   String get clickItemSettingAddAPlace {
     return Intl.message(
       'Recommend a place',

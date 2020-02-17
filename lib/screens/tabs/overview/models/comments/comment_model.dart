@@ -6,6 +6,7 @@ class CommentModel {
       this.rating,
       this.publishedTime,
       this.username,
+      this.images,
       this.title});
   String id;
   String userId;
@@ -14,9 +15,11 @@ class CommentModel {
   String title;
   double rating;
   String username;
+  List<String> images;
 
   CommentModel.fromMap(Map snapshot, String id)
       : id = id ?? '',
+        images = snapshot["images"] ?? [],
         title = snapshot['title'] ?? '',
         userId = snapshot['userId'] ?? '',
         commentText = snapshot['commentText'] ?? '',
@@ -32,6 +35,7 @@ class CommentModel {
       "username": username,
       "rating": rating,
       "title": title,
+      "images": images
     };
   }
 }

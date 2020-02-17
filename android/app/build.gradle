@@ -89,6 +89,7 @@ flutter {
 }
 
 dependencies {
+    implementation 'com.google.firebase:firebase-storage:19.1.1'
     implementation "androidx.annotation:annotation:1.1.0"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     testImplementation 'junit:junit:4.13'
