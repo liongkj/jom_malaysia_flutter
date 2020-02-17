@@ -9,6 +9,7 @@ import 'package:jom_malaysia/widgets/add_rating_bar.dart';
 import 'package:jom_malaysia/widgets/app_bar.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
 import 'package:jom_malaysia/widgets/selected_image.dart';
+import 'package:jom_malaysia/widgets/text_field_item.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 
 class NewReviewPage extends StatefulWidget {
@@ -104,6 +105,12 @@ class __ImageAreaState extends State<_ImageArea> {
     });
   }
 
+  void _deleteImage(int index) {
+    setState(() {
+      _images.removeAt(index);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     print(_images.length);
@@ -120,11 +127,11 @@ class __ImageAreaState extends State<_ImageArea> {
           ),
           Gaps.vGap12,
           Container(
-            height: 100.0,
+            height: 120.0,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                if (_images.length < 4)
+                if (_images.length < 5)
                   Padding(
                     padding: const EdgeInsets.only(right: 8.0),
                     child: Center(
@@ -135,56 +142,59 @@ class __ImageAreaState extends State<_ImageArea> {
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemCount: _images.length,
-                    itemBuilder: (context, index) => Padding(
-                      padding: EdgeInsets.all(4),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(16.0),
-                        child: AssetThumb(
-                          width: 100,
-                          height: 100,
-                          asset: _images[index],
-                        ),
-                      ),
-                    ),
+                    itemBuilder: (context, index) => _buildThumbnail(index),
                   ),
                 )
               ],
             ),
           )
-        ]
-        //   Row(
-        //     children: <Widget>[
-        //
-        //       Gaps.hGap8,
-        //       Expanded(
-        //         child: Row(
-        //           children: <Widget>[
-        //             ListView.builder(
-        //                 itemCount: _images.length,
-        //                 scrollDirection: Axis.horizontal,
-        //                 shrinkWrap: true,
-        //                 itemBuilder: (context, index) {
-        //                   return AssetThumb(
-        //                     asset: _images[index],
-        //                     width: 300,
-        //                     height: 300,
-        //                   );
-        //                 }),
-        //           ],
-        //         ),
-        //       ),
-        //       Gaps.vGap16,
-        //     ],
-        //   ),
-        // ],
-        );
+        ]);
+  }
+
+  Stack _buildThumbnail(int index) {
+    return Stack(children: <Widget>[
+      Padding(
+        padding: EdgeInsets.all(8),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(16.0),
+          child: AssetThumb(
+            width: 100,
+            height: 100,
+            asset: _images[index],
+          ),
+        ),
+      ),
+      Positioned(
+        top: 0,
+        right: 0,
+        child: GestureDetector(
+          onTap: () => _deleteImage(index),
+          child: LoadAssetImage(
+            "comment/icon_delete_image",
+            height: 30,
+          ),
+        ),
+      ),
+    ]);
   }
 }
 
 class _AverageCost extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Text("Cost");
+    return Container(
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Expanded(
+            child: TextFieldItem(
+              keyboardType: TextInputType.numberWithOptions(),
+              title: "Ren jun",
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
 
@@ -247,7 +257,7 @@ class __CommentAreaState extends State<_CommentArea> {
         TextFormField(
           validator: (value) {
             if (value.isEmpty) {
-              return 'Please enter some text';
+              return 'Please enter a interesting title';
             }
             return null;
           },
@@ -263,7 +273,13 @@ class __CommentAreaState extends State<_CommentArea> {
                       color: Theme.of(context).dividerTheme.color,
                       width: 0.8))),
         ),
-        TextField(
+        TextFormField(
+          validator: (value) {
+            if (value.isEmpty) {
+              return 'Please enter some comment';
+            }
+            return null;
+          },
           maxLines: 5,
           decoration: InputDecoration(
               contentPadding: const EdgeInsets.symmetric(vertical: 16.0),
