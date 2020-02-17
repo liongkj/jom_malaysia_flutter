@@ -81,8 +81,9 @@ dependencies:
   firebase_auth: ^0.15.4
 
   # 图片选择插件 https://github.com/flutter/plugins/tree/master/packages/image_picker
-#  image_picker: 0.6.3+1
+  #  image_picker: 0.6.3+1
   multi_image_picker: ^4.6.1
+  fancy_on_boarding: ^1.4.0
   # # 用于日历功能 https://github.com/apptreesoftware/date_utils
   # # date_utils: ^0.1.0+2
 

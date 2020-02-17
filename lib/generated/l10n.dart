@@ -362,6 +362,15 @@ class S {
     );
   }
 
+  String get labelClickToAddImage {
+    return Intl.message(
+      'Add a image to let other know more about this place',
+      name: 'labelClickToAddImage',
+      desc: '',
+      args: [],
+    );
+  }
+
   String get clickItemSettingAddAPlace {
     return Intl.message(
       'Recommend a place',

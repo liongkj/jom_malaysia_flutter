@@ -35,6 +35,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "clickItemSettingFeedbackTitle" : MessageLookupByLibrary.simpleMessage("意见反馈"),
     "clickItemSettingRecommendPlaceTitle" : MessageLookupByLibrary.simpleMessage("添加商户"),
     "clickItemSettingShareTitle" : MessageLookupByLibrary.simpleMessage("告诉朋友"),
+    "labelClickToAddImage" : MessageLookupByLibrary.simpleMessage("点击添加商品图片"),
     "labelNoDetail" : MessageLookupByLibrary.simpleMessage("无详情"),
     "labelNoNotification" : MessageLookupByLibrary.simpleMessage("没通知"),
     "labelNone" : MessageLookupByLibrary.simpleMessage("无"),

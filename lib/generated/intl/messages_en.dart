@@ -37,6 +37,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "clickItemSettingFeedbackTitle" : MessageLookupByLibrary.simpleMessage("Feedback"),
     "clickItemSettingRecommendPlaceTitle" : MessageLookupByLibrary.simpleMessage("Add a missing place"),
     "clickItemSettingShareTitle" : MessageLookupByLibrary.simpleMessage("Tell a friend"),
+    "labelClickToAddImage" : MessageLookupByLibrary.simpleMessage("Add a image to let other know more about this place"),
     "labelNoDetail" : MessageLookupByLibrary.simpleMessage("No more details"),
     "labelNoNotification" : MessageLookupByLibrary.simpleMessage("No Notification"),
     "labelNone" : MessageLookupByLibrary.simpleMessage("None"),

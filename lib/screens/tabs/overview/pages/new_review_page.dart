@@ -1,11 +1,13 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/util/toast.dart';
 import 'package:jom_malaysia/widgets/add_rating_bar.dart';
 import 'package:jom_malaysia/widgets/app_bar.dart';
+import 'package:jom_malaysia/widgets/load_image.dart';
 import 'package:jom_malaysia/widgets/selected_image.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 
@@ -32,30 +34,157 @@ class _NewReviewPageState extends State<NewReviewPage> {
         actionName: "Publish",
         backImg: "assets/images/ic_close.png",
       ),
-      body: Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: 20.0,
-          vertical: 16.0,
-        ),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              _Title(widget.placeName),
-              Gaps.vGap12,
-              _RatingArea(),
-              Gaps.vGap12,
-              _CommentArea(),
-              Gaps.vGap12,
-              _ImageArea(),
-              Gaps.vGap12,
-              _AverageCost()
-            ],
+      body: SingleChildScrollView(
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          padding: EdgeInsets.symmetric(
+            horizontal: 20.0,
+            vertical: 16.0,
+          ),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  //title
+                  widget.placeName.toUpperCase(),
+                  maxLines: 1,
+                  style: Theme.of(context).textTheme.title,
+                ),
+                Gaps.vGap12,
+                _RatingArea(),
+                Gaps.vGap12,
+                _CommentArea(),
+                Gaps.vGap12,
+                _ImageArea(),
+                Gaps.vGap12,
+                _AverageCost()
+              ],
+            ),
           ),
         ),
       ),
     );
+  }
+}
+
+class _ImageArea extends StatefulWidget {
+  @override
+  __ImageAreaState createState() => __ImageAreaState();
+}
+
+class __ImageAreaState extends State<_ImageArea> {
+  List<Asset> _images = [];
+  String _error;
+
+  Future<void> loadAssets() async {
+    List<Asset> resultList;
+    String error;
+
+    try {
+      resultList = await MultiImagePicker.pickImages(
+        maxImages: 5 - _images.length,
+      );
+    } on Exception catch (e) {
+      error = e.toString();
+    }
+
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+    if (!mounted) return;
+
+    setState(() {
+      _images += resultList;
+      print("update image list" +
+          resultList.length.toString() +
+          _images.length.toString());
+      if (error == null) _error = 'No Error Dectected';
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    print(_images.length);
+    return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Text(
+            S.of(context).labelClickToAddImage,
+            style: Theme.of(context)
+                .textTheme
+                .subtitle
+                .copyWith(fontSize: Dimens.font_sp14),
+          ),
+          Gaps.vGap12,
+          Container(
+            height: 100.0,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                if (_images.length < 4)
+                  Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: Center(
+                      child: SelectedImage(size: 96.0, onTap: loadAssets),
+                    ),
+                  ),
+                Expanded(
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: _images.length,
+                    itemBuilder: (context, index) => Padding(
+                      padding: EdgeInsets.all(4),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(16.0),
+                        child: AssetThumb(
+                          width: 100,
+                          height: 100,
+                          asset: _images[index],
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          )
+        ]
+        //   Row(
+        //     children: <Widget>[
+        //
+        //       Gaps.hGap8,
+        //       Expanded(
+        //         child: Row(
+        //           children: <Widget>[
+        //             ListView.builder(
+        //                 itemCount: _images.length,
+        //                 scrollDirection: Axis.horizontal,
+        //                 shrinkWrap: true,
+        //                 itemBuilder: (context, index) {
+        //                   return AssetThumb(
+        //                     asset: _images[index],
+        //                     width: 300,
+        //                     height: 300,
+        //                   );
+        //                 }),
+        //           ],
+        //         ),
+        //       ),
+        //       Gaps.vGap16,
+        //     ],
+        //   ),
+        // ],
+        );
+  }
+}
+
+class _AverageCost extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Text("Cost");
   }
 }
 
@@ -100,20 +229,6 @@ class __RatingAreaState extends State<_RatingArea> {
               ),
             ))
       ],
-    );
-  }
-}
-
-class _Title extends StatelessWidget {
-  _Title(this.placeName);
-  final String placeName;
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      placeName.toUpperCase(),
-      maxLines: 1,
-      style: Theme.of(context).textTheme.title,
     );
   }
 }
@@ -164,93 +279,5 @@ class __CommentAreaState extends State<_CommentArea> {
         ),
       ],
     );
-  }
-}
-
-class _ImageArea extends StatefulWidget {
-  @override
-  __ImageAreaState createState() => __ImageAreaState();
-}
-
-class __ImageAreaState extends State<_ImageArea> {
-  List<Asset> images = List<Asset>();
-  String _error;
-
-  Future<void> loadAssets() async {
-    setState(() {
-      images = List<Asset>();
-    });
-
-    List<Asset> resultList;
-    String error;
-
-    try {
-      resultList = await MultiImagePicker.pickImages(
-        maxImages: 300,
-      );
-    } on Exception catch (e) {
-      error = e.toString();
-    }
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    if (!mounted) return;
-
-    setState(() {
-      images = resultList;
-      if (error == null) _error = 'No Error Dectected';
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(
-          '点击添加商品图片',
-          style: Theme.of(context)
-              .textTheme
-              .subtitle
-              .copyWith(fontSize: Dimens.font_sp14),
-        ),
-        Gaps.vGap12,
-        Row(
-          children: <Widget>[
-            Center(
-              child: SelectedImage(size: 96.0, onTap: loadAssets),
-            ),
-            Gaps.hGap8,
-            Expanded(
-              child: buildThumbnail(),
-            ),
-            Gaps.vGap16,
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget buildThumbnail() {
-    return GridView.count(
-      shrinkWrap: true,
-      crossAxisCount: 3,
-      children: List.generate(images.length, (index) {
-        Asset asset = images[index];
-        return AssetThumb(
-          asset: asset,
-          width: 300,
-          height: 300,
-        );
-      }),
-    );
-  }
-}
-
-class _AverageCost extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Text("Cost");
   }
 }
