@@ -9,6 +9,7 @@ import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/description_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/operating_hours_model.dart';
+import 'package:jom_malaysia/screens/tabs/overview/overview_router.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/listing_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/comment_section.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/merchant_info.dart';
@@ -67,6 +68,12 @@ class PlaceDetailPageState extends State<PlaceDetailPage>
           key: const Key('place_detail'),
           slivers: _sliverBuilder(place),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => NavigatorUtils.push(context,
+            '${OverviewRouter.reviewPage}?title=${place.listingName}&placeId=${place.listingId}&userId=${"123"}'),
+        child: Icon(Icons.navigation),
+        backgroundColor: Colors.green,
       ),
     );
   }

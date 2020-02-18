@@ -7,8 +7,19 @@ class CommentsProvider extends ChangeNotifier {
   FirestoreService _api;
   CommentsProvider({@required FirestoreService firebaseService})
       : _api = firebaseService;
-
+  String _documentId;
   List<CommentModel> comments;
+
+  String getCommentId() {
+    if (_documentId == null) _documentId = _api.getDocumentId();
+    return _documentId;
+  }
+
+  Future addComment(String listingId, CommentModel data) async {
+    var result = await _api.addDocument(listingId, "comments", data.toJson());
+
+    return;
+  }
 
   Future<List<CommentModel>> fetchcomments() async {
     var result = await _api.getDataCollection();
@@ -34,12 +45,6 @@ class CommentsProvider extends ChangeNotifier {
 
   Future updateComments(CommentModel data, String id) async {
     await _api.updateDocument(data.toJson(), id);
-    return;
-  }
-
-  Future addComments(CommentModel data) async {
-    var result = await _api.addDocument(data.toJson());
-
     return;
   }
 }

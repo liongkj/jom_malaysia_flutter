@@ -4,14 +4,12 @@ class FirestoreService {
   final Firestore _db = Firestore.instance;
   String path;
   CollectionReference ref;
-  String _documentId;
   FirestoreService() {
     ref = _db.collection("places");
   }
 
   String getDocumentId() {
-    if (_documentId == null) _documentId = ref.document().documentID;
-    return _documentId;
+    return ref.document().documentID;
   }
 
   Future<QuerySnapshot> getDataCollection() {
@@ -31,8 +29,9 @@ class FirestoreService {
     return ref.document(id).delete();
   }
 
-  Future<DocumentReference> addDocument(Map data) {
-    return ref.add(data);
+  Future<DocumentReference> addDocument(
+      String listingId, String collectionName, Map data) {
+    return ref.document(listingId).collection(collectionName).add(data);
   }
 
   Future<void> updateDocument(Map data, String id) {

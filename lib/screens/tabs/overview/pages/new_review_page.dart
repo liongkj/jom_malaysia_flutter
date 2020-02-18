@@ -7,6 +7,7 @@ import 'package:jom_malaysia/core/services/gateway/firebase_storage_api.dart';
 import 'package:jom_malaysia/core/services/gateway/firestore_api.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/comments/comment_model.dart';
+import 'package:jom_malaysia/screens/tabs/overview/providers/comments_provider.dart';
 import 'package:jom_malaysia/widgets/add_rating_bar.dart';
 import 'package:jom_malaysia/widgets/app_bar.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
@@ -32,11 +33,12 @@ class NewReviewPage extends StatefulWidget {
 class _NewReviewPageState extends State<NewReviewPage> {
   CommentModel _commentModel;
   FirebaseStorageService _storageService;
+  CommentsProvider _db;
   @override
   void initState() {
-    final _db = Provider.of<FirestoreService>(context, listen: false);
-    var commentId = _db.getDocumentId();
-    _commentModel = new CommentModel(id: commentId);
+    _db = Provider.of<CommentsProvider>(context, listen: false);
+    var commentId = _db.getCommentId();
+    _commentModel = new CommentModel(commentId);
     _storageService =
         Provider.of<FirebaseStorageService>(context, listen: false);
     super.initState();
@@ -65,12 +67,14 @@ class _NewReviewPageState extends State<NewReviewPage> {
 
           if (_formKey.currentState.validate()) {
             _formKey.currentState.save();
-            var _index = 0;
-            for (Asset image in _commentModel.imageAssets) {
-              _commentModel.images.add(await _saveImage(image, _index));
-              _index++;
+            if (_commentModel.imageAssets.isNotEmpty) {
+              var _index = 0;
+              for (Asset image in _commentModel.imageAssets) {
+                _commentModel.images.add(await _saveImage(image, _index));
+                _index++;
+              }
             }
-
+            _db.addComment(widget.placeId, _commentModel);
             showToast("fk");
           } else {
             showToast("fk la");
@@ -125,7 +129,7 @@ class _CommentForm extends StatelessWidget {
             style: Theme.of(context).textTheme.title,
           ),
           Gaps.vGap12,
-          _RatingArea(),
+          _RatingArea(commentModel: commentModel),
           Gaps.vGap12,
           _BuildCommentField(
             commentModel: commentModel,
@@ -137,19 +141,7 @@ class _CommentForm extends StatelessWidget {
             commentModel: commentModel,
           ),
           Gaps.vGap12,
-          _AverageCost(),
-          RaisedButton(
-            onPressed: () {
-              if (formKey.currentState.validate()) {
-                // If the form is valid, display a Snackbar.
-                Scaffold.of(context)
-                    .showSnackBar(SnackBar(content: Text('Processing Data')));
-              } else {
-                Scaffold.of(context)
-                    .showSnackBar(SnackBar(content: Text('fuck Data')));
-              }
-            },
-          )
+          _AverageCost(commentModel: commentModel),
         ],
       ),
     );
@@ -341,9 +333,20 @@ class __ImageAreaState extends State<_ImageArea> {
 class _AverageCost extends StatefulWidget {
   @override
   __AverageCostState createState() => __AverageCostState();
+
+  _AverageCost({@required this.commentModel});
+  final CommentModel commentModel;
 }
 
 class __AverageCostState extends State<_AverageCost> {
+  void initState() {
+    _controller.addListener(() {
+      final cost = double.parse(_controller.text);
+      widget.commentModel.costPax = cost;
+    });
+    super.initState();
+  }
+
   @override
   void dispose() {
     _controller.dispose();
@@ -375,14 +378,17 @@ class __AverageCostState extends State<_AverageCost> {
 class _RatingArea extends StatefulWidget {
   @override
   __RatingAreaState createState() => __RatingAreaState();
+  _RatingArea({this.commentModel});
+  final CommentModel commentModel;
 }
 
 class __RatingAreaState extends State<_RatingArea> {
-  int _currentRating = 2;
+  int _currentRating = 3;
 
   void _ratingUpdated(double value) {
+    widget.commentModel.rating = value;
     setState(() {
-      _currentRating = value.toInt() - 1;
+      _currentRating = value.toInt();
     });
   }
 
@@ -409,7 +415,7 @@ class __RatingAreaState extends State<_RatingArea> {
             child: Align(
               alignment: Alignment.centerRight,
               child: Text(
-                _list[_currentRating],
+                _list[_currentRating - 1],
               ),
             ))
       ],
