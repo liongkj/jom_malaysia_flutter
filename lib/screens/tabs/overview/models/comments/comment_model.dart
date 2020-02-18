@@ -1,3 +1,5 @@
+import 'package:multi_image_picker/multi_image_picker.dart';
+
 class CommentModel {
   CommentModel(
       {this.id,
@@ -6,8 +8,8 @@ class CommentModel {
       this.rating,
       this.publishedTime,
       this.username,
-      this.images,
-      this.title});
+      this.title})
+      : images = [];
   String id;
   String userId;
   DateTime publishedTime;
@@ -16,6 +18,7 @@ class CommentModel {
   double rating;
   String username;
   List<String> images;
+  List<Asset> imageAssets;
 
   CommentModel.fromMap(Map snapshot, String id)
       : id = id ?? '',

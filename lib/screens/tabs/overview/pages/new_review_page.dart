@@ -1,14 +1,12 @@
-import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
+import 'package:jom_malaysia/core/services/gateway/firebase_storage_api.dart';
+import 'package:jom_malaysia/core/services/gateway/firestore_api.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/comments/comment_model.dart';
-import 'package:jom_malaysia/setting/provider/language_provider.dart';
-import 'package:jom_malaysia/util/toast.dart';
 import 'package:jom_malaysia/widgets/add_rating_bar.dart';
 import 'package:jom_malaysia/widgets/app_bar.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
@@ -32,21 +30,49 @@ class NewReviewPage extends StatefulWidget {
 }
 
 class _NewReviewPageState extends State<NewReviewPage> {
+  CommentModel _commentModel;
+  FirebaseStorageService _storageService;
+  @override
+  void initState() {
+    final _db = Provider.of<FirestoreService>(context, listen: false);
+    var commentId = _db.getDocumentId();
+    _commentModel = new CommentModel(id: commentId);
+    _storageService =
+        Provider.of<FirebaseStorageService>(context, listen: false);
+    super.initState();
+  }
+
+  Future<String> _saveImage(Asset asset, int index) async {
+    ByteData byteData = await asset.getByteData();
+    List<int> imageData = byteData.buffer.asUint8List();
+    return await _storageService.uploadFile(
+        "place/${widget.placeId}/comments/${_commentModel.id}",
+        imageData,
+        "image-$index");
+  }
+
   final _formKey = GlobalKey<FormState>();
-  CommentModel _commentModel = new CommentModel();
+
   @override
   Widget build(BuildContext context) {
+    print("form rebuild");
     ThemeData themeData = Theme.of(context);
     return Scaffold(
       appBar: MyAppBar(
         actionName: "Publish",
-        onPressed: () {
+        onPressed: () async {
           print(_formKey.currentState.validate());
 
           if (_formKey.currentState.validate()) {
             _formKey.currentState.save();
+            var _index = 0;
+            for (Asset image in _commentModel.imageAssets) {
+              _commentModel.images.add(await _saveImage(image, _index));
+              _index++;
+            }
             print(_commentModel.title);
             print(_commentModel.images);
+
             showToast("fk");
           } else {
             showToast("fk la");
@@ -62,8 +88,9 @@ class _NewReviewPageState extends State<NewReviewPage> {
             vertical: 16.0,
           ),
           child: _CommentForm(
+              placeName: widget.placeName,
+              placeId: widget.placeId,
               formKey: _formKey,
-              widget: widget,
               commentModel: _commentModel,
               themeData: themeData),
         ),
@@ -73,47 +100,49 @@ class _NewReviewPageState extends State<NewReviewPage> {
 }
 
 class _CommentForm extends StatelessWidget {
-  const _CommentForm({
-    Key key,
-    @required GlobalKey<FormState> formKey,
-    @required this.widget,
-    @required CommentModel commentModel,
-    @required this.themeData,
-  })  : _formKey = formKey,
-        _commentModel = commentModel,
-        super(key: key);
-
-  final GlobalKey<FormState> _formKey;
-  final NewReviewPage widget;
-  final CommentModel _commentModel;
+  const _CommentForm(
+      {Key key,
+      @required this.placeId,
+      @required this.formKey,
+      @required this.commentModel,
+      @required this.themeData,
+      @required this.placeName});
+  final String placeName;
+  final GlobalKey<FormState> formKey;
+  final String placeId;
+  final CommentModel commentModel;
   final ThemeData themeData;
 
   @override
   Widget build(BuildContext context) {
     return Form(
-      key: _formKey,
+      key: formKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
             //title
-            widget.placeName.toUpperCase(),
+            placeName.toUpperCase(),
             maxLines: 1,
             style: Theme.of(context).textTheme.title,
           ),
           Gaps.vGap12,
           _RatingArea(),
           Gaps.vGap12,
-          _BuildCommentField(commentModel: _commentModel, themeData: themeData),
+          _BuildCommentField(
+            commentModel: commentModel,
+            themeData: themeData,
+          ),
           Gaps.vGap12,
           _ImageArea(
-            commentModel: _commentModel,
+            placeId: placeId,
+            commentModel: commentModel,
           ),
           Gaps.vGap12,
           _AverageCost(),
           RaisedButton(
             onPressed: () {
-              if (_formKey.currentState.validate()) {
+              if (formKey.currentState.validate()) {
                 // If the form is valid, display a Snackbar.
                 Scaffold.of(context)
                     .showSnackBar(SnackBar(content: Text('Processing Data')));
@@ -132,12 +161,11 @@ class _CommentForm extends StatelessWidget {
 class _BuildCommentField extends StatelessWidget {
   const _BuildCommentField({
     Key key,
-    @required CommentModel commentModel,
+    @required this.commentModel,
     @required this.themeData,
-  })  : _commentModel = commentModel,
-        super(key: key);
+  });
 
-  final CommentModel _commentModel;
+  final CommentModel commentModel;
   final ThemeData themeData;
 
   @override
@@ -151,7 +179,7 @@ class _BuildCommentField extends StatelessWidget {
             }
             return null;
           },
-          onSaved: (value) => _commentModel.title = value,
+          onSaved: (value) => commentModel.title = value,
           decoration: InputDecoration(
               contentPadding: const EdgeInsets.symmetric(vertical: 16.0),
               hintText: "Add a title",
@@ -171,7 +199,7 @@ class _BuildCommentField extends StatelessWidget {
             }
             return null;
           },
-          onSaved: (value) => _commentModel.commentText = value,
+          onSaved: (value) => commentModel.commentText = value,
           maxLines: 5,
           decoration: InputDecoration(
               contentPadding: const EdgeInsets.symmetric(vertical: 16.0),
@@ -196,10 +224,10 @@ class _ImageArea extends StatefulWidget {
 
   const _ImageArea({
     Key key,
-    @required CommentModel commentModel,
-  })  : commentModel = commentModel,
-        super(key: key);
-
+    @required this.placeId,
+    @required this.commentModel,
+  }) : super(key: key);
+  final String placeId;
   final CommentModel commentModel;
 }
 
@@ -207,10 +235,14 @@ class __ImageAreaState extends State<_ImageArea> {
   List<Asset> _images = [];
   String _error;
 
+  @override
+  void initState() {
+    super.initState();
+  }
+
   Future<void> loadAssets() async {
     List<Asset> resultList;
     String error;
-
     try {
       resultList = await MultiImagePicker.pickImages(
         maxImages: 5 - _images.length,
@@ -219,27 +251,14 @@ class __ImageAreaState extends State<_ImageArea> {
     } on Exception catch (e) {
       error = e.toString();
     }
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
     if (!mounted) return;
-
     setState(() {
       _images += resultList;
-      resultList.forEach(
-          (f) async => widget.commentModel.images.add(await _saveImage(f)));
+
+      widget.commentModel.imageAssets = _images;
+
       if (error == null) _error = 'No Error Dectected';
     });
-  }
-
-  Future<String> _saveImage(Asset asset) async {
-    ByteData byteData = await asset.getByteData();
-    List<int> imageData = byteData.buffer.asUint8List();
-    StorageReference ref =
-        FirebaseStorage.instance.ref().child("some_image_bame.jpg");
-    StorageUploadTask uploadTask = ref.putData(imageData);
-    return await (await uploadTask.onComplete).ref.getDownloadURL();
   }
 
   void _deleteImage(int index) {

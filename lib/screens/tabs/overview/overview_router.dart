@@ -22,7 +22,7 @@ class OverviewRouter implements IRouterProvider {
       return PlaceDetailPage(placeId: placeId);
     }));
     router.define(reviewPage, handler: Handler(handlerFunc: (_, params) {
-      var placeId = params["id"]?.first;
+      var placeId = params["placeId"]?.first;
       var userId = params["userId"]?.first;
       var title = params["title"]?.first;
       return NewReviewPage(

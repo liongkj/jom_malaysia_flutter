@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:jom_malaysia/core/services/gateway/firebase_api.dart';
+import 'package:jom_malaysia/core/services/gateway/firebase_storage_api.dart';
+import 'package:jom_malaysia/core/services/gateway/firestore_api.dart';
 import 'package:jom_malaysia/core/services/gateway/http_service.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/comments_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/listing_provider.dart';
@@ -21,7 +22,10 @@ List<SingleChildWidget> independentServices = [
     create: (_) => HttpService(),
   ),
   InheritedProvider(
-    create: (_) => FirebaseService(),
+    create: (_) => FirestoreService(),
+  ),
+  InheritedProvider(
+    create: (_) => FirebaseStorageService(),
   ),
   ChangeNotifierProvider<UserCurrentLocationProvider>(
     create: (_) => UserCurrentLocationProvider(),
@@ -49,7 +53,7 @@ List<SingleChildWidget> dependentServices = [
   ),
   ChangeNotifierProvider<CommentsProvider>(
     create: (context) => CommentsProvider(
-      firebaseService: Provider.of<FirebaseService>(context, listen: false),
+      firebaseService: Provider.of<FirestoreService>(context, listen: false),
     ),
   ),
 ];

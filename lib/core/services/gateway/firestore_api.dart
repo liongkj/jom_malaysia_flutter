@@ -1,13 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class FirebaseService {
+class FirestoreService {
   final Firestore _db = Firestore.instance;
   String path;
   CollectionReference ref;
-
-  FirebaseService() {
+  String _documentId;
+  FirestoreService() {
     ref = _db.collection("places");
-    print("created");
+  }
+
+  String getDocumentId() {
+    if (_documentId == null) _documentId = ref.document().documentID;
+    return _documentId;
   }
 
   Future<QuerySnapshot> getDataCollection() {

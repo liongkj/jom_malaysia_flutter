@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:jom_malaysia/core/services/gateway/firebase_api.dart';
+import 'package:jom_malaysia/core/services/gateway/firestore_api.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/comments/comment_model.dart';
 
 class CommentsProvider extends ChangeNotifier {
-  FirebaseService _api;
-  CommentsProvider({@required FirebaseService firebaseService})
+  FirestoreService _api;
+  CommentsProvider({@required FirestoreService firebaseService})
       : _api = firebaseService;
 
   List<CommentModel> comments;

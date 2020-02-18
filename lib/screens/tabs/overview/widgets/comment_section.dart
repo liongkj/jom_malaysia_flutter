@@ -89,7 +89,7 @@ class _CommentSectionState extends State<CommentSection> {
                                     text: "Submit first review",
                                     onPressed: () {
                                       NavigatorUtils.push(context,
-                                          '${OverviewRouter.reviewPage}?title=${widget.listingName}?id=${widget.listingId}&userId=${"123"}');
+                                          '${OverviewRouter.reviewPage}?title=${widget.listingName}&placeId=${widget.listingId}&userId=${"123"}');
                                     },
                                   ),
                               ]);
