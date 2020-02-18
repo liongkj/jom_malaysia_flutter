@@ -7,10 +7,10 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.CAMERA"/>
 
     <application
-        android:name="io.flutter.app.FlutterApplication"
+
         android:label="Jom N9"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -27,14 +27,21 @@
                  until Flutter renders its first frame. It can be removed if
                  there is no splash screen (such as the default splash screen
                  defined in @style/LaunchTheme). -->
+            <meta-data
+                android:name="io.flutter.embedding.android.SplashScreenDrawable"
+                android:resource="@drawable/launch_background" />
+            <!-- Theme to apply as soon as Flutter begins rendering frames -->
+
             <meta-data android:name="com.google.android.gms.version"
                 android:value="4.3.3" />
+
             <meta-data
                 android:name="firebase_performance_logcat_enabled"
                 android:value="false" />
             <meta-data
-                android:name="io.flutter.app.android.SplashScreenUntilFirstFrame"
-                android:value="true" />
+                android:name="flutterEmbedding"
+                android:value="2" />
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

@@ -70,8 +70,6 @@ class _NewReviewPageState extends State<NewReviewPage> {
               _commentModel.images.add(await _saveImage(image, _index));
               _index++;
             }
-            print(_commentModel.title);
-            print(_commentModel.images);
 
             showToast("fk");
           } else {
@@ -233,7 +231,7 @@ class _ImageArea extends StatefulWidget {
 
 class __ImageAreaState extends State<_ImageArea> {
   List<Asset> _images = [];
-  String _error;
+  String _error = 'No Error Dectected';
 
   @override
   void initState() {
@@ -241,23 +239,29 @@ class __ImageAreaState extends State<_ImageArea> {
   }
 
   Future<void> loadAssets() async {
-    List<Asset> resultList;
-    String error;
+    List<Asset> resultList = [];
+    String error = 'No Error Dectected';
     try {
       resultList = await MultiImagePicker.pickImages(
-        maxImages: 5 - _images.length,
-        enableCamera: true,
-      );
+          maxImages: 5 - _images.length,
+          enableCamera: true,
+          selectedAssets: _images,
+          materialOptions: MaterialOptions(useDetailsView: false));
+    } on NoImagesSelectedException catch (e) {
+      resultList.addAll(_images);
     } on Exception catch (e) {
       error = e.toString();
     }
     if (!mounted) return;
-    setState(() {
-      _images += resultList;
-
+    if (resultList != null) {
+      _images
+        ..clear()
+        ..addAll(resultList);
+      _error = error;
       widget.commentModel.imageAssets = _images;
-
-      if (error == null) _error = 'No Error Dectected';
+    }
+    setState(() {
+//      _images = resultList;
     });
   }
 
@@ -286,7 +290,7 @@ class __ImageAreaState extends State<_ImageArea> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                if (_images.length < 5)
+                if (_images == null || _images.length < 5)
                   Padding(
                     padding: const EdgeInsets.only(right: 8.0),
                     child: Center(
