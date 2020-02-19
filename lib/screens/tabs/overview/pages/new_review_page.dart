@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/core/services/gateway/firebase_storage_api.dart';
-import 'package:jom_malaysia/core/services/gateway/firestore_api.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/comments/comment_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/comments_provider.dart';
+import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/widgets/add_rating_bar.dart';
 import 'package:jom_malaysia/widgets/app_bar.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
@@ -39,6 +39,7 @@ class _NewReviewPageState extends State<NewReviewPage> {
     _db = Provider.of<CommentsProvider>(context, listen: false);
     var commentId = _db.getCommentId();
     _commentModel = new CommentModel(commentId);
+    //TODO init with user id
     _storageService =
         Provider.of<FirebaseStorageService>(context, listen: false);
     super.initState();
@@ -74,27 +75,36 @@ class _NewReviewPageState extends State<NewReviewPage> {
                 _index++;
               }
             }
-            _db.addComment(widget.placeId, _commentModel);
-            showToast("fk");
+            await _db.addComment(widget.placeId, _commentModel);
+            NavigatorUtils.goBack(context);
           } else {
-            showToast("fk la");
+            showToast("Error publishing your review");
           }
         },
         backImg: "assets/images/ic_close.png",
       ),
       body: SingleChildScrollView(
+        physics: ClampingScrollPhysics(),
         child: Container(
           width: MediaQuery.of(context).size.width,
           padding: EdgeInsets.symmetric(
             horizontal: 20.0,
             vertical: 16.0,
           ),
-          child: _CommentForm(
-              placeName: widget.placeName,
-              placeId: widget.placeId,
-              formKey: _formKey,
-              commentModel: _commentModel,
-              themeData: themeData),
+          child: GestureDetector(
+            onTap: () {
+              FocusScopeNode currentFocus = FocusScope.of(context);
+              if (!currentFocus.hasPrimaryFocus) {
+                currentFocus.unfocus();
+              }
+            },
+            child: _CommentForm(
+                placeName: widget.placeName,
+                placeId: widget.placeId,
+                formKey: _formKey,
+                commentModel: _commentModel,
+                themeData: themeData),
+          ),
         ),
       ),
     );
@@ -319,7 +329,10 @@ class __ImageAreaState extends State<_ImageArea> {
         top: 0,
         right: 0,
         child: GestureDetector(
-          onTap: () => _deleteImage(index),
+          onTap: () {
+            _deleteImage(index);
+            showToast(S.of(context).labelSearchHintNotEmpty);
+          },
           child: LoadAssetImage(
             "comment/icon_delete_image",
             height: 30,
@@ -340,11 +353,16 @@ class _AverageCost extends StatefulWidget {
 
 class __AverageCostState extends State<_AverageCost> {
   void initState() {
-    _controller.addListener(() {
+    _controller.addListener(_parseAndSave);
+    super.initState();
+  }
+
+  _parseAndSave() {
+    if (_controller.text != "") {
+      print(_controller.text);
       final cost = double.parse(_controller.text);
       widget.commentModel.costPax = cost;
-    });
-    super.initState();
+    }
   }
 
   @override
@@ -405,7 +423,7 @@ class __RatingAreaState extends State<_RatingArea> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text("Rating"),
+        Text(S.of(context).labelSearchHintNotEmpty),
         Gaps.hGap12,
         AddRatingBar(
           (rating) => _ratingUpdated(rating),
