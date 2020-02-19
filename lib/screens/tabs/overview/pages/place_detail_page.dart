@@ -189,7 +189,7 @@ class _AppBarWithSwiper extends StatelessWidget {
       floating: false, // 不随着滑动隐藏标题
       pinned: true, // 固定在顶部
       flexibleSpace: _showTitle
-          ? null
+          ? Text("test")
           : FlexibleSpaceBar(
               titlePadding:
                   const EdgeInsetsDirectional.only(start: 16.0, bottom: 14.0),

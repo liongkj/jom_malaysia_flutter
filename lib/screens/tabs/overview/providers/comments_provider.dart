@@ -2,8 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/services/gateway/firestore_api.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/comments/comment_model.dart';
+import 'package:jom_malaysia/setting/provider/base_change_notifier.dart';
+import 'package:jom_malaysia/widgets/state_layout.dart';
 
-class CommentsProvider extends ChangeNotifier {
+class CommentsProvider extends BaseChangeNotifier {
   FirestoreService _api;
   CommentsProvider({@required FirestoreService firebaseService})
       : _api = firebaseService;
@@ -15,9 +17,10 @@ class CommentsProvider extends ChangeNotifier {
     return _documentId;
   }
 
-  Future addComment(String listingId, CommentModel data) async {
+  Future<void> addComment(String listingId, CommentModel data) async {
+    setStateType(StateType.loading);
     var result = await _api.addDocument(listingId, "comments", data.toJson());
-
+    setStateTypeWithoutNotify(StateType.empty);
     return;
   }
 

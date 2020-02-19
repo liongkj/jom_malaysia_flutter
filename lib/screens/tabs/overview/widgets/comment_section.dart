@@ -29,7 +29,7 @@ class _CommentSectionState extends State<CommentSection> {
     final TextStyle sectionTitleStyle = Theme.of(context).textTheme.body1;
     final commentProvider =
         Provider.of<CommentsProvider>(context, listen: false);
-    print(widget.listingId);
+    final int _MAXCOMMENTCOUNT = 3;
     return SliverToBoxAdapter(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
@@ -78,7 +78,10 @@ class _CommentSectionState extends State<CommentSection> {
                                   ListView.builder(
                                     scrollDirection: Axis.vertical,
                                     shrinkWrap: true,
-                                    itemCount: comments.length,
+                                    itemCount:
+                                        comments.length > _MAXCOMMENTCOUNT
+                                            ? _MAXCOMMENTCOUNT
+                                            : comments.length,
                                     physics: NeverScrollableScrollPhysics(),
                                     itemBuilder: (buildContext, index) =>
                                         _BuildCommentCard(comments[index]),

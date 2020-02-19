@@ -317,6 +317,24 @@ class S {
     );
   }
 
+  String get labelImageRemoved {
+    return Intl.message(
+      'Image Removed',
+      name: 'labelImageRemoved',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelRatePlace {
+    return Intl.message(
+      'Rate',
+      name: 'labelRatePlace',
+      desc: '',
+      args: [],
+    );
+  }
+
   String get labelRatingStatus1 {
     return Intl.message(
       'Labbish',
@@ -371,6 +389,33 @@ class S {
     );
   }
 
+  String get labelReview {
+    return Intl.message(
+      'Review',
+      name: 'labelReview',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelUndoAction {
+    return Intl.message(
+      'Undo',
+      name: 'labelUndoAction',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String labelStatusPublish(dynamic item) {
+    return Intl.message(
+      'Adding your $item',
+      name: 'labelStatusPublish',
+      desc: '',
+      args: [item],
+    );
+  }
+
   String get labelAveratePaxPrefix {
     return Intl.message(
       'RM ',
@@ -402,6 +447,15 @@ class S {
     return Intl.message(
       'Please enter your spending',
       name: 'labelInputCostAmount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get msgPleaseFillRequiredField {
+    return Intl.message(
+      'Please fill in highlighted fields',
+      name: 'msgPleaseFillRequiredField',
       desc: '',
       args: [],
     );

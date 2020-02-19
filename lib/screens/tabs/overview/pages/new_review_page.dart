@@ -12,6 +12,7 @@ import 'package:jom_malaysia/widgets/add_rating_bar.dart';
 import 'package:jom_malaysia/widgets/app_bar.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
 import 'package:jom_malaysia/widgets/selected_image.dart';
+import 'package:jom_malaysia/widgets/state_layout.dart';
 import 'package:jom_malaysia/widgets/text_field_item.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:oktoast/oktoast.dart';
@@ -34,6 +35,7 @@ class _NewReviewPageState extends State<NewReviewPage> {
   CommentModel _commentModel;
   FirebaseStorageService _storageService;
   CommentsProvider _db;
+  StateType _loadingState = StateType.loading;
   @override
   void initState() {
     _db = Provider.of<CommentsProvider>(context, listen: false);
@@ -58,8 +60,7 @@ class _NewReviewPageState extends State<NewReviewPage> {
 
   @override
   Widget build(BuildContext context) {
-    print("form rebuild");
-    ThemeData themeData = Theme.of(context);
+    final ThemeData themeData = Theme.of(context);
     return Scaffold(
       appBar: MyAppBar(
         actionName: "Publish",
@@ -78,34 +79,44 @@ class _NewReviewPageState extends State<NewReviewPage> {
             await _db.addComment(widget.placeId, _commentModel);
             NavigatorUtils.goBack(context);
           } else {
-            showToast("Error publishing your review");
+            showToast(S.of(context).msgPleaseFillRequiredField);
           }
         },
         backImg: "assets/images/ic_close.png",
       ),
-      body: SingleChildScrollView(
-        physics: ClampingScrollPhysics(),
-        child: Container(
-          width: MediaQuery.of(context).size.width,
-          padding: EdgeInsets.symmetric(
-            horizontal: 20.0,
-            vertical: 16.0,
-          ),
-          child: GestureDetector(
-            onTap: () {
-              FocusScopeNode currentFocus = FocusScope.of(context);
-              if (!currentFocus.hasPrimaryFocus) {
-                currentFocus.unfocus();
-              }
-            },
-            child: _CommentForm(
-                placeName: widget.placeName,
-                placeId: widget.placeId,
-                formKey: _formKey,
-                commentModel: _commentModel,
-                themeData: themeData),
-          ),
-        ),
+      body: Consumer<CommentsProvider>(
+        builder: (context, provider, _) =>
+            provider.stateType != StateType.loading
+                ? SingleChildScrollView(
+                    physics: ClampingScrollPhysics(),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 20.0,
+                        vertical: 16.0,
+                      ),
+                      child: GestureDetector(
+                        onTap: () {
+                          FocusScopeNode currentFocus = FocusScope.of(context);
+                          if (!currentFocus.hasPrimaryFocus) {
+                            currentFocus.unfocus();
+                          }
+                        },
+                        child: _CommentForm(
+                            placeName: widget.placeName,
+                            placeId: widget.placeId,
+                            formKey: _formKey,
+                            commentModel: _commentModel,
+                            themeData: themeData),
+                      ),
+                    ),
+                  )
+                : StateLayout(
+                    type: StateType.loading,
+                    hintText: S
+                        .of(context)
+                        .labelStatusPublish(S.of(context).labelReview),
+                  ),
       ),
     );
   }
@@ -250,6 +261,7 @@ class __ImageAreaState extends State<_ImageArea> {
           selectedAssets: _images,
           materialOptions: MaterialOptions(useDetailsView: false));
     } on NoImagesSelectedException catch (e) {
+      //if user did not choose image on 2nd time, add back current selected
       resultList.addAll(_images);
     } on Exception catch (e) {
       error = e.toString();
@@ -267,9 +279,22 @@ class __ImageAreaState extends State<_ImageArea> {
     });
   }
 
+  Asset _tempImage;
+  int _tempIndex;
   void _deleteImage(int index) {
+    _tempIndex = index;
+    _tempImage = _images[index];
     setState(() {
       _images.removeAt(index);
+    });
+  }
+
+  void _undoDelete() {
+    setState(() {
+      _images.insert(
+        _tempIndex,
+        _tempImage,
+      );
     });
   }
 
@@ -331,7 +356,14 @@ class __ImageAreaState extends State<_ImageArea> {
         child: GestureDetector(
           onTap: () {
             _deleteImage(index);
-            showToast(S.of(context).labelSearchHintNotEmpty);
+            Scaffold.of(context).showSnackBar(SnackBar(
+                action: SnackBarAction(
+                  label: S.of(context).labelUndoAction,
+                  onPressed: () {
+                    _undoDelete();
+                  },
+                ),
+                content: Text(S.of(context).labelImageRemoved)));
           },
           child: LoadAssetImage(
             "comment/icon_delete_image",
@@ -423,7 +455,7 @@ class __RatingAreaState extends State<_RatingArea> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(S.of(context).labelSearchHintNotEmpty),
+        Text(S.of(context).labelRatePlace),
         Gaps.hGap12,
         AddRatingBar(
           (rating) => _ratingUpdated(rating),
