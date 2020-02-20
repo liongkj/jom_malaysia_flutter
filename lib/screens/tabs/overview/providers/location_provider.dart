@@ -7,9 +7,11 @@ class LocationProvider extends ChangeNotifier {
   bool rebuildHome = true;
 
   CityModel get selected {
-    CityModel city =
-        CityModel.fromJsonMap(SpUtil.getObject(Constant.prefLocation));
-    return city;
+    var sp = SpUtil.getObject(Constant.prefLocation);
+    if (sp != null) {
+      return CityModel.fromJsonMap(sp);
+    }
+    return null;
   }
 
   clear() {
