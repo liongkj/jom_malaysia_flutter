@@ -18,24 +18,30 @@ class CurrentLocation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final CityModel currentSelected =
+        Provider.of<LocationProvider>(context, listen: false).selected;
     final city = cityModel?.getCityName(locale, fullName: true);
-    final bool selected =
-        Provider.of<LocationProvider>(context, listen: false).selected ==
-            cityModel?.cityName;
+    final bool isSelected = currentSelected?.cityName == cityModel?.cityName;
     return Container(
       child: Column(
         children: <Widget>[
           ListTile(
-            selected: selected,
-            onTap: () {
-              Provider.of<LocationProvider>(context, listen: false)
-                  .selectPlace(cityModel);
-              NavigatorUtils.goBack(context);
+            selected: isSelected,
+            onTap: () async {
+              if (cityModel != null) {
+                Provider.of<LocationProvider>(context, listen: false)
+                    .selectPlace(cityModel);
+                NavigatorUtils.goBack(context);
+              }
+              await LocationUtils.getCurrentLocation(context);
             },
             leading: city != null
-                ? Icon(Icons.my_location)
+                ? Icon(
+                    Icons.location_on,
+                    color: Colors.orangeAccent,
+                  )
                 : Icon(
-                    Icons.warning,
+                    Icons.location_off,
                     size: 28.0,
                     color: ThemeUtils.getIconColor(context),
                   ),
@@ -49,7 +55,6 @@ class CurrentLocation extends StatelessWidget {
                 } else
                   return Text(
                     city == null ? "Not in service area" : city,
-                    //position.latitude.toString()+','+position.longitude.toString(),
                     style: TextStyle(
                         color: ThemeUtils.getIconColor(context),
                         fontSize: Dimens.font_sp16),

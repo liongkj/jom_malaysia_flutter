@@ -11,9 +11,12 @@ class TextFieldItem extends StatelessWidget {
       @required this.title,
       this.keyboardType: TextInputType.text,
       this.hintText: "",
+      this.prefixIcon,
+      this.suffixIcon,
       this.focusNode})
       : super(key: key);
-
+  final Widget suffixIcon;
+  final Widget prefixIcon;
   final TextEditingController controller;
   final String title;
   final String hintText;
@@ -45,6 +48,8 @@ class TextFieldItem extends StatelessWidget {
                 controller: controller,
                 //style: TextStyles.textDark14,
                 decoration: InputDecoration(
+                  suffix: suffixIcon,
+                  prefix: prefixIcon,
                   hintText: hintText,
                   border: InputBorder.none, //去掉下划线
                   //hintStyle: TextStyles.textGrayC14

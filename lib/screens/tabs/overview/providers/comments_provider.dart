@@ -1,14 +1,28 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:jom_malaysia/core/services/gateway/firebase_api.dart';
+import 'package:jom_malaysia/core/services/gateway/firestore_api.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/comments/comment_model.dart';
+import 'package:jom_malaysia/setting/provider/base_change_notifier.dart';
+import 'package:jom_malaysia/widgets/state_layout.dart';
 
-class CommentsProvider extends ChangeNotifier {
-  FirebaseService _api;
-  CommentsProvider({@required FirebaseService firebaseService})
+class CommentsProvider extends BaseChangeNotifier {
+  FirestoreService _api;
+  CommentsProvider({@required FirestoreService firebaseService})
       : _api = firebaseService;
-
+  String _documentId;
   List<CommentModel> comments;
+
+  String getCommentId() {
+    if (_documentId == null) _documentId = _api.getDocumentId();
+    return _documentId;
+  }
+
+  Future<void> addComment(String listingId, CommentModel data) async {
+    setStateType(StateType.loading);
+    var result = await _api.addDocument(listingId, "comments", data.toJson());
+    setStateTypeWithoutNotify(StateType.empty);
+    return;
+  }
 
   Future<List<CommentModel>> fetchcomments() async {
     var result = await _api.getDataCollection();
@@ -34,12 +48,6 @@ class CommentsProvider extends ChangeNotifier {
 
   Future updateComments(CommentModel data, String id) async {
     await _api.updateDocument(data.toJson(), id);
-    return;
-  }
-
-  Future addComments(CommentModel data) async {
-    var result = await _api.addDocument(data.toJson());
-
     return;
   }
 }

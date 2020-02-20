@@ -128,12 +128,12 @@ class OverviewPageState extends State<OverviewPage>
         locale: Provider.of<LanguageProvider>(context).locale ??
             Localizations.localeOf(context),
       ),
+      AdsSpace(),
       ListingTypeTabs(
           isDark: isDark,
           tabController: _tabController,
           mounted: mounted,
           pageController: _pageController),
-      AdsSpace(),
     ];
   }
 }

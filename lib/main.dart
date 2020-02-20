@@ -28,8 +28,8 @@ void main() {
 
   if (Platform.isAndroid) {
     SystemUiOverlayStyle systemUiOverlayStyle = SystemUiOverlayStyle(
-      statusBarColor: Color(0x80CACACA), //top bar color
-      statusBarIconBrightness: Brightness.light, //top bar icons
+      statusBarColor: Color(0x90CACACA), //top bar color
+      statusBarIconBrightness: Brightness.dark, //top bar icons
     );
     SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
   }

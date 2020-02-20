@@ -317,6 +317,24 @@ class S {
     );
   }
 
+  String get labelImageRemoved {
+    return Intl.message(
+      'Image Removed',
+      name: 'labelImageRemoved',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelRatePlace {
+    return Intl.message(
+      'Rate',
+      name: 'labelRatePlace',
+      desc: '',
+      args: [],
+    );
+  }
+
   String get labelRatingStatus1 {
     return Intl.message(
       'Labbish',
@@ -357,6 +375,87 @@ class S {
     return Intl.message(
       'Sui!',
       name: 'labelRatingStatus5',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelClickToAddImage {
+    return Intl.message(
+      'Add a image to let other know more about this place',
+      name: 'labelClickToAddImage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelReview {
+    return Intl.message(
+      'Review',
+      name: 'labelReview',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelUndoAction {
+    return Intl.message(
+      'Undo',
+      name: 'labelUndoAction',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String labelStatusPublish(dynamic item) {
+    return Intl.message(
+      'Adding your $item',
+      name: 'labelStatusPublish',
+      desc: '',
+      args: [item],
+    );
+  }
+
+  String get labelAveratePaxPrefix {
+    return Intl.message(
+      'RM ',
+      name: 'labelAveratePaxPrefix',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelAveragePaxTitle {
+    return Intl.message(
+      'Spending',
+      name: 'labelAveragePaxTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelAveratePaxSuffix {
+    return Intl.message(
+      'PAX',
+      name: 'labelAveratePaxSuffix',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelInputCostAmount {
+    return Intl.message(
+      'Please enter your spending',
+      name: 'labelInputCostAmount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get msgPleaseFillRequiredField {
+    return Intl.message(
+      'Please fill in highlighted fields',
+      name: 'msgPleaseFillRequiredField',
       desc: '',
       args: [],
     );

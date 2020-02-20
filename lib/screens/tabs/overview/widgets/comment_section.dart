@@ -29,7 +29,7 @@ class _CommentSectionState extends State<CommentSection> {
     final TextStyle sectionTitleStyle = Theme.of(context).textTheme.body1;
     final commentProvider =
         Provider.of<CommentsProvider>(context, listen: false);
-
+    final int _MAXCOMMENTCOUNT = 3;
     return SliverToBoxAdapter(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
@@ -50,7 +50,7 @@ class _CommentSectionState extends State<CommentSection> {
                                   .map((doc) => CommentModel.fromMap(
                                       doc.data, doc.documentID))
                                   .toList();
-                              final shouldLoad = comments.isNotEmpty;
+                              final shouldLoad = comments?.isNotEmpty;
                               return Column(children: <Widget>[
                                 Row(
                                     mainAxisAlignment:
@@ -78,7 +78,10 @@ class _CommentSectionState extends State<CommentSection> {
                                   ListView.builder(
                                     scrollDirection: Axis.vertical,
                                     shrinkWrap: true,
-                                    itemCount: comments.length,
+                                    itemCount:
+                                        comments.length > _MAXCOMMENTCOUNT
+                                            ? _MAXCOMMENTCOUNT
+                                            : comments.length,
                                     physics: NeverScrollableScrollPhysics(),
                                     itemBuilder: (buildContext, index) =>
                                         _BuildCommentCard(comments[index]),
@@ -89,7 +92,7 @@ class _CommentSectionState extends State<CommentSection> {
                                     text: "Submit first review",
                                     onPressed: () {
                                       NavigatorUtils.push(context,
-                                          '${OverviewRouter.reviewPage}?title=${widget.listingName}?id=${widget.listingId}&userId=${"123"}');
+                                          '${OverviewRouter.reviewPage}?title=${widget.listingName}&placeId=${widget.listingId}&userId=${"123"}');
                                     },
                                   ),
                               ]);
@@ -112,7 +115,9 @@ class _BuildCommentCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: EdgeInsets.symmetric(vertical: 8.0),
       child: Row(
+        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Container(
@@ -127,30 +132,48 @@ class _BuildCommentCard extends StatelessWidget {
             child: Container(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Expanded(child: Text("liongkj")),
-                      Text("Rating *****"),
+                      Expanded(
+                          child: Text(
+                        "liongkj",
+                        style: TextStyle(
+                            color: Colors.blueAccent,
+                            fontWeight: FontWeight.bold),
+                      )),
+                      Text(comment.rating?.toString() ?? "N/A"),
                     ],
                   ),
-                  Gaps.vGap12,
-                  Text(comment.title),
-                  Text(comment.publishedTime ?? "2019/2/21"),
+                  Gaps.vGap5,
                   Text(
-                    comment.commentText,
-                    maxLines: 3,
+                    comment.publishedTime.toString(),
+                    style: Theme.of(context).textTheme.subtitle,
+                  ),
+                  Gaps.vGap5,
+                  Text(
+                    comment.title,
+                    style: Theme.of(context).textTheme.body2,
                   ),
                   Gaps.vGap12,
-                  _BuildImageThumbnail(),
+
+                  //TODO use date util
+                  Text(
+                    comment.commentText,
+                    maxLines: 2,
+                  ),
+
+                  if (comment.images?.isNotEmpty)
+                    _BuildImageThumbnail(comment.images),
+                  Gaps.vGap16,
+                  Gaps.vGap4,
+                  Gaps.line
                 ],
               ),
             ),
           ),
-          Gaps.vGap12,
-          Gaps.line,
-          Gaps.vGap12,
         ],
       ),
     );
@@ -158,27 +181,30 @@ class _BuildCommentCard extends StatelessWidget {
 }
 
 class _BuildImageThumbnail extends StatelessWidget {
-  const _BuildImageThumbnail({
+  _BuildImageThumbnail(
+    this.images, {
     Key key,
   }) : super(key: key);
-
+  final List<String> images;
   @override
   Widget build(BuildContext context) {
-    return Row(children: [
-      LoadImage(
-        "",
-        height: 80,
+    return Container(
+      padding: EdgeInsets.only(top: 16.0),
+      height: 120,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        physics: NeverScrollableScrollPhysics(),
+        itemCount: images.length,
+        shrinkWrap: true,
+        itemBuilder: (context, index) => Container(
+          padding: EdgeInsets.symmetric(horizontal: 4),
+          child: LoadImage(
+            images[index],
+            height: 100,
+            width: 110,
+          ),
+        ),
       ),
-      Gaps.hGap4,
-      LoadImage(
-        "",
-        height: 80,
-      ),
-      Gaps.hGap4,
-      LoadImage(
-        "",
-        height: 80,
-      )
-    ]);
+    );
   }
 }

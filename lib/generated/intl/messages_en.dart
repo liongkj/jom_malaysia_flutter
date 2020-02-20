@@ -21,7 +21,9 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m0(selected) => "Selected: ${selected}";
 
-  static m1(commentCount) => "Comment (${commentCount})";
+  static m1(item) => "Adding your ${item}";
+
+  static m2(commentCount) => "Comment (${commentCount})";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
@@ -37,19 +39,30 @@ class MessageLookup extends MessageLookupByLibrary {
     "clickItemSettingFeedbackTitle" : MessageLookupByLibrary.simpleMessage("Feedback"),
     "clickItemSettingRecommendPlaceTitle" : MessageLookupByLibrary.simpleMessage("Add a missing place"),
     "clickItemSettingShareTitle" : MessageLookupByLibrary.simpleMessage("Tell a friend"),
+    "labelAveragePaxTitle" : MessageLookupByLibrary.simpleMessage("Spending"),
+    "labelAveratePaxPrefix" : MessageLookupByLibrary.simpleMessage("RM "),
+    "labelAveratePaxSuffix" : MessageLookupByLibrary.simpleMessage("PAX"),
+    "labelClickToAddImage" : MessageLookupByLibrary.simpleMessage("Add a image to let other know more about this place"),
+    "labelImageRemoved" : MessageLookupByLibrary.simpleMessage("Image Removed"),
+    "labelInputCostAmount" : MessageLookupByLibrary.simpleMessage("Please enter your spending"),
     "labelNoDetail" : MessageLookupByLibrary.simpleMessage("No more details"),
     "labelNoNotification" : MessageLookupByLibrary.simpleMessage("No Notification"),
     "labelNone" : MessageLookupByLibrary.simpleMessage("None"),
+    "labelRatePlace" : MessageLookupByLibrary.simpleMessage("Rate"),
     "labelRatingStatus1" : MessageLookupByLibrary.simpleMessage("Labbish"),
     "labelRatingStatus2" : MessageLookupByLibrary.simpleMessage("Better don\'t come"),
     "labelRatingStatus3" : MessageLookupByLibrary.simpleMessage("Ok Ok la"),
     "labelRatingStatus4" : MessageLookupByLibrary.simpleMessage("Not bad la"),
     "labelRatingStatus5" : MessageLookupByLibrary.simpleMessage("Sui!"),
+    "labelReview" : MessageLookupByLibrary.simpleMessage("Review"),
     "labelSearch" : MessageLookupByLibrary.simpleMessage("Search"),
     "labelSearchHint" : MessageLookupByLibrary.simpleMessage("Search for a name or keyword"),
     "labelSearchHintNotEmpty" : MessageLookupByLibrary.simpleMessage("Keyword cannot be blank"),
+    "labelStatusPublish" : m1,
+    "labelUndoAction" : MessageLookupByLibrary.simpleMessage("Undo"),
     "locationSelectCityMessage" : MessageLookupByLibrary.simpleMessage("Select a City"),
     "locationSelectTownMessage" : MessageLookupByLibrary.simpleMessage("Select a Town"),
+    "msgPleaseFillRequiredField" : MessageLookupByLibrary.simpleMessage("Please fill in highlighted fields"),
     "overviewSection1Para1" : MessageLookupByLibrary.simpleMessage("Negeri Sembilan is a Malaysian state on the Malay Peninsula\'s southwest coast, known for its beaches, nature parks and palaces. To the west, on the Malacca Strait, the area around Port Dickson has seaside resorts, the Wan Loong Chinese Temple and the Kota Lukut hilltop fort. South along the coast, in the neighboring state of Malacca, is Cape Rachado (Tanjung Tuan), a nature reserve with a lighthouse."),
     "overviewSection1Para2" : MessageLookupByLibrary.simpleMessage("Northeast from Port Dickson, the state capital of Seremban is known for its colonial architecture, Lake Garden park and wooden palaces of the Minangkabau people, an ethnic group with Indonesian roots. Their influence can also be seen in the town of Seri Menanti to the east, where a former palace is now the Sri Menanti Royal Museum. The nearby town of Kuala Pilah is home to the San Sheng Gong Chinese Temple and the colorful Hindu temple of Kuil Sri Kanthasamy. To the west, Ulu Bendul Recreational Park encompasses jungle, waterfalls and Gunung Angsi mountain."),
     "overviewSection2Para1" : MessageLookupByLibrary.simpleMessage("The name is believed to derive from the nine (sembilan) villages or nagari in the Minangkabau language (now known as luak) settled by the Minangkabau, a people originally from West Sumatra (in present-day Indonesia). Minangkabau features are still visible today in traditional architecture and the dialect of Malay spoken."),
@@ -60,7 +73,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "overviewSection4Title" : MessageLookupByLibrary.simpleMessage("Capital (Seremban)"),
     "overviewSection5Para1" : MessageLookupByLibrary.simpleMessage("Negeri Sembilan has a collective population of 1,098,500 as of 2015; the ethnic composition consisting of Malay 622,000 (56.6%) (mostly are Minangkabau descent), other Bumiputras 20,700 (1.9%), Chinese 234,300 (21.3%), Indian 154,000 (14%), Others 4,200 (0.4%), and Non Citizens 63,300 (5.8%). The state has the highest percentage of Indians when compared to other Malaysian states."),
     "overviewSection5Title" : MessageLookupByLibrary.simpleMessage("Demographic"),
-    "placeDetailCommentLabel" : m1,
+    "placeDetailCommentLabel" : m2,
     "placeDetailInfoLabel" : MessageLookupByLibrary.simpleMessage("Detail"),
     "placeDetailMerchantInfoLabel" : MessageLookupByLibrary.simpleMessage("Merchant Info"),
     "placeDetailMerchantRegistrationNameLabel" : MessageLookupByLibrary.simpleMessage("Registration Name"),

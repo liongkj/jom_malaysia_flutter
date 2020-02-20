@@ -44,33 +44,12 @@ class PlaceInfo extends StatelessWidget {
                       style: Theme.of(context).textTheme.title,
                     ),
                   ),
-                  Expanded(
-                    child: Consumer<UserCurrentLocationProvider>(
-                      builder: (_, location, __) {
-                        return FutureBuilder<String>(
-                            future: LocationUtils.getDistanceBetween(
-                                location.currentCoordinate,
-                                place,
-                                Provider.of<LocationProvider>(context,
-                                        listen: false)
-                                    .cityModel),
-                            builder: (context, snapshot) {
-                              return snapshot.hasData
-                                  ? Text(
-                                      snapshot.data,
-                                      style:
-                                          Theme.of(context).textTheme.subtitle,
-                                    )
-                                  : CircularProgressIndicator();
-                            });
-                      },
-                    ),
-                  ),
-                  Icon(Icons.star_border)
+                  Icon(Icons.star_border, size: 30)
                 ],
               ),
               Gaps.vGap16,
               Row(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Chip(
                     label: Text(
@@ -84,6 +63,30 @@ class PlaceInfo extends StatelessWidget {
                         place.category.getSubcategory(
                             lang ?? Localizations.localeOf(context)),
                         style: Theme.of(context).textTheme.body1),
+                  ),
+                  Spacer(),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Consumer<UserCurrentLocationProvider>(
+                      builder: (_, location, __) {
+                        return FutureBuilder<String>(
+                            future: LocationUtils.getDistanceBetween(
+                                location.currentCoordinate,
+                                place,
+                                Provider.of<LocationProvider>(context,
+                                        listen: false)
+                                    .selected),
+                            builder: (context, snapshot) {
+                              return snapshot.hasData
+                                  ? Text(
+                                      snapshot.data,
+                                      style:
+                                          Theme.of(context).textTheme.subtitle,
+                                    )
+                                  : CircularProgressIndicator();
+                            });
+                      },
+                    ),
                   ),
                 ],
               ),
@@ -202,15 +205,28 @@ class _ContactCardState extends State<_ContactCard> {
                   if (contact.mobileNumber != null &&
                       contact.mobileNumber.isNotEmpty)
                     SimpleDialogOption(
-                      child: LoadAssetImage(
-                        "place/icon_phone",
-                        height: 50,
+                      child: GestureDetector(
+                        onTap: () {
+                          Utils.launchTelURL(contact.mobileNumber);
+                          NavigatorUtils.goBack(context);
+                        },
+                        child: LoadAssetImage(
+                          "place/icon_call",
+                          height: 50,
+                        ),
                       ),
-                      onPressed: () {
-                        Utils.launchTelURL(contact.mobileNumber);
+                    ),
+                  SimpleDialogOption(
+                    child: GestureDetector(
+                      onTap: () {
+                        Utils.launchWhatsAppURL(contact.mobileNumber);
                         NavigatorUtils.goBack(context);
                       },
+                      child: LoadAssetImage(
+                        "place/icon_whatsapp",
+                      ),
                     ),
+                  ),
                 ],
               ),
               ButtonBar(

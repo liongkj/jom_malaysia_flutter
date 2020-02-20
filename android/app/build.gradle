@@ -48,10 +48,11 @@ apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
         applicationId "com.jomjommalaysia.jomn9"
         minSdkVersion 26
         targetSdkVersion 29
-        versionCode flutterVersionCode.toInteger()
-        versionName flutterVersionName
+       
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
+        versionCode flutterVersionCode.toInteger()
+        versionName flutterVersionName
     }
 
     signingConfigs {
@@ -60,25 +61,39 @@ apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
            keyPassword keystoreProperties['keyPassword']
            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
            storePassword keystoreProperties['storePassword']
+
        }
    }
+
    buildTypes {
+       debug {
+      ext.enableCrashlytics = false
+      ext.alwaysUpdateBuildId = false
+           minifyEnabled false
+    }
        release {
 
            signingConfig signingConfigs.release
            minifyEnabled true
        }
    }
-}
+       dexOptions{
+       preDexLibraries true
+       }
+   }
+
+
 
 flutter {
     source '../..'
 }
 
 dependencies {
+    implementation 'com.google.firebase:firebase-storage:19.1.1'
     implementation "androidx.annotation:annotation:1.1.0"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
 }

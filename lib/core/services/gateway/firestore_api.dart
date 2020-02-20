@@ -1,13 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class FirebaseService {
+class FirestoreService {
   final Firestore _db = Firestore.instance;
   String path;
   CollectionReference ref;
-
-  FirebaseService() {
+  FirestoreService() {
     ref = _db.collection("places");
-    print("created");
+  }
+
+  String getDocumentId() {
+    return ref.document().documentID;
   }
 
   Future<QuerySnapshot> getDataCollection() {
@@ -27,8 +29,9 @@ class FirebaseService {
     return ref.document(id).delete();
   }
 
-  Future<DocumentReference> addDocument(Map data) {
-    return ref.add(data);
+  Future<DocumentReference> addDocument(
+      String listingId, String collectionName, Map data) {
+    return ref.document(listingId).collection(collectionName).add(data);
   }
 
   Future<void> updateDocument(Map data, String id) {
