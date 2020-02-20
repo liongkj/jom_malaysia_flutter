@@ -44,7 +44,29 @@ class PlaceInfo extends StatelessWidget {
                       style: Theme.of(context).textTheme.title,
                     ),
                   ),
-                  Expanded(
+                  Icon(Icons.star_border, size: 30)
+                ],
+              ),
+              Gaps.vGap16,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Chip(
+                    label: Text(
+                        place.category.getCategory(
+                            lang ?? Localizations.localeOf(context)),
+                        style: Theme.of(context).textTheme.body1),
+                  ),
+                  Gaps.hGap15,
+                  Chip(
+                    label: Text(
+                        place.category.getSubcategory(
+                            lang ?? Localizations.localeOf(context)),
+                        style: Theme.of(context).textTheme.body1),
+                  ),
+                  Spacer(),
+                  Align(
+                    alignment: Alignment.centerRight,
                     child: Consumer<UserCurrentLocationProvider>(
                       builder: (_, location, __) {
                         return FutureBuilder<String>(
@@ -65,25 +87,6 @@ class PlaceInfo extends StatelessWidget {
                             });
                       },
                     ),
-                  ),
-                  Icon(Icons.star_border)
-                ],
-              ),
-              Gaps.vGap16,
-              Row(
-                children: <Widget>[
-                  Chip(
-                    label: Text(
-                        place.category.getCategory(
-                            lang ?? Localizations.localeOf(context)),
-                        style: Theme.of(context).textTheme.body1),
-                  ),
-                  Gaps.hGap15,
-                  Chip(
-                    label: Text(
-                        place.category.getSubcategory(
-                            lang ?? Localizations.localeOf(context)),
-                        style: Theme.of(context).textTheme.body1),
                   ),
                 ],
               ),
