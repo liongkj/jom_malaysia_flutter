@@ -55,7 +55,6 @@ class PlaceDetailPageState extends State<PlaceDetailPage>
 
   @override
   Widget build(BuildContext context) {
-    print("whole page build");
     super.build(context);
     isDark = ThemeUtils.isDark(context);
     final place = Provider.of<ListingProvider>(context, listen: false)
@@ -185,12 +184,10 @@ class __AppBarWithSwiperState extends State<_AppBarWithSwiper> {
           _showTitle = (widget.scrollController.hasClients &&
               widget.scrollController.offset > kExpandedHeight - kToolbarHeight)
         });
-    print(_showTitle);
   }
 
   @override
   Widget build(BuildContext context) {
-    print("appbar build");
     return SliverAppBar(
       brightness: Brightness.dark,
       backgroundColor: Colors.grey.shade200,
@@ -215,7 +212,7 @@ class __AppBarWithSwiperState extends State<_AppBarWithSwiper> {
       floating: false, // 不随着滑动隐藏标题
       pinned: true, // 固定在顶部
       flexibleSpace: _showTitle
-          ? Text("test")
+          ? null
           : FlexibleSpaceBar(
               titlePadding:
                   const EdgeInsetsDirectional.only(start: 16.0, bottom: 14.0),
