@@ -41,21 +41,21 @@ class PlaceDetailPageState extends State<PlaceDetailPage>
   bool isDark = false;
 
   ScrollController _scrollController;
-  bool _showTitle = false;
   @override
   void initState() {
+    _scrollController = new ScrollController();
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {});
+  }
 
-    _scrollController = ScrollController()
-      ..addListener(() {
-        _showTitle = (_scrollController.hasClients &&
-            _scrollController.offset > kExpandedHeight - kToolbarHeight);
-      });
+  @override
+  void dispose() {
+    _scrollController?.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    print("whole page build");
     super.build(context);
     isDark = ThemeUtils.isDark(context);
     final place = Provider.of<ListingProvider>(context, listen: false)
@@ -81,7 +81,7 @@ class PlaceDetailPageState extends State<PlaceDetailPage>
   List<Widget> _sliverBuilder(ListingModel place) {
     return <Widget>[
       _AppBarWithSwiper(
-        showTitle: _showTitle,
+        scrollController: _scrollController,
         context: context,
         place: place,
       ),
@@ -153,21 +153,44 @@ class _PlaceImage extends StatelessWidget {
   }
 }
 
-class _AppBarWithSwiper extends StatelessWidget {
+class _AppBarWithSwiper extends StatefulWidget {
   const _AppBarWithSwiper({
     Key key,
-    @required bool showTitle,
     @required this.context,
     @required this.place,
-  })  : _showTitle = showTitle,
-        super(key: key);
+    @required this.scrollController,
+  }) : super(key: key);
 
-  final bool _showTitle;
+  final ScrollController scrollController;
   final BuildContext context;
   final ListingModel place;
 
   @override
+  __AppBarWithSwiperState createState() => __AppBarWithSwiperState();
+}
+
+class __AppBarWithSwiperState extends State<_AppBarWithSwiper> {
+  bool _showTitle = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      widget.scrollController..addListener(() => _isShowTitle());
+    });
+  }
+
+  void _isShowTitle() {
+    setState(() => {
+          _showTitle = (widget.scrollController.hasClients &&
+              widget.scrollController.offset > kExpandedHeight - kToolbarHeight)
+        });
+    print(_showTitle);
+  }
+
+  @override
   Widget build(BuildContext context) {
+    print("appbar build");
     return SliverAppBar(
       brightness: Brightness.dark,
       backgroundColor: Colors.grey.shade200,
@@ -181,8 +204,11 @@ class _AppBarWithSwiper extends StatelessWidget {
       centerTitle: true,
       title: _showTitle
           ? Text(
-              '${place.listingName}',
-              style: Theme.of(context).textTheme.subtitle,
+              '${widget.place.listingName}',
+              style: Theme.of(context)
+                  .textTheme
+                  .subtitle
+                  .copyWith(color: Colors.black54),
             )
           : null,
       expandedHeight: kExpandedHeight,
@@ -194,7 +220,7 @@ class _AppBarWithSwiper extends StatelessWidget {
               titlePadding:
                   const EdgeInsetsDirectional.only(start: 16.0, bottom: 14.0),
               collapseMode: CollapseMode.pin,
-              background: _CoverPhotos(place),
+              background: _CoverPhotos(widget.place),
               centerTitle: true,
             ),
       actions: <Widget>[
