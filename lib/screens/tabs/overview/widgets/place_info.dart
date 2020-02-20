@@ -205,15 +205,28 @@ class _ContactCardState extends State<_ContactCard> {
                   if (contact.mobileNumber != null &&
                       contact.mobileNumber.isNotEmpty)
                     SimpleDialogOption(
-                      child: LoadAssetImage(
-                        "place/icon_phone",
-                        height: 50,
+                      child: GestureDetector(
+                        onTap: () {
+                          Utils.launchTelURL(contact.mobileNumber);
+                          NavigatorUtils.goBack(context);
+                        },
+                        child: LoadAssetImage(
+                          "place/icon_call",
+                          height: 50,
+                        ),
                       ),
-                      onPressed: () {
-                        Utils.launchTelURL(contact.mobileNumber);
+                    ),
+                  SimpleDialogOption(
+                    child: GestureDetector(
+                      onTap: () {
+                        Utils.launchWhatsAppURL(contact.mobileNumber);
                         NavigatorUtils.goBack(context);
                       },
+                      child: LoadAssetImage(
+                        "place/icon_whatsapp",
+                      ),
                     ),
+                  ),
                 ],
               ),
               ButtonBar(

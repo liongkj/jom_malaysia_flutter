@@ -40,6 +40,16 @@ class Utils {
     }
   }
 
+  /// launch WhatsApp Intent
+  static void launchWhatsAppURL(String phone) async {
+    var url = "whatsapp://send?phone=$phone";
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      Toast.show('Failed opening whatsapp');
+    }
+  }
+
   static Future<void> launchMap(CoordinatesModel coordinates, MapType s) async {
     final double lat = coordinates.latitude;
     final double lng = coordinates.longitude;

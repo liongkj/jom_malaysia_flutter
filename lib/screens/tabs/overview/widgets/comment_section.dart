@@ -50,7 +50,7 @@ class _CommentSectionState extends State<CommentSection> {
                                   .map((doc) => CommentModel.fromMap(
                                       doc.data, doc.documentID))
                                   .toList();
-                              final shouldLoad = comments.isNotEmpty;
+                              final shouldLoad = comments?.isNotEmpty;
                               return Column(children: <Widget>[
                                 Row(
                                     mainAxisAlignment:
@@ -165,7 +165,7 @@ class _BuildCommentCard extends StatelessWidget {
                     maxLines: 2,
                   ),
 
-                  if (comment.images.isNotEmpty)
+                  if (comment.images?.isNotEmpty)
                     _BuildImageThumbnail(comment.images),
                   Gaps.vGap16,
                   Gaps.vGap4,

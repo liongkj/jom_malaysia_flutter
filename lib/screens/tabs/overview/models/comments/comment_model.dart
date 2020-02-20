@@ -28,8 +28,9 @@ class CommentModel {
 
   CommentModel.fromMap(Map snapshot, String id)
       : id = id ?? '',
-        images =
-            (snapshot["images"] as List)?.map((i) => i as String)?.toList(),
+        images = snapshot["images"] != null
+            ? (snapshot["images"] as List)?.map((i) => i as String)?.toList()
+            : [],
         costPax = snapshot["costPax"] ?? null,
         title = snapshot['title'] ?? '',
         userId = snapshot['userId'] ?? '',
