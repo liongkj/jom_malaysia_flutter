@@ -53,7 +53,7 @@ class PlaceInfo extends StatelessWidget {
                                 place,
                                 Provider.of<LocationProvider>(context,
                                         listen: false)
-                                    .cityModel),
+                                    .selected),
                             builder: (context, snapshot) {
                               return snapshot.hasData
                                   ? Text(

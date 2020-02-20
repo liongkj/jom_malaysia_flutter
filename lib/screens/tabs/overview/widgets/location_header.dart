@@ -160,9 +160,9 @@ class _LocationHeaderState extends State<LocationHeader> {
                 ),
                 builder: (_, location, child) {
                   selectedLocation =
-                      _cities.isNotEmpty && location.selected != ""
+                      _cities.isNotEmpty && location.selected != null
                           ? _cities.firstWhere(
-                              (x) => x.cityName == location.selected,
+                              (x) => x.cityName == location.selected?.cityName,
                               orElse: null)
                           : null;
                   return Row(
@@ -235,9 +235,10 @@ class _LocationHeaderState extends State<LocationHeader> {
   }
 
   Widget _buildListTile(CityModel city) {
-    final bool selected =
-        Provider.of<LocationProvider>(context, listen: false).selected ==
-            city.cityName;
+    final bool selected = Provider.of<LocationProvider>(context, listen: false)
+            .selected
+            ?.cityName ==
+        city.cityName;
     return Container(
       child: Column(
         children: [

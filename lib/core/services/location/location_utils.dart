@@ -16,44 +16,50 @@ class LocationUtils {
 
   ///Get current location
   static Future<void> getCurrentLocation(BuildContext context) async {
-    await _geolocator
-        .getCurrentPosition()
-        .then((Position position) async =>
-            await _getAddressFromLatLng(position, context))
-        .catchError((e) {
+    await _geolocator.getCurrentPosition().then((Position position) async {
+      Placemark place = await _getAddressFromLatLng(
+          latitude: position.latitude, longitude: position.longitude);
+      Provider.of<UserCurrentLocationProvider>(context, listen: false)
+          .setCurrentLocation(place.locality, position);
+    }).catchError((e) {
       print(e);
     });
   }
 
   //Get Location Base on Latitude and Longtitude
-  static Future<void> _getAddressFromLatLng(
-      Position position, BuildContext context) async {
+  static Future<Placemark> _getAddressFromLatLng(
+      {double latitude, double longitude}) async {
     try {
-      List<Placemark> p = await _geolocator.placemarkFromCoordinates(
-          position.latitude, position.longitude);
-      Placemark place = p[0];
-      Provider.of<UserCurrentLocationProvider>(context, listen: false)
-          .setCurrentLocation(place.locality, position);
-      //, ${place.postalCode}, ${place.country}";
-
+      List<Placemark> p =
+          await _geolocator.placemarkFromCoordinates(latitude, longitude);
+      return p[0];
     } catch (e) {
       print(e);
     }
-    return "";
+    return null;
   }
 
   static Future<String> getDistanceBetween(
       CoordinatesModel current, ListingModel place, CityModel town) async {
-    ///user select town from different city
+    //town null check
     if (town != null) {
-      if (place.address.city.toLowerCase() != town.cityName.toLowerCase())
-        return "";
-      if (current == null) {
+      //if user gps not open
+      if (await isLocationServiceDisabled() || current == null) {
         return await _getDistanceToTown(place.getCoord, town.coordinates);
+        //user gps is opened
+      } else {
+        //get user located town
+        String userTown = (await _getAddressFromLatLng(
+                latitude: current.latitude, longitude: current.longitude))
+            .locality;
+
+        ///if selected place is from different city
+        if (userTown != town.cityName)
+          return "";
+        else {
+          return _getDistanceToUser(current, place);
+        }
       }
-    } else if (current != null) {
-      //user location is opened
-      return _getDistanceToUser(current, place);
     }
     return "";
   }

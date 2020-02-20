@@ -117,10 +117,11 @@ class _Description extends StatelessWidget {
                   Consumer<UserCurrentLocationProvider>(
                 builder: (_, userLocation, __) {
                   return FutureBuilder<String>(
+                      initialData: "",
                       future: LocationUtils.getDistanceBetween(
                           userLocation.currentCoordinate,
                           listing,
-                          selectedCity.cityModel),
+                          selectedCity.selected),
                       builder: (context, snapshot) {
                         return snapshot.hasData
                             ? Text(
@@ -130,7 +131,7 @@ class _Description extends StatelessWidget {
                                     .subtitle
                                     .copyWith(fontSize: Dimens.font_sp10),
                               )
-                            : Text("N/A");
+                            : null;
                       });
                 },
               ),

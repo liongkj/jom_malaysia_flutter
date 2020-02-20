@@ -52,6 +52,8 @@ class ListingProvider extends BaseChangeNotifier {
           _listing.addAll(data);
           setStateTypeWithoutNotify(StateType.places);
           notifyListeners();
+        } else {
+          setStateType(StateType.places);
         }
       } else {
         setStateType(StateType.network);

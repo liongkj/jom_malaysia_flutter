@@ -99,10 +99,8 @@ class _PlaceListState extends State<PlaceList>
   List _list = [];
 
   Future _onRefresh() async {
-    _selectedCity =
-        Provider.of<LocationProvider>(context, listen: false).selected;
     Provider.of<ListingProvider>(context, listen: false)
-        .fetchAndInitPlaces(city: _selectedCity, refresh: true);
+        .fetchAndInitPlaces(refresh: true);
   }
 
   bool _hasMore() {
