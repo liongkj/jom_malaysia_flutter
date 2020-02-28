@@ -79,18 +79,11 @@ class OverviewPageState extends State<OverviewPage>
                 child: SizedBox(
                   height: 105,
                   width: double.infinity,
-                  child: isDark
-                      ? null
-                      : const DecoratedBox(
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: const [
-                                Color(0xFF5793FA),
-                                Color(0xFF4647FA)
-                              ],
-                            ),
-                          ),
-                        ),
+                  child: const DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: Color(0xfff2f2f2),
+                    ),
+                  ),
                 ),
               ),
               NestedScrollView(

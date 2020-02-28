@@ -16,7 +16,6 @@ import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
 import 'package:jom_malaysia/widgets/my_flexible_space_bar.dart';
-import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 
 class LocationHeader extends StatefulWidget {
@@ -97,6 +96,7 @@ class _LocationHeaderState extends State<LocationHeader> {
 
   @override
   Widget build(BuildContext context) {
+    const Color iconColor = Colors.white;
     return SliverOverlapAbsorber(
       handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
       child: SliverAppBar(
@@ -105,25 +105,14 @@ class _LocationHeaderState extends State<LocationHeader> {
         actions: <Widget>[
           // SearchBarButton(
           IconButton(
-            icon: LoadAssetImage(
+            icon: const LoadAssetImage(
               "overview/icon_search",
+              color: iconColor,
               width: 24,
             ),
             onPressed: () =>
                 NavigatorUtils.push(context, OverviewRouter.placeSearchPage),
           ),
-
-          IconButton(
-            icon: LoadAssetImage(
-              "overview/icon_notification",
-              color: Colors.white,
-            ),
-            onPressed: () {
-              showToast(S.of(context).labelNoNotification);
-            },
-          ),
-
-          // overflow menu
         ],
 
         backgroundColor: Colors.transparent,
@@ -134,17 +123,11 @@ class _LocationHeaderState extends State<LocationHeader> {
         floating: false, // 不随着滑动隐藏标题
         pinned: true, // 固定在顶部
         flexibleSpace: MyFlexibleSpaceBar(
-          background: ThemeUtils.isDark(context)
-              ? Container(
-                  height: 113.0,
-                  color: Colours.dark_bg_color,
-                )
-              : const LoadAssetImage(
-                  "overview/overview_bg",
-                  width: double.infinity,
-                  height: 113.0,
-                  fit: BoxFit.fill,
-                ),
+          background: DecoratedBox(
+            decoration: BoxDecoration(
+              color: Colours.dark_button_text,
+            ),
+          ),
           centerTitle: true,
           titlePadding:
               const EdgeInsetsDirectional.only(start: 16.0, bottom: 14.0),
@@ -156,7 +139,7 @@ class _LocationHeaderState extends State<LocationHeader> {
               child: Consumer<LocationProvider>(
                 child: Icon(
                   Icons.keyboard_arrow_down,
-                  color: Colors.white,
+                  color: Colours.arrow_color,
                 ),
                 builder: (_, location, child) {
                   selectedLocation =
@@ -168,11 +151,16 @@ class _LocationHeaderState extends State<LocationHeader> {
                   return Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
+                      Divider(
+                        color: Colours.line,
+                        thickness: 2.0,
+                      ),
                       Text(
                         selectedLocation == null
                             ? S.of(context).locationSelectCityMessage
                             : selectedLocation.getCityName(widget.locale),
-                        style: TextStyles.textBold16,
+                        style: TextStyles.textBold16
+                            .copyWith(color: Colours.arrow_color),
                         maxLines: 2,
                       ),
                       Gaps.hGap8,

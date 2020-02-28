@@ -22,7 +22,7 @@ class Colours {
   static const Color bg_gray = Color(0xFFF6F6F6);
   static const Color dark_bg_gray = Color(0xFF1F1F1F);
 
-  static const Color line = Color(0xFFEEEEEE);
+  static const Color line = Color(0xFF05a19c);
   static const Color dark_line = Color(0xFF3A3C3D);
 
   static const Color red = Color(0xFFFF4759);
@@ -34,8 +34,11 @@ class Colours {
   static const Color button_disabled = Color(0xFF96BBFA);
   static const Color dark_button_disabled = Color(0xFF83A5E0);
 
-  static const Color unselected_item_color = Color(0xffbfbfbf);
+  static const Color selected_item_color = Color(0xff05a19c);
+  static const Color unselected_item_color = Color(0xffacb0b7);
   static const Color dark_unselected_item_color = Color(0xFF4D4D4D);
+
+  static const Color arrow_color = Color(0xff071551);
 
   static const Color bg_gray_ = Color(0xFFFAFAFA);
   static const Color dark_bg_gray_ = Color(0xFF242526);

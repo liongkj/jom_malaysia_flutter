@@ -32,12 +32,8 @@ class ListingTypeTabs extends StatelessWidget {
       delegate: MySliverAppBarDelegate(
         DecoratedBox(
           decoration: BoxDecoration(
-              color: isDark ? Colours.dark_bg_color : null,
-              image: isDark
-                  ? null
-                  : DecorationImage(
-                      image: ImageUtils.getAssetImage("overview/overview_bg1"),
-                      fit: BoxFit.fill)),
+            color: Colors.white,
+          ),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: ListingTypeTab(
