@@ -27,6 +27,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static _notInlinedMessages(_) => <String, Function> {
     "appBarTitleExplore" : MessageLookupByLibrary.simpleMessage("探索"),
     "appBarTitleHome" : MessageLookupByLibrary.simpleMessage("主页"),
+    "appBarTitleNotification" : MessageLookupByLibrary.simpleMessage("通知"),
     "appBarTitleSetting" : MessageLookupByLibrary.simpleMessage("设置"),
     "appBarTitleSettingLanguage" : MessageLookupByLibrary.simpleMessage("语言"),
     "appTitle" : MessageLookupByLibrary.simpleMessage("走森州"),

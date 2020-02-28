@@ -74,6 +74,33 @@ class S {
     );
   }
 
+  String get appBarTitleSetting {
+    return Intl.message(
+      'Setting',
+      name: 'appBarTitleSetting',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get appBarTitleNotification {
+    return Intl.message(
+      'Notification',
+      name: 'appBarTitleNotification',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get appBarTitleSettingLanguage {
+    return Intl.message(
+      'Language',
+      name: 'appBarTitleSettingLanguage',
+      desc: '',
+      args: [],
+    );
+  }
+
   String get tabTitleExploreOverview {
     return Intl.message(
       'Overview',
@@ -87,24 +114,6 @@ class S {
     return Intl.message(
       'TODO',
       name: 'tabTitleExploreTodo',
-      desc: '',
-      args: [],
-    );
-  }
-
-  String get appBarTitleSetting {
-    return Intl.message(
-      'Setting',
-      name: 'appBarTitleSetting',
-      desc: '',
-      args: [],
-    );
-  }
-
-  String get appBarTitleSettingLanguage {
-    return Intl.message(
-      'Language',
-      name: 'appBarTitleSettingLanguage',
       desc: '',
       args: [],
     );

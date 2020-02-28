@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jom_malaysia/core/res/colors.dart';
 import 'package:jom_malaysia/core/services/gateway/http_service.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/ads_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/overview_page_provider.dart';
@@ -79,18 +80,11 @@ class OverviewPageState extends State<OverviewPage>
                 child: SizedBox(
                   height: 105,
                   width: double.infinity,
-                  child: isDark
-                      ? null
-                      : const DecoratedBox(
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: const [
-                                Color(0xFF5793FA),
-                                Color(0xFF4647FA)
-                              ],
-                            ),
-                          ),
-                        ),
+                  child: const DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: Colours.bg_color,
+                    ),
+                  ),
                 ),
               ),
               NestedScrollView(
