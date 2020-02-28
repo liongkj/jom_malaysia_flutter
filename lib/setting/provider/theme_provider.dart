@@ -47,7 +47,7 @@ class ThemeProvider with ChangeNotifier {
       indicatorColor: isDarkMode ? Colours.dark_app_main : Colours.app_main,
       // 页面背景色
       scaffoldBackgroundColor:
-          isDarkMode ? Colours.dark_bg_color : Colors.white,
+          isDarkMode ? Colours.dark_bg_color : Colours.bg_color,
       // 主要用于Material背景色
       canvasColor: isDarkMode ? Colours.dark_material_bg : Colors.white,
       // 文字选择色（输入框复制粘贴菜单）

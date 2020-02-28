@@ -18,13 +18,14 @@ class AdsProvider with ChangeNotifier {
   Future<void> fetchAndInitAds({
     bool refresh = true,
   }) async {
-    final Options options =
-        buildCacheOptions(Duration(days: 7), forceRefresh: refresh);
-    //queries
+    final Options options = buildCacheOptions(Duration(days: 7),
+        forceRefresh: refresh,
+        options: new RequestOptions(baseUrl: APIEndpoint.getAdsRequest));
+    //change base url by adding new request option
     Map<String, dynamic> queries = Map<String, dynamic>();
 
     _httpService.asyncRequestNetwork<List<AdsModel>, AdsModel>(Method.get,
-        url: APIEndpoint.getAdsRequest,
+        url: "",
         options: options,
         queryParameters: queries,
         isShow: false, onSuccess: (data) {

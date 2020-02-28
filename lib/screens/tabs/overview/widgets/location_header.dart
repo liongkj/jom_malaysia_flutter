@@ -96,7 +96,7 @@ class _LocationHeaderState extends State<LocationHeader> {
 
   @override
   Widget build(BuildContext context) {
-    const Color iconColor = Colors.white;
+    const Color iconColor = Color(0xFFb8b8b8);
     return SliverOverlapAbsorber(
       handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
       child: SliverAppBar(
@@ -129,13 +129,13 @@ class _LocationHeaderState extends State<LocationHeader> {
             ),
           ),
           centerTitle: true,
-          titlePadding:
-              const EdgeInsetsDirectional.only(start: 16.0, bottom: 14.0),
+          titlePadding: const EdgeInsetsDirectional.only(bottom: 14.0),
           collapseMode: CollapseMode.pin,
           title: GestureDetector(
             onTap: () => _showCityPickerDialog(context, selectedLocation),
             child: Container(
-              padding: const EdgeInsets.only(left: 16.0, right: 8.0),
+              height: kExpandedHeight * 0.3,
+              padding: const EdgeInsets.only(left: 12, right: 16.0),
               child: Consumer<LocationProvider>(
                 child: Icon(
                   Icons.keyboard_arrow_down,
@@ -151,9 +151,12 @@ class _LocationHeaderState extends State<LocationHeader> {
                   return Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      Divider(
-                        color: Colours.line,
-                        thickness: 2.0,
+                      VerticalDivider(
+                        indent: 10,
+                        width: 20,
+                        endIndent: 10,
+                        color: Colours.header_line,
+                        thickness: 4.0,
                       ),
                       Text(
                         selectedLocation == null

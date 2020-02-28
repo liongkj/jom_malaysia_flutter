@@ -3,6 +3,7 @@ import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/tabs/account/page/setting_page.dart';
 import 'package:jom_malaysia/screens/tabs/explore/pages/explore_page.dart';
+import 'package:jom_malaysia/screens/tabs/notification/pages/notification_page.dart';
 import 'package:jom_malaysia/screens/tabs/overview/pages/overview_page.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
 import 'package:jom_malaysia/util/toast.dart';
@@ -21,6 +22,7 @@ class _HomeState extends State<Home> {
     // NearbyPage(),
     ExplorePage(),
     SettingPage(),
+    NotificationPage(),
   ];
   final _pageController = PageController();
 

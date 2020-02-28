@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jom_malaysia/core/res/colors.dart';
 import 'package:jom_malaysia/core/services/gateway/http_service.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/ads_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/overview_page_provider.dart';
@@ -81,7 +82,7 @@ class OverviewPageState extends State<OverviewPage>
                   width: double.infinity,
                   child: const DecoratedBox(
                     decoration: BoxDecoration(
-                      color: Color(0xfff2f2f2),
+                      color: Colours.bg_color,
                     ),
                   ),
                 ),
