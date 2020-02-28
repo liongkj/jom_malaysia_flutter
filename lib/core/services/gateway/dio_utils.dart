@@ -29,7 +29,7 @@ class DioUtils {
       responseType: ResponseType.json,
 
       baseUrl: "https://jommalaysiaapi.azurewebsites.net/api/",
-      // baseUrl: "https://localhost:44368/api/",
+
 //      contentType: ContentType('application', 'x-www-form-urlencoded', charset: 'utf-8'),
     );
     _dio = Dio(options);
@@ -84,42 +84,6 @@ class DioUtils {
 
     return options;
   }
-
-  // Future requestNetwork<T, K>(Method method, String url,
-  //     {Function(T t) onSuccess,
-  //     Function(List<T> list) onSuccessList,
-  //     Function(int code, String msg) onError,
-  //     dynamic params,
-  //     Map<String, dynamic> queryParameters,
-  //     CancelToken cancelToken,
-  //     Options options,
-  //     bool isList: false}) async {
-  //   String m = _getRequestMethod(method);
-  //   return await _request<T, K>(m, url,
-  //           data: params,
-  //           queryParameters: queryParameters,
-  //           options: options,
-  //           cancelToken: cancelToken)
-  //       .then((BaseEntity<T, K> result) {
-  //     if (result.code == 0) {
-  //       if (isList) {
-  //         if (onSuccessList != null) {
-  //           onSuccessList(result.listData);
-  //         }
-  //       } else {
-  //         if (onSuccess != null) {
-  //           onSuccess(result.data);
-  //         }
-  //       }
-  //     } else {
-  //       _onError(result.code, result.message, onError);
-  //     }
-  //   }, onError: (e, _) {
-  //     _cancelLogPrint(e, url);
-  //     NetError error = ExceptionHandle.handleException(e);
-  //     _onError(error.code, error.msg, onError);
-  //   });
-  // }
 
   /// 统一处理(onSuccess返回T对象，onSuccessList返回List<T>)
   asyncRequestNetwork<T, K>(
