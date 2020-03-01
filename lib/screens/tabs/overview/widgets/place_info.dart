@@ -255,7 +255,7 @@ class _ContactCardState extends State<_ContactCard> {
                   SimpleDialogOption(
                     child: LoadAssetImage(
                       "place/google_maps",
-                      height: 50,
+                      height: 40,
                     ),
                     onPressed: () {
                       Navigator.pop(context, MapType.google);

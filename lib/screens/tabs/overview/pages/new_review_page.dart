@@ -265,6 +265,7 @@ class __ImageAreaState extends State<_ImageArea> {
       resultList.addAll(_images);
     } on Exception catch (e) {
       error = e.toString();
+      print(error);
     }
     if (!mounted) return;
     if (resultList != null) {

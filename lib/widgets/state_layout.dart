@@ -59,7 +59,14 @@ class _StateLayoutState extends State<StateLayout> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           widget.type == StateType.loading
-              ? const CupertinoActivityIndicator(radius: 16.0)
+              ? Container(
+                  height: 60,
+                  width: 60,
+                  color: Colors.grey[300],
+                  child: const CupertinoActivityIndicator(
+                    radius: 18.0,
+                  ),
+                )
               : (widget.type == StateType.empty
                   ? Gaps.empty
                   : Opacity(

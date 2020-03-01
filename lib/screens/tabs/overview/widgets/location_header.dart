@@ -37,56 +37,6 @@ class _LocationHeaderState extends State<LocationHeader> {
   var selectedLocationStr;
   CityModel selectedLocation;
 
-  void _loadData() async {
-    var jsonCities;
-    if (Constant.isTest) {
-      jsonCities = await loadString('assets/data/city.json');
-    } else {
-      jsonCities = await rootBundle.loadString('assets/json/cities.json');
-    }
-
-    List decoded = json.decode(jsonCities);
-    decoded.forEach((f) => _cities.add(CityModel.fromJsonMap(f)));
-    _processList(_cities);
-
-    setState(() {});
-  }
-
-  Future<String> loadString(String key, {bool cache = true}) async {
-    final ByteData data = await rootBundle.load(key);
-    if (data == null) throw FlutterError('Unable to load asset: $key');
-    return utf8.decode(data.buffer.asUint8List());
-  }
-
-  void _processList(List<CityModel> list) {
-    if (list == null || list.isEmpty) return;
-    for (var c in list) {
-      String tag = c.getFirstChar(widget.locale);
-      if (RegExp("[A-Z]").hasMatch(tag)) {
-        c.tagIndex = tag;
-      } else {
-        c.tagIndex = "#";
-      }
-    }
-    //根据A-Z排序
-    SuspensionUtil.sortListBySuspensionTag(_cities);
-  }
-
-  @override
-  void didUpdateWidget(LocationHeader oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    //call process list again during rebuild. etc switch language
-    _processList(_cities);
-    _fetchCurrentLocation();
-  }
-
-  void _fetchCurrentLocation() {
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      // _preCacheImage();
-      await LocationUtils.getCurrentLocation(context);
-    });
-  }
-
   @override
   void initState() {
     super.initState();
@@ -101,7 +51,7 @@ class _LocationHeaderState extends State<LocationHeader> {
       handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
       child: SliverAppBar(
         leading: Gaps.empty,
-        brightness: Brightness.dark,
+        // brightness: Brightness.dark,
         actions: <Widget>[
           // SearchBarButton(
           IconButton(
@@ -118,8 +68,8 @@ class _LocationHeaderState extends State<LocationHeader> {
         backgroundColor: Colors.transparent,
 
         elevation: 0.0,
-        centerTitle: true,
-        expandedHeight: MediaQuery.of(context).size.height * 0.18,
+        // centerTitle: true,
+        expandedHeight: MediaQuery.of(context).size.height * 0.15,
         floating: false, // 不随着滑动隐藏标题
         pinned: true, // 固定在顶部
         flexibleSpace: MyFlexibleSpaceBar(
@@ -129,7 +79,7 @@ class _LocationHeaderState extends State<LocationHeader> {
             ),
           ),
           centerTitle: true,
-          titlePadding: const EdgeInsetsDirectional.only(bottom: 14.0),
+          // titlePadding: const EdgeInsetsDirectional.only(bottom: 14.0),
           collapseMode: CollapseMode.pin,
           title: GestureDetector(
             onTap: () => _showCityPickerDialog(context, selectedLocation),
@@ -256,5 +206,55 @@ class _LocationHeaderState extends State<LocationHeader> {
         ],
       ),
     );
+  }
+
+  void _loadData() async {
+    var jsonCities;
+    if (Constant.isTest) {
+      jsonCities = await loadString('assets/data/city.json');
+    } else {
+      jsonCities = await rootBundle.loadString('assets/json/cities.json');
+    }
+
+    List decoded = json.decode(jsonCities);
+    decoded.forEach((f) => _cities.add(CityModel.fromJsonMap(f)));
+    _processList(_cities);
+
+    setState(() {});
+  }
+
+  Future<String> loadString(String key, {bool cache = true}) async {
+    final ByteData data = await rootBundle.load(key);
+    if (data == null) throw FlutterError('Unable to load asset: $key');
+    return utf8.decode(data.buffer.asUint8List());
+  }
+
+  void _processList(List<CityModel> list) {
+    if (list == null || list.isEmpty) return;
+    for (var c in list) {
+      String tag = c.getFirstChar(widget.locale);
+      if (RegExp("[A-Z]").hasMatch(tag)) {
+        c.tagIndex = tag;
+      } else {
+        c.tagIndex = "#";
+      }
+    }
+    //根据A-Z排序
+    SuspensionUtil.sortListBySuspensionTag(_cities);
+  }
+
+  @override
+  void didUpdateWidget(LocationHeader oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    //call process list again during rebuild. etc switch language
+    _processList(_cities);
+    _fetchCurrentLocation();
+  }
+
+  void _fetchCurrentLocation() {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      // _preCacheImage();
+      await LocationUtils.getCurrentLocation(context);
+    });
   }
 }
