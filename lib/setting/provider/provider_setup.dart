@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/services/gateway/firebase_storage_api.dart';
 import 'package:jom_malaysia/core/services/gateway/firestore_api.dart';
 import 'package:jom_malaysia/core/services/gateway/http_service.dart';
+import 'package:jom_malaysia/core/services/permission/permission_utils.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/comments_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/listing_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/location_provider.dart';
@@ -23,6 +24,9 @@ List<SingleChildWidget> independentServices = [
   ),
   InheritedProvider(
     create: (_) => FirestoreService(),
+  ),
+  InheritedProvider(
+    create: (_) => PermissionService(),
   ),
   InheritedProvider(
     create: (_) => FirebaseStorageService(),

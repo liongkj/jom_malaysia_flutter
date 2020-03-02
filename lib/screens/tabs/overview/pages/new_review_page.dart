@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/core/services/gateway/firebase_storage_api.dart';
+import 'package:jom_malaysia/core/services/permission/permission_utils.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/comments/comment_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/comments_provider.dart';
@@ -254,12 +255,20 @@ class __ImageAreaState extends State<_ImageArea> {
   Future<void> loadAssets() async {
     List<Asset> resultList = [];
     String error = 'No Error Dectected';
+
     try {
       resultList = await MultiImagePicker.pickImages(
-          maxImages: 5 - _images.length,
-          enableCamera: true,
-          selectedAssets: _images,
-          materialOptions: MaterialOptions(useDetailsView: false));
+        maxImages: 5 - _images.length,
+        enableCamera: await PermissionService().requestCameraPermission(),
+        selectedAssets: _images,
+        materialOptions: MaterialOptions(
+          actionBarColor: "#abcdef",
+          actionBarTitle: "Example App",
+          allViewTitle: "All Photos",
+          useDetailsView: false,
+          selectCircleStrokeColor: "#000000",
+        ),
+      );
     } on NoImagesSelectedException catch (e) {
       //if user did not choose image on 2nd time, add back current selected
       resultList.addAll(_images);

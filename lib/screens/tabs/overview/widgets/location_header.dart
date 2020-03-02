@@ -50,7 +50,7 @@ class _LocationHeaderState extends State<LocationHeader> {
     return SliverOverlapAbsorber(
       handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
       child: SliverAppBar(
-        leading: Gaps.empty,
+        leading: Gaps.hGap4,
         // brightness: Brightness.dark,
         actions: <Widget>[
           // SearchBarButton(
