@@ -40,7 +40,7 @@ class _PlaceListState extends State<PlaceList>
   Widget build(BuildContext context) {
     super.build(context);
 
-    final height = MediaQuery.of(context).size.height * 0.06;
+    final height = MediaQuery.of(context).size.height * 0.1;
 
     return NotificationListener(
       onNotification: (ScrollNotification note) {
@@ -53,14 +53,19 @@ class _PlaceListState extends State<PlaceList>
         onRefresh: _onRefresh,
         displacement: height, //40 + 120(header)
         child: Consumer<OverviewPageProvider>(
-          builder: (_, provider, child) {
+          builder: (_, provider, placeListChild) {
             return CustomScrollView(
               /// 这里指定controller可以与外层NestedScrollView的滚动分离，避免一处滑动，5个Tab中的列表同步滑动。
               /// 这种方法的缺点是会重新layout列表
               controller: _index != provider.index ? widget.controller : null,
               key: PageStorageKey<String>("$_index"),
-
-              slivers: <Widget>[child],
+              slivers: <Widget>[
+                SliverOverlapInjector(
+                  handle:
+                      NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                ),
+                placeListChild
+              ],
             );
           },
           child: Consumer<ListingProvider>(
@@ -70,9 +75,7 @@ class _PlaceListState extends State<PlaceList>
                   Provider.of<ListingProvider>(context, listen: false)
                       .fetchListingByType(_index);
               return SliverPadding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16.0,
-                ),
+                padding: const EdgeInsets.only(left: 16.0, right: 16, top: 10),
                 sliver: placeList.isEmpty
                     ? SliverFillRemaining(
                         child: StateLayout(type: listingProvider.stateType),

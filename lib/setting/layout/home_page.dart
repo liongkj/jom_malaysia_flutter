@@ -21,8 +21,8 @@ class _HomeState extends State<Home> {
     OverviewPage(),
     // NearbyPage(),
     ExplorePage(),
-    SettingPage(),
     NotificationPage(),
+    SettingPage(),
   ];
   final _pageController = PageController();
 
@@ -44,8 +44,8 @@ class _HomeState extends State<Home> {
     final _appBarTitles = [
       S.of(context).appBarTitleHome,
       S.of(context).appBarTitleExplore,
-      S.of(context).appBarTitleSetting,
       S.of(context).appBarTitleNotification,
+      S.of(context).appBarTitleSetting,
     ];
 
     var _tabImages = [
@@ -62,13 +62,14 @@ class _HomeState extends State<Home> {
         size: iconSize,
       ),
       Icon(
-        Icons.settings,
+        Icons.notifications,
         size: iconSize,
       ),
       Icon(
-        Icons.notifications,
+        Icons.settings,
         size: iconSize,
-      )
+      ),
+
       // [
     ];
     _list = List.generate(4, (i) {

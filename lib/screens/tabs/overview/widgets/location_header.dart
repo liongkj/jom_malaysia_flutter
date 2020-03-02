@@ -29,7 +29,7 @@ class LocationHeader extends StatefulWidget {
   _LocationHeaderState createState() => _LocationHeaderState();
 }
 
-const kExpandedHeight = 113.0;
+const kExpandedHeight = 80.0;
 
 class _LocationHeaderState extends State<LocationHeader> {
 //Load Cities from json file
@@ -47,81 +47,78 @@ class _LocationHeaderState extends State<LocationHeader> {
   @override
   Widget build(BuildContext context) {
     const Color iconColor = Color(0xFFb8b8b8);
-    return SliverOverlapAbsorber(
-      handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-      child: SliverAppBar(
-        leading: Gaps.hGap4,
-        // brightness: Brightness.dark,
-        actions: <Widget>[
-          // SearchBarButton(
-          IconButton(
-            icon: const LoadAssetImage(
-              "overview/icon_search",
-              color: iconColor,
-              width: 24,
-            ),
-            onPressed: () =>
-                NavigatorUtils.push(context, OverviewRouter.placeSearchPage),
+    return SliverAppBar(
+      leading: Gaps.hGap4,
+      // brightness: Brightness.dark,
+      actions: <Widget>[
+        // SearchBarButton(
+        IconButton(
+          icon: const LoadAssetImage(
+            "overview/icon_search",
+            color: iconColor,
+            width: 24,
           ),
-        ],
+          onPressed: () =>
+              NavigatorUtils.push(context, OverviewRouter.placeSearchPage),
+        ),
+      ],
 
-        backgroundColor: Colors.transparent,
-
-        elevation: 0.0,
+      backgroundColor: Colours.dark_button_text,
+      snap: true,
+      elevation: 0.0,
+      // centerTitle: true,
+      expandedHeight: MediaQuery.of(context).size.height * 0.15,
+      floating: true, // 不随着滑动隐藏标题
+      pinned: false, // 固定在顶部
+      flexibleSpace: MyFlexibleSpaceBar(
+        background: DecoratedBox(
+          decoration: BoxDecoration(
+            color: Colours.dark_button_text,
+          ),
+        ),
         // centerTitle: true,
-        expandedHeight: MediaQuery.of(context).size.height * 0.15,
-        floating: false, // 不随着滑动隐藏标题
-        pinned: true, // 固定在顶部
-        flexibleSpace: MyFlexibleSpaceBar(
-          background: DecoratedBox(
-            decoration: BoxDecoration(
-              color: Colours.dark_button_text,
-            ),
-          ),
-          centerTitle: true,
-          // titlePadding: const EdgeInsetsDirectional.only(bottom: 14.0),
-          collapseMode: CollapseMode.pin,
-          title: GestureDetector(
-            onTap: () => _showCityPickerDialog(context, selectedLocation),
-            child: Container(
-              height: kExpandedHeight * 0.3,
-              padding: const EdgeInsets.only(left: 12, right: 16.0),
-              child: Consumer<LocationProvider>(
-                child: Icon(
-                  Icons.keyboard_arrow_down,
-                  color: Colours.arrow_color,
-                ),
-                builder: (_, location, child) {
-                  selectedLocation =
-                      _cities.isNotEmpty && location.selected != null
-                          ? _cities.firstWhere(
-                              (x) => x.cityName == location.selected?.cityName,
-                              orElse: null)
-                          : null;
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      VerticalDivider(
-                        indent: 10,
-                        width: 20,
-                        endIndent: 10,
-                        color: Colours.header_line,
-                        thickness: 4.0,
-                      ),
-                      Text(
-                        selectedLocation == null
-                            ? S.of(context).locationSelectCityMessage
-                            : selectedLocation.getCityName(widget.locale),
-                        style: TextStyles.textBold16
-                            .copyWith(color: Colours.arrow_color),
-                        maxLines: 2,
-                      ),
-                      Gaps.hGap8,
-                      child,
-                    ],
-                  );
-                },
+        // titlePadding: const EdgeInsetsDirectional.only(bottom: 14.0),
+        collapseMode: CollapseMode.pin,
+        title: GestureDetector(
+          onTap: () => _showCityPickerDialog(context, selectedLocation),
+          child: Container(
+            height: kExpandedHeight * 0.3,
+            padding: const EdgeInsets.only(left: 12, right: 16.0),
+            child: Consumer<LocationProvider>(
+              child: Icon(
+                Icons.keyboard_arrow_down,
+                color: Colours.arrow_color,
               ),
+              builder: (_, location, child) {
+                selectedLocation =
+                    _cities.isNotEmpty && location.selected != null
+                        ? _cities.firstWhere(
+                            (x) => x.cityName == location.selected?.cityName,
+                            orElse: null)
+                        : null;
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    VerticalDivider(
+                      indent: 10,
+                      width: 20,
+                      endIndent: 10,
+                      color: Colours.header_line,
+                      thickness: 4.0,
+                    ),
+                    Text(
+                      selectedLocation == null
+                          ? S.of(context).locationSelectCityMessage
+                          : selectedLocation.getCityName(widget.locale),
+                      style: TextStyles.textBold16
+                          .copyWith(color: Colours.arrow_color),
+                      maxLines: 2,
+                    ),
+                    Gaps.hGap8,
+                    child,
+                  ],
+                );
+              },
             ),
           ),
         ),
