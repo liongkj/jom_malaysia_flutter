@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/util/image_utils.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
@@ -60,9 +61,12 @@ class _StateLayoutState extends State<StateLayout> {
         children: <Widget>[
           widget.type == StateType.loading
               ? Container(
+                  decoration: BoxDecoration(
+                    color: Colors.grey[300],
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                   height: 60,
                   width: 60,
-                  color: Colors.grey[300],
                   child: const CupertinoActivityIndicator(
                     radius: 18.0,
                   ),
