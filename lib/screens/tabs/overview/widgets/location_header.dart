@@ -29,63 +29,13 @@ class LocationHeader extends StatefulWidget {
   _LocationHeaderState createState() => _LocationHeaderState();
 }
 
-const kExpandedHeight = 113.0;
+const kExpandedHeight = 80.0;
 
 class _LocationHeaderState extends State<LocationHeader> {
 //Load Cities from json file
   List<CityModel> _cities = [];
   var selectedLocationStr;
   CityModel selectedLocation;
-
-  void _loadData() async {
-    var jsonCities;
-    if (Constant.isTest) {
-      jsonCities = await loadString('assets/data/city.json');
-    } else {
-      jsonCities = await rootBundle.loadString('assets/json/cities.json');
-    }
-
-    List decoded = json.decode(jsonCities);
-    decoded.forEach((f) => _cities.add(CityModel.fromJsonMap(f)));
-    _processList(_cities);
-
-    setState(() {});
-  }
-
-  Future<String> loadString(String key, {bool cache = true}) async {
-    final ByteData data = await rootBundle.load(key);
-    if (data == null) throw FlutterError('Unable to load asset: $key');
-    return utf8.decode(data.buffer.asUint8List());
-  }
-
-  void _processList(List<CityModel> list) {
-    if (list == null || list.isEmpty) return;
-    for (var c in list) {
-      String tag = c.getFirstChar(widget.locale);
-      if (RegExp("[A-Z]").hasMatch(tag)) {
-        c.tagIndex = tag;
-      } else {
-        c.tagIndex = "#";
-      }
-    }
-    //根据A-Z排序
-    SuspensionUtil.sortListBySuspensionTag(_cities);
-  }
-
-  @override
-  void didUpdateWidget(LocationHeader oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    //call process list again during rebuild. etc switch language
-    _processList(_cities);
-    _fetchCurrentLocation();
-  }
-
-  void _fetchCurrentLocation() {
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      // _preCacheImage();
-      await LocationUtils.getCurrentLocation(context);
-    });
-  }
 
   @override
   void initState() {
@@ -97,81 +47,78 @@ class _LocationHeaderState extends State<LocationHeader> {
   @override
   Widget build(BuildContext context) {
     const Color iconColor = Color(0xFFb8b8b8);
-    return SliverOverlapAbsorber(
-      handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-      child: SliverAppBar(
-        leading: Gaps.empty,
-        brightness: Brightness.dark,
-        actions: <Widget>[
-          // SearchBarButton(
-          IconButton(
-            icon: const LoadAssetImage(
-              "overview/icon_search",
-              color: iconColor,
-              width: 24,
-            ),
-            onPressed: () =>
-                NavigatorUtils.push(context, OverviewRouter.placeSearchPage),
+    return SliverAppBar(
+      leading: Gaps.hGap4,
+      // brightness: Brightness.dark,
+      actions: <Widget>[
+        // SearchBarButton(
+        IconButton(
+          icon: const LoadAssetImage(
+            "overview/icon_search",
+            color: iconColor,
+            width: 24,
           ),
-        ],
+          onPressed: () =>
+              NavigatorUtils.push(context, OverviewRouter.placeSearchPage),
+        ),
+      ],
 
-        backgroundColor: Colors.transparent,
-
-        elevation: 0.0,
-        centerTitle: true,
-        expandedHeight: MediaQuery.of(context).size.height * 0.18,
-        floating: false, // 不随着滑动隐藏标题
-        pinned: true, // 固定在顶部
-        flexibleSpace: MyFlexibleSpaceBar(
-          background: DecoratedBox(
-            decoration: BoxDecoration(
-              color: Colours.dark_button_text,
-            ),
+      backgroundColor: Colours.dark_button_text,
+      snap: true,
+      elevation: 0.0,
+      // centerTitle: true,
+      expandedHeight: MediaQuery.of(context).size.height * 0.15,
+      floating: true, // 不随着滑动隐藏标题
+      pinned: false, // 固定在顶部
+      flexibleSpace: MyFlexibleSpaceBar(
+        background: DecoratedBox(
+          decoration: BoxDecoration(
+            color: Colours.dark_button_text,
           ),
-          centerTitle: true,
-          titlePadding: const EdgeInsetsDirectional.only(bottom: 14.0),
-          collapseMode: CollapseMode.pin,
-          title: GestureDetector(
-            onTap: () => _showCityPickerDialog(context, selectedLocation),
-            child: Container(
-              height: kExpandedHeight * 0.3,
-              padding: const EdgeInsets.only(left: 12, right: 16.0),
-              child: Consumer<LocationProvider>(
-                child: Icon(
-                  Icons.keyboard_arrow_down,
-                  color: Colours.arrow_color,
-                ),
-                builder: (_, location, child) {
-                  selectedLocation =
-                      _cities.isNotEmpty && location.selected != null
-                          ? _cities.firstWhere(
-                              (x) => x.cityName == location.selected?.cityName,
-                              orElse: null)
-                          : null;
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      VerticalDivider(
-                        indent: 10,
-                        width: 20,
-                        endIndent: 10,
-                        color: Colours.header_line,
-                        thickness: 4.0,
-                      ),
-                      Text(
-                        selectedLocation == null
-                            ? S.of(context).locationSelectCityMessage
-                            : selectedLocation.getCityName(widget.locale),
-                        style: TextStyles.textBold16
-                            .copyWith(color: Colours.arrow_color),
-                        maxLines: 2,
-                      ),
-                      Gaps.hGap8,
-                      child,
-                    ],
-                  );
-                },
+        ),
+        // centerTitle: true,
+        // titlePadding: const EdgeInsetsDirectional.only(bottom: 14.0),
+        collapseMode: CollapseMode.pin,
+        title: GestureDetector(
+          onTap: () => _showCityPickerDialog(context, selectedLocation),
+          child: Container(
+            height: kExpandedHeight * 0.3,
+            padding: const EdgeInsets.only(left: 12, right: 16.0),
+            child: Consumer<LocationProvider>(
+              child: Icon(
+                Icons.keyboard_arrow_down,
+                color: Colours.arrow_color,
               ),
+              builder: (_, location, child) {
+                selectedLocation =
+                    _cities.isNotEmpty && location.selected != null
+                        ? _cities.firstWhere(
+                            (x) => x.cityName == location.selected?.cityName,
+                            orElse: null)
+                        : null;
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    VerticalDivider(
+                      indent: 10,
+                      width: 20,
+                      endIndent: 10,
+                      color: Colours.header_line,
+                      thickness: 4.0,
+                    ),
+                    Text(
+                      selectedLocation == null
+                          ? S.of(context).locationSelectCityMessage
+                          : selectedLocation.getCityName(widget.locale),
+                      style: TextStyles.textBold16
+                          .copyWith(color: Colours.arrow_color),
+                      maxLines: 2,
+                    ),
+                    Gaps.hGap8,
+                    child,
+                  ],
+                );
+              },
             ),
           ),
         ),
@@ -256,5 +203,55 @@ class _LocationHeaderState extends State<LocationHeader> {
         ],
       ),
     );
+  }
+
+  void _loadData() async {
+    var jsonCities;
+    if (Constant.isTest) {
+      jsonCities = await loadString('assets/data/city.json');
+    } else {
+      jsonCities = await rootBundle.loadString('assets/json/cities.json');
+    }
+
+    List decoded = json.decode(jsonCities);
+    decoded.forEach((f) => _cities.add(CityModel.fromJsonMap(f)));
+    _processList(_cities);
+
+    setState(() {});
+  }
+
+  Future<String> loadString(String key, {bool cache = true}) async {
+    final ByteData data = await rootBundle.load(key);
+    if (data == null) throw FlutterError('Unable to load asset: $key');
+    return utf8.decode(data.buffer.asUint8List());
+  }
+
+  void _processList(List<CityModel> list) {
+    if (list == null || list.isEmpty) return;
+    for (var c in list) {
+      String tag = c.getFirstChar(widget.locale);
+      if (RegExp("[A-Z]").hasMatch(tag)) {
+        c.tagIndex = tag;
+      } else {
+        c.tagIndex = "#";
+      }
+    }
+    //根据A-Z排序
+    SuspensionUtil.sortListBySuspensionTag(_cities);
+  }
+
+  @override
+  void didUpdateWidget(LocationHeader oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    //call process list again during rebuild. etc switch language
+    _processList(_cities);
+    _fetchCurrentLocation();
+  }
+
+  void _fetchCurrentLocation() {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      // _preCacheImage();
+      await LocationUtils.getCurrentLocation(context);
+    });
   }
 }

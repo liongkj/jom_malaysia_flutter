@@ -12,7 +12,6 @@ import 'package:provider/provider.dart';
 class ListingTypeTabs extends StatelessWidget {
   const ListingTypeTabs({
     Key key,
-    @required this.isDark,
     @required TabController tabController,
     @required this.mounted,
     @required PageController pageController,
@@ -20,7 +19,6 @@ class ListingTypeTabs extends StatelessWidget {
         _pageController = pageController,
         super(key: key);
 
-  final bool isDark;
   final TabController _tabController;
   final bool mounted;
   final PageController _pageController;

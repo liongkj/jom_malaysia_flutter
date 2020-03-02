@@ -74,44 +74,45 @@ class OverviewPageState extends State<OverviewPage>
           ),
         ],
         child: Scaffold(
-          body: Stack(
-            children: <Widget>[
-              SafeArea(
-                child: SizedBox(
-                  height: 105,
-                  width: double.infinity,
-                  child: const DecoratedBox(
-                    decoration: BoxDecoration(
-                      color: Colours.bg_color,
+          body: SafeArea(
+            child: Stack(
+              children: <Widget>[
+                SafeArea(
+                  child: SizedBox(
+                    height: 105,
+                    width: double.infinity,
+                    child: const DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: Colours.bg_color,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              NestedScrollView(
-                key: const Key('order_list'),
-                physics: ClampingScrollPhysics(),
-                controller: _scrollController ?? null,
-                headerSliverBuilder: (context, innerBoxIsScrolled) {
-                  return _sliverBuilder(context);
-                },
-                body: PageView.builder(
-                  key: const Key('pageView'),
-                  itemCount: 5,
-                  onPageChanged: _onPageChange,
-                  controller: _pageController,
-                  itemBuilder: (_, index) {
-                    return SafeArea(
-                      top: false,
-                      bottom: false,
-                      child: PlaceList(
-                        controller: this._scrollController,
-                        index: index,
-                      ),
-                    );
-                  },
+                NestedScrollView(
+                  key: const Key('order_list'),
+                  physics: ClampingScrollPhysics(),
+                  controller: _scrollController ?? null,
+                  headerSliverBuilder: (context, innerBoxIsScrolled) =>
+                      _sliverBuilder(context),
+                  body: PageView.builder(
+                    key: const Key('pageView'),
+                    itemCount: 5,
+                    onPageChanged: _onPageChange,
+                    controller: _pageController,
+                    itemBuilder: (_, index) {
+                      return SafeArea(
+                        top: false,
+                        bottom: false,
+                        child: PlaceList(
+                          controller: this._scrollController,
+                          index: index,
+                        ),
+                      );
+                    },
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ));
   }
@@ -123,11 +124,13 @@ class OverviewPageState extends State<OverviewPage>
             Localizations.localeOf(context),
       ),
       AdsSpace(),
-      ListingTypeTabs(
-          isDark: isDark,
-          tabController: _tabController,
-          mounted: mounted,
-          pageController: _pageController),
+      SliverOverlapAbsorber(
+        handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+        child: ListingTypeTabs(
+            tabController: _tabController,
+            mounted: mounted,
+            pageController: _pageController),
+      ),
     ];
   }
 }

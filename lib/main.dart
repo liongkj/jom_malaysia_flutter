@@ -20,7 +20,7 @@ void main() {
 //  debugPaintLayerBordersEnabled = true;
 //  debugProfilePaintsEnabled = true;
 //  debugRepaintRainbowEnabled = true;
-  // Logger.level = Level.;
+  // Logger.level = Level.;c
   runApp(MyApp());
   //Portrait Mode only
   SystemChrome.setPreferredOrientations(
