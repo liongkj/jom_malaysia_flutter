@@ -61,7 +61,6 @@ class PlaceDetailPageState extends State<PlaceDetailPage>
         .findById(widget.placeId);
     return Scaffold(
       body: SafeArea(
-        top: false,
         child: CustomScrollView(
           controller: _scrollController,
           key: const Key('place_detail'),
