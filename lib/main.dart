@@ -61,7 +61,9 @@ class MyApp extends StatelessWidget {
                   locale: lang.locale,
                   onGenerateTitle: (BuildContext context) =>
                       S.of(context).appTitle,
-                  theme: provider.getTheme(),
+                  theme: provider.getTheme(
+                    isChinese: lang.locale == Locale("zh"),
+                  ),
                   // darkTheme: provider.getTheme(isDarkMode: true),
                   home: home ?? SplashPage(),
 

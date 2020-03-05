@@ -85,6 +85,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "settingLanguageLabelSystemDefault" : MessageLookupByLibrary.simpleMessage("System Default"),
     "stateSubtitle" : MessageLookupByLibrary.simpleMessage("Malaysian state"),
     "stateTitle" : MessageLookupByLibrary.simpleMessage("Negeri Sembilan"),
+    "stateTypePlace" : MessageLookupByLibrary.simpleMessage("More places coming soon"),
     "tabTitleExploreOverview" : MessageLookupByLibrary.simpleMessage("Overview"),
     "tabTitleExploreTodo" : MessageLookupByLibrary.simpleMessage("TODO"),
     "tabViewLabelAttraction" : MessageLookupByLibrary.simpleMessage("Attraction"),

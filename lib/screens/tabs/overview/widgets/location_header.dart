@@ -48,7 +48,7 @@ class _LocationHeaderState extends State<LocationHeader> {
   Widget build(BuildContext context) {
     const Color iconColor = Color(0xFFb8b8b8);
     return SliverAppBar(
-      leading: Gaps.hGap4,
+      leading: null,
       // brightness: Brightness.dark,
       actions: <Widget>[
         // SearchBarButton(
@@ -62,28 +62,27 @@ class _LocationHeaderState extends State<LocationHeader> {
               NavigatorUtils.push(context, OverviewRouter.placeSearchPage),
         ),
       ],
-
       backgroundColor: Colours.dark_button_text,
-      snap: true,
-      elevation: 0.0,
-      // centerTitle: true,
-      expandedHeight: MediaQuery.of(context).size.height * 0.15,
       floating: true, // 不随着滑动隐藏标题
+      snap: true,
       pinned: false, // 固定在顶部
+      elevation: 0.0,
+      expandedHeight: MediaQuery.of(context).size.height * 0.10,
+
       flexibleSpace: MyFlexibleSpaceBar(
         background: DecoratedBox(
           decoration: BoxDecoration(
             color: Colours.dark_button_text,
           ),
         ),
-        // centerTitle: true,
-        // titlePadding: const EdgeInsetsDirectional.only(bottom: 14.0),
+        centerTitle: true,
+        titlePadding: const EdgeInsetsDirectional.only(start: 14.0),
         collapseMode: CollapseMode.pin,
         title: GestureDetector(
           onTap: () => _showCityPickerDialog(context, selectedLocation),
           child: Container(
             height: kExpandedHeight * 0.3,
-            padding: const EdgeInsets.only(left: 12, right: 16.0),
+            // padding: const EdgeInsets.only(left: 12, right: 16.0),
             child: Consumer<LocationProvider>(
               child: Icon(
                 Icons.keyboard_arrow_down,
@@ -99,13 +98,6 @@ class _LocationHeaderState extends State<LocationHeader> {
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
-                    VerticalDivider(
-                      indent: 10,
-                      width: 20,
-                      endIndent: 10,
-                      color: Colours.header_line,
-                      thickness: 4.0,
-                    ),
                     Text(
                       selectedLocation == null
                           ? S.of(context).locationSelectCityMessage

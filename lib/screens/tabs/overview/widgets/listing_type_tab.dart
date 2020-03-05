@@ -32,10 +32,13 @@ class ListingTypeTabs extends StatelessWidget {
           decoration: BoxDecoration(
             color: Colors.white,
           ),
-          child: ListingTypeTab(
-              tabController: _tabController,
-              mounted: mounted,
-              pageController: _pageController),
+          child: Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: ListingTypeTab(
+                tabController: _tabController,
+                mounted: mounted,
+                pageController: _pageController),
+          ),
         ),
         80.0,
       ),
@@ -62,7 +65,6 @@ class ListingTypeTab extends StatelessWidget {
     return MyCard(
       child: Container(
         height: 80.0,
-        padding: const EdgeInsets.only(top: 8.0),
         child: Consumer<LanguageProvider>(builder: (_, __, ___) {
           return TabBar(
             isScrollable: true,
@@ -122,8 +124,8 @@ class _TabViewTab extends StatelessWidget {
               ? colorCombination[index]
               : Colors.transparent,
           width: 85.0,
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Icon(icon,
