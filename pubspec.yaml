@@ -119,7 +119,6 @@ flutter:
   assets:
     - assets/icons/
     - assets/images/place/
-    - assets/images/place/3.0x/
     - assets/images/place/2.0x/
     - assets/data/
     - assets/images/explore/
