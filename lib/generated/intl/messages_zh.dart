@@ -81,6 +81,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "placeDetailOperatingSoonLabel" : MessageLookupByLibrary.simpleMessage("即将休息"),
     "settingLanguageLabelSystemDefault" : MessageLookupByLibrary.simpleMessage("跟随系统"),
     "stateTitle" : MessageLookupByLibrary.simpleMessage("森美兰"),
+    "stateTypePlace" : MessageLookupByLibrary.simpleMessage("正在努力更新景点"),
     "tabTitleExploreOverview" : MessageLookupByLibrary.simpleMessage("简介"),
     "tabTitleExploreTodo" : MessageLookupByLibrary.simpleMessage("打卡"),
     "tabViewLabelAttraction" : MessageLookupByLibrary.simpleMessage("游玩景点"),

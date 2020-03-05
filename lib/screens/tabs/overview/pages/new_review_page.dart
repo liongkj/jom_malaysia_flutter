@@ -443,7 +443,7 @@ class _RatingArea extends StatefulWidget {
 }
 
 class __RatingAreaState extends State<_RatingArea> {
-  int _currentRating = 3;
+  int _currentRating = 0;
 
   void _ratingUpdated(double value) {
     widget.commentModel.rating = value;
@@ -465,7 +465,13 @@ class __RatingAreaState extends State<_RatingArea> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(S.of(context).labelRatePlace),
+        Hero(
+          tag: "btn_open_form",
+          child: Material(
+            color: Colors.transparent,
+            child: Text(S.of(context).labelRatePlace),
+          ),
+        ),
         Gaps.hGap12,
         AddRatingBar(
           (rating) => _ratingUpdated(rating),
@@ -474,9 +480,11 @@ class __RatingAreaState extends State<_RatingArea> {
             flex: 2,
             child: Align(
               alignment: Alignment.centerRight,
-              child: Text(
-                _list[_currentRating - 1],
-              ),
+              child: _currentRating == 0
+                  ? Text("")
+                  : Text(
+                      _list[_currentRating - 1],
+                    ),
             ))
       ],
     );

@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:jom_malaysia/core/constants/common.dart';
 import 'package:jom_malaysia/core/constants/themes.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
@@ -25,7 +26,7 @@ class ThemeProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  getTheme({bool isDarkMode: false}) {
+  getTheme({bool isDarkMode: false, bool isChinese: false}) {
     String theme = SpUtil.getString(Constant.theme);
     switch (theme) {
       case "Dark":
@@ -39,6 +40,9 @@ class ThemeProvider with ChangeNotifier {
     }
 
     return ThemeData(
+      fontFamily: isChinese
+          ? GoogleFonts.notoSans().fontFamily
+          : GoogleFonts.nunitoSans().fontFamily,
       errorColor: isDarkMode ? Colours.dark_red : Colours.red,
       brightness: isDarkMode ? Brightness.dark : Brightness.light,
       primaryColor: isDarkMode ? Colours.dark_app_main : Colours.app_main,
