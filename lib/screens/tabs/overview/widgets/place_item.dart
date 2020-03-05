@@ -46,11 +46,14 @@ class PlaceItem extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Container(
-                    child: LoadImage(
-                      listing.listingImages.coverPhoto.url,
-                      width: 100.0,
-                      height: 100.0,
-                      fit: BoxFit.contain,
+                    child: Hero(
+                      tag: listing.listingId,
+                      child: LoadImage(
+                        listing.listingImages.coverPhoto.url,
+                        width: 100.0,
+                        height: 100.0,
+                        fit: BoxFit.contain,
+                      ),
                     ),
                   ),
                   Gaps.hGap10,

@@ -67,11 +67,13 @@ class PlaceDetailPageState extends State<PlaceDetailPage>
           slivers: _sliverBuilder(place),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton.extended(
+        heroTag: "btn_open_form",
+        tooltip: "Rate",
         onPressed: () => NavigatorUtils.push(context,
             '${OverviewRouter.reviewPage}?title=${place.listingName}&placeId=${place.listingId}&userId=${"123"}'),
-        child: Icon(Icons.navigation),
-        backgroundColor: Colors.green,
+        icon: Icon(Icons.star),
+        label: Text("Rate"),
       ),
     );
   }
@@ -192,10 +194,13 @@ class __AppBarWithSwiperState extends State<_AppBarWithSwiper> {
       backgroundColor: Colors.grey.shade200,
       elevation: 0.0,
       titleSpacing: 0.0,
-      leading: IconButton(
-        icon: Icon(Icons.arrow_back_ios),
-        color: _showTitle ? Colours.text : ThemeUtils.getIconColor(context),
-        onPressed: () => NavigatorUtils.goBack(context),
+      leading: Card(
+        color: Colors.transparent,
+        child: IconButton(
+          icon: Icon(Icons.arrow_back_ios),
+          color: _showTitle ? Colours.text : ThemeUtils.getIconColor(context),
+          onPressed: () => NavigatorUtils.goBack(context),
+        ),
       ),
       centerTitle: true,
       title: _showTitle
@@ -220,12 +225,16 @@ class __AppBarWithSwiperState extends State<_AppBarWithSwiper> {
               centerTitle: true,
             ),
       actions: <Widget>[
-        IconButton(
-          icon: Icon(
-            Icons.more_vert,
-            color: _showTitle ? Colors.black : ThemeUtils.getIconColor(context),
+        Card(
+          color: Colors.transparent,
+          child: IconButton(
+            icon: Icon(
+              Icons.more_vert,
+              color:
+                  _showTitle ? Colors.black : ThemeUtils.getIconColor(context),
+            ),
+            onPressed: () {},
           ),
-          onPressed: () {},
         )
       ],
     );
@@ -367,20 +376,26 @@ class _CoverPhotos extends StatelessWidget {
           fit: StackFit.expand,
           alignment: AlignmentDirectional.center,
           children: <Widget>[
-            LoadImage(
-              swiper[index] ?? "none",
-              fit: BoxFit.fill,
+            Hero(
+              tag: place.listingId,
+              child: LoadImage(
+                swiper[index] ?? "none",
+                fit: BoxFit.fill,
+              ),
             ),
             Positioned(
               bottom: 10,
               right: 10,
-              child: FlatButton.icon(
-                color: Colors.white,
-                onPressed: null,
-                icon: Icon(Icons.photo_camera, color: Colors.white),
-                label: Text(
-                  (index + 1).toString() + "/" + swiper.length.toString(),
-                  style: TextStyle(color: Colors.white),
+              child: Card(
+                color: Colors.transparent,
+                child: FlatButton.icon(
+                  color: Colors.white,
+                  onPressed: null,
+                  icon: Icon(Icons.photo_camera, color: Colors.white),
+                  label: Text(
+                    (index + 1).toString() + "/" + swiper.length.toString(),
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
               ),
             )

@@ -15,10 +15,11 @@ class AddRatingBar extends StatelessWidget {
         Icons.star,
         color: Colors.amber,
       ),
-      initialRating: 3,
+      initialRating: 0,
       onRatingUpdate: (double value) {
         updateRating(value);
       },
+      unratedColor: Colors.grey[300],
     );
   }
 }
