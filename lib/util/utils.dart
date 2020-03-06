@@ -1,6 +1,8 @@
+import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/enums/map_type.dart';
 import 'package:jom_malaysia/core/models/coordinates_model.dart';
+import 'package:jom_malaysia/util/money_utils.dart';
 import 'package:jom_malaysia/util/toast.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -38,6 +40,16 @@ class Utils {
     }
   }
 
+  /// launch WhatsApp Intent
+  static void launchWhatsAppURL(String phone) async {
+    var url = "whatsapp://send?phone=$phone";
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      Toast.show('Failed opening whatsapp');
+    }
+  }
+
   static Future<void> launchMap(CoordinatesModel coordinates, MapType s) async {
     final double lat = coordinates.latitude;
     final double lng = coordinates.longitude;
@@ -66,6 +78,12 @@ class Utils {
     } else {
       throw "Couldn't launch URL";
     }
+  }
+
+  static String formatPrice(String price, {format: RmMoneyFormat.END_INTEGER}) {
+    return RinggitMoneyUtil.changeRmWithUnit(
+        NumUtil.getDoubleByValueStr(price), RmMoneyUnit.RINGGIT,
+        format: format);
   }
 }
 

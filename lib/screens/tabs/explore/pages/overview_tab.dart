@@ -48,10 +48,8 @@ class OverviewTab extends StatelessWidget {
               style: TextStyles.textStyle_sectionTitle,
             ),
             Gaps.vGap16,
-            Text(
-              S.of(context).overviewSection2Para1,
-              style: TextStyles.textStyle_normalParagraph
-            ),
+            Text(S.of(context).overviewSection2Para1,
+                style: TextStyles.textStyle_normalParagraph),
             Gaps.sectionGap,
             Text(
               S.of(context).overviewSection3Title,
@@ -64,16 +62,9 @@ class OverviewTab extends StatelessWidget {
             ),
             Gaps.sectionGap,
             LoadAssetImage(
+              Gaps.vGap16,
               "explore/nsmap",
-              format: "jpg",
-            ),
-            Gaps.vGap16,
-            Text(
               S.of(context).overviewSection4Title,
-              style: TextStyles.textStyle_sectionTitle,
-            ),
-            Gaps.vGap16,
-            Text(
               S.of(context).overviewSection4Para1,
               style: TextStyles.textStyle_normalParagraph,
             ),

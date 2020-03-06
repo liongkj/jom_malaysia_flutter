@@ -35,7 +35,7 @@ class CityModel extends ISuspensionBean {
             ? null
             : CoordinatesModel.fromJson(
                 map['coordinates'] as Map<String, dynamic>),
-        firstChar = map['firstChar'];
+        firstChar = map['firstChar'] == null ? "" : map['firstChar'];
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();

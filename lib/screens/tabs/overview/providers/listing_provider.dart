@@ -6,20 +6,13 @@ import 'package:jom_malaysia/core/services/gateway/api_const.dart';
 import 'package:jom_malaysia/core/services/gateway/dio_utils.dart';
 import 'package:jom_malaysia/core/services/gateway/http_service.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
+import 'package:jom_malaysia/setting/provider/base_change_notifier.dart';
 import 'package:jom_malaysia/widgets/state_layout.dart';
 
-class ListingProvider with ChangeNotifier {
+class ListingProvider extends BaseChangeNotifier {
   HttpService _httpService;
   ListingProvider({@required HttpService httpService})
       : _httpService = httpService;
-
-  StateType _stateType = StateType.loading;
-
-  StateType get stateType => _stateType;
-  void setStateType(StateType value) {
-    _stateType = value;
-    notifyListeners();
-  }
 
   List<ListingModel> _listing = [];
   List<ListingModel> get listing {
@@ -46,7 +39,7 @@ class ListingProvider with ChangeNotifier {
     Map<String, dynamic> queries = Map<String, dynamic>();
 
     if (city != "") queries[QueryParam.locationBiasCity] = city;
-
+    setStateType(StateType.loading);
     _httpService.asyncRequestNetwork<List<ListingModel>, ListingModel>(
         Method.get,
         url: APIEndpoint.listingQuery,
@@ -57,7 +50,10 @@ class ListingProvider with ChangeNotifier {
       if (data != null) {
         if (data.length > 0) {
           _listing.addAll(data);
+          setStateTypeWithoutNotify(StateType.places);
           notifyListeners();
+        } else {
+          setStateType(StateType.places);
         }
       } else {
         setStateType(StateType.network);

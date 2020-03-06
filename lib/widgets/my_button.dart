@@ -6,9 +6,10 @@ class MyButton extends StatelessWidget {
   const MyButton({
     Key key,
     this.text: "",
+    this.icon,
     @required this.onPressed,
   }) : super(key: key);
-
+  final Icon icon;
   final String text;
   final VoidCallback onPressed;
 
@@ -16,6 +17,9 @@ class MyButton extends StatelessWidget {
   Widget build(BuildContext context) {
     bool isDark = ThemeUtils.isDark(context);
     return FlatButton(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
       onPressed: onPressed,
       textColor: isDark ? Colours.dark_button_text : Colors.white,
       color: isDark ? Colours.dark_app_main : Colours.app_main,
@@ -24,11 +28,14 @@ class MyButton extends StatelessWidget {
       disabledColor:
           isDark ? Colours.dark_button_disabled : Colours.button_disabled,
       //shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-      child: Column(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
+          icon,
+          Gaps.hGap12,
           Container(
             height: 48,
-            width: double.infinity,
+            // width: double.infinity,
             alignment: Alignment.center,
             child: Text(
               text,

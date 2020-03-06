@@ -28,37 +28,19 @@ class _PlaceListState extends State<PlaceList>
   int _page = 1;
   final int _maxPage = 3;
   int _index = 0;
-  bool _isInit = true;
-  StateType _stateType = StateType.places;
   String _selectedCity;
 
   @override
   void initState() {
     super.initState();
     _index = widget.index;
-    _selectedCity =
-        Provider.of<LocationProvider>(context, listen: false).selected;
-  }
-
-  @override
-  void didChangeDependencies() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final location = Provider.of<LocationProvider>(context, listen: false);
-      if (_isInit || location.rebuildHome) {
-        Provider.of<ListingProvider>(context, listen: false).fetchAndInitPlaces(
-            city: location.selected, refresh: location.rebuildHome);
-      }
-      Provider.of<LocationProvider>(context, listen: false).rebuildHome = false;
-      _isInit = false;
-    });
-    super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
 
-    final height = MediaQuery.of(context).size.height * 0.06;
+    final height = MediaQuery.of(context).size.height * 0.1;
 
     return NotificationListener(
       onNotification: (ScrollNotification note) {
@@ -71,14 +53,19 @@ class _PlaceListState extends State<PlaceList>
         onRefresh: _onRefresh,
         displacement: height, //40 + 120(header)
         child: Consumer<OverviewPageProvider>(
-          builder: (_, provider, child) {
+          builder: (_, provider, placeListChild) {
             return CustomScrollView(
               /// 这里指定controller可以与外层NestedScrollView的滚动分离，避免一处滑动，5个Tab中的列表同步滑动。
               /// 这种方法的缺点是会重新layout列表
               controller: _index != provider.index ? widget.controller : null,
               key: PageStorageKey<String>("$_index"),
-
-              slivers: <Widget>[child],
+              slivers: <Widget>[
+                SliverOverlapInjector(
+                  handle:
+                      NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                ),
+                placeListChild
+              ],
             );
           },
           child: Consumer<ListingProvider>(
@@ -88,12 +75,10 @@ class _PlaceListState extends State<PlaceList>
                   Provider.of<ListingProvider>(context, listen: false)
                       .fetchListingByType(_index);
               return SliverPadding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16.0,
-                ),
+                padding: const EdgeInsets.only(left: 16.0, right: 16, top: 10),
                 sliver: placeList.isEmpty
                     ? SliverFillRemaining(
-                        child: StateLayout(type: _stateType),
+                        child: StateLayout(type: listingProvider.stateType),
                       )
                     : SliverList(
                         delegate: SliverChildBuilderDelegate(
@@ -118,7 +103,7 @@ class _PlaceListState extends State<PlaceList>
 
   Future _onRefresh() async {
     Provider.of<ListingProvider>(context, listen: false)
-        .fetchAndInitPlaces(city: _selectedCity, refresh: true);
+        .fetchAndInitPlaces(refresh: true);
   }
 
   bool _hasMore() {

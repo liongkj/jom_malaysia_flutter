@@ -14,7 +14,7 @@ description: A new Flutter project.
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.4.0 <3.0.0"
+  sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -22,45 +22,39 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
-  cupertino_icons: ^0.1.3
-  # 状态管理 https://github.com/rrousselGit/provider
-  provider: ^4.0.3
-
-  # 网络库 https://github.com/flutterchina/dio
-  dio: ^3.0.7
-
-  # Dart 常用工具类库 https://github.com/Sky24n/common_utils
-  common_utils: ^1.1.3
-
-  # Flutter 常用工具类库 https://github.com/Sky24n/flustars
-  flustars: 0.2.6+1
-
-  # Flutter 轮播图 https://github.com/best-flutter/flutter_swiper
-  flutter_swiper: ^1.1.6
-
-  # https://github.com/ReactiveX/rxdart
-  rxdart: ^0.22.5
-  # 启动URL的插件 https://github.com/flutter/plugins/tree/master/packages/url_launcher
-  url_launcher: ^5.4.1
-  # 图片缓存 https://github.com/renefloor/flutter_cached_network_image
+  azlistview: ^0.1.2
   cached_network_image: ^2.0.0
-  # Toast插件 https://github.com/OpenFlutter/flutter_oktoast
-  oktoast: ^2.3.1
-  # 路由框架 https://github.com/theyakka/fluro
+  # 图片缓存 https://github.com/renefloor/flutter_cached_network_image
+  common_utils: ^1.1.3
+  # Dart 常用工具类库 https://github.com/Sky24n/common_utils
+  cupertino_icons: ^0.1.3
+  dio: ^3.0.9
+  # https://pub.dev/packages/dio#-changelog-tab-
+  fancy_on_boarding: ^1.4.0
+  # https://pub.dev/packages/fancy_on_boarding#-changelog-tab-
+  flustars: 0.2.6+1
+  # Flutter 常用工具类库 https://github.com/Sky24n/flustars
   fluro: ^1.5.2
-  # WebView插件 https://github.com/flutter/plugins/tree/master/packages/webview_flutter
-  webview_flutter: ^0.3.19+7
+  # 路由框架 https://pub.dev/packages/fluro#-changelog-tab-
   #community-based, can upload file
   flutter_webview_plugin: ^0.3.10+1
-  # For future implementation
   flutter_cupertino_localizations: ^1.0.1
-  # 格式化String https://github.com/Naddiseo/dart-sprintf
-  flutter_spinkit: "^4.1.1"
+  flutter_spinkit: ^4.1.2
   # used for loading web view https://github.com/jogboms/flutter_spinkit
-  sprintf: ^4.0.2
-  # google_maps_flutter: ^0.5.21+15
   flutter_launcher_icons: ^0.7.4
+  # used to generate app icon
   flutter_rating_bar: ^3.0.1+1
+  # used to build rating bar
+  flutter_swiper: ^1.1.6
+  # Flutter 轮播图 https://github.com/best-flutter/flutter_swiper
+  geolocator: ^5.3.0
+  #used to detect user gps status and locate
+  #https://pub.dev/packages/geolocator#-changelog-tab-
+  google_fonts: ^0.3.8
+  # https://pub.dev/packages/google_fonts#-changelog-tab-
+  intl_utils: ^1.1.0
+  #enable vscode internalization plugin
+  json_serializable: ^3.2.5
   json_annotation: ^3.0.1
   logger: ^0.7.0+2
   geolocator: ^5.2.1
@@ -70,13 +64,45 @@ dependencies:
   dio_http_cache: ^0.2.5
   share: ^0.6.3+5
   google_fonts: ^0.3.8
+  #json parser library
+  multi_image_picker: ^4.6.2
   # 图片选择插件 https://github.com/flutter/plugins/tree/master/packages/image_picker
-  # image_picker: 0.6.2+1
-  # # 侧滑删除 https://github.com/letsar/flutter_slidable
-  # flutter_slidable: ^0.5.4
-  # # 列表悬浮头 https://github.com/fluttercommunity/flutter_sticky_headers
-  # sticky_headers: ^0.1.8+1
-  # # 城市选择列表 https://github.com/flutterchina/azlistview
+  #  image_picker: 0.6.3+1
+  logger: ^0.8.3
+  lpinyin: ^1.0.9
+  #used to generate pinyin from mandarin char
+  oktoast: ^2.3.1+1
+  # Toast插件 https://github.com/OpenFlutter/flutter_oktoast
+  photo_view: ^0.9.2
+  # https://pub.dev/packages/photo_view#-changelog-tab-:
+  permission_handler: ^4.3.0
+  # https://pub.dev/packages/permission_handler#-changelog-tab-
+  provider: ^4.0.4
+  # 状态管理 https://pub.dev/packages/provider#-changelog-tab-
+  shared_preferences: ^0.5.6+2
+  # https://pub.dev/packages/shared_preferences#-changelog-tab-
+  sprintf: ^4.0.2
+  # 格式化String https://github.com/Naddiseo/dart-sprintf
+  rxdart: ^0.22.5
+  # https://github.com/ReactiveX/rxdart
+  url_launcher: ^5.4.2
+  # 启动URL的插件 https://github.com/flutter/plugins/tree/master/packages/url_launcher
+  webview_flutter: ^0.3.19+8
+  # WebView插件 https://github.com/flutter/plugins/tree/master/packages/webview_flutter
+  # google_maps_flutter: ^0.5.21+15
+  dio_http_cache: ^0.2.6
+  # https://pub.dev/packages/dio_http_cache#-changelog-tab-
+  share: ^0.6.3+6
+  #https://github.com/flutter/plugins/tree/master/packages/share:
+  #maybe will sub with firebase share
+  ####FIREBASE
+  cloud_firestore: ^0.13.4
+  firebase_core: ^0.4.4+2
+  firebase_analytics: ^5.0.11
+  firebase_auth: ^0.15.5+2
+  firebase_storage: ^3.1.3
+  # https://pub.dev/packages/firebase_storage#-changelog-tab-
+  ###firebase end
   # # 用于日历功能 https://github.com/apptreesoftware/date_utils
   # # date_utils: ^0.1.0+2
 
@@ -87,22 +113,21 @@ dev_dependencies:
   flutter_driver:
     sdk: flutter
   # 单元测试
-  test: ^1.6.3
-  build_runner: ^1.7.2
-  json_serializable: ^3.2.3
+  test: ^1.9.4
+  build_runner: ^1.7.4
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 # The following section is specific to Flutter.
 flutter:
-  # The following line ensures that the Material Icons font is
-  # included with your application, so that you can use the icons in
+  # The following line ensures that the Materialecause test >=1.12.0 depends on test_api 0.2.14 and every version of flutter_driver from sdk depends on test_api 0.2.11, test >=1.12.0 is incompatible with flutter_driver from sdk.can use the icons in
   # the material Icons class.
   uses-material-design: true
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/icons/
     - assets/images/place/
+    - assets/images/place/2.0x/
     - assets/data/
     - assets/images/explore/
     - assets/images/
@@ -112,7 +137,7 @@ flutter:
     - assets/images/widgets/rating/
     - assets/images/explore/featured/
     - assets/json/
-
+    - assets/images/comment/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
   # For details regarding adding assets from package dependencies, see

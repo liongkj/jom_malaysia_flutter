@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jom_malaysia/core/res/colors.dart';
 import 'package:jom_malaysia/core/services/gateway/http_service.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/ads_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/overview_page_provider.dart';
@@ -73,51 +74,45 @@ class OverviewPageState extends State<OverviewPage>
           ),
         ],
         child: Scaffold(
-          body: Stack(
-            children: <Widget>[
-              SafeArea(
-                child: SizedBox(
-                  height: 105,
-                  width: double.infinity,
-                  child: isDark
-                      ? null
-                      : const DecoratedBox(
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: const [
-                                Color(0xFF5793FA),
-                                Color(0xFF4647FA)
-                              ],
-                            ),
-                          ),
-                        ),
-                ),
-              ),
-              NestedScrollView(
-                key: const Key('order_list'),
-                physics: ClampingScrollPhysics(),
-                controller: _scrollController ?? null,
-                headerSliverBuilder: (context, innerBoxIsScrolled) {
-                  return _sliverBuilder(context);
-                },
-                body: PageView.builder(
-                  key: const Key('pageView'),
-                  itemCount: 5,
-                  onPageChanged: _onPageChange,
-                  controller: _pageController,
-                  itemBuilder: (_, index) {
-                    return SafeArea(
-                      top: false,
-                      bottom: false,
-                      child: PlaceList(
-                        controller: this._scrollController,
-                        index: index,
+          body: SafeArea(
+            child: Stack(
+              children: <Widget>[
+                SafeArea(
+                  child: SizedBox(
+                    height: 105,
+                    width: double.infinity,
+                    child: const DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: Colours.bg_color,
                       ),
-                    );
-                  },
+                    ),
+                  ),
                 ),
-              ),
-            ],
+                NestedScrollView(
+                  key: const Key('order_list'),
+                  physics: ClampingScrollPhysics(),
+                  controller: _scrollController ?? null,
+                  headerSliverBuilder: (context, innerBoxIsScrolled) =>
+                      _sliverBuilder(context),
+                  body: PageView.builder(
+                    key: const Key('pageView'),
+                    itemCount: 5,
+                    onPageChanged: _onPageChange,
+                    controller: _pageController,
+                    itemBuilder: (_, index) {
+                      return SafeArea(
+                        top: false,
+                        bottom: false,
+                        child: PlaceList(
+                          controller: this._scrollController,
+                          index: index,
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
         ));
   }
@@ -128,12 +123,14 @@ class OverviewPageState extends State<OverviewPage>
         locale: Provider.of<LanguageProvider>(context).locale ??
             Localizations.localeOf(context),
       ),
-      ListingTypeTabs(
-          isDark: isDark,
-          tabController: _tabController,
-          mounted: mounted,
-          pageController: _pageController),
       AdsSpace(),
+      SliverOverlapAbsorber(
+        handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+        child: ListingTypeTabs(
+            tabController: _tabController,
+            mounted: mounted,
+            pageController: _pageController),
+      ),
     ];
   }
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
+import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/util/image_utils.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
 
@@ -19,13 +21,12 @@ class StateLayout extends StatefulWidget {
 class _StateLayoutState extends State<StateLayout> {
   String _img;
   String _hintText;
-//TODO change hint text
   @override
   Widget build(BuildContext context) {
     switch (widget.type) {
       case StateType.places:
         _img = "coming_soon";
-        _hintText = "More places coming soon";
+        _hintText = S.of(context).stateTypePlace;
         break;
       case StateType.goods:
         _img = "not_found";
@@ -59,7 +60,17 @@ class _StateLayoutState extends State<StateLayout> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           widget.type == StateType.loading
-              ? const CupertinoActivityIndicator(radius: 16.0)
+              ? Container(
+                  decoration: BoxDecoration(
+                    color: Colors.grey[300],
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  height: 60,
+                  width: 60,
+                  child: const CupertinoActivityIndicator(
+                    radius: 18.0,
+                  ),
+                )
               : (widget.type == StateType.empty
                   ? Gaps.empty
                   : Opacity(

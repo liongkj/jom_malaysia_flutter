@@ -12,7 +12,6 @@ import 'package:provider/provider.dart';
 class ListingTypeTabs extends StatelessWidget {
   const ListingTypeTabs({
     Key key,
-    @required this.isDark,
     @required TabController tabController,
     @required this.mounted,
     @required PageController pageController,
@@ -20,7 +19,6 @@ class ListingTypeTabs extends StatelessWidget {
         _pageController = pageController,
         super(key: key);
 
-  final bool isDark;
   final TabController _tabController;
   final bool mounted;
   final PageController _pageController;
@@ -32,14 +30,10 @@ class ListingTypeTabs extends StatelessWidget {
       delegate: MySliverAppBarDelegate(
         DecoratedBox(
           decoration: BoxDecoration(
-              color: isDark ? Colours.dark_bg_color : null,
-              image: isDark
-                  ? null
-                  : DecorationImage(
-                      image: ImageUtils.getAssetImage("overview/overview_bg1"),
-                      fit: BoxFit.fill)),
+            color: Colors.white,
+          ),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            padding: const EdgeInsets.only(top: 8.0),
             child: ListingTypeTab(
                 tabController: _tabController,
                 mounted: mounted,
@@ -71,19 +65,15 @@ class ListingTypeTab extends StatelessWidget {
     return MyCard(
       child: Container(
         height: 80.0,
-        padding: const EdgeInsets.only(top: 8.0),
         child: Consumer<LanguageProvider>(builder: (_, __, ___) {
           return TabBar(
             isScrollable: true,
-            labelPadding: const EdgeInsets.symmetric(horizontal: 8.0),
+            labelPadding:
+                const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
             controller: _tabController,
-            labelColor:
-                ThemeUtils.isDark(context) ? Colours.dark_text : Colours.text,
-            unselectedLabelColor: ThemeUtils.isDark(context)
-                ? Colours.dark_text_gray
-                : Colours.text,
-            labelStyle: TextStyles.textBold14,
-            unselectedLabelStyle: const TextStyle(
+            unselectedLabelColor: Colours.text,
+            labelColor: Colors.white,
+            labelStyle: const TextStyle(
               fontSize: Dimens.font_sp12,
             ),
             indicatorColor: Colors.transparent,
@@ -119,25 +109,36 @@ class _TabViewTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const List<Color> colorCombination = [
+      Color(0xff0abe82),
+      Color(0xffffc000),
+      Color(0xfff97373),
+      Color(0xff05a19c),
+      Color(0xff9ab1f0)
+    ];
     return Consumer<OverviewPageProvider>(
       builder: (_, provider, child) {
         int selectIndex = provider.index;
         return Container(
-          width: 80.0,
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          color: index == selectIndex
+              ? colorCombination[index]
+              : Colors.transparent,
+          width: 85.0,
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Icon(icon,
-                  color: Colours.app_secondary,),
+                  size: 24.0,
+                  color: index == selectIndex
+                      ? Colors.white
+                      : colorCombination[index]),
               Gaps.vGap4,
               Text(
                 text,
                 style: TextStyle(
                     fontSize: Dimens.font_sp14,
-                    color: index == selectIndex
-                        ? Theme.of(context).indicatorColor
-                        : Colors.black),
+                    color: index == selectIndex ? Colors.white : Colors.black),
               ),
             ],
           ),

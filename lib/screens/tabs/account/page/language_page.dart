@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flustars/flustars.dart' as flutter_stars;
-import 'package:jom_malaysia/core/constants/common.dart';
 import 'package:jom_malaysia/core/constants/langauge.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/setting/provider/language_provider.dart';
@@ -14,22 +12,15 @@ class LanguagePage extends StatefulWidget {
 
 class _LanguagePageState extends State<LanguagePage> {
   @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await flutter_stars.SpUtil.getInstance();
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final langProvider = Provider.of<LanguageProvider>(context);
     final _list = [
       S.of(context).settingLanguageLabelSystemDefault,
       "English",
       "Bahasa Malaysia",
       "中文"
     ];
-    String lang = flutter_stars.SpUtil.getString(Constant.language);
+    String lang = langProvider.locale?.languageCode;
     String preferredLang;
     switch (lang) {
       case "ms":

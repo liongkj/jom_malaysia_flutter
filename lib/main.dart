@@ -4,11 +4,8 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:jom_malaysia/core/services/gateway/http_service.dart';
-import 'package:jom_malaysia/screens/tabs/overview/providers/listing_provider.dart';
-import 'package:jom_malaysia/screens/tabs/overview/providers/location_provider.dart';
 import 'package:jom_malaysia/setting/provider/language_provider.dart';
-import 'package:jom_malaysia/setting/provider/user_current_location_provider.dart';
+import 'package:jom_malaysia/setting/provider/provider_setup.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 
@@ -23,7 +20,7 @@ void main() {
 //  debugPaintLayerBordersEnabled = true;
 //  debugProfilePaintsEnabled = true;
 //  debugRepaintRainbowEnabled = true;
-  // Logger.level = Level.;
+  // Logger.level = Level.;c
   runApp(MyApp());
   //Portrait Mode only
   SystemChrome.setPreferredOrientations(
@@ -31,8 +28,8 @@ void main() {
 
   if (Platform.isAndroid) {
     SystemUiOverlayStyle systemUiOverlayStyle = SystemUiOverlayStyle(
-      statusBarColor: Color(0x80CACACA), //top bar color
-      statusBarIconBrightness: Brightness.light, //top bar icons
+      statusBarColor: Color(0x90CACACA), //top bar color
+      statusBarIconBrightness: Brightness.dark, //top bar icons
     );
     SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
   }
@@ -55,32 +52,7 @@ class MyApp extends StatelessWidget {
       radius: 20.0,
       position: ToastPosition.bottom,
       child: MultiProvider(
-        providers: [
-          InheritedProvider(
-            create: (_) => HttpService(),
-          ),
-          ChangeNotifierProvider<LanguageProvider>(
-            create: (_) => LanguageProvider(),
-          ),
-          ChangeNotifierProvider<ThemeProvider>(
-            create: (_) => ThemeProvider(),
-          ),
-          ChangeNotifierProvider<LocationProvider>(
-            create: (_) => LocationProvider(),
-          ),
-          ChangeNotifierProxyProvider<LocationProvider, ListingProvider>(
-            update: (ctx, location, listingProvider) =>
-                listingProvider..fetchAndInitPlaces(city: location.selected),
-            create: (BuildContext context) {
-              return ListingProvider(
-                  httpService:
-                      Provider.of<HttpService>(context, listen: false));
-            },
-          ),
-          ChangeNotifierProvider<UserCurrentLocationProvider>(
-            create: (_) => UserCurrentLocationProvider(),
-          ),
-        ],
+        providers: providers,
         child: Consumer<ThemeProvider>(
           builder: (_, provider, __) {
             return Consumer<LanguageProvider>(
@@ -89,8 +61,9 @@ class MyApp extends StatelessWidget {
                   locale: lang.locale,
                   onGenerateTitle: (BuildContext context) =>
                       S.of(context).appTitle,
-                  // title: 'Jom N9',
-                  theme: provider.getTheme(),
+                  theme: provider.getTheme(
+                    isChinese: lang.locale == Locale("zh"),
+                  ),
                   // darkTheme: provider.getTheme(isDarkMode: true),
                   home: home ?? SplashPage(),
 

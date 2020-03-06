@@ -9,7 +9,7 @@ import 'package:jom_malaysia/screens/tabs/overview/presenter/place_search_presen
 import 'package:jom_malaysia/setting/provider/base_list_provider.dart';
 import 'package:jom_malaysia/setting/provider/language_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
-import 'package:jom_malaysia/widgets/my_rating.dart';
+import 'package:jom_malaysia/widgets/my_rating_bar.dart';
 import 'package:jom_malaysia/widgets/my_refresh_list.dart';
 import 'package:jom_malaysia/widgets/search_bar.dart';
 import 'package:jom_malaysia/widgets/state_layout.dart';
@@ -147,7 +147,7 @@ class _BuildSubtitle extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            Rating(
+            MyRatingBar(
               rating: 0.0,
             )
           ],

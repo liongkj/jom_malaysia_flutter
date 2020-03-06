@@ -31,31 +31,31 @@ class _AdsSpaceState extends State<AdsSpace> {
     return SliverList(
       delegate: SliverChildListDelegate.fixed(
         [
-          Container(
-            height: MediaQuery.of(context).size.height * 0.24,
-            margin: const EdgeInsets.only(top: 100),
-            child: Consumer<AdsProvider>(
-              builder: (context, adsProvider, child) => Swiper(
-                itemBuilder: (BuildContext context, int index) {
-                  return GestureDetector(
-                    onTap: () => adsProvider.adList[index].linkTo != ""
-                        ? NavigatorUtils.goWebViewPage(
-                            context,
-                            adsProvider.adList[index].title,
-                            adsProvider.adList[index].linkTo,
-                          )
-                        : showToast(S.of(context).labelNoDetail),
-                    child: LoadImage(
-                      adsProvider.adList[index].imageUrl,
-                      fit: BoxFit.fitWidth,
-                    ),
-                  );
-                },
-                itemCount: adsProvider.adList.length,
-                viewportFraction: 0.8,
-                scale: 0.9,
-                autoplay: adsProvider.adList.isNotEmpty,
-                autoplayDelay: 8000,
+          Card(
+            child: Container(
+              height: MediaQuery.of(context).size.height * 0.35,
+              child: Consumer<AdsProvider>(
+                builder: (context, adsProvider, child) => Swiper(
+                  itemBuilder: (BuildContext context, int index) {
+                    return GestureDetector(
+                      onTap: () => adsProvider.adList[index].linkTo != ""
+                          ? NavigatorUtils.goWebViewPage(
+                              context,
+                              adsProvider.adList[index].title,
+                              adsProvider.adList[index].linkTo,
+                            )
+                          : showToast(S.of(context).labelNoDetail),
+                      child: LoadImage(
+                        adsProvider.adList[index].imageUrl,
+                        fit: BoxFit.fitWidth,
+                      ),
+                    );
+                  },
+                  pagination: new SwiperPagination(),
+                  itemCount: adsProvider.adList.length,
+                  autoplay: adsProvider.adList.isNotEmpty,
+                  autoplayDelay: 8000,
+                ),
               ),
             ),
           ),

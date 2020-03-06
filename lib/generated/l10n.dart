@@ -74,6 +74,33 @@ class S {
     );
   }
 
+  String get appBarTitleSetting {
+    return Intl.message(
+      'Setting',
+      name: 'appBarTitleSetting',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get appBarTitleNotification {
+    return Intl.message(
+      'Notification',
+      name: 'appBarTitleNotification',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get appBarTitleSettingLanguage {
+    return Intl.message(
+      'Language',
+      name: 'appBarTitleSettingLanguage',
+      desc: '',
+      args: [],
+    );
+  }
+
   String get tabTitleExploreOverview {
     return Intl.message(
       'Overview',
@@ -92,30 +119,21 @@ class S {
     );
   }
 
-  String get appBarTitleSetting {
-    return Intl.message(
-      'Setting',
-      name: 'appBarTitleSetting',
-      desc: '',
-      args: [],
-    );
-  }
-
-  String get appBarTitleSettingLanguage {
-    return Intl.message(
-      'Language',
-      name: 'appBarTitleSettingLanguage',
-      desc: '',
-      args: [],
-    );
-  }
-
   String get placeDetailInfoLabel {
     return Intl.message(
       'Detail',
       name: 'placeDetailInfoLabel',
       desc: '',
       args: [],
+    );
+  }
+
+  String placeDetailCommentLabel(dynamic commentCount) {
+    return Intl.message(
+      'Comment ($commentCount)',
+      name: 'placeDetailCommentLabel',
+      desc: '',
+      args: [commentCount],
     );
   }
 
@@ -308,6 +326,150 @@ class S {
     );
   }
 
+  String get labelImageRemoved {
+    return Intl.message(
+      'Image Removed',
+      name: 'labelImageRemoved',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelRatePlace {
+    return Intl.message(
+      'Rate',
+      name: 'labelRatePlace',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelRatingStatus1 {
+    return Intl.message(
+      'Labbish',
+      name: 'labelRatingStatus1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelRatingStatus2 {
+    return Intl.message(
+      'Better don\'t come',
+      name: 'labelRatingStatus2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelRatingStatus3 {
+    return Intl.message(
+      'Ok Ok la',
+      name: 'labelRatingStatus3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelRatingStatus4 {
+    return Intl.message(
+      'Not bad la',
+      name: 'labelRatingStatus4',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelRatingStatus5 {
+    return Intl.message(
+      'Sui!',
+      name: 'labelRatingStatus5',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelClickToAddImage {
+    return Intl.message(
+      'Add a image to let other know more about this place',
+      name: 'labelClickToAddImage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelReview {
+    return Intl.message(
+      'Review',
+      name: 'labelReview',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelUndoAction {
+    return Intl.message(
+      'Undo',
+      name: 'labelUndoAction',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String labelStatusPublish(dynamic item) {
+    return Intl.message(
+      'Adding your $item',
+      name: 'labelStatusPublish',
+      desc: '',
+      args: [item],
+    );
+  }
+
+  String get labelAveratePaxPrefix {
+    return Intl.message(
+      'RM ',
+      name: 'labelAveratePaxPrefix',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelAveragePaxTitle {
+    return Intl.message(
+      'Spending',
+      name: 'labelAveragePaxTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelAveratePaxSuffix {
+    return Intl.message(
+      'PAX',
+      name: 'labelAveratePaxSuffix',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelInputCostAmount {
+    return Intl.message(
+      'Please enter your spending',
+      name: 'labelInputCostAmount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get msgPleaseFillRequiredField {
+    return Intl.message(
+      'Please fill in highlighted fields',
+      name: 'msgPleaseFillRequiredField',
+      desc: '',
+      args: [],
+    );
+  }
+
   String get clickItemSettingAddAPlace {
     return Intl.message(
       'Recommend a place',
@@ -368,6 +530,15 @@ class S {
       name: 'cityPickerCurrentCity',
       desc: '',
       args: [selected],
+    );
+  }
+
+  String get stateTypePlace {
+    return Intl.message(
+      'More places coming soon',
+      name: 'stateTypePlace',
+      desc: '',
+      args: [],
     );
   }
 
@@ -467,7 +638,7 @@ class AppLocalizationDelegate extends LocalizationsDelegate<S> {
 
   List<Locale> get supportedLocales {
     return const <Locale>[
-      Locale('en', ''), Locale('ms', ''), Locale('zh', ''),
+      Locale('en', ''), Locale('zh', ''), Locale('ms', ''),
     ];
   }
 

@@ -9,7 +9,7 @@ import 'package:jom_malaysia/setting/provider/user_current_location_provider.dar
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
 import 'package:jom_malaysia/widgets/my_card.dart';
-import 'package:jom_malaysia/widgets/my_rating.dart';
+import 'package:jom_malaysia/widgets/my_rating_bar.dart';
 import 'package:provider/provider.dart';
 
 class PlaceItem extends StatelessWidget {
@@ -46,11 +46,14 @@ class PlaceItem extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Container(
-                    child: LoadImage(
-                      listing.listingImages.coverPhoto.url,
-                      width: 100.0,
-                      height: 100.0,
-                      fit: BoxFit.contain,
+                    child: Hero(
+                      tag: listing.listingId,
+                      child: LoadImage(
+                        listing.listingImages.coverPhoto.url,
+                        width: 100.0,
+                        height: 100.0,
+                        fit: BoxFit.contain,
+                      ),
                     ),
                   ),
                   Gaps.hGap10,
@@ -92,7 +95,7 @@ class _Description extends StatelessWidget {
         Row(
           children: <Widget>[
             Expanded(
-              child: Rating(rating: 4),
+              child: MyRatingBar(rating: 4),
             ),
             Text(
               '"${listing.tags[0]}"',
@@ -117,10 +120,11 @@ class _Description extends StatelessWidget {
                   Consumer<UserCurrentLocationProvider>(
                 builder: (_, userLocation, __) {
                   return FutureBuilder<String>(
+                      initialData: "",
                       future: LocationUtils.getDistanceBetween(
                           userLocation.currentCoordinate,
                           listing,
-                          selectedCity.cityModel),
+                          selectedCity.selected),
                       builder: (context, snapshot) {
                         return snapshot.hasData
                             ? Text(
@@ -130,7 +134,7 @@ class _Description extends StatelessWidget {
                                     .subtitle
                                     .copyWith(fontSize: Dimens.font_sp10),
                               )
-                            : Text("N/A");
+                            : null;
                       });
                 },
               ),

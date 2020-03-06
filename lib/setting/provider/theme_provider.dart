@@ -26,7 +26,7 @@ class ThemeProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  getTheme({bool isDarkMode: false}) {
+  getTheme({bool isDarkMode: false, bool isChinese: false}) {
     String theme = SpUtil.getString(Constant.theme);
     switch (theme) {
       case "Dark":
@@ -40,9 +40,9 @@ class ThemeProvider with ChangeNotifier {
     }
 
     return ThemeData(
-      //TODO change here chee chuen
-      // style in lib\core\res\styles.dart
-      fontFamily: GoogleFonts.nunitoSans().fontFamily,
+      fontFamily: isChinese
+          ? GoogleFonts.notoSans().fontFamily
+          : GoogleFonts.nunitoSans().fontFamily,
       errorColor: isDarkMode ? Colours.dark_red : Colours.red,
       brightness: isDarkMode ? Brightness.dark : Brightness.light,
       primaryColor: isDarkMode ? Colours.dark_app_main : Colours.app_main,
@@ -51,17 +51,14 @@ class ThemeProvider with ChangeNotifier {
       indicatorColor: isDarkMode ? Colours.dark_app_main : Colours.app_main,
       // 页面背景色
       scaffoldBackgroundColor:
-          isDarkMode ? Colours.dark_bg_color : Colors.white,
+          isDarkMode ? Colours.dark_bg_color : Colours.bg_color,
       // 主要用于Material背景色
       canvasColor: isDarkMode ? Colours.dark_material_bg : Colors.white,
       // 文字选择色（输入框复制粘贴菜单）
       textSelectionColor: Colours.app_main.withAlpha(70),
       textSelectionHandleColor: Colours.app_main,
       iconTheme: new IconThemeData(
-          color: Colours.app_main,
-          opacity: 0.5,
-          size: Dimens.icon_sp50
-      ),
+          color: Colours.app_main, opacity: 0.5, size: Dimens.icon_sp50),
 
       textTheme: TextTheme(
         // TextField输入文字颜色
@@ -75,7 +72,6 @@ class ThemeProvider with ChangeNotifier {
         caption: isDarkMode ? TextStyles.textDark : TextStyles.caption,
         button: isDarkMode ? TextStyles.textDark : TextStyles.button,
         subtitle: isDarkMode ? TextStyles.textDark : TextStyles.subtitle,
-
       ),
       inputDecorationTheme: InputDecorationTheme(
         hintStyle:

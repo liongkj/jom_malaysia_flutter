@@ -9,7 +9,9 @@ import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/description_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/operating_hours_model.dart';
+import 'package:jom_malaysia/screens/tabs/overview/overview_router.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/listing_provider.dart';
+import 'package:jom_malaysia/screens/tabs/overview/widgets/comment_section.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/merchant_info.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/operating_hours_dialog.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/place_info.dart';
@@ -34,38 +36,44 @@ class PlaceDetailPage extends StatefulWidget {
 
 const kExpandedHeight = 250.0;
 
-class PlaceDetailPageState extends State<PlaceDetailPage> {
+class PlaceDetailPageState extends State<PlaceDetailPage>
+    with AutomaticKeepAliveClientMixin {
   bool isDark = false;
 
   ScrollController _scrollController;
-
   @override
   void initState() {
+    _scrollController = new ScrollController();
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {});
-
-    _scrollController = ScrollController()..addListener(() => setState(() {}));
   }
 
-  bool get _showTitle {
-    return _scrollController.hasClients &&
-        _scrollController.offset > kExpandedHeight - kToolbarHeight;
+  @override
+  void dispose() {
+    _scrollController?.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     isDark = ThemeUtils.isDark(context);
     final place = Provider.of<ListingProvider>(context, listen: false)
         .findById(widget.placeId);
-
     return Scaffold(
       body: SafeArea(
-        top: false,
         child: CustomScrollView(
           controller: _scrollController,
           key: const Key('place_detail'),
           slivers: _sliverBuilder(place),
         ),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        heroTag: "btn_open_form",
+        tooltip: "Rate",
+        onPressed: () => NavigatorUtils.push(context,
+            '${OverviewRouter.reviewPage}?title=${place.listingName}&placeId=${place.listingId}&userId=${"123"}'),
+        icon: Icon(Icons.star),
+        label: Text("Rate"),
       ),
     );
   }
@@ -73,7 +81,7 @@ class PlaceDetailPageState extends State<PlaceDetailPage> {
   List<Widget> _sliverBuilder(ListingModel place) {
     return <Widget>[
       _AppBarWithSwiper(
-        showTitle: _showTitle,
+        scrollController: _scrollController,
         context: context,
         place: place,
       ),
@@ -110,9 +118,16 @@ class PlaceDetailPageState extends State<PlaceDetailPage> {
       _PlaceImage(
         images: place.listingImages.ads,
       ),
+      CommentSection(
+        listingName: place.listingName,
+        listingId: place.listingId,
+      ),
       MerchantInfo(merchant: place.merchant),
     ];
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
 class _PlaceImage extends StatelessWidget {
@@ -138,18 +153,39 @@ class _PlaceImage extends StatelessWidget {
   }
 }
 
-class _AppBarWithSwiper extends StatelessWidget {
+class _AppBarWithSwiper extends StatefulWidget {
   const _AppBarWithSwiper({
     Key key,
-    @required bool showTitle,
     @required this.context,
     @required this.place,
-  })  : _showTitle = showTitle,
-        super(key: key);
+    @required this.scrollController,
+  }) : super(key: key);
 
-  final bool _showTitle;
+  final ScrollController scrollController;
   final BuildContext context;
   final ListingModel place;
+
+  @override
+  __AppBarWithSwiperState createState() => __AppBarWithSwiperState();
+}
+
+class __AppBarWithSwiperState extends State<_AppBarWithSwiper> {
+  bool _showTitle = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      widget.scrollController..addListener(() => _isShowTitle());
+    });
+  }
+
+  void _isShowTitle() {
+    setState(() => {
+          _showTitle = (widget.scrollController.hasClients &&
+              widget.scrollController.offset > kExpandedHeight - kToolbarHeight)
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -158,16 +194,22 @@ class _AppBarWithSwiper extends StatelessWidget {
       backgroundColor: Colors.grey.shade200,
       elevation: 0.0,
       titleSpacing: 0.0,
-      leading: IconButton(
-        icon: Icon(Icons.arrow_back_ios),
-        color: _showTitle ? Colours.text : ThemeUtils.getIconColor(context),
-        onPressed: () => NavigatorUtils.goBack(context),
+      leading: Card(
+        color: Colors.transparent,
+        child: IconButton(
+          icon: Icon(Icons.arrow_back_ios),
+          color: _showTitle ? Colours.text : ThemeUtils.getIconColor(context),
+          onPressed: () => NavigatorUtils.goBack(context),
+        ),
       ),
       centerTitle: true,
       title: _showTitle
           ? Text(
-              '${place.listingName}',
-              style: Theme.of(context).textTheme.subtitle,
+              '${widget.place.listingName}',
+              style: Theme.of(context)
+                  .textTheme
+                  .subtitle
+                  .copyWith(color: Colors.black54),
             )
           : null,
       expandedHeight: kExpandedHeight,
@@ -179,16 +221,20 @@ class _AppBarWithSwiper extends StatelessWidget {
               titlePadding:
                   const EdgeInsetsDirectional.only(start: 16.0, bottom: 14.0),
               collapseMode: CollapseMode.pin,
-              background: _CoverPhotos(place),
+              background: _CoverPhotos(widget.place),
               centerTitle: true,
             ),
       actions: <Widget>[
-        IconButton(
-          icon: Icon(
-            Icons.more_vert,
-            color: _showTitle ? Colors.black : ThemeUtils.getIconColor(context),
+        Card(
+          color: Colors.transparent,
+          child: IconButton(
+            icon: Icon(
+              Icons.more_vert,
+              color:
+                  _showTitle ? Colors.black : ThemeUtils.getIconColor(context),
+            ),
+            onPressed: () {},
           ),
-          onPressed: () {},
         )
       ],
     );
@@ -330,20 +376,26 @@ class _CoverPhotos extends StatelessWidget {
           fit: StackFit.expand,
           alignment: AlignmentDirectional.center,
           children: <Widget>[
-            LoadImage(
-              swiper[index] ?? "none",
-              fit: BoxFit.fill,
+            Hero(
+              tag: place.listingId,
+              child: LoadImage(
+                swiper[index] ?? "none",
+                fit: BoxFit.fill,
+              ),
             ),
             Positioned(
               bottom: 10,
               right: 10,
-              child: FlatButton.icon(
-                color: Colors.white,
-                onPressed: null,
-                icon: Icon(Icons.photo_camera, color: Colors.white),
-                label: Text(
-                  (index + 1).toString() + "/" + swiper.length.toString(),
-                  style: TextStyle(color: Colors.white),
+              child: Card(
+                color: Colors.transparent,
+                child: FlatButton.icon(
+                  color: Colors.white,
+                  onPressed: null,
+                  icon: Icon(Icons.photo_camera, color: Colors.white),
+                  label: Text(
+                    (index + 1).toString() + "/" + swiper.length.toString(),
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
               ),
             )
