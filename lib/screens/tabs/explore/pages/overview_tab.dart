@@ -21,62 +21,71 @@ class OverviewTab extends StatelessWidget {
           children: <Widget>[
             Text(
               S.of(context).stateTitle,
-              style: TextStyles.textStyle_pageHeader,
+              style: Theme.of(context).textTheme.title,
             ),
             Text(
               S.of(context).stateSubtitle,
-              style: TextStyles.textStyle_pageSubheader,
+              style: Theme.of(context).textTheme.subhead,
             ),
             Gaps.vGap16,
             Text(
               S.of(context).overviewSection1Para1,
-              style: TextStyles.textStyle_normalParagraph,
+              style: Theme.of(context).textTheme.body1,
             ),
             Gaps.vGap16,
             Text(
               S.of(context).overviewSection1Para2,
-              style: TextStyles.textStyle_normalParagraph,
+              style: Theme.of(context).textTheme.body1,
             ),
-            Gaps.sectionGap,
-            LoadAssetImage(
+            Gaps.vGap16,
+            LoadImage(
               "explore/minangkabau",
               format: "webp",
             ),
             Gaps.vGap16,
             Text(
               S.of(context).overviewSection2Title,
-              style: TextStyles.textStyle_sectionTitle,
+              style: Theme.of(context).textTheme.body2,
             ),
             Gaps.vGap16,
-            Text(S.of(context).overviewSection2Para1,
-                style: TextStyles.textStyle_normalParagraph),
-            Gaps.sectionGap,
+            Text(
+              S.of(context).overviewSection2Para1,
+              style: Theme.of(context).textTheme.body1,
+            ),
+            Gaps.vGap16,
             Text(
               S.of(context).overviewSection3Title,
-              style: TextStyles.textStyle_sectionTitle,
+              style: Theme.of(context).textTheme.body2,
             ),
             Gaps.vGap16,
             Text(
               S.of(context).overviewSection3Para1,
-              style: TextStyles.textStyle_normalParagraph,
+              style: Theme.of(context).textTheme.body1,
             ),
-            Gaps.sectionGap,
-            LoadAssetImage(
-              Gaps.vGap16,
+            Gaps.vGap16,
+            LoadImage(
               "explore/nsmap",
-              S.of(context).overviewSection4Title,
-              S.of(context).overviewSection4Para1,
-              style: TextStyles.textStyle_normalParagraph,
+              format: "jpg",
             ),
-            Gaps.sectionGap,
+            Gaps.vGap16,
+            Text(
+              S.of(context).overviewSection4Title,
+              style: Theme.of(context).textTheme.body2,
+            ),
+            Gaps.vGap16,
+            Text(
+              S.of(context).overviewSection4Para1,
+              style: Theme.of(context).textTheme.body1,
+            ),
+            Gaps.vGap16,
             Text(
               S.of(context).overviewSection5Title,
-              style: TextStyles.textStyle_sectionTitle,
+              style: Theme.of(context).textTheme.body2,
             ),
             Gaps.vGap16,
             Text(
               S.of(context).overviewSection5Para1,
-              style: TextStyles.textStyle_normalParagraph,
+              style: Theme.of(context).textTheme.body1,
             ),
           ],
         ),
