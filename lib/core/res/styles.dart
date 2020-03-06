@@ -58,4 +58,29 @@ class TextStyles {
 
   static const TextStyle textHint14 = const TextStyle(
       fontSize: Dimens.font_sp14, color: Colours.dark_unselected_item_color);
+
+  static const TextStyle headline = const TextStyle(
+      color: Colours.text,
+      height: 1.5);
+
+  static const TextStyle title =
+      const TextStyle(color: Colours.text, height: 1.5);
+
+  static const TextStyle subhead =
+      const TextStyle(color: Colours.button_disabled, height: 1.5);
+
+  static const TextStyle body2 =
+      const TextStyle(color: Colours.dark_text_gray, height: 1.5);
+
+  static const TextStyle body1 =
+      const TextStyle(color: Colours.dark_text_gray, height: 1.5);
+
+  static const TextStyle caption =
+      const TextStyle(color: Colours.dark_text_gray, height: 1.5);
+
+  static const TextStyle button =
+      const TextStyle(color: Colours.dark_text_gray, height: 1.5);
+
+  static const TextStyle subtitle =
+      const TextStyle(color: Colours.dark_text_gray, height: 1.5);
 }
