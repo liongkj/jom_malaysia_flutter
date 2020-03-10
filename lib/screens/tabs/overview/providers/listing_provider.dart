@@ -32,34 +32,39 @@ class ListingProvider extends BaseChangeNotifier {
     bool refresh = false,
   }) async {
     // setStateType(StateType.loading);
-
+    print(refresh.toString());
+    print(city);
     final Options options =
         buildCacheOptions(Duration(days: 7), forceRefresh: refresh);
     //queries
     Map<String, dynamic> queries = Map<String, dynamic>();
 
     if (city != "") queries[QueryParam.locationBiasCity] = city;
-    setStateType(StateType.loading);
+    _listing.clear();
+    // setStateType(StateType.loading);
     _httpService.asyncRequestNetwork<List<ListingModel>, ListingModel>(
         Method.get,
         url: APIEndpoint.listingQuery,
         options: options,
         queryParameters: queries,
         isShow: false, onSuccess: (data) {
-      _listing.clear();
       if (data != null) {
         if (data.length > 0) {
           _listing.addAll(data);
           setStateTypeWithoutNotify(StateType.places);
           notifyListeners();
+          return;
         } else {
           setStateType(StateType.places);
+          return;
         }
       } else {
         setStateType(StateType.network);
+        return;
       }
     }, onError: (_, __) {
       setStateType(StateType.network);
+      return;
       // notifyListeners();
     });
   }

@@ -24,7 +24,7 @@ class CommentsProvider extends BaseChangeNotifier {
     return;
   }
 
-  Future<List<CommentModel>> fetchcomments() async {
+  Future<List<CommentModel>> fetchComments() async {
     var result = await _api.getDataCollection();
     comments = result.documents
         .map((doc) => CommentModel.fromMap(doc.data, doc.documentID))

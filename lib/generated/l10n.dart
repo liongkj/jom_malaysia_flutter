@@ -461,6 +461,15 @@ class S {
     );
   }
 
+  String get labelTagMustTry {
+    return Intl.message(
+      'JOM Must Try',
+      name: 'labelTagMustTry',
+      desc: '',
+      args: [],
+    );
+  }
+
   String get msgPleaseFillRequiredField {
     return Intl.message(
       'Please fill in highlighted fields',

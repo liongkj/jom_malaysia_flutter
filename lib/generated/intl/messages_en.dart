@@ -60,6 +60,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "labelSearchHint" : MessageLookupByLibrary.simpleMessage("Search for a name or keyword"),
     "labelSearchHintNotEmpty" : MessageLookupByLibrary.simpleMessage("Keyword cannot be blank"),
     "labelStatusPublish" : m1,
+    "labelTagMustTry" : MessageLookupByLibrary.simpleMessage("JOM Must Try"),
     "labelUndoAction" : MessageLookupByLibrary.simpleMessage("Undo"),
     "locationSelectCityMessage" : MessageLookupByLibrary.simpleMessage("Select a City"),
     "locationSelectTownMessage" : MessageLookupByLibrary.simpleMessage("Select a Town"),

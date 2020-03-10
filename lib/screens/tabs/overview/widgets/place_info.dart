@@ -5,6 +5,7 @@ import 'package:jom_malaysia/core/enums/map_type.dart';
 import 'package:jom_malaysia/core/models/coordinates_model.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/core/services/location/location_utils.dart';
+import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/address_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/contact_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
@@ -91,7 +92,10 @@ class PlaceInfo extends StatelessWidget {
                 ],
               ),
               Gaps.vGap16,
-              _TagItem(tags: place.tags),
+              _TagItem(
+                isFeatured: place.isFeatured,
+                tags: place.tags,
+              ),
               Gaps.vGap16,
               _ContactCard(
                 address: place.address,
@@ -109,38 +113,68 @@ class _TagItem extends StatelessWidget {
   const _TagItem({
     Key key,
     @required this.tags,
+    @required this.isFeatured,
   }) : super(key: key);
 
   final List<String> tags;
+  final bool isFeatured;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 20,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: tags.length,
-        itemBuilder: (BuildContext context, int index) {
-          return Container(
-            padding: const EdgeInsets.symmetric(horizontal: 4.0),
-            margin: const EdgeInsets.only(right: 4.0),
-            decoration: BoxDecoration(
-              color: index % 2 == 0
-                  ? Theme.of(context).errorColor
-                  : Theme.of(context).primaryColor,
-              borderRadius: BorderRadius.circular(2.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          if (isFeatured)
+            Opacity(
+              // 修改透明度实现隐藏，类似于invisible
+              opacity: 1.0,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                decoration: BoxDecoration(
+                  color: Colors.yellow,
+                  borderRadius: BorderRadius.circular(2.0),
+                ),
+                height: 20.0,
+                alignment: Alignment.center,
+                child: Text(
+                  S.of(context).labelTagMustTry,
+                  style: TextStyle(
+                      color: Colors.black54, fontSize: Dimens.font_sp14),
+                ),
+              ),
             ),
-            height: 16.0,
-            alignment: Alignment.center,
-            child: Text(
-              tags[index],
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: Dimens.font_sp14,
-                  fontWeight: FontWeight.w600),
+          if (isFeatured) Gaps.hGap8,
+          Expanded(
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: tags.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                  margin: const EdgeInsets.only(right: 4.0),
+                  decoration: BoxDecoration(
+                    color: index % 2 == 0
+                        ? Theme.of(context).errorColor
+                        : Theme.of(context).primaryColor,
+                    borderRadius: BorderRadius.circular(2.0),
+                  ),
+                  height: 16.0,
+                  alignment: Alignment.center,
+                  child: Text(
+                    tags[index],
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: Dimens.font_sp14,
+                        fontWeight: FontWeight.w600),
+                  ),
+                );
+              },
             ),
-          );
-        },
+          ),
+        ],
       ),
     );
   }

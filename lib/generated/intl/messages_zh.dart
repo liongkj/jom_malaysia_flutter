@@ -21,7 +21,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m0(selected) => "当前城市: ${selected}";
 
-  static m1(item) => "火速上传您的${item}";
+  static m1(item) => "正火速上传您的${item}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
@@ -58,6 +58,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "labelSearchHint" : MessageLookupByLibrary.simpleMessage("请输入关键词查询"),
     "labelSearchHintNotEmpty" : MessageLookupByLibrary.simpleMessage("搜索关键词不能为空！"),
     "labelStatusPublish" : m1,
+    "labelTagMustTry" : MessageLookupByLibrary.simpleMessage("必打卡"),
     "labelUndoAction" : MessageLookupByLibrary.simpleMessage("撤消"),
     "locationSelectCityMessage" : MessageLookupByLibrary.simpleMessage("选择城市"),
     "locationSelectTownMessage" : MessageLookupByLibrary.simpleMessage("选择区"),
