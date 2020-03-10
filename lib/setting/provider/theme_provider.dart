@@ -57,13 +57,19 @@ class ThemeProvider with ChangeNotifier {
       // 文字选择色（输入框复制粘贴菜单）
       textSelectionColor: Colours.app_main.withAlpha(70),
       textSelectionHandleColor: Colours.app_main,
+
       textTheme: TextTheme(
         // TextField输入文字颜色
-        subhead: isDarkMode ? TextStyles.textDark : TextStyles.text,
         // Text文字样式
-        body1: isDarkMode ? TextStyles.textDark : TextStyles.text,
-        subtitle:
-            isDarkMode ? TextStyles.textDarkGray12 : TextStyles.textGray12,
+        //https://api.flutter.dev/flutter/material/TextTheme-class.html
+        headline: isDarkMode ? TextStyles.textDark : TextStyles.headline,
+        title: isDarkMode ? TextStyles.textDark : TextStyles.title,
+        subhead: isDarkMode ? TextStyles.textDark : TextStyles.subhead,
+        body2: isDarkMode ? TextStyles.textDark : TextStyles.body2,
+        body1: isDarkMode ? TextStyles.textDark : TextStyles.body1,
+        caption: isDarkMode ? TextStyles.textDark : TextStyles.caption,
+        button: isDarkMode ? TextStyles.textDark : TextStyles.button,
+        subtitle: isDarkMode ? TextStyles.textDark : TextStyles.subtitle,
       ),
       inputDecorationTheme: InputDecorationTheme(
         hintStyle:
