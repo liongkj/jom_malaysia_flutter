@@ -14,7 +14,9 @@ import 'package:jom_malaysia/screens/tabs/overview/providers/listing_provider.da
 import 'package:jom_malaysia/screens/tabs/overview/widgets/comment_section.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/merchant_info.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/operating_hours_dialog.dart';
+import 'package:jom_malaysia/screens/tabs/overview/widgets/place_description.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/place_info.dart';
+import 'package:jom_malaysia/screens/tabs/overview/widgets/place_operating_hour.dart';
 import 'package:jom_malaysia/setting/provider/language_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/util/utils.dart';
@@ -96,10 +98,10 @@ class PlaceDetailPageState extends State<PlaceDetailPage>
             children: <Widget>[
               PlaceInfo(place),
               Gaps.vGap16,
-              _OperatingHour(place.operatingHours),
+              OperatingHour(place.operatingHours),
               Gaps.vGap16,
               if (place.description != null)
-                _PlaceDescription(place.description),
+                PlaceDescription(place.description),
             ],
           ),
         ),
@@ -187,6 +189,14 @@ class __AppBarWithSwiperState extends State<_AppBarWithSwiper> {
         });
   }
 
+  Choice _selectedChoice = choices[0];
+  void _select(Choice choice) {
+    // Causes the app to rebuild with the new _selectedChoice.
+    setState(() {
+      _selectedChoice = choice;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
@@ -215,6 +225,34 @@ class __AppBarWithSwiperState extends State<_AppBarWithSwiper> {
       expandedHeight: kExpandedHeight,
       floating: false, // 不随着滑动隐藏标题
       pinned: true, // 固定在顶部
+
+      actions: <Widget>[
+        // Card(
+        //   color: Colors.transparent,
+        //   child: IconButton(
+        //     icon: Icon(
+        //       Icons.more_vert,
+        //       color:
+        //           _showTitle ? Colors.black : ThemeUtils.getIconColor(context),
+        //     ),
+        //     onPressed: () {},
+        //   ),
+        // ),
+        Card(
+          color: Colors.transparent,
+          child: PopupMenuButton<Choice>(
+            onSelected: _select,
+            itemBuilder: (BuildContext context) {
+              return choices.map((Choice choice) {
+                return PopupMenuItem<Choice>(
+                  value: choice,
+                  child: Text(choice.title),
+                );
+              }).toList();
+            },
+          ),
+        ),
+      ],
       flexibleSpace: _showTitle
           ? null
           : FlexibleSpaceBar(
@@ -224,144 +262,20 @@ class __AppBarWithSwiperState extends State<_AppBarWithSwiper> {
               background: _CoverPhotos(widget.place),
               centerTitle: true,
             ),
-      actions: <Widget>[
-        Card(
-          color: Colors.transparent,
-          child: IconButton(
-            icon: Icon(
-              Icons.more_vert,
-              color:
-                  _showTitle ? Colors.black : ThemeUtils.getIconColor(context),
-            ),
-            onPressed: () {},
-          ),
-        )
-      ],
     );
   }
 }
 
-class _PlaceDescription extends StatelessWidget {
-  final DescriptionVM description;
-  _PlaceDescription(this.description);
+class Choice {
+  const Choice({this.title, this.icon});
 
-  @override
-  Widget build(BuildContext context) {
-    final lang = Provider.of<LanguageProvider>(context, listen: false).locale;
-    return MyCard(
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        child: Row(
-          children: <Widget>[
-            Flexible(
-              child: Text(
-                description
-                    ?.getDescription(lang ?? Localizations.localeOf(context)),
-                style: Theme.of(context).textTheme.body1,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+  final String title;
+  final IconData icon;
 }
 
-class _OperatingHour extends StatelessWidget {
-  final List<OperatingHours> operatingHours;
-
-  _OperatingHour(this.operatingHours);
-  @override
-  Widget build(BuildContext context) {
-    //weekday returns 1-7
-    final _today = (DateTime.now().weekday == 7) ? 0 : DateTime.now().weekday;
-    final _oh = operatingHours.firstWhere((x) => x.dayOfWeek.index == _today,
-        orElse: () => null);
-    return Material(
-      child: InkWell(
-        onTap: () => {},
-        child: MyCard(
-          child: Container(
-            padding: const EdgeInsets.all(16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                const LoadAssetImage("place/icon_wait",
-                    width: 18.0, height: 18.0),
-                Gaps.hGap12,
-                Expanded(
-                  flex: 6,
-                  child: _oh != null
-                      ? Row(children: <Widget>[
-                          Text('${_oh.openHour} - ${_oh.closeHour}'),
-                          Gaps.hGap15,
-                          !_oh.isOpen
-                              ? Text(
-                                  S.of(context).placeDetailOperatingCloseLabel,
-                                  style: TextStyle(
-                                    color: Theme.of(context).errorColor,
-                                    fontWeight: FontWeight.w800,
-                                  ),
-                                )
-                              : !_oh.closingSoon
-                                  ? Text(
-                                      S
-                                          .of(context)
-                                          .placeDetailOperatingOpenLabel,
-                                      style: TextStyle(
-                                        color: Colors.green,
-                                        fontWeight: FontWeight.w800,
-                                      ),
-                                    )
-                                  : Text(
-                                      S
-                                          .of(context)
-                                          .placeDetailOperatingSoonLabel,
-                                      style: TextStyle(
-                                        color: Colors.deepOrange,
-                                        fontWeight: FontWeight.w800,
-                                      ),
-                                    )
-                        ])
-                      : Row(
-                          children: <Widget>[
-                            Text(
-                              S.of(context).placeDetailOperatingCloseLabel,
-                              style: TextStyle(
-                                  color: Theme.of(context).errorColor),
-                            )
-                          ],
-                        ),
-                ),
-                Gaps.vLine,
-                Expanded(
-                  flex: 1,
-                  child: IconButton(
-                    icon: Icon(
-                      Icons.navigate_next,
-                      size: 24,
-                      color: ThemeUtils.getIconColor(context),
-                    ),
-                    onPressed: () {
-                      showElasticDialog(
-                          context: context,
-                          barrierDismissible: false,
-                          builder: (BuildContext context) {
-                            return OperatingHoursDialog(
-                              hours: operatingHours,
-                            );
-                          });
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
+const List<Choice> choices = const <Choice>[
+  const Choice(title: 'Report Mistake', icon: Icons.feedback),
+];
 
 class _CoverPhotos extends StatelessWidget {
   _CoverPhotos(this.place);
