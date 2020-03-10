@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/core/services/gateway/firebase_storage_api.dart';
-import 'package:jom_malaysia/core/services/permission/permission_utils.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/comments/comment_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/comments_provider.dart';
@@ -259,7 +258,7 @@ class __ImageAreaState extends State<_ImageArea> {
     try {
       resultList = await MultiImagePicker.pickImages(
         maxImages: 5 - _images.length,
-        enableCamera: await PermissionService().requestCameraPermission(),
+        enableCamera: true,
         selectedAssets: _images,
         materialOptions: MaterialOptions(
           actionBarColor: "#abcdef",
