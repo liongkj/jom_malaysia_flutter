@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/services/gateway/firebase_storage_api.dart';
 import 'package:jom_malaysia/core/services/gateway/firestore_api.dart';
 import 'package:jom_malaysia/core/services/gateway/http_service.dart';
+import 'package:jom_malaysia/screens/tabs/explore/providers/featured_place_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/comments_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/listing_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/location_provider.dart';
@@ -50,6 +51,11 @@ List<SingleChildWidget> dependentServices = [
         httpService: Provider.of<HttpService>(context, listen: false),
       );
     },
+  ),
+  ChangeNotifierProvider<FeaturedPlaceProvider>(
+    create: (BuildContext context) => FeaturedPlaceProvider(
+      httpService: Provider.of<HttpService>(context, listen: false),
+    ),
   ),
   ChangeNotifierProvider<CommentsProvider>(
     create: (context) => CommentsProvider(

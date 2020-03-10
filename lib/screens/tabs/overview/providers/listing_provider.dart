@@ -32,8 +32,7 @@ class ListingProvider extends BaseChangeNotifier {
     bool refresh = false,
   }) async {
     // setStateType(StateType.loading);
-    print(refresh.toString());
-    print(city);
+
     final Options options =
         buildCacheOptions(Duration(days: 7), forceRefresh: refresh);
     //queries
@@ -70,6 +69,6 @@ class ListingProvider extends BaseChangeNotifier {
   }
 
   ListingModel findById(String placeId) {
-    return _listing.firstWhere((x) => x.listingId == placeId);
+    return _listing.firstWhere((x) => x.listingId == placeId) ?? null;
   }
 }

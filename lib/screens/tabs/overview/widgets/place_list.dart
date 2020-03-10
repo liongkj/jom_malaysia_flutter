@@ -74,8 +74,6 @@ class _PlaceListState extends State<PlaceList>
               final placeList =
                   Provider.of<ListingProvider>(context, listen: false)
                       .fetchListingByType(_index);
-              print("rebuild place list");
-              print(listingProvider.stateType);
               return SliverPadding(
                 padding: const EdgeInsets.only(left: 16.0, right: 16, top: 10),
                 sliver: placeList.isEmpty

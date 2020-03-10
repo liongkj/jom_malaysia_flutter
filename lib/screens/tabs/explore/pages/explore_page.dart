@@ -50,7 +50,7 @@ class ExplorePageState extends State<ExplorePage>
       Choice(
           title: S.of(context).tabTitleExploreOverview,
           icon: Icons.featured_play_list),
-      Choice(title: S.of(context).tabTitleExploreTodo, icon: Icons.done),
+      Choice(title: S.of(context).labelTagMustTry, icon: Icons.done),
       // const Choice(title: 'TRANSPORT', icon: Icons.directions),
     ];
     return Scaffold(
@@ -77,8 +77,8 @@ class ExplorePageState extends State<ExplorePage>
               ),
               flexibleSpace: FlexibleSpaceBar(
                 centerTitle: true,
-                background:
-                    LoadImage("explore/featured/pd_bird_eye", format: "jpg"),
+                background: LoadAssetImage("explore/featured/pd_bird_eye",
+                    format: "jpg", fit: BoxFit.cover),
               ),
             ),
           ];

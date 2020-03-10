@@ -127,22 +127,18 @@ class _TagItem extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           if (isFeatured)
-            Opacity(
-              // 修改透明度实现隐藏，类似于invisible
-              opacity: 1.0,
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                decoration: BoxDecoration(
-                  color: Colors.yellow,
-                  borderRadius: BorderRadius.circular(2.0),
-                ),
-                height: 20.0,
-                alignment: Alignment.center,
-                child: Text(
-                  S.of(context).labelTagMustTry,
-                  style: TextStyle(
-                      color: Colors.black54, fontSize: Dimens.font_sp14),
-                ),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 4.0),
+              decoration: BoxDecoration(
+                color: Colors.yellow,
+                borderRadius: BorderRadius.circular(2.0),
+              ),
+              height: 20.0,
+              alignment: Alignment.center,
+              child: Text(
+                S.of(context).labelTagMustTry,
+                style: TextStyle(
+                    color: Colors.black54, fontSize: Dimens.font_sp14),
               ),
             ),
           if (isFeatured) Gaps.hGap8,
