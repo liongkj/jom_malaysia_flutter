@@ -8,22 +8,16 @@ import 'package:jom_malaysia/core/res/colors.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/core/services/gateway/api_const.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
-import 'package:jom_malaysia/screens/tabs/overview/models/description_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
-import 'package:jom_malaysia/screens/tabs/overview/models/operating_hours_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/overview_router.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/listing_provider.dart';
-import 'package:jom_malaysia/screens/tabs/overview/widgets/comment_section.dart';
+import 'package:jom_malaysia/screens/tabs/overview/widgets/comments/comment_section.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/merchant_info.dart';
-import 'package:jom_malaysia/screens/tabs/overview/widgets/operating_hours_dialog.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/place_description.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/place_info.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/place_operating_hour.dart';
-import 'package:jom_malaysia/setting/provider/language_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
-import 'package:jom_malaysia/util/utils.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
-import 'package:jom_malaysia/widgets/my_card.dart';
 import 'package:jom_malaysia/widgets/my_section_divider.dart';
 import 'package:jom_malaysia/widgets/sliver_appbar_delegate.dart';
 import 'package:provider/provider.dart';
@@ -43,11 +37,32 @@ const kExpandedHeight = 250.0;
 class PlaceDetailPageState extends State<PlaceDetailPage>
     with AutomaticKeepAliveClientMixin {
   bool isDark = false;
-
+  bool _isVisible;
+  var place;
   ScrollController _scrollController;
   @override
   void initState() {
-    _scrollController = new ScrollController();
+    _scrollController = new ScrollController()
+      ..addListener(() {
+        if (_scrollController.position.pixels >
+            _scrollController.position.maxScrollExtent * 0.9) {
+          if (_isVisible == true) {
+            setState(() {
+              _isVisible = false;
+            });
+          }
+        } else {
+          if (_isVisible == false) {
+            setState(() {
+              _isVisible = true;
+            });
+          }
+        }
+      });
+    _isVisible = true;
+
+    place = Provider.of<ListingProvider>(context, listen: false)
+        .findById(widget.placeId);
     super.initState();
   }
 
@@ -61,8 +76,6 @@ class PlaceDetailPageState extends State<PlaceDetailPage>
   Widget build(BuildContext context) {
     super.build(context);
     isDark = ThemeUtils.isDark(context);
-    final place = Provider.of<ListingProvider>(context, listen: false)
-        .findById(widget.placeId);
     return Scaffold(
       body: SafeArea(
         child: CustomScrollView(
@@ -71,13 +84,16 @@ class PlaceDetailPageState extends State<PlaceDetailPage>
           slivers: _sliverBuilder(place),
         ),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        heroTag: "btn_open_form",
-        tooltip: "Rate",
-        onPressed: () => NavigatorUtils.push(context,
-            '${OverviewRouter.reviewPage}?title=${place.listingName}&placeId=${place.listingId}&userId=${"123"}'),
-        icon: Icon(Icons.star),
-        label: Text("Rate"),
+      floatingActionButton: Visibility(
+        visible: _isVisible,
+        child: FloatingActionButton.extended(
+          heroTag: "btn_open_form",
+          tooltip: "Rate",
+          onPressed: () => NavigatorUtils.push(context,
+              '${OverviewRouter.reviewPage}?title=${place.listingName}&placeId=${place.listingId}&userId=${"123"}'),
+          icon: Icon(Icons.star),
+          label: Text("Rate"),
+        ),
       ),
     );
   }

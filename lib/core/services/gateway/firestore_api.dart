@@ -16,6 +16,15 @@ class FirestoreService {
     return ref.getDocuments();
   }
 
+  Stream<QuerySnapshot> streamLatest3Collection(
+      String collectionName, String listingId) {
+    return ref
+        .document(listingId)
+        .collection(collectionName)
+        .snapshots()
+        .take(3);
+  }
+
   Stream<QuerySnapshot> streamDataCollection(
       String collectionName, String listingId) {
     return ref.document(listingId).collection(collectionName).snapshots();

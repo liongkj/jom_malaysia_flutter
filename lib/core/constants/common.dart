@@ -6,7 +6,7 @@ class Constant {
   static const bool inProduction =
       const bool.fromEnvironment("dart.vm.product");
 
-  static bool isTest = true;
+  static bool isTest = false;
 
   static bool enableFeedback = false;
 

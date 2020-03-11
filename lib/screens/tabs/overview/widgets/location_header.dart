@@ -200,7 +200,7 @@ class _LocationHeaderState extends State<LocationHeader> {
   void _loadData() async {
     var jsonCities;
     if (Constant.isTest) {
-      jsonCities = await loadString('assets/data/city.json');
+      jsonCities = await loadString('assets/data/cities.json');
     } else {
       jsonCities = await rootBundle.loadString('assets/json/cities.json');
     }
