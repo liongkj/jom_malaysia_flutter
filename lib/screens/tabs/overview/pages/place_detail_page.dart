@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:jom_malaysia/core/constants/common.dart';
 import 'package:jom_malaysia/core/models/image_model.dart';
 import 'package:jom_malaysia/core/res/colors.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
+import 'package:jom_malaysia/core/services/gateway/api_const.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/description_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
@@ -189,14 +191,6 @@ class __AppBarWithSwiperState extends State<_AppBarWithSwiper> {
         });
   }
 
-  Choice _selectedChoice = choices[0];
-  void _select(Choice choice) {
-    // Causes the app to rebuild with the new _selectedChoice.
-    setState(() {
-      _selectedChoice = choice;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
@@ -227,31 +221,28 @@ class __AppBarWithSwiperState extends State<_AppBarWithSwiper> {
       pinned: true, // 固定在顶部
 
       actions: <Widget>[
-        // Card(
-        //   color: Colors.transparent,
-        //   child: IconButton(
-        //     icon: Icon(
-        //       Icons.more_vert,
-        //       color:
-        //           _showTitle ? Colors.black : ThemeUtils.getIconColor(context),
-        //     ),
-        //     onPressed: () {},
-        //   ),
-        // ),
-        Card(
-          color: Colors.transparent,
-          child: PopupMenuButton<Choice>(
-            onSelected: _select,
-            itemBuilder: (BuildContext context) {
-              return choices.map((Choice choice) {
-                return PopupMenuItem<Choice>(
-                  value: choice,
-                  child: Text(choice.title),
-                );
-              }).toList();
-            },
+        if (Constant.enableFeedback)
+          Card(
+            color: Colors.transparent,
+            child: PopupMenuButton<Choice>(
+              onSelected: (result) {
+                if (result == choices[0]) {
+                  NavigatorUtils.goWebViewPage(
+                      context,
+                      widget.place.listingName,
+                      "${WebUrl.reportPlaceError}/${widget.place.listingId}");
+                }
+              },
+              itemBuilder: (BuildContext context) {
+                return choices.map((Choice choice) {
+                  return PopupMenuItem<Choice>(
+                    value: choice,
+                    child: Text(choice.title),
+                  );
+                }).toList();
+              },
+            ),
           ),
-        ),
       ],
       flexibleSpace: _showTitle
           ? null
