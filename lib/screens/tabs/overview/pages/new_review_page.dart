@@ -65,11 +65,11 @@ class _NewReviewPageState extends State<NewReviewPage> {
       appBar: MyAppBar(
         actionName: "Publish",
         onPressed: () async {
-          print(_formKey.currentState.validate());
-
           if (_formKey.currentState.validate()) {
             _formKey.currentState.save();
             if (_commentModel.imageAssets.isNotEmpty) {
+              Provider.of<CommentsProvider>(context, listen: false)
+                  .setStateType(StateType.loading);
               var _index = 0;
               for (Asset image in _commentModel.imageAssets) {
                 _commentModel.images.add(await _saveImage(image, _index));

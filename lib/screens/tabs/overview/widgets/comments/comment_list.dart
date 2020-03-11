@@ -58,14 +58,15 @@ class _CommentListState extends State<CommentList>
                             CommentModel.fromMap(doc.data, doc.documentID))
                         .toList();
                     return Column(children: <Widget>[
-                      ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        itemCount: commentList.length,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemBuilder: (buildContext, index) => CommentItem(
-                          commentList[index],
-                          showFull: true,
+                      Expanded(
+                        child: ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          itemCount: commentList.length,
+                          itemBuilder: (buildContext, index) => CommentItem(
+                            commentList[index],
+                            showFull: true,
+                          ),
                         ),
                       )
                     ]);

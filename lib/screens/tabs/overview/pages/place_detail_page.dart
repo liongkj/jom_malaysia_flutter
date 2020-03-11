@@ -216,6 +216,7 @@ class __AppBarWithSwiperState extends State<_AppBarWithSwiper> {
       titleSpacing: 0.0,
       leading: Card(
         color: Colors.transparent,
+        elevation: _showTitle ? 0 : 1,
         child: IconButton(
           icon: Icon(Icons.arrow_back_ios),
           color: _showTitle ? Colours.text : ThemeUtils.getIconColor(context),

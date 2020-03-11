@@ -28,7 +28,7 @@ class CommentItem extends StatelessWidget {
             ),
           ),
           Gaps.hGap16,
-          Expanded(
+          Flexible(
             child: Container(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -64,8 +64,8 @@ class CommentItem extends StatelessWidget {
                     maxLines: showFull ? 5 : 2,
                   ),
 
-                  if (comment.images?.isNotEmpty)
-                    _BuildImageThumbnail(comment.images, showList: showFull),
+                  // if (comment.images?.isNotEmpty)
+                  //   _BuildImageThumbnail(comment.images, showList: !showFull),
                   Gaps.vGap16,
                   Gaps.vGap4,
                   Gaps.line
@@ -87,33 +87,35 @@ class _BuildImageThumbnail extends StatelessWidget {
   }) : super(key: key);
   final List<String> images;
   final bool showList;
+
   @override
   Widget build(BuildContext context) {
-    if (showList)
-      return Container(
-        padding: EdgeInsets.only(top: 16.0),
-        height: 120,
-        child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          physics: NeverScrollableScrollPhysics(),
-          itemCount: images.length,
-          shrinkWrap: true,
-          itemBuilder: (context, index) => _ThumbnailItem(
-            images[index],
+    return Row(
+      children: <Widget>[
+        Flexible(
+          child: Container(
+            padding: EdgeInsets.only(top: 16.0),
+            child: showList
+                ? ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: images.length < 4 ? images.length : 3,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) => _ThumbnailItem(
+                      images[index],
+                    ),
+                    //TODO add stack image count
+                  )
+                : GridView.builder(
+                    itemCount: images.length,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3),
+                    itemBuilder: (context, index) =>
+                        _ThumbnailItem(images[index]),
+                  ),
           ),
         ),
-      );
-    else {
-      return Container(
-        padding: EdgeInsets.only(top: 16.0),
-        height: 120,
-        child: GridView.builder(
-          gridDelegate:
-              SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
-          itemBuilder: (context, index) => _ThumbnailItem(images[index]),
-        ),
-      );
-    }
+      ],
+    );
   }
 }
 
@@ -131,8 +133,7 @@ class _ThumbnailItem extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 4),
       child: LoadImage(
         image,
-        height: 100,
-        width: 110,
+        width: 80,
       ),
     );
   }

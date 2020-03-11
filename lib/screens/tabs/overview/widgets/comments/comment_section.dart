@@ -29,82 +29,72 @@ class _CommentSectionState extends State<CommentSection> {
     final TextStyle sectionTitleStyle = Theme.of(context).textTheme.body1;
     final commentProvider =
         Provider.of<CommentsProvider>(context, listen: false);
-    final int _MAXCOMMENTCOUNT = 3;
+
     return SliverToBoxAdapter(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
         child: MyCard(
           child: Container(
             padding: const EdgeInsets.all(16.0),
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Container(
-                      child: StreamBuilder(
-                          stream: commentProvider
-                              .fetchCommentsAsStream(widget.listingId),
-                          builder:
-                              (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                            if (snapshot.hasData) {
-                              comments = snapshot.data.documents
-                                  .map((doc) => CommentModel.fromMap(
-                                      doc.data, doc.documentID))
-                                  .toList();
-                              final shouldLoad = comments?.isNotEmpty;
-                              return Column(children: <Widget>[
-                                Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        S.of(context).placeDetailCommentLabel(
-                                            comments.length ?? 0),
-                                        style:
-                                            Theme.of(context).textTheme.body1,
-                                      ),
-                                      if (shouldLoad)
-                                        GestureDetector(
-                                          onTap: () {
-                                            NavigatorUtils.push(context,
-                                                '${OverviewRouter.commentPage}?&placeId=${widget.listingId}');
-                                          },
-                                          child: LoadImage(
-                                            "ic_arrow_right",
-                                            height: 18,
-                                          ),
-                                        )
-                                    ]),
-                                Gaps.vGap16,
-                                ListView.builder(
-                                  scrollDirection: Axis.vertical,
-                                  shrinkWrap: true,
-                                  itemCount: comments.length > _MAXCOMMENTCOUNT
-                                      ? _MAXCOMMENTCOUNT
-                                      : comments.length,
-                                  physics: NeverScrollableScrollPhysics(),
-                                  itemBuilder: (buildContext, index) =>
-                                      CommentItem(comments[index]),
-                                ),
-                                MyButton(
-                                  icon: Icon(Icons.rate_review),
-                                  text: shouldLoad
-                                      ? "Say Something"
-                                      : "Submit first review",
-                                  onPressed: () {
-                                    NavigatorUtils.push(context,
-                                        '${OverviewRouter.reviewPage}?title=${widget.listingName}&placeId=${widget.listingId}&userId=${"123"}');
-                                  },
-                                ),
-                              ]);
-                            } else {
-                              //TODO handle no data error
-                              return RefreshProgressIndicator();
-                            }
-                          })),
-                ]),
+            child: Container(child: _buildComment(commentProvider)),
           ),
         ),
       ),
     );
+  }
+
+  StreamBuilder<QuerySnapshot> _buildComment(CommentsProvider commentProvider) {
+    final int _MAXCOMMENTCOUNT = 3;
+    return StreamBuilder(
+        stream: commentProvider.fetchCommentsAsStream(widget.listingId),
+        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasData) {
+            comments = snapshot.data.documents
+                .map((doc) => CommentModel.fromMap(doc.data, doc.documentID))
+                .toList();
+            final shouldLoad = comments?.isNotEmpty;
+            return Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                Text(
+                  S.of(context).placeDetailCommentLabel(comments.length ?? 0),
+                  style: Theme.of(context).textTheme.body1,
+                ),
+                if (shouldLoad)
+                  GestureDetector(
+                    onTap: () {
+                      NavigatorUtils.push(context,
+                          '${OverviewRouter.commentPage}?&placeId=${widget.listingId}');
+                    },
+                    child: LoadImage(
+                      "ic_arrow_right",
+                      height: 18,
+                    ),
+                  )
+              ]),
+              Gaps.vGap16,
+              ListView.builder(
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                itemCount: comments.length > _MAXCOMMENTCOUNT
+                    ? _MAXCOMMENTCOUNT
+                    : comments.length,
+                physics: NeverScrollableScrollPhysics(),
+                itemBuilder: (buildContext, index) =>
+                    CommentItem(comments[index]),
+              ),
+              MyButton(
+                icon: Icon(Icons.rate_review),
+                text: shouldLoad ? "Say Something" : "Submit first review",
+                onPressed: () {
+                  NavigatorUtils.push(context,
+                      '${OverviewRouter.reviewPage}?title=${widget.listingName}&placeId=${widget.listingId}&userId=${"123"}');
+                },
+              ),
+            ]);
+          } else {
+            //TODO handle no data error
+            return RefreshProgressIndicator();
+          }
+        });
   }
 }
