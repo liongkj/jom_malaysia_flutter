@@ -9,6 +9,7 @@ import 'package:jom_malaysia/screens/tabs/overview/widgets/comments/comment_item
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/widgets/app_bar.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
+import 'package:jom_malaysia/widgets/my_card.dart';
 import 'package:jom_malaysia/widgets/state_layout.dart';
 import 'package:provider/provider.dart';
 
@@ -41,55 +42,40 @@ class _CommentListState extends State<CommentList>
           }
           return true;
         },
-        child: RefreshIndicator(
-          onRefresh: _onRefresh,
-          child: StreamBuilder(
-            stream: commentProvider.fetchCommentsAsStream(
-              widget.placeId,
-            ),
-            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-              if (snapshot.hasData) {
-                commentList = snapshot.data.documents
-                    .map(
-                        (doc) => CommentModel.fromMap(doc.data, doc.documentID))
-                    .toList();
-                return Column(children: <Widget>[
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          S
-                              .of(context)
-                              .placeDetailCommentLabel(commentList.length ?? 0),
-                          style: Theme.of(context).textTheme.body1,
+        child: Container(
+          padding: EdgeInsets.symmetric(vertical: 6.0),
+          child: MyCard(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: StreamBuilder(
+                stream: commentProvider.fetchCommentsAsStream(
+                  widget.placeId,
+                ),
+                builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.hasData) {
+                    commentList = snapshot.data.documents
+                        .map((doc) =>
+                            CommentModel.fromMap(doc.data, doc.documentID))
+                        .toList();
+                    return Column(children: <Widget>[
+                      ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        itemCount: commentList.length,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemBuilder: (buildContext, index) => CommentItem(
+                          commentList[index],
+                          showFull: true,
                         ),
-                        if (commentList?.isNotEmpty)
-                          GestureDetector(
-                            onTap: () {
-                              NavigatorUtils.push(
-                                  context, OverviewRouter.commentPage);
-                            },
-                            child: LoadImage(
-                              "ic_arrow_right",
-                              height: 18,
-                            ),
-                          )
-                      ]),
-                  Gaps.vGap16,
-                  ListView.builder(
-                    scrollDirection: Axis.vertical,
-                    shrinkWrap: true,
-                    itemCount: commentList.length,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemBuilder: (buildContext, index) =>
-                        CommentItem(commentList[index]),
-                  )
-                ]);
-              } else {
-                //TODO handle no data error
-                return RefreshProgressIndicator();
-              }
-            },
+                      )
+                    ]);
+                  } else {
+                    //TODO handle no data error
+                    return RefreshProgressIndicator();
+                  }
+                },
+              ),
+            ),
           ),
         ),
       ),

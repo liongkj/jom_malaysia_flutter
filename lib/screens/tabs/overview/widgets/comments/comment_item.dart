@@ -4,8 +4,13 @@ import 'package:jom_malaysia/screens/tabs/overview/models/comments/comment_model
 import 'package:jom_malaysia/widgets/load_image.dart';
 
 class CommentItem extends StatelessWidget {
-  CommentItem(this.comment, {Key key});
+  CommentItem(
+    this.comment, {
+    Key key,
+    this.showFull = false,
+  });
   final CommentModel comment;
+  final bool showFull;
 
   @override
   Widget build(BuildContext context) {
@@ -53,15 +58,14 @@ class CommentItem extends StatelessWidget {
                     style: Theme.of(context).textTheme.body2,
                   ),
                   Gaps.vGap12,
-
                   //TODO use date util
                   Text(
                     comment.commentText,
-                    maxLines: 2,
+                    maxLines: showFull ? 5 : 2,
                   ),
 
                   if (comment.images?.isNotEmpty)
-                    _BuildImageThumbnail(comment.images),
+                    _BuildImageThumbnail(comment.images, showList: showFull),
                   Gaps.vGap16,
                   Gaps.vGap4,
                   Gaps.line
@@ -78,27 +82,57 @@ class CommentItem extends StatelessWidget {
 class _BuildImageThumbnail extends StatelessWidget {
   _BuildImageThumbnail(
     this.images, {
+    this.showList,
     Key key,
   }) : super(key: key);
   final List<String> images;
+  final bool showList;
+  @override
+  Widget build(BuildContext context) {
+    if (showList)
+      return Container(
+        padding: EdgeInsets.only(top: 16.0),
+        height: 120,
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          physics: NeverScrollableScrollPhysics(),
+          itemCount: images.length,
+          shrinkWrap: true,
+          itemBuilder: (context, index) => _ThumbnailItem(
+            images[index],
+          ),
+        ),
+      );
+    else {
+      return Container(
+        padding: EdgeInsets.only(top: 16.0),
+        height: 120,
+        child: GridView.builder(
+          gridDelegate:
+              SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+          itemBuilder: (context, index) => _ThumbnailItem(images[index]),
+        ),
+      );
+    }
+  }
+}
+
+class _ThumbnailItem extends StatelessWidget {
+  const _ThumbnailItem(
+    this.image, {
+    Key key,
+  }) : super(key: key);
+
+  final String image;
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(top: 16.0),
-      height: 120,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        physics: NeverScrollableScrollPhysics(),
-        itemCount: images.length,
-        shrinkWrap: true,
-        itemBuilder: (context, index) => Container(
-          padding: EdgeInsets.symmetric(horizontal: 4),
-          child: LoadImage(
-            images[index],
-            height: 100,
-            width: 110,
-          ),
-        ),
+      padding: EdgeInsets.symmetric(horizontal: 4),
+      child: LoadImage(
+        image,
+        height: 100,
+        width: 110,
       ),
     );
   }
