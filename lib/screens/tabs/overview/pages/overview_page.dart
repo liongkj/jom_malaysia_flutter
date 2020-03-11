@@ -74,45 +74,43 @@ class OverviewPageState extends State<OverviewPage>
           ),
         ],
         child: Scaffold(
-          body: SafeArea(
-            child: Stack(
-              children: <Widget>[
-                SafeArea(
-                  child: SizedBox(
-                    height: 105,
-                    width: double.infinity,
-                    child: const DecoratedBox(
-                      decoration: BoxDecoration(
-                        color: Colours.bg_color,
-                      ),
+          body: Stack(
+            children: <Widget>[
+              SafeArea(
+                child: SizedBox(
+                  height: 105,
+                  width: double.infinity,
+                  child: const DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: Colours.bg_color,
                     ),
                   ),
                 ),
-                NestedScrollView(
-                  key: const Key('order_list'),
-                  physics: ClampingScrollPhysics(),
-                  controller: _scrollController ?? null,
-                  headerSliverBuilder: (context, innerBoxIsScrolled) =>
-                      _sliverBuilder(context),
-                  body: PageView.builder(
-                    key: const Key('pageView'),
-                    itemCount: 5,
-                    onPageChanged: _onPageChange,
-                    controller: _pageController,
-                    itemBuilder: (_, index) {
-                      return SafeArea(
-                        top: false,
-                        bottom: false,
-                        child: PlaceList(
-                          controller: this._scrollController,
-                          index: index,
-                        ),
-                      );
-                    },
-                  ),
+              ),
+              NestedScrollView(
+                key: const Key('order_list'),
+                physics: ClampingScrollPhysics(),
+                controller: _scrollController ?? null,
+                headerSliverBuilder: (context, innerBoxIsScrolled) =>
+                    _sliverBuilder(context),
+                body: PageView.builder(
+                  key: const Key('pageView'),
+                  itemCount: 5,
+                  onPageChanged: _onPageChange,
+                  controller: _pageController,
+                  itemBuilder: (_, index) {
+                    return SafeArea(
+                      top: false,
+                      bottom: false,
+                      child: PlaceList(
+                        controller: this._scrollController,
+                        index: index,
+                      ),
+                    );
+                  },
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ));
   }

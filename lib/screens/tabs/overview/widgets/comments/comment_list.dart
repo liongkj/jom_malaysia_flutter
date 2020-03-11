@@ -1,12 +1,20 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:jom_malaysia/core/res/resources.dart';
+import 'package:jom_malaysia/generated/l10n.dart';
+import 'package:jom_malaysia/screens/tabs/overview/models/comments/comment_model.dart';
+import 'package:jom_malaysia/screens/tabs/overview/overview_router.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/comments_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/comments/comment_item.dart';
+import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
+import 'package:jom_malaysia/widgets/app_bar.dart';
+import 'package:jom_malaysia/widgets/load_image.dart';
 import 'package:jom_malaysia/widgets/state_layout.dart';
 import 'package:provider/provider.dart';
 
 class CommentList extends StatefulWidget {
-  CommentList(String placeId);
-
+  CommentList(this.placeId);
+  final String placeId;
   @override
   _CommentListState createState() => _CommentListState();
 }
@@ -15,15 +23,18 @@ class _CommentListState extends State<CommentList>
     with AutomaticKeepAliveClientMixin {
   int _page = 1;
   final int _maxPage = 3;
-
   bool _isLoading = false;
+  List<CommentModel> commentList = [];
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
 
-    final height = MediaQuery.of(context).size.height * 0.1;
-
-    return NotificationListener(
+    final commentProvider =
+        Provider.of<CommentsProvider>(context, listen: false);
+    return Scaffold(
+      appBar: MyAppBar(),
+      body: NotificationListener(
         onNotification: (ScrollNotification note) {
           if (note.metrics.pixels == note.metrics.maxScrollExtent) {
             _loadMore();
@@ -32,31 +43,57 @@ class _CommentListState extends State<CommentList>
         },
         child: RefreshIndicator(
           onRefresh: _onRefresh,
-          child: Consumer<CommentsProvider>(
-            builder: (_, listingProvider, child) {
-              // final placeList = listingProvider.fetchListingByType(_index);
-              final commentList = null;
-              // Provider.of<CommentsProvider>(context, listen: false)
-              //     .fetchListingByType(_index);
-              return SliverPadding(
-                padding: const EdgeInsets.only(left: 16.0, right: 16, top: 10),
-                sliver: commentList.isEmpty
-                    ? SliverFillRemaining(
-                        child: StateLayout(type: listingProvider.stateType),
-                      )
-                    : SliverList(
-                        delegate: SliverChildBuilderDelegate(
-                            (BuildContext context, int index) {
-                          return CommentItem(
-                            commentList[index],
-                            key: Key('order_item_$index'),
-                          );
-                        }, childCount: commentList.length),
-                      ),
-              );
+          child: StreamBuilder(
+            stream: commentProvider.fetchCommentsAsStream(
+              widget.placeId,
+            ),
+            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (snapshot.hasData) {
+                commentList = snapshot.data.documents
+                    .map(
+                        (doc) => CommentModel.fromMap(doc.data, doc.documentID))
+                    .toList();
+                return Column(children: <Widget>[
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          S
+                              .of(context)
+                              .placeDetailCommentLabel(commentList.length ?? 0),
+                          style: Theme.of(context).textTheme.body1,
+                        ),
+                        if (commentList?.isNotEmpty)
+                          GestureDetector(
+                            onTap: () {
+                              NavigatorUtils.push(
+                                  context, OverviewRouter.commentPage);
+                            },
+                            child: LoadImage(
+                              "ic_arrow_right",
+                              height: 18,
+                            ),
+                          )
+                      ]),
+                  Gaps.vGap16,
+                  ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    itemCount: commentList.length,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemBuilder: (buildContext, index) =>
+                        CommentItem(commentList[index]),
+                  )
+                ]);
+              } else {
+                //TODO handle no data error
+                return RefreshProgressIndicator();
+              }
             },
           ),
-        ));
+        ),
+      ),
+    );
   }
 
   List _list = [];

@@ -32,7 +32,7 @@ class ListingProvider extends BaseChangeNotifier {
     bool refresh = false,
   }) async {
     // setStateType(StateType.loading);
-
+    setStateType(StateType.loading);
     final Options options =
         buildCacheOptions(Duration(days: 7), forceRefresh: refresh);
     //queries

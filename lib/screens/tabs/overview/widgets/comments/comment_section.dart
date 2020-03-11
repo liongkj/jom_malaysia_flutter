@@ -66,7 +66,7 @@ class _CommentSectionState extends State<CommentSection> {
                                         GestureDetector(
                                           onTap: () {
                                             NavigatorUtils.push(context,
-                                                OverviewRouter.commentPage);
+                                                '${OverviewRouter.commentPage}?&placeId=${widget.listingId}');
                                           },
                                           child: LoadImage(
                                             "ic_arrow_right",
@@ -97,6 +97,7 @@ class _CommentSectionState extends State<CommentSection> {
                                 ),
                               ]);
                             } else {
+                              //TODO handle no data error
                               return RefreshProgressIndicator();
                             }
                           })),
