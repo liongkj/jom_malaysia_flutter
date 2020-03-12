@@ -43,7 +43,7 @@ class _CommentListState extends State<CommentList>
           return true;
         },
         child: Container(
-          padding: EdgeInsets.symmetric(vertical: 6.0),
+          padding: EdgeInsets.symmetric(vertical: 6.0, horizontal: 8.0),
           child: MyCard(
             child: Padding(
               padding: const EdgeInsets.all(16.0),
@@ -62,7 +62,6 @@ class _CommentListState extends State<CommentList>
                         child: ListView.builder(
                           scrollDirection: Axis.vertical,
                           shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
                           itemCount: commentList.length,
                           itemBuilder: (buildContext, index) => CommentItem(
                             commentList[index],

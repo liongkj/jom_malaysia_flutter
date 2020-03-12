@@ -41,8 +41,8 @@ class CommentItem extends StatelessWidget {
                 Gaps.vGap12,
                 //TODO use date util
                 _CommentField(comment: comment, showFull: showFull),
-                // if (comment.images?.isNotEmpty)
-                //   _BuildImageThumbnail(comment.images, showList: !showFull),
+                if (comment.images?.isNotEmpty)
+                  _BuildImageThumbnail(comment.images, showList: !showFull),
                 Gaps.vGap16,
                 Gaps.vGap4,
                 Gaps.line
@@ -155,17 +155,58 @@ class _BuildImageThumbnail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const int MAXTHUMBNAIL = 3;
+    bool hasMore = images.length > MAXTHUMBNAIL;
     return Container(
+      height: 100,
       padding: EdgeInsets.only(top: 16.0),
       child: showList
           ? ListView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount:
-                  images.length <= MAXTHUMBNAIL ? images.length : MAXTHUMBNAIL,
+              itemCount: hasMore ? MAXTHUMBNAIL : images.length,
               shrinkWrap: true,
-              itemBuilder: (context, index) => _ThumbnailItem(
-                images[index],
-              ),
+              physics: NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) => hasMore &&
+                      index == MAXTHUMBNAIL - 1
+                  ? Stack(children: [
+                      _ThumbnailItem(
+                        images[index],
+                      ),
+                      Positioned(
+                        right: 8,
+                        bottom: 3,
+                        child: Card(
+                            color: Colors.grey,
+                            child: Container(
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  Gaps.hGap4,
+                                  Icon(
+                                    Icons.image,
+                                    color: Colors.white,
+                                    size: 12,
+                                  ),
+                                  Gaps.hGap4,
+                                  Text(
+                                    (images.length - 3).toString(),
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 10,
+                                    ),
+                                  ),
+                                  Gaps.hGap4,
+                                ],
+                              ),
+                            )),
+                      )
+                    ])
+                  : _ThumbnailItem(
+                      images[index],
+                    ),
+
               //TODO add stack image count
             )
           : GridView.builder(
