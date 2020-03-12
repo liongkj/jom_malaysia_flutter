@@ -156,67 +156,68 @@ class _BuildImageThumbnail extends StatelessWidget {
   Widget build(BuildContext context) {
     const int MAXTHUMBNAIL = 3;
     bool hasMore = images.length > MAXTHUMBNAIL;
-    return Container(
-      height: showList ? 100 : 200,
-      padding: EdgeInsets.only(top: 16.0),
-      child: showList
-          ? ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: hasMore ? MAXTHUMBNAIL : images.length,
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              itemBuilder: (context, index) => hasMore &&
-                      index == MAXTHUMBNAIL - 1
-                  ? Stack(children: [
-                      _ThumbnailItem(
-                        images[index],
-                      ),
-                      Positioned(
-                        right: 8,
-                        bottom: 3,
-                        child: Card(
-                            color: Colors.grey,
-                            child: Container(
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  Gaps.hGap4,
-                                  Icon(
-                                    Icons.image,
-                                    color: Colors.white,
-                                    size: 12,
-                                  ),
-                                  Gaps.hGap4,
-                                  Text(
-                                    (images.length - 3).toString(),
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 10,
-                                    ),
-                                  ),
-                                  Gaps.hGap4,
-                                ],
-                              ),
-                            )),
-                      )
-                    ])
-                  : _ThumbnailItem(
+    return Padding(
+      padding: const EdgeInsets.only(top: 8.0),
+      child: ConstrainedBox(
+        constraints: BoxConstraints(minHeight: 50.0, maxHeight: 200),
+        child: showList
+            ? Stack(
+                children: [
+                  ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: hasMore ? MAXTHUMBNAIL : images.length,
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) => _ThumbnailItem(
                       images[index],
                     ),
+                  ),
+                  if (hasMore)
+                    Positioned(
+                      right: 8,
+                      bottom: 3,
+                      child: Card(
+                          color: Colors.grey,
+                          child: Container(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                Gaps.hGap4,
+                                Icon(
+                                  Icons.image,
+                                  color: Colors.white,
+                                  size: 12,
+                                ),
+                                Gaps.hGap4,
+                                Text(
+                                  (images.length - 3).toString(),
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 10,
+                                  ),
+                                ),
+                                Gaps.hGap4,
+                              ],
+                            ),
+                          )),
+                    ),
+                ],
+              )
+            //TODO add stack image count
 
-              //TODO add stack image count
-            )
-          : GridView.builder(
-              itemCount: images.length,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                mainAxisSpacing: 4,
+            : GridView.builder(
+                shrinkWrap: true,
+                itemCount: images.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  mainAxisSpacing: 4,
+                ),
+                itemBuilder: (context, index) => _ThumbnailItem(images[index]),
+                physics: NeverScrollableScrollPhysics(),
               ),
-              itemBuilder: (context, index) => _ThumbnailItem(images[index]),
-            ),
+      ),
     );
   }
 }
@@ -235,6 +236,7 @@ class _ThumbnailItem extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 4),
       child: LoadImage(
         image,
+        height: 80,
         width: 80,
       ),
     );

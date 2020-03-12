@@ -38,31 +38,36 @@ class _CommentSectionState extends State<CommentSection> {
                 .map((doc) => CommentModel.fromMap(doc.data, doc.documentID))
                 .toList();
             final shouldLoad = comments?.isNotEmpty;
-            return Column(
-              children: <Widget>[
-                _CommentHeader(
-                    comments: comments, shouldLoad: shouldLoad, widget: widget),
-                Gaps.vGap16,
-                Container(
-                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-                  child: ListView.builder(
-                    physics: NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemBuilder: (ctx, index) => CommentItem(
-                      comments[index],
-                    ),
-                    // return CommentItem(comments[index]);
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: <Widget>[
+                  _CommentHeader(
+                      comments: comments,
+                      shouldLoad: shouldLoad,
+                      widget: widget),
+                  Gaps.vGap16,
+                  Container(
+                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                    child: ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemBuilder: (ctx, index) => CommentItem(
+                        comments[index],
+                      ),
+                      // return CommentItem(comments[index]);
 
-                    itemCount: comments.length > _MAXCOMMENTCOUNT
-                        ? _MAXCOMMENTCOUNT
-                        : comments.length,
+                      itemCount: comments.length > _MAXCOMMENTCOUNT
+                          ? _MAXCOMMENTCOUNT
+                          : comments.length,
+                    ),
                   ),
-                ),
-                _CommentButton(
-                    shouldLoad: shouldLoad,
-                    listingId: widget.listingId,
-                    listingName: widget.listingName),
-              ],
+                  _CommentButton(
+                      shouldLoad: shouldLoad,
+                      listingId: widget.listingId,
+                      listingName: widget.listingName),
+                ],
+              ),
             );
           }
           return SliverToBoxAdapter(

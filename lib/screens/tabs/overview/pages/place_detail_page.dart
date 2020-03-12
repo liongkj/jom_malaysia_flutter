@@ -143,12 +143,9 @@ class PlaceDetailPageState extends State<PlaceDetailPage>
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: MyCard(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: CommentSection(
-                listingName: place.listingName,
-                listingId: place.listingId,
-              ),
+            child: CommentSection(
+              listingName: place.listingName,
+              listingId: place.listingId,
             ),
           ),
         ),
