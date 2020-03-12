@@ -42,43 +42,55 @@ class _CommentListState extends State<CommentList>
           }
           return true;
         },
-        child: Container(
-          padding: EdgeInsets.symmetric(vertical: 6.0, horizontal: 8.0),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
           child: MyCard(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: StreamBuilder(
-                stream: commentProvider.fetchCommentsAsStream(
-                  widget.placeId,
-                ),
-                builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                  if (snapshot.hasData) {
-                    commentList = snapshot.data.documents
-                        .map((doc) =>
-                            CommentModel.fromMap(doc.data, doc.documentID))
-                        .toList();
-                    return Column(children: <Widget>[
-                      Flexible(
-                        child: ListView.builder(
-                          scrollDirection: Axis.vertical,
-                          shrinkWrap: true,
-                          itemCount: commentList.length,
-                          itemBuilder: (buildContext, index) => CommentItem(
-                            commentList[index],
-                            showFull: true,
-                          ),
-                        ),
-                      )
-                    ]);
-                  } else {
-                    //TODO handle no data error
-                    return RefreshProgressIndicator();
-                  }
-                },
+            child: StreamBuilder(
+              stream: commentProvider.fetchCommentsAsStream(
+                widget.placeId,
               ),
+              builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.hasData) {
+                  commentList = snapshot.data.documents
+                      .map((doc) =>
+                          CommentModel.fromMap(doc.data, doc.documentID))
+                      .toList();
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: CustomScrollView(
+                      slivers: <Widget>[
+                        SliverList(
+                          delegate: SliverChildBuilderDelegate(
+                              (context, index) => CommentItem(
+                                    commentList[index],
+                                    showFull: true,
+                                  ),
+                              childCount: commentList.length),
+                        )
+                      ],
+                    ),
+                  );
+                } else {
+                  //TODO handle no data error
+                  return Center(child: RefreshProgressIndicator());
+                }
+              },
             ),
           ),
         ),
+        // SliverToBoxAdapter(
+        //   child: Container(
+        //     padding: EdgeInsets.symmetric(vertical: 6.0, horizontal: 8.0),
+        //     child: MyCard(
+        //       child: Container(
+        //         child: SliverPadding(
+        //           padding: const EdgeInsets.all(16.0),
+        //           sliver:
+        //         ),
+        //       ),
+        //     ),
+        //   ),
+        // ),
       ),
     );
   }

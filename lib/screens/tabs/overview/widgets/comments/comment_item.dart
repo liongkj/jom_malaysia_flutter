@@ -157,7 +157,7 @@ class _BuildImageThumbnail extends StatelessWidget {
     const int MAXTHUMBNAIL = 3;
     bool hasMore = images.length > MAXTHUMBNAIL;
     return Container(
-      height: 100,
+      height: showList ? 100 : 200,
       padding: EdgeInsets.only(top: 16.0),
       child: showList
           ? ListView.builder(
@@ -211,8 +211,10 @@ class _BuildImageThumbnail extends StatelessWidget {
             )
           : GridView.builder(
               itemCount: images.length,
-              gridDelegate:
-                  SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                mainAxisSpacing: 4,
+              ),
               itemBuilder: (context, index) => _ThumbnailItem(images[index]),
             ),
     );
