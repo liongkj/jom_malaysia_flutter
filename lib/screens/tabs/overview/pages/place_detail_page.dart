@@ -18,6 +18,7 @@ import 'package:jom_malaysia/screens/tabs/overview/widgets/place_info.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/place_operating_hour.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
+import 'package:jom_malaysia/widgets/my_card.dart';
 import 'package:jom_malaysia/widgets/my_section_divider.dart';
 import 'package:jom_malaysia/widgets/sliver_appbar_delegate.dart';
 import 'package:provider/provider.dart';
@@ -138,9 +139,19 @@ class PlaceDetailPageState extends State<PlaceDetailPage>
       _PlaceImage(
         images: place.listingImages.ads,
       ),
-      CommentSection(
-        listingName: place.listingName,
-        listingId: place.listingId,
+      SliverToBoxAdapter(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: MyCard(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: CommentSection(
+                listingName: place.listingName,
+                listingId: place.listingId,
+              ),
+            ),
+          ),
+        ),
       ),
       MerchantInfo(merchant: place.merchant),
     ];

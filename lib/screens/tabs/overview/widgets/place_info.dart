@@ -27,82 +27,78 @@ class PlaceInfo extends StatelessWidget {
     final lang = Provider.of<LanguageProvider>(context, listen: false).locale;
     return MyCard(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
-        child: Padding(
-          padding: const EdgeInsets.all(8),
-          child: Column(
-            children: <Widget>[
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Expanded(
-                    flex: 3,
-                    child: Text(
-                      place?.listingName,
-                      maxLines: 3,
-                      overflow: TextOverflow.fade,
-                      style: Theme.of(context).textTheme.title,
-                    ),
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: <Widget>[
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Expanded(
+                  flex: 3,
+                  child: Text(
+                    place?.listingName,
+                    maxLines: 3,
+                    overflow: TextOverflow.fade,
+                    style: Theme.of(context).textTheme.title,
                   ),
-                  Icon(Icons.star_border, size: 30)
-                ],
-              ),
-              Gaps.vGap16,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Chip(
-                    label: Text(
-                        place.category.getCategory(
-                            lang ?? Localizations.localeOf(context)),
-                        style: Theme.of(context).textTheme.body1),
+                ),
+                Icon(Icons.star_border, size: 30)
+              ],
+            ),
+            Gaps.vGap16,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Chip(
+                  label: Text(
+                      place.category
+                          .getCategory(lang ?? Localizations.localeOf(context)),
+                      style: Theme.of(context).textTheme.body1),
+                ),
+                Gaps.hGap15,
+                Chip(
+                  label: Text(
+                      place.category.getSubcategory(
+                          lang ?? Localizations.localeOf(context)),
+                      style: Theme.of(context).textTheme.body1),
+                ),
+                Spacer(),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Consumer<UserCurrentLocationProvider>(
+                    builder: (_, location, __) {
+                      return FutureBuilder<String>(
+                          future: LocationUtils.getDistanceBetween(
+                              location.currentCoordinate,
+                              place,
+                              Provider.of<LocationProvider>(context,
+                                      listen: false)
+                                  .selected),
+                          builder: (context, snapshot) {
+                            return snapshot.hasData
+                                ? Text(
+                                    snapshot.data,
+                                    style: Theme.of(context).textTheme.subtitle,
+                                  )
+                                : CircularProgressIndicator();
+                          });
+                    },
                   ),
-                  Gaps.hGap15,
-                  Chip(
-                    label: Text(
-                        place.category.getSubcategory(
-                            lang ?? Localizations.localeOf(context)),
-                        style: Theme.of(context).textTheme.body1),
-                  ),
-                  Spacer(),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Consumer<UserCurrentLocationProvider>(
-                      builder: (_, location, __) {
-                        return FutureBuilder<String>(
-                            future: LocationUtils.getDistanceBetween(
-                                location.currentCoordinate,
-                                place,
-                                Provider.of<LocationProvider>(context,
-                                        listen: false)
-                                    .selected),
-                            builder: (context, snapshot) {
-                              return snapshot.hasData
-                                  ? Text(
-                                      snapshot.data,
-                                      style:
-                                          Theme.of(context).textTheme.subtitle,
-                                    )
-                                  : CircularProgressIndicator();
-                            });
-                      },
-                    ),
-                  ),
-                ],
-              ),
-              Gaps.vGap16,
-              _TagItem(
-                isFeatured: place.isFeatured,
-                tags: place.tags,
-              ),
-              Gaps.vGap16,
-              _ContactCard(
-                address: place.address,
-                contact: place.officialContact,
-              ),
-            ],
-          ),
+                ),
+              ],
+            ),
+            Gaps.vGap16,
+            _TagItem(
+              isFeatured: place.isFeatured,
+              tags: place.tags,
+            ),
+            Gaps.vGap16,
+            _ContactCard(
+              address: place.address,
+              contact: place.officialContact,
+            ),
+          ],
         ),
       ),
     );

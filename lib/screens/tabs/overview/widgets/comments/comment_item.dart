@@ -15,7 +15,6 @@ class CommentItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 8.0),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -29,50 +28,115 @@ class CommentItem extends StatelessWidget {
           ),
           Gaps.hGap16,
           Flexible(
-            child: Container(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Expanded(
-                          child: Text(
-                        "liongkj",
-                        style: TextStyle(
-                            color: Colors.blueAccent,
-                            fontWeight: FontWeight.bold),
-                      )),
-                      Text(comment.rating?.toString() ?? "N/A"),
-                    ],
-                  ),
-                  Gaps.vGap5,
-                  Text(
-                    comment.publishedTime.toString(),
-                    style: Theme.of(context).textTheme.subtitle,
-                  ),
-                  Gaps.vGap5,
-                  Text(
-                    comment.title,
-                    style: Theme.of(context).textTheme.body2,
-                  ),
-                  Gaps.vGap12,
-                  //TODO use date util
-                  Text(
-                    comment.commentText,
-                    maxLines: showFull ? 5 : 2,
-                  ),
-
-                  // if (comment.images?.isNotEmpty)
-                  //   _BuildImageThumbnail(comment.images, showList: !showFull),
-                  Gaps.vGap16,
-                  Gaps.vGap4,
-                  Gaps.line
-                ],
-              ),
+            flex: 2,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                _Username(comment: comment),
+                Gaps.vGap5,
+                _CommentTime(comment: comment),
+                Gaps.vGap5,
+                _CommentTitle(comment: comment),
+                Gaps.vGap12,
+                //TODO use date util
+                _CommentField(comment: comment, showFull: showFull),
+                // if (comment.images?.isNotEmpty)
+                //   _BuildImageThumbnail(comment.images, showList: !showFull),
+                Gaps.vGap16,
+                Gaps.vGap4,
+                Gaps.line
+              ],
             ),
           ),
+        ],
+      ),
+    );
+  }
+}
+
+class _CommentField extends StatelessWidget {
+  const _CommentField({
+    Key key,
+    @required this.comment,
+    @required this.showFull,
+  }) : super(key: key);
+
+  final CommentModel comment;
+  final bool showFull;
+
+  @override
+  Widget build(BuildContext context) {
+    return Flexible(
+      child: Text(
+        comment.commentText,
+        maxLines: showFull ? 5 : 2,
+      ),
+    );
+  }
+}
+
+class _CommentTitle extends StatelessWidget {
+  const _CommentTitle({
+    Key key,
+    @required this.comment,
+  }) : super(key: key);
+
+  final CommentModel comment;
+
+  @override
+  Widget build(BuildContext context) {
+    return Flexible(
+      child: Text(
+        comment.title,
+        style: Theme.of(context).textTheme.body2,
+      ),
+    );
+  }
+}
+
+class _CommentTime extends StatelessWidget {
+  const _CommentTime({
+    Key key,
+    @required this.comment,
+  }) : super(key: key);
+
+  final CommentModel comment;
+
+  @override
+  Widget build(BuildContext context) {
+    return Flexible(
+      child: Text(
+        comment.publishedTime.toString(),
+        style: Theme.of(context).textTheme.subtitle,
+      ),
+    );
+  }
+}
+
+class _Username extends StatelessWidget {
+  const _Username({
+    Key key,
+    @required this.comment,
+  }) : super(key: key);
+
+  final CommentModel comment;
+
+  @override
+  Widget build(BuildContext context) {
+    return Flexible(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Expanded(
+            child: Text(
+              "liongkj",
+              style: TextStyle(
+                  color: Colors.blueAccent, fontWeight: FontWeight.bold),
+            ),
+          ),
+          Text(comment.rating?.toString() ?? "N/A"),
         ],
       ),
     );
@@ -90,31 +154,26 @@ class _BuildImageThumbnail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: <Widget>[
-        Flexible(
-          child: Container(
-            padding: EdgeInsets.only(top: 16.0),
-            child: showList
-                ? ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: images.length < 4 ? images.length : 3,
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) => _ThumbnailItem(
-                      images[index],
-                    ),
-                    //TODO add stack image count
-                  )
-                : GridView.builder(
-                    itemCount: images.length,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3),
-                    itemBuilder: (context, index) =>
-                        _ThumbnailItem(images[index]),
-                  ),
-          ),
-        ),
-      ],
+    const int MAXTHUMBNAIL = 3;
+    return Container(
+      padding: EdgeInsets.only(top: 16.0),
+      child: showList
+          ? ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount:
+                  images.length <= MAXTHUMBNAIL ? images.length : MAXTHUMBNAIL,
+              shrinkWrap: true,
+              itemBuilder: (context, index) => _ThumbnailItem(
+                images[index],
+              ),
+              //TODO add stack image count
+            )
+          : GridView.builder(
+              itemCount: images.length,
+              gridDelegate:
+                  SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+              itemBuilder: (context, index) => _ThumbnailItem(images[index]),
+            ),
     );
   }
 }
