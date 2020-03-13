@@ -15,6 +15,7 @@ class CommentItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: EdgeInsets.only(top: 8.0),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -28,7 +29,6 @@ class CommentItem extends StatelessWidget {
           ),
           Gaps.hGap16,
           Flexible(
-            flex: 2,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
@@ -44,7 +44,6 @@ class CommentItem extends StatelessWidget {
                 if (comment.images?.isNotEmpty)
                   _BuildImageThumbnail(comment.images, showList: !showFull),
                 Gaps.vGap16,
-                Gaps.vGap4,
                 Gaps.line
               ],
             ),
@@ -159,7 +158,8 @@ class _BuildImageThumbnail extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 8.0),
       child: ConstrainedBox(
-        constraints: BoxConstraints(minHeight: 50.0, maxHeight: 200),
+        constraints:
+            BoxConstraints(minHeight: 50.0, maxHeight: showList ? 70 : 200),
         child: showList
             ? Stack(
                 children: [
@@ -185,7 +185,7 @@ class _BuildImageThumbnail extends StatelessWidget {
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
                                 Gaps.hGap4,
-                                Icon(
+                                const Icon(
                                   Icons.image,
                                   color: Colors.white,
                                   size: 12,

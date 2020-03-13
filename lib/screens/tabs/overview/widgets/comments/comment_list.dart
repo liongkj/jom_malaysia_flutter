@@ -1,16 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/comments/comment_model.dart';
-import 'package:jom_malaysia/screens/tabs/overview/overview_router.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/comments_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/comments/comment_item.dart';
-import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/widgets/app_bar.dart';
-import 'package:jom_malaysia/widgets/load_image.dart';
 import 'package:jom_malaysia/widgets/my_card.dart';
-import 'package:jom_malaysia/widgets/state_layout.dart';
 import 'package:provider/provider.dart';
 
 class CommentList extends StatefulWidget {
@@ -34,7 +29,10 @@ class _CommentListState extends State<CommentList>
     final commentProvider =
         Provider.of<CommentsProvider>(context, listen: false);
     return Scaffold(
-      appBar: MyAppBar(),
+      appBar: MyAppBar(
+        centerTitle: S.of(context).labelPageComment,
+        backImg: "assets/images/ic_close.png",
+      ),
       body: NotificationListener(
         onNotification: (ScrollNotification note) {
           if (note.metrics.pixels == note.metrics.maxScrollExtent) {
@@ -56,7 +54,8 @@ class _CommentListState extends State<CommentList>
                           CommentModel.fromMap(doc.data, doc.documentID))
                       .toList();
                   return Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.only(
+                        top: 8.0, bottom: 8.0, left: 8.0, right: 16.0),
                     child: CustomScrollView(
                       slivers: <Widget>[
                         SliverList(

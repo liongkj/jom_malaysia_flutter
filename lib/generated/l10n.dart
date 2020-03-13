@@ -128,10 +128,12 @@ class S {
     );
   }
 
-  String placeDetailCommentLabel(dynamic commentCount) {
-    return Intl.message(
-      'Comment ($commentCount)',
-      name: 'placeDetailCommentLabel',
+  String placeDetailCommentCountLabel(dynamic commentCount) {
+    return Intl.plural(
+      commentCount,
+      one: 'Comment (1)',
+      other: 'Comments ($commentCount)',
+      name: 'placeDetailCommentCountLabel',
       desc: '',
       args: [commentCount],
     );
@@ -402,6 +404,15 @@ class S {
     return Intl.message(
       'Review',
       name: 'labelReview',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelPageComment {
+    return Intl.message(
+      'Comment',
+      name: 'labelPageComment',
       desc: '',
       args: [],
     );

@@ -23,6 +23,8 @@ class Constant {
 
   static const String language = "PreferredLanguage";
   static const String prefLocation = "PreferredLocation";
+
+  
   static const List<String> orderLeftButtonText = [
     "拒单",
     "拒单",

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/comments/comment_model.dart';
@@ -37,6 +38,7 @@ class _CommentSectionState extends State<CommentSection> {
             comments = snapshot.data.documents
                 .map((doc) => CommentModel.fromMap(doc.data, doc.documentID))
                 .toList();
+            final hasMoreThanMax = comments.length > _MAXCOMMENTCOUNT;
             final shouldLoad = comments?.isNotEmpty;
             return Padding(
               padding: const EdgeInsets.all(8.0),
@@ -55,11 +57,8 @@ class _CommentSectionState extends State<CommentSection> {
                       itemBuilder: (ctx, index) => CommentItem(
                         comments[index],
                       ),
-                      // return CommentItem(comments[index]);
-
-                      itemCount: comments.length > _MAXCOMMENTCOUNT
-                          ? _MAXCOMMENTCOUNT
-                          : comments.length,
+                      itemCount:
+                          hasMoreThanMax ? _MAXCOMMENTCOUNT : comments.length,
                     ),
                   ),
                   _CommentButton(
@@ -70,8 +69,8 @@ class _CommentSectionState extends State<CommentSection> {
               ),
             );
           }
-          return SliverToBoxAdapter(
-            child: Text(""),
+          return SpinKitSquareCircle(
+            color: Theme.of(context).accentColor,
           );
         });
   }
@@ -125,7 +124,7 @@ class _CommentHeader extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          S.of(context).placeDetailCommentLabel(comments.length ?? 0),
+          S.of(context).placeDetailCommentCountLabel(comments.length ?? 0),
           style: Theme.of(context).textTheme.body1,
         ),
         if (shouldLoad)
