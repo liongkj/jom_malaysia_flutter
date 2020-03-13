@@ -99,13 +99,9 @@ class OverviewPageState extends State<OverviewPage>
                   onPageChanged: _onPageChange,
                   controller: _pageController,
                   itemBuilder: (_, index) {
-                    return SafeArea(
-                      top: false,
-                      bottom: false,
-                      child: PlaceList(
-                        controller: this._scrollController,
-                        index: index,
-                      ),
+                    return PlaceList(
+                      controller: this._scrollController,
+                      index: index,
                     );
                   },
                 ),
