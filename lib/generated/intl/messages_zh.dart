@@ -61,6 +61,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "labelSearchHint" : MessageLookupByLibrary.simpleMessage("请输入关键词查询"),
     "labelSearchHintNotEmpty" : MessageLookupByLibrary.simpleMessage("搜索关键词不能为空！"),
     "labelStatusPublish" : m1,
+    "labelSubmitReview" : MessageLookupByLibrary.simpleMessage("发布"),
     "labelTagMustTry" : MessageLookupByLibrary.simpleMessage("必打卡"),
     "labelUndoAction" : MessageLookupByLibrary.simpleMessage("撤消"),
     "locationSelectCityMessage" : MessageLookupByLibrary.simpleMessage("选择城市"),

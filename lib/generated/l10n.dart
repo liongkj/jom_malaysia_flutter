@@ -247,6 +247,42 @@ class S {
     );
   }
 
+  String get labelNewCommentPageTitle {
+    return Intl.message(
+      'Add a title',
+      name: 'labelNewCommentPageTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelNewCommentPageTitleErrorMessage {
+    return Intl.message(
+      'Please enter a interesting title',
+      name: 'labelNewCommentPageTitleErrorMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelNewCommentPageComment {
+    return Intl.message(
+      'Add your comment',
+      name: 'labelNewCommentPageComment',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelNewCommentPageCommentErrorMessage {
+    return Intl.message(
+      'Please enter some comment',
+      name: 'labelNewCommentPageCommentErrorMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
   String get toastMessageTapToExit {
     return Intl.message(
       'Tap again to quit.',
@@ -287,6 +323,15 @@ class S {
     return Intl.message(
       'None',
       name: 'labelNone',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelImageChosen {
+    return Intl.message(
+      'Image Chosen',
+      name: 'labelImageChosen',
       desc: '',
       args: [],
     );
@@ -404,6 +449,15 @@ class S {
     return Intl.message(
       'Review',
       name: 'labelReview',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelSubmitReview {
+    return Intl.message(
+      'Publish',
+      name: 'labelSubmitReview',
       desc: '',
       args: [],
     );

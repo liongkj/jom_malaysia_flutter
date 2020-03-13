@@ -63,13 +63,11 @@ class _NewReviewPageState extends State<NewReviewPage> {
     final ThemeData themeData = Theme.of(context);
     return Scaffold(
       appBar: MyAppBar(
-        actionName: "Publish",
+        actionName: S.of(context).labelSubmitReview,
         onPressed: () async {
           if (_formKey.currentState.validate()) {
             _formKey.currentState.save();
             if (_commentModel.imageAssets.isNotEmpty) {
-              Provider.of<CommentsProvider>(context, listen: false)
-                  .setStateType(StateType.loading);
               var _index = 0;
               for (Asset image in _commentModel.imageAssets) {
                 _commentModel.images.add(await _saveImage(image, _index));
@@ -186,14 +184,14 @@ class _BuildCommentField extends StatelessWidget {
         TextFormField(
           validator: (value) {
             if (value.isEmpty) {
-              return 'Please enter a interesting title';
+              return S.of(context).labelNewCommentPageTitleErrorMessage;
             }
             return null;
           },
           onSaved: (value) => commentModel.title = value,
           decoration: InputDecoration(
               contentPadding: const EdgeInsets.symmetric(vertical: 16.0),
-              hintText: "Add a title",
+              hintText: S.of(context).labelNewCommentPageTitle,
               counterText: "",
               focusedBorder: UnderlineInputBorder(
                   borderSide:
@@ -206,7 +204,7 @@ class _BuildCommentField extends StatelessWidget {
         TextFormField(
           validator: (value) {
             if (value.isEmpty) {
-              return 'Please enter some comment';
+              return S.of(context).labelNewCommentPageCommentErrorMessage;
             }
             return null;
           },
@@ -214,7 +212,7 @@ class _BuildCommentField extends StatelessWidget {
           maxLines: 5,
           decoration: InputDecoration(
               contentPadding: const EdgeInsets.symmetric(vertical: 16.0),
-              hintText: "Add your comment",
+              hintText: S.of(context).labelNewCommentPageComment,
               counterText: "",
               focusedBorder: UnderlineInputBorder(
                   borderSide:
@@ -261,11 +259,11 @@ class __ImageAreaState extends State<_ImageArea> {
         enableCamera: true,
         selectedAssets: _images,
         materialOptions: MaterialOptions(
-          actionBarColor: "#abcdef",
-          actionBarTitle: "Example App",
+          actionBarColor:
+              '#${Colours.app_secondary.value.toRadixString(16).substring(2)}',
+          actionBarTitle: S.of(context).labelImageChosen,
           allViewTitle: "All Photos",
-          useDetailsView: false,
-          selectCircleStrokeColor: "#000000",
+          startInAllView: true,
         ),
       );
     } on NoImagesSelectedException catch (e) {

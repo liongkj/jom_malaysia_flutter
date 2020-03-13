@@ -27,6 +27,7 @@
   "locationSelectCityMessage": "选择城市",
   "locationSelectTownMessage": "选择区",
   "labelSearch": "搜索",
+  "labelSubmitReview": "发布",
   "labelNone": "无",
   "labelNoDetail": "无详情",
   "labelNoNotification": "没通知",

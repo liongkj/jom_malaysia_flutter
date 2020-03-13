@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/tabs/explore/pages/overview_tab.dart';
 import 'package:jom_malaysia/screens/tabs/explore/pages/todo_tab.dart';
@@ -58,7 +59,7 @@ class ExplorePageState extends State<ExplorePage>
         headerSliverBuilder: (_, __) {
           return <Widget>[
             SliverAppBar(
-              backgroundColor: Colors.redAccent,
+              backgroundColor: Colours.app_secondary,
               expandedHeight: 200.0,
               floating: false,
               title: Text(S.of(context).appBarTitleExplore),
