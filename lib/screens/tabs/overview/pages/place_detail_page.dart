@@ -2,22 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:jom_malaysia/core/constants/common.dart';
 import 'package:jom_malaysia/core/models/image_model.dart';
 import 'package:jom_malaysia/core/res/colors.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
+import 'package:jom_malaysia/core/services/gateway/api_const.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
-import 'package:jom_malaysia/screens/tabs/overview/models/description_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
-import 'package:jom_malaysia/screens/tabs/overview/models/operating_hours_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/overview_router.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/listing_provider.dart';
-import 'package:jom_malaysia/screens/tabs/overview/widgets/comment_section.dart';
+import 'package:jom_malaysia/screens/tabs/overview/widgets/comments/comment_section.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/merchant_info.dart';
-import 'package:jom_malaysia/screens/tabs/overview/widgets/operating_hours_dialog.dart';
+import 'package:jom_malaysia/screens/tabs/overview/widgets/place_description.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/place_info.dart';
-import 'package:jom_malaysia/setting/provider/language_provider.dart';
+import 'package:jom_malaysia/screens/tabs/overview/widgets/place_operating_hour.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
-import 'package:jom_malaysia/util/utils.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
 import 'package:jom_malaysia/widgets/my_card.dart';
 import 'package:jom_malaysia/widgets/my_section_divider.dart';
@@ -39,11 +38,32 @@ const kExpandedHeight = 250.0;
 class PlaceDetailPageState extends State<PlaceDetailPage>
     with AutomaticKeepAliveClientMixin {
   bool isDark = false;
-
+  bool _isVisible;
+  var place;
   ScrollController _scrollController;
   @override
   void initState() {
-    _scrollController = new ScrollController();
+    _scrollController = new ScrollController()
+      ..addListener(() {
+        if (_scrollController.position.pixels >
+            _scrollController.position.maxScrollExtent * 0.9) {
+          if (_isVisible == true) {
+            setState(() {
+              _isVisible = false;
+            });
+          }
+        } else {
+          if (_isVisible == false) {
+            setState(() {
+              _isVisible = true;
+            });
+          }
+        }
+      });
+    _isVisible = true;
+
+    place = Provider.of<ListingProvider>(context, listen: false)
+        .findById(widget.placeId);
     super.initState();
   }
 
@@ -57,8 +77,6 @@ class PlaceDetailPageState extends State<PlaceDetailPage>
   Widget build(BuildContext context) {
     super.build(context);
     isDark = ThemeUtils.isDark(context);
-    final place = Provider.of<ListingProvider>(context, listen: false)
-        .findById(widget.placeId);
     return Scaffold(
       body: SafeArea(
         child: CustomScrollView(
@@ -67,13 +85,16 @@ class PlaceDetailPageState extends State<PlaceDetailPage>
           slivers: _sliverBuilder(place),
         ),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        heroTag: "btn_open_form",
-        tooltip: "Rate",
-        onPressed: () => NavigatorUtils.push(context,
-            '${OverviewRouter.reviewPage}?title=${place.listingName}&placeId=${place.listingId}&userId=${"123"}'),
-        icon: Icon(Icons.star),
-        label: Text("Rate"),
+      floatingActionButton: Visibility(
+        visible: _isVisible,
+        child: FloatingActionButton.extended(
+          heroTag: "btn_open_form",
+          tooltip: "Rate",
+          onPressed: () => NavigatorUtils.push(context,
+              '${OverviewRouter.reviewPage}?title=${place.listingName}&placeId=${place.listingId}&userId=${"123"}'),
+          icon: Icon(Icons.star),
+          label: Text("Rate"),
+        ),
       ),
     );
   }
@@ -96,10 +117,10 @@ class PlaceDetailPageState extends State<PlaceDetailPage>
             children: <Widget>[
               PlaceInfo(place),
               Gaps.vGap16,
-              _OperatingHour(place.operatingHours),
+              OperatingHour(place.operatingHours),
               Gaps.vGap16,
               if (place.description != null)
-                _PlaceDescription(place.description),
+                PlaceDescription(place.description),
             ],
           ),
         ),
@@ -118,9 +139,16 @@ class PlaceDetailPageState extends State<PlaceDetailPage>
       _PlaceImage(
         images: place.listingImages.ads,
       ),
-      CommentSection(
-        listingName: place.listingName,
-        listingId: place.listingId,
+      SliverToBoxAdapter(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: MyCard(
+            child: CommentSection(
+              listingName: place.listingName,
+              listingId: place.listingId,
+            ),
+          ),
+        ),
       ),
       MerchantInfo(merchant: place.merchant),
     ];
@@ -196,6 +224,7 @@ class __AppBarWithSwiperState extends State<_AppBarWithSwiper> {
       titleSpacing: 0.0,
       leading: Card(
         color: Colors.transparent,
+        elevation: _showTitle ? 0 : 1,
         child: IconButton(
           icon: Icon(Icons.arrow_back_ios),
           color: _showTitle ? Colours.text : ThemeUtils.getIconColor(context),
@@ -215,6 +244,31 @@ class __AppBarWithSwiperState extends State<_AppBarWithSwiper> {
       expandedHeight: kExpandedHeight,
       floating: false, // 不随着滑动隐藏标题
       pinned: true, // 固定在顶部
+
+      actions: <Widget>[
+        if (Constant.enableFeedback)
+          Card(
+            color: Colors.transparent,
+            child: PopupMenuButton<Choice>(
+              onSelected: (result) {
+                if (result == choices[0]) {
+                  NavigatorUtils.goWebViewPage(
+                      context,
+                      widget.place.listingName,
+                      "${WebUrl.reportPlaceError}/${widget.place.listingId}");
+                }
+              },
+              itemBuilder: (BuildContext context) {
+                return choices.map((Choice choice) {
+                  return PopupMenuItem<Choice>(
+                    value: choice,
+                    child: Text(choice.title),
+                  );
+                }).toList();
+              },
+            ),
+          ),
+      ],
       flexibleSpace: _showTitle
           ? null
           : FlexibleSpaceBar(
@@ -224,144 +278,20 @@ class __AppBarWithSwiperState extends State<_AppBarWithSwiper> {
               background: _CoverPhotos(widget.place),
               centerTitle: true,
             ),
-      actions: <Widget>[
-        Card(
-          color: Colors.transparent,
-          child: IconButton(
-            icon: Icon(
-              Icons.more_vert,
-              color:
-                  _showTitle ? Colors.black : ThemeUtils.getIconColor(context),
-            ),
-            onPressed: () {},
-          ),
-        )
-      ],
     );
   }
 }
 
-class _PlaceDescription extends StatelessWidget {
-  final DescriptionVM description;
-  _PlaceDescription(this.description);
+class Choice {
+  const Choice({this.title, this.icon});
 
-  @override
-  Widget build(BuildContext context) {
-    final lang = Provider.of<LanguageProvider>(context, listen: false).locale;
-    return MyCard(
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        child: Row(
-          children: <Widget>[
-            Flexible(
-              child: Text(
-                description
-                    ?.getDescription(lang ?? Localizations.localeOf(context)),
-                style: Theme.of(context).textTheme.body1,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+  final String title;
+  final IconData icon;
 }
 
-class _OperatingHour extends StatelessWidget {
-  final List<OperatingHours> operatingHours;
-
-  _OperatingHour(this.operatingHours);
-  @override
-  Widget build(BuildContext context) {
-    //weekday returns 1-7
-    final _today = (DateTime.now().weekday == 7) ? 0 : DateTime.now().weekday;
-    final _oh = operatingHours.firstWhere((x) => x.dayOfWeek.index == _today,
-        orElse: () => null);
-    return Material(
-      child: InkWell(
-        onTap: () => {},
-        child: MyCard(
-          child: Container(
-            padding: const EdgeInsets.all(16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                const LoadAssetImage("place/icon_wait",
-                    width: 18.0, height: 18.0),
-                Gaps.hGap12,
-                Expanded(
-                  flex: 6,
-                  child: _oh != null
-                      ? Row(children: <Widget>[
-                          Text('${_oh.openHour} - ${_oh.closeHour}'),
-                          Gaps.hGap15,
-                          !_oh.isOpen
-                              ? Text(
-                                  S.of(context).placeDetailOperatingCloseLabel,
-                                  style: TextStyle(
-                                    color: Theme.of(context).errorColor,
-                                    fontWeight: FontWeight.w800,
-                                  ),
-                                )
-                              : !_oh.closingSoon
-                                  ? Text(
-                                      S
-                                          .of(context)
-                                          .placeDetailOperatingOpenLabel,
-                                      style: TextStyle(
-                                        color: Colors.green,
-                                        fontWeight: FontWeight.w800,
-                                      ),
-                                    )
-                                  : Text(
-                                      S
-                                          .of(context)
-                                          .placeDetailOperatingSoonLabel,
-                                      style: TextStyle(
-                                        color: Colors.deepOrange,
-                                        fontWeight: FontWeight.w800,
-                                      ),
-                                    )
-                        ])
-                      : Row(
-                          children: <Widget>[
-                            Text(
-                              S.of(context).placeDetailOperatingCloseLabel,
-                              style: TextStyle(
-                                  color: Theme.of(context).errorColor),
-                            )
-                          ],
-                        ),
-                ),
-                Gaps.vLine,
-                Expanded(
-                  flex: 1,
-                  child: IconButton(
-                    icon: Icon(
-                      Icons.navigate_next,
-                      size: 24,
-                      color: ThemeUtils.getIconColor(context),
-                    ),
-                    onPressed: () {
-                      showElasticDialog(
-                          context: context,
-                          barrierDismissible: false,
-                          builder: (BuildContext context) {
-                            return OperatingHoursDialog(
-                              hours: operatingHours,
-                            );
-                          });
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
+const List<Choice> choices = const <Choice>[
+  const Choice(title: 'Report Mistake', icon: Icons.feedback),
+];
 
 class _CoverPhotos extends StatelessWidget {
   _CoverPhotos(this.place);

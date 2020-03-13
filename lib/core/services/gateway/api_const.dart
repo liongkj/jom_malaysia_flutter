@@ -16,3 +16,10 @@ class QueryParam {
   static const String language = 'lang';
   static const String featured = 'featured';
 }
+
+class WebUrl {
+  static const String home = "https://www.jomn9.com";
+  static const String reportPlaceError = "$home/report-error/";
+
+  static const String suggestAddPlace = "$home/add-a-place/";
+}

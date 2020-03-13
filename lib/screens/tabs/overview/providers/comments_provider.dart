@@ -6,11 +6,15 @@ import 'package:jom_malaysia/setting/provider/base_change_notifier.dart';
 import 'package:jom_malaysia/widgets/state_layout.dart';
 
 class CommentsProvider extends BaseChangeNotifier {
+  @override
+  StateType stateType = StateType.empty;
+
   FirestoreService _api;
   CommentsProvider({@required FirestoreService firebaseService})
       : _api = firebaseService;
   String _documentId;
   List<CommentModel> comments;
+  final String collectionName = "comments";
 
   String getCommentId() {
     if (_documentId == null) _documentId = _api.getDocumentId();
@@ -19,12 +23,13 @@ class CommentsProvider extends BaseChangeNotifier {
 
   Future<void> addComment(String listingId, CommentModel data) async {
     setStateType(StateType.loading);
-    var result = await _api.addDocument(listingId, "comments", data.toJson());
+    var result =
+        await _api.addDocument(listingId, collectionName, data.toJson());
     setStateTypeWithoutNotify(StateType.empty);
     return;
   }
 
-  Future<List<CommentModel>> fetchcomments() async {
+  Future<List<CommentModel>> fetchComments() async {
     var result = await _api.getDataCollection();
     comments = result.documents
         .map((doc) => CommentModel.fromMap(doc.data, doc.documentID))
@@ -32,8 +37,10 @@ class CommentsProvider extends BaseChangeNotifier {
     return comments;
   }
 
-  Stream<QuerySnapshot> fetchCommentsAsStream(String listingId) {
-    return _api.streamDataCollection("comments", listingId);
+  Stream<QuerySnapshot> fetchCommentsAsStream(String listingId,
+      {bool getAll = false}) {
+    if (getAll) return _api.streamDataCollection(collectionName, listingId);
+    return _api.streamLatest3Collection(collectionName, listingId);
   }
 
   Future<CommentModel> getCommentsById(String id) async {

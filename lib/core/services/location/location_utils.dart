@@ -16,14 +16,24 @@ class LocationUtils {
 
   ///Get current location
   static Future<void> getCurrentLocation(BuildContext context) async {
-    await _geolocator.getCurrentPosition().then((Position position) async {
+    Position position = await Geolocator()
+        .getLastKnownPosition(desiredAccuracy: LocationAccuracy.high);
+
+    if (position == null) {
+      await _geolocator.getCurrentPosition().then((Position position) async {
+        Placemark place = await _getAddressFromLatLng(
+            latitude: position.latitude, longitude: position.longitude);
+        Provider.of<UserCurrentLocationProvider>(context, listen: false)
+            .setCurrentLocation(place.locality, position);
+      }).catchError((e) {
+        print(e);
+      });
+    } else {
       Placemark place = await _getAddressFromLatLng(
           latitude: position.latitude, longitude: position.longitude);
       Provider.of<UserCurrentLocationProvider>(context, listen: false)
           .setCurrentLocation(place.locality, position);
-    }).catchError((e) {
-      print(e);
-    });
+    }
   }
 
   //Get Location Base on Latitude and Longtitude

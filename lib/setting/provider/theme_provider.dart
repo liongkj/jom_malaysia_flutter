@@ -46,7 +46,7 @@ class ThemeProvider with ChangeNotifier {
       errorColor: isDarkMode ? Colours.dark_red : Colours.red,
       brightness: isDarkMode ? Brightness.dark : Brightness.light,
       primaryColor: isDarkMode ? Colours.dark_app_main : Colours.app_main,
-      accentColor: isDarkMode ? Colours.dark_app_main : Colours.app_main,
+      accentColor: isDarkMode ? Colours.dark_app_main : Colours.app_secondary,
       // Tab指示器颜色
       indicatorColor: isDarkMode ? Colours.dark_app_main : Colours.app_main,
       // 页面背景色
@@ -62,6 +62,7 @@ class ThemeProvider with ChangeNotifier {
         // TextField输入文字颜色
         // Text文字样式
         //https://api.flutter.dev/flutter/material/TextTheme-class.html
+
         headline: isDarkMode ? TextStyles.textDark : TextStyles.headline,
         title: isDarkMode ? TextStyles.textDark : TextStyles.title,
         subhead: isDarkMode ? TextStyles.textDark : TextStyles.subhead,

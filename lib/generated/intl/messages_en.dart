@@ -23,7 +23,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m1(item) => "Adding your ${item}";
 
-  static m2(commentCount) => "Comment (${commentCount})";
+  static m2(commentCount) => "${Intl.plural(commentCount, one: 'Comment (1)', other: 'Comments (${commentCount})')}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
@@ -44,11 +44,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "labelAveratePaxPrefix" : MessageLookupByLibrary.simpleMessage("RM "),
     "labelAveratePaxSuffix" : MessageLookupByLibrary.simpleMessage("PAX"),
     "labelClickToAddImage" : MessageLookupByLibrary.simpleMessage("Add a image to let other know more about this place"),
+    "labelImageChosen" : MessageLookupByLibrary.simpleMessage("Image Chosen"),
     "labelImageRemoved" : MessageLookupByLibrary.simpleMessage("Image Removed"),
     "labelInputCostAmount" : MessageLookupByLibrary.simpleMessage("Please enter your spending"),
+    "labelNewCommentPageComment" : MessageLookupByLibrary.simpleMessage("Add your comment"),
+    "labelNewCommentPageCommentErrorMessage" : MessageLookupByLibrary.simpleMessage("Please enter some comment"),
+    "labelNewCommentPageTitle" : MessageLookupByLibrary.simpleMessage("Add a title"),
+    "labelNewCommentPageTitleErrorMessage" : MessageLookupByLibrary.simpleMessage("Please enter a interesting title"),
     "labelNoDetail" : MessageLookupByLibrary.simpleMessage("No more details"),
     "labelNoNotification" : MessageLookupByLibrary.simpleMessage("No Notification"),
     "labelNone" : MessageLookupByLibrary.simpleMessage("None"),
+    "labelPageComment" : MessageLookupByLibrary.simpleMessage("Comment"),
     "labelRatePlace" : MessageLookupByLibrary.simpleMessage("Rate"),
     "labelRatingStatus1" : MessageLookupByLibrary.simpleMessage("Labbish"),
     "labelRatingStatus2" : MessageLookupByLibrary.simpleMessage("Better don\'t come"),
@@ -60,6 +66,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "labelSearchHint" : MessageLookupByLibrary.simpleMessage("Search for a name or keyword"),
     "labelSearchHintNotEmpty" : MessageLookupByLibrary.simpleMessage("Keyword cannot be blank"),
     "labelStatusPublish" : m1,
+    "labelSubmitReview" : MessageLookupByLibrary.simpleMessage("Publish"),
+    "labelTagMustTry" : MessageLookupByLibrary.simpleMessage("JOM Must Try"),
     "labelUndoAction" : MessageLookupByLibrary.simpleMessage("Undo"),
     "locationSelectCityMessage" : MessageLookupByLibrary.simpleMessage("Select a City"),
     "locationSelectTownMessage" : MessageLookupByLibrary.simpleMessage("Select a Town"),
@@ -74,7 +82,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "overviewSection4Title" : MessageLookupByLibrary.simpleMessage("Capital (Seremban)"),
     "overviewSection5Para1" : MessageLookupByLibrary.simpleMessage("Negeri Sembilan has a collective population of 1,098,500 as of 2015; the ethnic composition consisting of Malay 622,000 (56.6%) (mostly are Minangkabau descent), other Bumiputras 20,700 (1.9%), Chinese 234,300 (21.3%), Indian 154,000 (14%), Others 4,200 (0.4%), and Non Citizens 63,300 (5.8%). The state has the highest percentage of Indians when compared to other Malaysian states."),
     "overviewSection5Title" : MessageLookupByLibrary.simpleMessage("Demographic"),
-    "placeDetailCommentLabel" : m2,
+    "placeDetailCommentCountLabel" : m2,
     "placeDetailInfoLabel" : MessageLookupByLibrary.simpleMessage("Detail"),
     "placeDetailMerchantInfoLabel" : MessageLookupByLibrary.simpleMessage("Merchant Info"),
     "placeDetailMerchantRegistrationNameLabel" : MessageLookupByLibrary.simpleMessage("Registration Name"),

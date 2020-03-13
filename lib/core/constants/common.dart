@@ -8,6 +8,10 @@ class Constant {
 
   static bool isTest = false;
 
+  static bool enableStar = false;
+
+  static bool enableFeedback = false;
+
   static const String data = 'data';
   static const String message = 'message';
   static const String code = 'code';
@@ -21,6 +25,7 @@ class Constant {
 
   static const String language = "PreferredLanguage";
   static const String prefLocation = "PreferredLocation";
+
   static const List<String> orderLeftButtonText = [
     "拒单",
     "拒单",

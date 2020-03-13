@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
+import 'package:jom_malaysia/core/services/gateway/api_const.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/widgets/app_bar.dart';
@@ -54,7 +55,7 @@ class _AboutPageState extends State<AboutPage> {
               onTap: () => NavigatorUtils.goWebViewPage(
                   context,
                   S.of(context).clickItemSettingAddAPlace,
-                  "https://jomn9.com/add-a-place/")),
+                  WebUrl.suggestAddPlace)),
         ],
       ),
     );

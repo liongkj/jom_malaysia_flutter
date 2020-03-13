@@ -1,10 +1,12 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:jom_malaysia/core/constants/common.dart';
 import 'package:jom_malaysia/core/enums/map_type.dart';
 import 'package:jom_malaysia/core/models/coordinates_model.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/core/services/location/location_utils.dart';
+import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/address_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/contact_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
@@ -26,79 +28,82 @@ class PlaceInfo extends StatelessWidget {
     final lang = Provider.of<LanguageProvider>(context, listen: false).locale;
     return MyCard(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
-        child: Padding(
-          padding: const EdgeInsets.all(8),
-          child: Column(
-            children: <Widget>[
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Expanded(
-                    flex: 3,
-                    child: Text(
-                      place?.listingName,
-                      maxLines: 3,
-                      overflow: TextOverflow.fade,
-                      style: Theme.of(context).textTheme.title,
-                    ),
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: <Widget>[
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Expanded(
+                  flex: 3,
+                  child: Text(
+                    place?.listingName,
+                    maxLines: 3,
+                    overflow: TextOverflow.fade,
+                    style: Theme.of(context).textTheme.title,
                   ),
-                  Icon(Icons.star_border, size: 30)
-                ],
-              ),
-              Gaps.vGap16,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Chip(
-                    label: Text(
-                        place.category.getCategory(
-                            lang ?? Localizations.localeOf(context)),
-                        style: Theme.of(context).textTheme.body1),
+                ),
+                if (Constant.enableStar)
+                  IconButton(
+                    icon: Icon(Icons.star_border, size: 30),
+                    onPressed: () {},
+                  )
+              ],
+            ),
+            Gaps.vGap16,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Chip(
+                  label: Text(
+                      place.category
+                          .getCategory(lang ?? Localizations.localeOf(context)),
+                      style: Theme.of(context).textTheme.body1),
+                ),
+                Gaps.hGap15,
+                Chip(
+                  label: Text(
+                      place.category.getSubcategory(
+                          lang ?? Localizations.localeOf(context)),
+                      style: Theme.of(context).textTheme.body1),
+                ),
+                Spacer(),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Consumer<UserCurrentLocationProvider>(
+                    builder: (_, location, __) {
+                      return FutureBuilder<String>(
+                          future: LocationUtils.getDistanceBetween(
+                              location.currentCoordinate,
+                              place,
+                              Provider.of<LocationProvider>(context,
+                                      listen: false)
+                                  .selected),
+                          builder: (context, snapshot) {
+                            return snapshot.hasData
+                                ? Text(
+                                    snapshot.data,
+                                    style: Theme.of(context).textTheme.subtitle,
+                                  )
+                                : CircularProgressIndicator();
+                          });
+                    },
                   ),
-                  Gaps.hGap15,
-                  Chip(
-                    label: Text(
-                        place.category.getSubcategory(
-                            lang ?? Localizations.localeOf(context)),
-                        style: Theme.of(context).textTheme.body1),
-                  ),
-                  Spacer(),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Consumer<UserCurrentLocationProvider>(
-                      builder: (_, location, __) {
-                        return FutureBuilder<String>(
-                            future: LocationUtils.getDistanceBetween(
-                                location.currentCoordinate,
-                                place,
-                                Provider.of<LocationProvider>(context,
-                                        listen: false)
-                                    .selected),
-                            builder: (context, snapshot) {
-                              return snapshot.hasData
-                                  ? Text(
-                                      snapshot.data,
-                                      style:
-                                          Theme.of(context).textTheme.subtitle,
-                                    )
-                                  : CircularProgressIndicator();
-                            });
-                      },
-                    ),
-                  ),
-                ],
-              ),
-              Gaps.vGap16,
-              _TagItem(tags: place.tags),
-              Gaps.vGap16,
-              _ContactCard(
-                address: place.address,
-                contact: place.officialContact,
-              ),
-            ],
-          ),
+                ),
+              ],
+            ),
+            Gaps.vGap16,
+            _TagItem(
+              isFeatured: place.isFeatured,
+              tags: place.tags,
+            ),
+            Gaps.vGap16,
+            _ContactCard(
+              address: place.address,
+              contact: place.officialContact,
+            ),
+          ],
         ),
       ),
     );
@@ -109,38 +114,64 @@ class _TagItem extends StatelessWidget {
   const _TagItem({
     Key key,
     @required this.tags,
+    @required this.isFeatured,
   }) : super(key: key);
 
   final List<String> tags;
+  final bool isFeatured;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 20,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: tags.length,
-        itemBuilder: (BuildContext context, int index) {
-          return Container(
-            padding: const EdgeInsets.symmetric(horizontal: 4.0),
-            margin: const EdgeInsets.only(right: 4.0),
-            decoration: BoxDecoration(
-              color: index % 2 == 0
-                  ? Theme.of(context).errorColor
-                  : Theme.of(context).primaryColor,
-              borderRadius: BorderRadius.circular(2.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          if (isFeatured)
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 4.0),
+              decoration: BoxDecoration(
+                color: Colors.yellow,
+                borderRadius: BorderRadius.circular(2.0),
+              ),
+              height: 20.0,
+              alignment: Alignment.center,
+              child: Text(
+                S.of(context).labelTagMustTry,
+                style: TextStyle(
+                    color: Colors.black54, fontSize: Dimens.font_sp14),
+              ),
             ),
-            height: 16.0,
-            alignment: Alignment.center,
-            child: Text(
-              tags[index],
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: Dimens.font_sp14,
-                  fontWeight: FontWeight.w600),
+          if (isFeatured) Gaps.hGap8,
+          Expanded(
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: tags.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                  margin: const EdgeInsets.only(right: 4.0),
+                  decoration: BoxDecoration(
+                    color: index % 2 == 0
+                        ? Theme.of(context).errorColor
+                        : Theme.of(context).primaryColor,
+                    borderRadius: BorderRadius.circular(2.0),
+                  ),
+                  height: 16.0,
+                  alignment: Alignment.center,
+                  child: Text(
+                    tags[index],
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: Dimens.font_sp14,
+                        fontWeight: FontWeight.w600),
+                  ),
+                );
+              },
             ),
-          );
-        },
+          ),
+        ],
       ),
     );
   }

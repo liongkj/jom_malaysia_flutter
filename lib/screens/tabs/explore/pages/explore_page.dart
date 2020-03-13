@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/tabs/explore/pages/overview_tab.dart';
 import 'package:jom_malaysia/screens/tabs/explore/pages/todo_tab.dart';
@@ -50,7 +51,7 @@ class ExplorePageState extends State<ExplorePage>
       Choice(
           title: S.of(context).tabTitleExploreOverview,
           icon: Icons.featured_play_list),
-      Choice(title: S.of(context).tabTitleExploreTodo, icon: Icons.done),
+      Choice(title: S.of(context).labelTagMustTry, icon: Icons.done),
       // const Choice(title: 'TRANSPORT', icon: Icons.directions),
     ];
     return Scaffold(
@@ -58,7 +59,7 @@ class ExplorePageState extends State<ExplorePage>
         headerSliverBuilder: (_, __) {
           return <Widget>[
             SliverAppBar(
-              backgroundColor: Colors.redAccent,
+              backgroundColor: Colours.app_secondary,
               expandedHeight: 200.0,
               floating: false,
               title: Text(S.of(context).appBarTitleExplore),
@@ -77,8 +78,8 @@ class ExplorePageState extends State<ExplorePage>
               ),
               flexibleSpace: FlexibleSpaceBar(
                 centerTitle: true,
-                background:
-                    LoadImage("explore/featured/pd_bird_eye", format: "jpg"),
+                background: LoadAssetImage("explore/featured/pd_bird_eye",
+                    format: "jpg", fit: BoxFit.cover),
               ),
             ),
           ];

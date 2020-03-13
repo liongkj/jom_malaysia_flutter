@@ -3,8 +3,6 @@ import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/overview_page_provider.dart';
 import 'package:jom_malaysia/setting/provider/language_provider.dart';
-import 'package:jom_malaysia/util/image_utils.dart';
-import 'package:jom_malaysia/util/theme_utils.dart';
 import 'package:jom_malaysia/widgets/my_card.dart';
 import 'package:jom_malaysia/widgets/sliver_appbar_delegate.dart';
 import 'package:provider/provider.dart';

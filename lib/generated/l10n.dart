@@ -128,10 +128,12 @@ class S {
     );
   }
 
-  String placeDetailCommentLabel(dynamic commentCount) {
-    return Intl.message(
-      'Comment ($commentCount)',
-      name: 'placeDetailCommentLabel',
+  String placeDetailCommentCountLabel(dynamic commentCount) {
+    return Intl.plural(
+      commentCount,
+      one: 'Comment (1)',
+      other: 'Comments ($commentCount)',
+      name: 'placeDetailCommentCountLabel',
       desc: '',
       args: [commentCount],
     );
@@ -245,6 +247,42 @@ class S {
     );
   }
 
+  String get labelNewCommentPageTitle {
+    return Intl.message(
+      'Add a title',
+      name: 'labelNewCommentPageTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelNewCommentPageTitleErrorMessage {
+    return Intl.message(
+      'Please enter a interesting title',
+      name: 'labelNewCommentPageTitleErrorMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelNewCommentPageComment {
+    return Intl.message(
+      'Add your comment',
+      name: 'labelNewCommentPageComment',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelNewCommentPageCommentErrorMessage {
+    return Intl.message(
+      'Please enter some comment',
+      name: 'labelNewCommentPageCommentErrorMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
   String get toastMessageTapToExit {
     return Intl.message(
       'Tap again to quit.',
@@ -285,6 +323,15 @@ class S {
     return Intl.message(
       'None',
       name: 'labelNone',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelImageChosen {
+    return Intl.message(
+      'Image Chosen',
+      name: 'labelImageChosen',
       desc: '',
       args: [],
     );
@@ -407,6 +454,24 @@ class S {
     );
   }
 
+  String get labelSubmitReview {
+    return Intl.message(
+      'Publish',
+      name: 'labelSubmitReview',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelPageComment {
+    return Intl.message(
+      'Comment',
+      name: 'labelPageComment',
+      desc: '',
+      args: [],
+    );
+  }
+
   String get labelUndoAction {
     return Intl.message(
       'Undo',
@@ -456,6 +521,15 @@ class S {
     return Intl.message(
       'Please enter your spending',
       name: 'labelInputCostAmount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelTagMustTry {
+    return Intl.message(
+      'JOM Must Try',
+      name: 'labelTagMustTry',
       desc: '',
       args: [],
     );

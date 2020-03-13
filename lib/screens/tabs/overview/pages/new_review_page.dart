@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/core/services/gateway/firebase_storage_api.dart';
-import 'package:jom_malaysia/core/services/permission/permission_utils.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/comments/comment_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/comments_provider.dart';
@@ -64,10 +63,8 @@ class _NewReviewPageState extends State<NewReviewPage> {
     final ThemeData themeData = Theme.of(context);
     return Scaffold(
       appBar: MyAppBar(
-        actionName: "Publish",
+        actionName: S.of(context).labelSubmitReview,
         onPressed: () async {
-          print(_formKey.currentState.validate());
-
           if (_formKey.currentState.validate()) {
             _formKey.currentState.save();
             if (_commentModel.imageAssets.isNotEmpty) {
@@ -187,14 +184,14 @@ class _BuildCommentField extends StatelessWidget {
         TextFormField(
           validator: (value) {
             if (value.isEmpty) {
-              return 'Please enter a interesting title';
+              return S.of(context).labelNewCommentPageTitleErrorMessage;
             }
             return null;
           },
           onSaved: (value) => commentModel.title = value,
           decoration: InputDecoration(
               contentPadding: const EdgeInsets.symmetric(vertical: 16.0),
-              hintText: "Add a title",
+              hintText: S.of(context).labelNewCommentPageTitle,
               counterText: "",
               focusedBorder: UnderlineInputBorder(
                   borderSide:
@@ -207,7 +204,7 @@ class _BuildCommentField extends StatelessWidget {
         TextFormField(
           validator: (value) {
             if (value.isEmpty) {
-              return 'Please enter some comment';
+              return S.of(context).labelNewCommentPageCommentErrorMessage;
             }
             return null;
           },
@@ -215,7 +212,7 @@ class _BuildCommentField extends StatelessWidget {
           maxLines: 5,
           decoration: InputDecoration(
               contentPadding: const EdgeInsets.symmetric(vertical: 16.0),
-              hintText: "Add your comment",
+              hintText: S.of(context).labelNewCommentPageComment,
               counterText: "",
               focusedBorder: UnderlineInputBorder(
                   borderSide:
@@ -259,14 +256,14 @@ class __ImageAreaState extends State<_ImageArea> {
     try {
       resultList = await MultiImagePicker.pickImages(
         maxImages: 5 - _images.length,
-        enableCamera: await PermissionService().requestCameraPermission(),
+        enableCamera: true,
         selectedAssets: _images,
         materialOptions: MaterialOptions(
-          actionBarColor: "#abcdef",
-          actionBarTitle: "Example App",
+          actionBarColor:
+              '#${Colours.app_secondary.value.toRadixString(16).substring(2)}',
+          actionBarTitle: S.of(context).labelImageChosen,
           allViewTitle: "All Photos",
-          useDetailsView: false,
-          selectCircleStrokeColor: "#000000",
+          startInAllView: true,
         ),
       );
     } on NoImagesSelectedException catch (e) {
