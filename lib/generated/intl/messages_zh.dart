@@ -40,6 +40,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "clickItemSettingFeedbackTitle" : MessageLookupByLibrary.simpleMessage("意见反馈"),
     "clickItemSettingRecommendPlaceTitle" : MessageLookupByLibrary.simpleMessage("添加商户"),
     "clickItemSettingShareTitle" : MessageLookupByLibrary.simpleMessage("告诉朋友"),
+    "labelAskFirstReview" : MessageLookupByLibrary.simpleMessage("快来做第一个点评吧"),
+    "labelAskReview" : MessageLookupByLibrary.simpleMessage("说点什么"),
     "labelAveragePaxTitle" : MessageLookupByLibrary.simpleMessage("人均"),
     "labelAveratePaxPrefix" : MessageLookupByLibrary.simpleMessage(""),
     "labelAveratePaxSuffix" : MessageLookupByLibrary.simpleMessage(" 令吉"),

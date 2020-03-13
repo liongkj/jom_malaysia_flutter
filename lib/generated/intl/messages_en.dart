@@ -40,6 +40,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "clickItemSettingFeedbackTitle" : MessageLookupByLibrary.simpleMessage("Feedback"),
     "clickItemSettingRecommendPlaceTitle" : MessageLookupByLibrary.simpleMessage("Add a missing place"),
     "clickItemSettingShareTitle" : MessageLookupByLibrary.simpleMessage("Tell a friend"),
+    "labelAskFirstReview" : MessageLookupByLibrary.simpleMessage("Submit first review"),
+    "labelAskReview" : MessageLookupByLibrary.simpleMessage("Say Something"),
     "labelAveragePaxTitle" : MessageLookupByLibrary.simpleMessage("Spending"),
     "labelAveratePaxPrefix" : MessageLookupByLibrary.simpleMessage("RM "),
     "labelAveratePaxSuffix" : MessageLookupByLibrary.simpleMessage("PAX"),

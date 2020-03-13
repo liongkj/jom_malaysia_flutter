@@ -1,30 +1,28 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:jom_malaysia/core/models/authuser_model.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 
 class CommentModel {
   CommentModel(
     this.id, {
-    this.userId,
     this.title,
     this.commentText,
     this.rating = 3,
-    this.username,
     this.costPax,
   })  : images = [],
         publishedTime = FieldValue.serverTimestamp(),
         imageAssets = [];
   String id;
-  String userId;
-
   var publishedTime;
   String commentText;
   String title;
   double rating;
   double costPax;
-  String username;
+
   List<String> images;
   //holder
   List<Asset> imageAssets;
+  AuthUser user;
 
   CommentModel.fromMap(Map snapshot, String id)
       : id = id ?? '',
@@ -33,9 +31,7 @@ class CommentModel {
             : [],
         costPax = snapshot["costPax"] ?? null,
         title = snapshot['title'] ?? '',
-        userId = snapshot['userId'] ?? '',
         commentText = snapshot['commentText'] ?? '',
-        username = snapshot['username'] ?? '',
         publishedTime = snapshot['publishedTime'] != null
             ? (snapshot['publishedTime'] as Timestamp).toDate()
             : null,
@@ -43,10 +39,8 @@ class CommentModel {
 
   toJson() {
     return {
-      "userId": userId,
       "commentText": commentText,
       "publishedTime": publishedTime,
-      "username": username,
       "rating": rating,
       "title": title,
       "costPax": costPax,

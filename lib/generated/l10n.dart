@@ -463,6 +463,24 @@ class S {
     );
   }
 
+  String get labelAskFirstReview {
+    return Intl.message(
+      'Submit first review',
+      name: 'labelAskFirstReview',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelAskReview {
+    return Intl.message(
+      'Say Something',
+      name: 'labelAskReview',
+      desc: '',
+      args: [],
+    );
+  }
+
   String get labelPageComment {
     return Intl.message(
       'Comment',
