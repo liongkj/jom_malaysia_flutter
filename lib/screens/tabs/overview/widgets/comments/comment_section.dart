@@ -41,7 +41,8 @@ class _CommentSectionState extends State<CommentSection> {
             final hasMoreThanMax = comments.length > _MAXCOMMENTCOUNT;
             final shouldLoad = comments?.isNotEmpty;
             return Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
               child: Column(
                 children: <Widget>[
                   _CommentHeader(
@@ -128,14 +129,20 @@ class _CommentHeader extends StatelessWidget {
           style: Theme.of(context).textTheme.body1,
         ),
         if (shouldLoad)
-          GestureDetector(
-            onTap: () {
-              NavigatorUtils.push(context,
-                  '${OverviewRouter.commentPage}?&placeId=${widget.listingId}');
-            },
-            child: LoadImage(
-              "ic_arrow_right",
-              height: 18,
+          Expanded(
+            child: GestureDetector(
+              onTap: () {
+                NavigatorUtils.push(context,
+                    '${OverviewRouter.commentPage}?&placeId=${widget.listingId}');
+              },
+              child: Align(
+                alignment: Alignment.bottomRight,
+                child: LoadImage(
+                  "ic_arrow_right",
+                  height: 18,
+                  fit: BoxFit.contain,
+                ),
+              ),
             ),
           )
       ],

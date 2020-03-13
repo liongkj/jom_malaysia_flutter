@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:jom_malaysia/core/constants/common.dart';
 import 'package:jom_malaysia/core/enums/map_type.dart';
 import 'package:jom_malaysia/core/models/coordinates_model.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
@@ -43,7 +44,11 @@ class PlaceInfo extends StatelessWidget {
                     style: Theme.of(context).textTheme.title,
                   ),
                 ),
-                Icon(Icons.star_border, size: 30)
+                if (Constant.enableStar)
+                  IconButton(
+                    icon: Icon(Icons.star_border, size: 30),
+                    onPressed: () {},
+                  )
               ],
             ),
             Gaps.vGap16,
