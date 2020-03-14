@@ -1,6 +1,7 @@
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:jom_malaysia/core/interfaces/i_image_service.dart';
 
-class FirebaseStorageService {
+class FirebaseStorageService implements IImageService {
   FirebaseStorage _storage;
 
   FirebaseStorageService() {

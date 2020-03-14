@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:jom_malaysia/core/services/gateway/firebase_storage_api.dart';
 import 'package:jom_malaysia/core/services/gateway/firestore_api.dart';
 import 'package:jom_malaysia/core/services/gateway/http_service.dart';
+import 'package:jom_malaysia/core/services/image/cloudinary/cloudinary_image_service.dart';
+import 'package:jom_malaysia/core/services/image/firebase_storage_api.dart';
 import 'package:jom_malaysia/screens/tabs/explore/providers/featured_place_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/comments_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/listing_provider.dart';
@@ -43,6 +44,10 @@ List<SingleChildWidget> independentServices = [
 ];
 
 List<SingleChildWidget> dependentServices = [
+  InheritedProvider(
+      create: (context) => CloudinaryImageService(
+            httpService: Provider.of<HttpService>(context, listen: false),
+          )),
   ChangeNotifierProxyProvider<LocationProvider, ListingProvider>(
     update: (ctx, location, listingProvider) => listingProvider
       ..fetchAndInitPlaces(city: location.selected?.cityName, refresh: true),
