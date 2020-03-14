@@ -1,8 +1,7 @@
 class CloudinaryUploadRequest {
-  List<int> file;
-  String uploadPreset;
-  String folder;
+  static const String file = 'file';
+  static const String uploadPreset = 'upload_preset';
+  static const String folder = 'folder';
 
-  CloudinaryUploadRequest(
-      {this.file, this.folder, this.uploadPreset = 'ox3azzqe'});
+  static const String defaultPreset = 'ox3azzqe';
 }

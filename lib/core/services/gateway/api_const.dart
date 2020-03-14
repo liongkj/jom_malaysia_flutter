@@ -9,7 +9,7 @@ class APIEndpoint {
 
 class CloudinaryEndPoint {
   static const String upload =
-      "https://api.cloudinary.com/v1_1/jom-n9/image/upload";
+      "https://api.cloudinary.com/v1_1/jomn9-com/image/upload";
 }
 
 class QueryParam {
