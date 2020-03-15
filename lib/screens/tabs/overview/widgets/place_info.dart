@@ -44,7 +44,7 @@ class PlaceInfo extends StatelessWidget {
                     style: Theme.of(context).textTheme.title,
                   ),
                 ),
-                if (Constant.enableStar)
+                if (Constant.enableFavourite)
                   IconButton(
                     icon: Icon(Icons.star_border, size: 30),
                     onPressed: () {},

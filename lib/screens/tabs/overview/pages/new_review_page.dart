@@ -2,8 +2,9 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:jom_malaysia/core/interfaces/i_image_service.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
-import 'package:jom_malaysia/core/services/gateway/firebase_storage_api.dart';
+import 'package:jom_malaysia/core/services/image/cloudinary/cloudinary_image_service.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/comments/comment_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/comments_provider.dart';
@@ -33,7 +34,7 @@ class NewReviewPage extends StatefulWidget {
 
 class _NewReviewPageState extends State<NewReviewPage> {
   CommentModel _commentModel;
-  FirebaseStorageService _storageService;
+  IImageService _storageService;
   CommentsProvider _db;
   StateType _loadingState = StateType.loading;
   @override
@@ -43,17 +44,19 @@ class _NewReviewPageState extends State<NewReviewPage> {
     _commentModel = new CommentModel(commentId);
     //TODO init with user id
     _storageService =
-        Provider.of<FirebaseStorageService>(context, listen: false);
+        // Provider.of<FirebaseStorageService>(context, listen: false);
+        Provider.of<CloudinaryImageService>(context, listen: false);
     super.initState();
   }
 
   Future<String> _saveImage(Asset asset, int index) async {
     ByteData byteData = await asset.getByteData();
     List<int> imageData = byteData.buffer.asUint8List();
-    return await _storageService.uploadFile(
+    var url = await _storageService.uploadFile(
         "place/${widget.placeId}/comments/${_commentModel.id}",
         imageData,
-        "image-$index");
+        "${_commentModel.id}-image-$index");
+    return url;
   }
 
   final _formKey = GlobalKey<FormState>();
@@ -70,7 +73,8 @@ class _NewReviewPageState extends State<NewReviewPage> {
             if (_commentModel.imageAssets.isNotEmpty) {
               var _index = 0;
               for (Asset image in _commentModel.imageAssets) {
-                _commentModel.images.add(await _saveImage(image, _index));
+                var url = await _saveImage(image, _index);
+                _commentModel.images.add(url);
                 _index++;
               }
             }
@@ -266,7 +270,7 @@ class __ImageAreaState extends State<_ImageArea> {
           startInAllView: true,
         ),
       );
-    } on NoImagesSelectedException catch (e) {
+    } on NoImagesSelectedException catch (customere) {
       //if user did not choose image on 2nd time, add back current selected
       resultList.addAll(_images);
     } on Exception catch (e) {

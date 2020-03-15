@@ -34,7 +34,7 @@ dependencies:
   # https://pub.dev/packages/fancy_on_boarding#-changelog-tab-
   flustars: 0.2.6+1
   # Flutter 常用工具类库 https://github.com/Sky24n/flustars
-  fluro: ^1.5.2
+  fluro: ^1.6.1
   # 路由框架 https://pub.dev/packages/fluro#-changelog-tab-
   #community-based, can upload file
   flutter_webview_plugin: ^0.3.10+1
@@ -54,13 +54,15 @@ dependencies:
   # https://pub.dev/packages/google_fonts#-changelog-tab-
   intl_utils: ^1.1.0
   #enable vscode internalization plugin
+  intro_slider: ^2.2.9
+  # https://pub.dev/packages/intro_slider#-changelog-tab-
   json_serializable: ^3.2.5
   json_annotation: ^3.0.1
   logger: ^0.7.0+2
   lpinyin: ^1.0.9
   dio_http_cache: ^0.2.6
   #json parser library
-  multi_image_picker: ^4.6.2
+  multi_image_picker: ^4.6.3
   # https://pub.dev/packages/multi_image_picker#-changelog-tab-
   #  image_picker: 0.6.3+1
   oktoast: ^2.3.1+1

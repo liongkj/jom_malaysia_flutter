@@ -20,12 +20,10 @@ class CommentItem extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Container(
-            child: LoadImage(
-              "",
-              width: 50,
-              height: 50,
-            ),
+          CircleAvatar(
+            backgroundImage: comment?.user?.profileImage != null
+                ? NetworkImage(comment.user.profileImage)
+                : AssetImage("assets/images/none.png"),
           ),
           Gaps.hGap16,
           Flexible(

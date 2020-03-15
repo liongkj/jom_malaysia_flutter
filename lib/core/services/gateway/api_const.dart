@@ -7,6 +7,11 @@ class APIEndpoint {
       "https://jomn9-ads.easybrother.workers.dev/";
 }
 
+class CloudinaryEndPoint {
+  static const String upload =
+      "https://api.cloudinary.com/v1_1/jomn9-com/image/upload";
+}
+
 class QueryParam {
   static const String listingType = 'type';
   static const String listingStatus = 'status';

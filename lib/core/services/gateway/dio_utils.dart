@@ -85,6 +85,34 @@ class DioUtils {
     return options;
   }
 
+  requestNetwork<T, K>(Method method, String url,
+      {Function(T t) onSuccess,
+      Function(List<T> list) onSuccessList,
+      Function(int code, String msg) onError,
+      dynamic params,
+      Map<String, dynamic> queryParameters,
+      CancelToken cancelToken,
+      Options options,
+      bool isList: false}) {
+    String m = _getRequestMethod(method);
+    return _request<T, K>(m, url,
+            data: params,
+            queryParameters: queryParameters,
+            options: options,
+            cancelToken: cancelToken)
+        .then((result) {
+      if (onSuccess != null) {
+        onSuccess(result);
+      } else {
+        _onError(400, "", onError);
+      }
+    }, onError: (e, _) {
+      _cancelLogPrint(e, url);
+      NetError error = ExceptionHandle.handleException(e);
+      _onError(error.code, error.msg, onError);
+    });
+  }
+
   /// 统一处理(onSuccess返回T对象，onSuccessList返回List<T>)
   asyncRequestNetwork<T, K>(
     Method method,
@@ -106,6 +134,8 @@ class DioUtils {
         .listen((result) {
       if (onSuccess != null) {
         onSuccess(result);
+      } else {
+        _onError(400, "", onError);
       }
     }, onError: (e) {
       _cancelLogPrint(e, url);

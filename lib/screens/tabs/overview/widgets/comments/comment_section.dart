@@ -10,7 +10,6 @@ import 'package:jom_malaysia/screens/tabs/overview/widgets/comments/comment_item
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
 import 'package:jom_malaysia/widgets/my_button.dart';
-import 'package:jom_malaysia/widgets/my_card.dart';
 import 'package:provider/provider.dart';
 
 class CommentSection extends StatefulWidget {
@@ -51,7 +50,9 @@ class _CommentSectionState extends State<CommentSection> {
                       widget: widget),
                   Gaps.vGap16,
                   Container(
-                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                    padding: EdgeInsets.symmetric(
+                      vertical: 10,
+                    ),
                     child: ListView.builder(
                       physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
@@ -98,11 +99,11 @@ class _CommentButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return MyButton(
       icon: Icon(Icons.rate_review),
-      text: shouldLoad ? "Say Something" : "Submit first review",
-      onPressed: () {
-        NavigatorUtils.push(context,
-            '${OverviewRouter.reviewPage}?title=$listingName&placeId=$listingId&userId=${"123"}');
-      },
+      text: shouldLoad
+          ? S.of(context).labelAskReview
+          : S.of(context).labelAskFirstReview,
+      onPressed: () => NavigatorUtils.push(context,
+          '${OverviewRouter.reviewPage}?title=$listingName&placeId=$listingId&userId=${"123"}'),
     );
   }
 }
@@ -121,20 +122,21 @@ class _CommentHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          S.of(context).placeDetailCommentCountLabel(comments.length ?? 0),
-          style: Theme.of(context).textTheme.body1,
-        ),
-        if (shouldLoad)
-          Expanded(
-            child: GestureDetector(
-              onTap: () {
-                NavigatorUtils.push(context,
-                    '${OverviewRouter.commentPage}?&placeId=${widget.listingId}');
-              },
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onTap: () {
+        NavigatorUtils.push(context,
+            '${OverviewRouter.commentPage}?&placeId=${widget.listingId}');
+      },
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            S.of(context).placeDetailCommentCountLabel(comments.length ?? 0),
+            style: Theme.of(context).textTheme.body1,
+          ),
+          if (shouldLoad)
+            Expanded(
               child: Align(
                 alignment: Alignment.bottomRight,
                 child: LoadImage(
@@ -144,8 +146,8 @@ class _CommentHeader extends StatelessWidget {
                 ),
               ),
             ),
-          )
-      ],
+        ],
+      ),
     );
   }
 }
