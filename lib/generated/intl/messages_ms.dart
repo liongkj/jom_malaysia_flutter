@@ -23,7 +23,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m1(item) => "Muat naik ${item} anda";
 
-  static m2(commentCount) => "Comment (${commentCount})";
+  static m2(commentCount) => "Komen (${commentCount})";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
@@ -41,7 +41,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "clickItemSettingRecommendPlaceTitle" : MessageLookupByLibrary.simpleMessage("Recommend perniagaan"),
     "clickItemSettingShareTitle" : MessageLookupByLibrary.simpleMessage("Beritahu rakan"),
     "labelAskFirstReview" : MessageLookupByLibrary.simpleMessage("Jadilah yang pertama untuk semakan"),
-    "labelAskReview" : MessageLookupByLibrary.simpleMessage("Katakan sesuatu"),
+    "labelAskReview" : MessageLookupByLibrary.simpleMessage("Komen sesuatu"),
     "labelAveragePaxTitle" : MessageLookupByLibrary.simpleMessage("Per kapita"),
     "labelAveratePaxPrefix" : MessageLookupByLibrary.simpleMessage(""),
     "labelAveratePaxSuffix" : MessageLookupByLibrary.simpleMessage("Ringgit"),
@@ -50,7 +50,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "labelInputCostAmount" : MessageLookupByLibrary.simpleMessage("Sila masukkan jumlah pembelian"),
     "labelNewCommentPageComment" : MessageLookupByLibrary.simpleMessage("Apa yang anda mahu katakan?"),
     "labelNewCommentPageCommentErrorMessage" : MessageLookupByLibrary.simpleMessage("komen tidak boleh kosong"),
-    "labelNewCommentPageTitle" : MessageLookupByLibrary.simpleMessage("Tajuk"),
+    "labelNewCommentPageTitle" : MessageLookupByLibrary.simpleMessage("Tajuk Komen"),
     "labelNewCommentPageTitleErrorMessage" : MessageLookupByLibrary.simpleMessage("Tajuk tidak boleh kosong"),
     "labelNoDetail" : MessageLookupByLibrary.simpleMessage("Tiada Butiran"),
     "labelNoNotification" : MessageLookupByLibrary.simpleMessage("Tiada Pemberitahuan"),
