@@ -94,24 +94,6 @@ class BasePagePresenter<V extends IMvpView> extends IPresenter {
     });
   }
 
-  /// 上传图片实现
-  // Future<String> uploadImg(File image) async {
-  //   String imgPath = "";
-  //   try {
-  //     String path = image.path;
-  //     var name = path.substring(path.lastIndexOf("/") + 1);
-  //     FormData formData = FormData.fromMap(
-  //         {"uploadIcon": await MultipartFile.fromFile(path, filename: name)});
-  //     await requestNetwork<String>(Method.post,
-  //         url: APIConst.upload, params: formData, onSuccess: (data) {
-  //       imgPath = data;
-  //     });
-  //   } catch (e) {
-  //     view.showToast("图片上传失败！");
-  //   }
-  //   return imgPath;
-  // }
-
   _onError(int code, String msg, Function(int code, String msg) onError) {
     /// 异常时直接关闭加载圈，不受isClose影响
     view.closeProgress();

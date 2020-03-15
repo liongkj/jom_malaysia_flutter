@@ -8,7 +8,7 @@ class Constant {
 
   static bool isTest = false;
 
-  static bool enableStar = false;
+  static bool enableFavourite = false;
 
   static bool enableFeedback = false;
 

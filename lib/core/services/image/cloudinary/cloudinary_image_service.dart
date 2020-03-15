@@ -13,19 +13,29 @@ class CloudinaryImageService implements IImageService {
       : _httpService = httpService;
 
   @override
-  Future<String> uploadFile(String path, List<int> file, String filename) {
+  Future<String> uploadFile(
+      String path, List<int> file, String filename) async {
     final Options options = buildCacheOptions(Duration(days: 7),
         options: new RequestOptions(
           baseUrl: CloudinaryEndPoint.upload,
         ));
+    var imagedata = MultipartFile.fromBytes(file, filename: filename);
+    debugPrint(imagedata.toString());
+    FormData formData = FormData.fromMap({
+      CloudinaryUploadRequest.file: imagedata,
+      CloudinaryUploadRequest.uploadPreset:
+          CloudinaryUploadRequest.defaultPreset,
+      CloudinaryUploadRequest.folder: "comment_image"
+    });
 
-    Map<String, dynamic> param = Map<String, dynamic>();
-    param[CloudinaryUploadRequest.file] = MultipartFile.fromBytes(file);
-    param[CloudinaryUploadRequest.uploadPreset] =
-        CloudinaryUploadRequest.defaultPreset;
-    param[CloudinaryUploadRequest.folder] = path;
-    FormData formData = FormData.fromMap(param);
-    _httpService.asyncRequestNetwork<CloudinaryUploadResponse, Null>(
+//    formData.files
+//      ..add(MapEntry(
+//          CloudinaryUploadRequest.file, MultipartFile.fromBytes(file)));
+//    formData.fields
+//      ..add(MapEntry(CloudinaryUploadRequest.uploadPreset,
+//          CloudinaryUploadRequest.defaultPreset))
+//      ..add(MapEntry(CloudinaryUploadRequest.folder, "comment_image"));
+    await _httpService.requestNetwork<CloudinaryUploadResponse, Null>(
         Method.post,
         url: "",
         params: formData,
