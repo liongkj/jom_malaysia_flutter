@@ -25,7 +25,7 @@ class _CommentListState extends State<CommentList>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-
+    debugPrint(widget.placeId);
     final commentProvider =
         Provider.of<CommentsProvider>(context, listen: false);
     return Scaffold(
@@ -108,22 +108,7 @@ class _CommentListState extends State<CommentList>
     return _page < _maxPage;
   }
 
-  Future _loadMore() async {
-    if (_isLoading) {
-      return;
-    }
-    if (!_hasMore()) {
-      return;
-    }
-    _isLoading = true;
-    await Future.delayed(Duration(seconds: 2), () {
-      setState(() {
-        _list.addAll(List.generate(10, (i) => 'newItem：$i'));
-        _page++;
-        _isLoading = false;
-      });
-    });
-  }
+  Future _loadMore() async {}
 
   @override
   bool get wantKeepAlive => true;
