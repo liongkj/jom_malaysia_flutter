@@ -56,7 +56,6 @@ class _NewReviewPageState extends State<NewReviewPage> {
         "place/${widget.placeId}/comments/${_commentModel.id}",
         imageData,
         "${_commentModel.id}-image-$index");
-    debugPrint(url);
     return url;
   }
 
@@ -75,7 +74,6 @@ class _NewReviewPageState extends State<NewReviewPage> {
               var _index = 0;
               for (Asset image in _commentModel.imageAssets) {
                 var url = await _saveImage(image, _index);
-                debugPrint(url);
                 _commentModel.images.add(url);
                 _index++;
               }

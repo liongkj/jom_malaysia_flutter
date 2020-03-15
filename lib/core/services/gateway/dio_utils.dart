@@ -85,7 +85,7 @@ class DioUtils {
     return options;
   }
 
-  Future requestNetwork<T, K>(Method method, String url,
+  requestNetwork<T, K>(Method method, String url,
       {Function(T t) onSuccess,
       Function(List<T> list) onSuccessList,
       Function(int code, String msg) onError,

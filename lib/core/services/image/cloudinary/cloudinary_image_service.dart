@@ -20,34 +20,23 @@ class CloudinaryImageService implements IImageService {
           baseUrl: CloudinaryEndPoint.upload,
         ));
     var imagedata = MultipartFile.fromBytes(file, filename: filename);
-    debugPrint(imagedata.toString());
     FormData formData = FormData.fromMap({
       CloudinaryUploadRequest.file: imagedata,
       CloudinaryUploadRequest.uploadPreset:
           CloudinaryUploadRequest.defaultPreset,
       CloudinaryUploadRequest.folder: "comment_image"
     });
-
-//    formData.files
-//      ..add(MapEntry(
-//          CloudinaryUploadRequest.file, MultipartFile.fromBytes(file)));
-//    formData.fields
-//      ..add(MapEntry(CloudinaryUploadRequest.uploadPreset,
-//          CloudinaryUploadRequest.defaultPreset))
-//      ..add(MapEntry(CloudinaryUploadRequest.folder, "comment_image"));
+    var result;
     await _httpService.requestNetwork<CloudinaryUploadResponse, Null>(
         Method.post,
         url: "",
         params: formData,
         options: options,
         isShow: false, onSuccess: (data) {
-      if (data != null) {
-        return data.secure_url;
-      }
-      return null;
+      result = data.secure_url;
     }, onError: (_, __) {
       return null;
     });
-    return null;
+    return result;
   }
 }

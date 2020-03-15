@@ -21,9 +21,9 @@ class HttpService {
     Map<String, dynamic> queryParameters,
     CancelToken cancelToken,
     Options options,
-  }) {
+  }) async {
     // if (isShow) view.showProgress();
-    return DioUtils.instance.requestNetwork<T, K>(method, url,
+    await DioUtils.instance.requestNetwork<T, K>(method, url,
         params: params,
         queryParameters: queryParameters,
         options: options,
