@@ -33,7 +33,7 @@
   "labelSubmitReview": "发布",
   "labelNone": "无",
   "labelNoDetail": "无详情",
-  "labelNoNotification": "没通知",
+  "labelNoNotification": "无通知",
   "labelSearchHint": "请输入关键词查询",
   "labelSearchHintNotEmpty": "搜索关键词不能为空！",
   "labelImageRemoved": "成功删除",
