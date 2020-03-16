@@ -34,7 +34,7 @@ class _StateLayoutState extends State<StateLayout> {
         break;
       case StateType.network:
         _img = "network_error";
-        _hintText = "无网络连接";
+        _hintText = S.of(context).stateTypeNoNetwork;
         break;
       case StateType.message:
         _img = "zwxx";

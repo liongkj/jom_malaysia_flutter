@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:dio_http_cache/dio_http_cache.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:jom_malaysia/core/constants/common.dart';
 import 'package:jom_malaysia/core/services/gateway/json_parser.dart';
 import 'package:rxdart/rxdart.dart';
@@ -85,15 +86,19 @@ class DioUtils {
     return options;
   }
 
-  requestNetwork<T, K>(Method method, String url,
-      {Function(T t) onSuccess,
-      Function(List<T> list) onSuccessList,
-      Function(int code, String msg) onError,
-      dynamic params,
-      Map<String, dynamic> queryParameters,
-      CancelToken cancelToken,
-      Options options,
-      bool isList: false}) {
+  requestNetwork<T, K>(
+    Method method,
+    String url, {
+    Function(T t) onSuccess,
+    Function(List<T> list) onSuccessList,
+    Function(int code, String msg) onError,
+    dynamic params,
+    Map<String, dynamic> queryParameters,
+    CancelToken cancelToken,
+    Options options,
+    bool isList: false,
+    @required BuildContext context,
+  }) {
     String m = _getRequestMethod(method);
     return _request<T, K>(m, url,
             data: params,
@@ -108,7 +113,7 @@ class DioUtils {
       }
     }, onError: (e, _) {
       _cancelLogPrint(e, url);
-      NetError error = ExceptionHandle.handleException(e);
+      NetError error = ExceptionHandle.handleException(e, context);
       _onError(error.code, error.msg, onError);
     });
   }
@@ -123,6 +128,7 @@ class DioUtils {
     Map<String, dynamic> queryParameters,
     CancelToken cancelToken,
     Options options,
+    @required BuildContext context,
   }) {
     String m = _getRequestMethod(method);
     Observable.fromFuture(_request<T, K>(m, url,
@@ -139,7 +145,7 @@ class DioUtils {
       }
     }, onError: (e) {
       _cancelLogPrint(e, url);
-      NetError error = ExceptionHandle.handleException(e);
+      NetError error = ExceptionHandle.handleException(e, context);
       _onError(error.code, error.msg, onError);
     });
   }

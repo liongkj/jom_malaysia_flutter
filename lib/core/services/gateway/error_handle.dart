@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:jom_malaysia/generated/l10n.dart';
 
 class ExceptionHandle {
   static const int success = 200;
@@ -17,7 +19,7 @@ class ExceptionHandle {
   static const int cancel_error = 1005;
   static const int unknown_error = 9999;
 
-  static NetError handleException(dynamic error) {
+  static NetError handleException(dynamic error, BuildContext context) {
     print(error);
     if (error is DioError) {
       if (error.type == DioErrorType.DEFAULT ||
@@ -29,7 +31,7 @@ class ExceptionHandle {
         if (e is HttpException) {
           return NetError(http_error, "服务器异常！");
         }
-        return NetError(net_error, "网络异常，请检查你的网络！");
+        return NetError(net_error, S.of(context).errorMessageNetworkFailure);
       } else if (error.type == DioErrorType.CONNECT_TIMEOUT ||
           error.type == DioErrorType.SEND_TIMEOUT ||
           error.type == DioErrorType.RECEIVE_TIMEOUT) {
