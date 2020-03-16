@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:jom_malaysia/core/res/resources.dart';
+import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
 
 /// 自定义dialog的模板
@@ -65,8 +66,8 @@ class BaseDialog extends StatelessWidget {
                       child: SizedBox(
                         height: 48.0,
                         child: FlatButton(
-                          child: const Text(
-                            "Okay",
+                          child: Text(
+                            S.of(context).labelDialogOkay,
                             style: TextStyle(fontSize: Dimens.font_sp18),
                           ),
                           textColor: Theme.of(context).primaryColor,

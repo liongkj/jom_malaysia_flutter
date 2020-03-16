@@ -67,7 +67,7 @@ class S {
 
   String get appBarTitleExplore {
     return Intl.message(
-      'Explore',
+      'Discover',
       name: 'appBarTitleExplore',
       desc: '',
       args: [],
@@ -188,6 +188,15 @@ class S {
     return Intl.message(
       'CLOSING SOON',
       name: 'placeDetailOperatingSoonLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get placeDetailOpeningHoursLabel {
+    return Intl.message(
+      'Opening hours',
+      name: 'placeDetailOpeningHoursLabel',
       desc: '',
       args: [],
     );
@@ -348,7 +357,7 @@ class S {
 
   String get labelNoNotification {
     return Intl.message(
-      'No Notification',
+      'Awww...No Notification',
       name: 'labelNoNotification',
       desc: '',
       args: [],
@@ -548,6 +557,33 @@ class S {
     return Intl.message(
       'JOM Must Try',
       name: 'labelTagMustTry',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelDialogOkay {
+    return Intl.message(
+      'OKAY',
+      name: 'labelDialogOkay',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelDialogCancel {
+    return Intl.message(
+      'CANCEL',
+      name: 'labelDialogCancel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelMapChooser {
+    return Intl.message(
+      '\'Choose a map',
+      name: 'labelMapChooser',
       desc: '',
       args: [],
     );

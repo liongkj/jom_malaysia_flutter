@@ -4,13 +4,13 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:jom_malaysia/setting/layout/home_page.dart';
 import 'package:jom_malaysia/setting/provider/language_provider.dart';
 import 'package:jom_malaysia/setting/provider/provider_setup.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 
 import 'generated/l10n.dart';
-import 'setting/layout/splash_page.dart';
 import 'setting/provider/theme_provider.dart';
 import 'setting/routers/application.dart';
 import 'setting/routers/routers.dart';
@@ -65,7 +65,8 @@ class MyApp extends StatelessWidget {
                     isChinese: lang.locale == Locale("zh"),
                   ),
                   // darkTheme: provider.getTheme(isDarkMode: true),
-                  home: home ?? SplashPage(),
+                  home: Home(),
+//                      ?? SplashPage(),
 
                   onGenerateRoute: Application.router.generator,
                   localizationsDelegates: [

@@ -41,7 +41,7 @@ dependencies:
   flutter_cupertino_localizations: ^1.0.1
   flutter_spinkit: ^4.1.2
   # used for loading web view https://github.com/jogboms/flutter_spinkit
-  flutter_launcher_icons: ^0.7.4
+  # flutter_launcher_icons: ^0.7.4
   # used to generate app icon
   flutter_rating_bar: ^3.0.1+1
   # used to build rating bar
@@ -155,9 +155,9 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
-flutter_icons:
-  image_path: assets/icons/JomN9.png
-  android: false
-  ios: false
+# flutter_icons:
+#   image_path: assets/icons/JomN9.png
+#   android: false
+#   ios: false
 flutter_intl:
   enabled: true
