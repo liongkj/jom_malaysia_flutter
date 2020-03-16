@@ -11,7 +11,9 @@ class NotificationPage extends StatelessWidget {
         isBack: false,
       ),
       body: Container(
-        child: Center(child: Text("Awww...No Notification")),
+        child: Center(
+          child: Text(S.of(context).labelNoNotification),
+        ),
       ),
     );
   }

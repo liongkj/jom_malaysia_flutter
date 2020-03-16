@@ -278,7 +278,7 @@ class _ContactCardState extends State<_ContactCard> {
         context: context,
         builder: (BuildContext context) {
           return SimpleDialog(
-            title: const Text('Choose a map'),
+            title: Text(S.of(context).labelMapChooser),
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -317,7 +317,7 @@ class _ContactCardState extends State<_ContactCard> {
                 children: <Widget>[
                   FlatButton(
                     onPressed: () => NavigatorUtils.goBack(context),
-                    child: const Text('CANCEL'),
+                    child: Text(S.of(context).labelDialogCancel),
                   ),
                 ],
               )
