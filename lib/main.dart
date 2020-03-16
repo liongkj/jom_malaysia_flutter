@@ -30,8 +30,10 @@ void main() {
     SystemUiOverlayStyle systemUiOverlayStyle = SystemUiOverlayStyle(
       statusBarColor: Color(0x90CACACA), //top bar color
       statusBarIconBrightness: Brightness.dark, //top bar icons
+      
     );
     SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
+    
   }
 }
 
@@ -46,6 +48,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     return OKToast(
       backgroundColor: Colors.black54,
       textPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
@@ -55,6 +58,7 @@ class MyApp extends StatelessWidget {
         providers: providers,
         child: Consumer<ThemeProvider>(
           builder: (_, provider, __) {
+            
             return Consumer<LanguageProvider>(
               builder: (_, lang, __) {
                 return MaterialApp(

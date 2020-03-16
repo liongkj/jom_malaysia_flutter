@@ -1,3 +1,4 @@
+import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
@@ -5,6 +6,9 @@ import 'package:jom_malaysia/screens/tabs/account/page/setting_page.dart';
 import 'package:jom_malaysia/screens/tabs/explore/pages/explore_page.dart';
 import 'package:jom_malaysia/screens/tabs/notification/pages/notification_page.dart';
 import 'package:jom_malaysia/screens/tabs/overview/pages/overview_page.dart';
+import 'package:jom_malaysia/screens/tabs/overview/providers/location_provider.dart';
+import 'package:jom_malaysia/setting/provider/language_provider.dart';
+import 'package:jom_malaysia/setting/provider/theme_provider.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
 import 'package:jom_malaysia/util/toast.dart';
 import 'package:provider/provider.dart';
@@ -33,6 +37,14 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await SpUtil.getInstance();
+      // 由于SpUtil未初始化，所以MaterialApp获取的为默认主题配置，这里同步一下。
+
+      Provider.of<ThemeProvider>(context, listen: false).syncTheme();
+      Provider.of<LanguageProvider>(context, listen: false).syncLang();
+      Provider.of<LocationProvider>(context, listen: false).syncLoc();
+    });
     // initData();
   }
 
