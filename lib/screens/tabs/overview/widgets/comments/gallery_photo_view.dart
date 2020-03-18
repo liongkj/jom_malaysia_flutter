@@ -68,7 +68,7 @@ class _GalleryPhotoViewState extends State<GalleryPhotoView> {
             Container(
               padding: const EdgeInsets.all(20.0),
               child: Text(
-                "Image ${currentIndex + 1}",
+                "${currentIndex + 1}/${widget.galleryItems.length}",
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 17.0,

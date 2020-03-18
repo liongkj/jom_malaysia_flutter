@@ -152,7 +152,6 @@ class _BuildImageThumbnail extends StatelessWidget {
   final bool showListView;
 
   void open(BuildContext context, final int index) {
-    debugPrint("opening photoview");
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -161,12 +160,9 @@ class _BuildImageThumbnail extends StatelessWidget {
               .map(
                 (f) => GalleryImageItem(
                     url: f,
-                    tagId:
-                        // showListView
-                        // ?
-                        "image-list-${images.indexOf(f)}"
-                    // : "image-grid-${images.indexOf(f)}"
-                    ),
+                    tagId: showListView
+                        ? "image-list-${images.indexOf(f)}"
+                        : "image-grid-${images.indexOf(f)}"),
               )
               .toList(),
           backgroundDecoration: const BoxDecoration(
