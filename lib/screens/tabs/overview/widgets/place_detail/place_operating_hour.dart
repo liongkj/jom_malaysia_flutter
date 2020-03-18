@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/operating_hours_model.dart';
-import 'package:jom_malaysia/screens/tabs/overview/widgets/operating_hours_dialog.dart';
+import 'package:jom_malaysia/screens/tabs/overview/widgets/place_detail/operating_hours_dialog.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
 import 'package:jom_malaysia/util/utils.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
