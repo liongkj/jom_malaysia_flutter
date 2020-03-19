@@ -591,7 +591,7 @@ class S {
 
   String get labelDialogSunday {
     return Intl.message(
-      'Sun',
+      'sun',
       name: 'labelDialogSunday',
       desc: '',
       args: [],
@@ -600,7 +600,7 @@ class S {
 
   String get labelDialogMonday {
     return Intl.message(
-      'Mon',
+      'mon',
       name: 'labelDialogMonday',
       desc: '',
       args: [],
@@ -609,7 +609,7 @@ class S {
 
   String get labelDialogTuesday {
     return Intl.message(
-      'Tue',
+      'tue',
       name: 'labelDialogTuesday',
       desc: '',
       args: [],
@@ -618,7 +618,7 @@ class S {
 
   String get labelDialogWednesday {
     return Intl.message(
-      'Wed',
+      'wed',
       name: 'labelDialogWednesday',
       desc: '',
       args: [],
@@ -627,7 +627,7 @@ class S {
 
   String get labelDialogThursday {
     return Intl.message(
-      'Thu',
+      'thu',
       name: 'labelDialogThursday',
       desc: '',
       args: [],
@@ -636,7 +636,7 @@ class S {
 
   String get labelDialogFriday {
     return Intl.message(
-      'Fri',
+      'fri',
       name: 'labelDialogFriday',
       desc: '',
       args: [],
@@ -645,7 +645,7 @@ class S {
 
   String get labelDialogSaturday {
     return Intl.message(
-      'Sat',
+      'sat',
       name: 'labelDialogSaturday',
       desc: '',
       args: [],

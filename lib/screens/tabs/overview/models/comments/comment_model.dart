@@ -26,7 +26,8 @@ class CommentModel {
   AuthUser user;
 
   String get formattedPublishTime {
-    var formatted = DateUtils.apiFullFormat(publishedTime);
+    if (publishedTime == null) return null;
+    var formatted = DateUtils.apiFullFormat(publishedTime as DateTime);
     return formatted;
   }
 

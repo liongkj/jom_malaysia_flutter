@@ -106,7 +106,7 @@ class _CommentTime extends StatelessWidget {
   Widget build(BuildContext context) {
     return Flexible(
       child: Text(
-        comment.formattedPublishTime,
+        comment.formattedPublishTime ?? "",
         style: Theme.of(context).textTheme.subtitle,
       ),
     );

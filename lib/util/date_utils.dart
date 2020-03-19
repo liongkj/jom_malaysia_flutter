@@ -15,7 +15,7 @@ class DateUtils {
   static final DateFormat _apiFullParse = new DateFormat('yyyy-MM-dd HH:mm:ss');
   static DateTime apiFullParse(String t) => _apiFullParse.parse(t);
 
-  static final DateFormat _apiFullFormat = new DateFormat('dd-MM-yyyy');
+  static final DateFormat _apiFullFormat = new DateFormat('dd/MM/yyyy');
   static String apiFullFormat(DateTime t) => _apiFullFormat.format(t);
 
   static String apiTimeFormat(DateTime t, String locale) {

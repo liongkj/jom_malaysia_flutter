@@ -6,6 +6,7 @@ import 'package:jom_malaysia/screens/tabs/overview/models/operating_hours_model.
 import 'package:jom_malaysia/setting/provider/language_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/util/date_utils_.dart';
+import 'package:jom_malaysia/util/text_utils.dart';
 import 'package:jom_malaysia/widgets/base_dialog.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
 import 'package:provider/provider.dart';
@@ -65,7 +66,7 @@ class _GetItem extends StatelessWidget {
         child: Row(
           children: <Widget>[
             Gaps.hGap16,
-            Expanded(child: Text(_days[day.index])),
+            Expanded(child: Text(TextUtils.capitalize(_days[day.index]))),
             Expanded(
               flex: 3,
               child: today == null
