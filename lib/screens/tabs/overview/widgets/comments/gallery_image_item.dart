@@ -21,17 +21,14 @@ class GalleryItemThumbnail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 5.0),
-      child: GestureDetector(
-        onTap: onTap,
-        child: Hero(
-          tag: galleryItem.tagId,
-          child: LoadImage(
-            galleryItem.url,
-            height: 80.0,
-            width: 80,
-          ),
+    return GestureDetector(
+      onTap: onTap,
+      child: Hero(
+        tag: galleryItem.tagId,
+        child: LoadImage(
+          galleryItem.url,
+          height: 80.0,
+          width: 80,
         ),
       ),
     );

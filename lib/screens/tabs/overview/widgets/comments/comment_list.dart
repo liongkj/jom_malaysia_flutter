@@ -28,6 +28,7 @@ class _CommentListState extends State<CommentList>
     debugPrint(widget.placeId);
     final commentProvider =
         Provider.of<CommentsProvider>(context, listen: false);
+    debugPrint("comment page rebuild");
     return Scaffold(
       appBar: MyAppBar(
         centerTitle: S.of(context).labelPageComment,
@@ -48,6 +49,7 @@ class _CommentListState extends State<CommentList>
                 widget.placeId,
               ),
               builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                debugPrint("comment list rebuild");
                 if (snapshot.hasData) {
                   commentList = snapshot.data.documents
                       .map((doc) =>
@@ -62,6 +64,7 @@ class _CommentListState extends State<CommentList>
                           delegate: SliverChildBuilderDelegate(
                               (context, index) => CommentItem(
                                     commentList[index],
+                                    itemIndex: index,
                                     showFull: true,
                                   ),
                               childCount: commentList.length),

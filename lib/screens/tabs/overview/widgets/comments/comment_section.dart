@@ -63,6 +63,7 @@ class _CommentSectionState extends State<CommentSection> {
                           shrinkWrap: true,
                           itemBuilder: (ctx, index) => CommentItem(
                             comments[index],
+                            itemIndex: index,
                           ),
                           itemCount: hasMoreThanMax
                               ? _MAXCOMMENTCOUNT

@@ -7,11 +7,13 @@ import 'package:jom_malaysia/screens/tabs/overview/widgets/comments/gallery_phot
 class CommentItem extends StatelessWidget {
   CommentItem(
     this.comment, {
+    @required this.itemIndex,
     Key key,
     this.showFull = false,
   });
   final CommentModel comment;
   final bool showFull;
+  final int itemIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +41,8 @@ class CommentItem extends StatelessWidget {
                 Gaps.vGap12,
                 _CommentField(comment: comment, showFull: showFull),
                 if (comment.images?.isNotEmpty)
-                  _BuildImageThumbnail(comment.images, showListView: !showFull),
+                  _BuildImageThumbnail(comment.images,
+                      showListView: !showFull, itemIndex: itemIndex),
                 Gaps.vGap16,
                 Gaps.line
               ],
@@ -145,9 +148,11 @@ class _BuildImageThumbnail extends StatelessWidget {
     this.images, {
     this.showListView,
     Key key,
+    this.itemIndex,
   }) : super(key: key);
   final List<String> images;
   final bool showListView;
+  final int itemIndex;
 
   void open(BuildContext context, final int index) {
     Navigator.push(
@@ -159,8 +164,8 @@ class _BuildImageThumbnail extends StatelessWidget {
                 (f) => GalleryImageItem(
                     url: f,
                     tagId: showListView
-                        ? "image-list-${images.indexOf(f)}"
-                        : "image-grid-${images.indexOf(f)}"),
+                        ? "image-list-$itemIndex-${images.indexOf(f)}"
+                        : "image-grid-$itemIndex-${images.indexOf(f)}"),
               )
               .toList(),
           backgroundDecoration: const BoxDecoration(
@@ -194,7 +199,8 @@ class _BuildImageThumbnail extends StatelessWidget {
                       onTap: () => open(context, index),
                       index: index,
                       image: GalleryImageItem(
-                          url: images[index], tagId: "image-list-$index"),
+                          url: images[index],
+                          tagId: "image-list-$itemIndex-$index"),
                     ),
                   ),
                   if (hasMore) _HasMoreIndicator(images: images),
@@ -211,7 +217,8 @@ class _BuildImageThumbnail extends StatelessWidget {
                   onTap: () => open(context, index),
                   index: index,
                   image: GalleryImageItem(
-                      url: images[index], tagId: "image-grid-$index"),
+                      url: images[index],
+                      tagId: "image-grid-$itemIndex-$index"),
                 ),
                 physics: NeverScrollableScrollPhysics(),
               ),
