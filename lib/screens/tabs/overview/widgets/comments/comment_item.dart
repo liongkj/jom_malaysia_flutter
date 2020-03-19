@@ -34,12 +34,10 @@ class CommentItem extends StatelessWidget {
               children: <Widget>[
                 _Username(comment: comment),
                 Gaps.vGap5,
-                //TODO use date util
                 _CommentTime(comment: comment),
                 Gaps.vGap5,
                 _CommentTitle(comment: comment),
                 Gaps.vGap12,
-
                 _CommentField(comment: comment, showFull: showFull),
                 if (comment.images?.isNotEmpty)
                   _BuildImageThumbnail(comment.images, showListView: !showFull),

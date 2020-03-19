@@ -5,6 +5,7 @@ import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/overview_router.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/listing_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/comments/comment_section.dart';
+import 'package:jom_malaysia/screens/tabs/overview/widgets/fab_scroll_scaffold.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/place_detail/app_bar_swiper.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/place_detail/merchant_info.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/place_detail/place_description.dart';
@@ -35,24 +36,24 @@ class PlaceDetailPageState extends State<PlaceDetailPage>
   ScrollController _scrollController;
   @override
   void initState() {
-    _scrollController = new ScrollController()
-      ..addListener(() {
-        if (_scrollController.position.pixels >
-            _scrollController.position.maxScrollExtent * 0.9) {
-          if (_isVisible == true) {
-            setState(() {
-              _isVisible = false;
-            });
-          }
-        } else {
-          if (_isVisible == false) {
-            setState(() {
-              _isVisible = true;
-            });
-          }
-        }
-      });
-    _isVisible = true;
+    _scrollController = new ScrollController();
+    //   ..addListener(() {
+    //     if (_scrollController.position.pixels >
+    //         _scrollController.position.maxScrollExtent * 0.9) {
+    //       if (_isVisible == true) {
+    //         setState(() {
+    //           _isVisible = false;
+    //         });
+    //       }
+    //     } else {
+    //       if (_isVisible == false) {
+    //         setState(() {
+    //           _isVisible = true;
+    //         });
+    //       }
+    //     }
+    //   });
+    // _isVisible = true;
 
     place = Provider.of<ListingProvider>(context, listen: false)
         .findById(widget.placeId);
@@ -69,7 +70,7 @@ class PlaceDetailPageState extends State<PlaceDetailPage>
   Widget build(BuildContext context) {
     super.build(context);
     isDark = ThemeUtils.isDark(context);
-    return Scaffold(
+    return HideFabOnScrollScaffold(
       body: SafeArea(
         child: CustomScrollView(
           controller: _scrollController,
@@ -77,16 +78,14 @@ class PlaceDetailPageState extends State<PlaceDetailPage>
           slivers: _sliverBuilder(place),
         ),
       ),
-      floatingActionButton: Visibility(
-        visible: _isVisible,
-        child: FloatingActionButton.extended(
-          heroTag: "btn_open_form",
-          tooltip: "Rate",
-          onPressed: () => NavigatorUtils.push(context,
-              '${OverviewRouter.reviewPage}?title=${place.listingName}&placeId=${place.listingId}&userId=${"123"}'),
-          icon: Icon(Icons.star),
-          label: Text("Rate"),
-        ),
+      controller: _scrollController,
+      floatingActionButton: FloatingActionButton.extended(
+        heroTag: "btn_open_form",
+        tooltip: "Rate",
+        onPressed: () => NavigatorUtils.push(context,
+            '${OverviewRouter.reviewPage}?title=${place.listingName}&placeId=${place.listingId}&userId=${"123"}'),
+        icon: Icon(Icons.star),
+        label: Text("Rate"),
       ),
     );
   }
@@ -132,14 +131,9 @@ class PlaceDetailPageState extends State<PlaceDetailPage>
         images: place.listingImages.ads,
       ),
       SliverToBoxAdapter(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: MyCard(
-            child: CommentSection(
-              listingName: place.listingName,
-              listingId: place.listingId,
-            ),
-          ),
+        child: CommentSection(
+          listingName: place.listingName,
+          listingId: place.listingId,
         ),
       ),
       MerchantInfo(merchant: place.merchant),
