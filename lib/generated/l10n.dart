@@ -589,6 +589,69 @@ class S {
     );
   }
 
+  String get labelDialogSunday {
+    return Intl.message(
+      'Sun',
+      name: 'labelDialogSunday',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelDialogMonday {
+    return Intl.message(
+      'Mon',
+      name: 'labelDialogMonday',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelDialogTuesday {
+    return Intl.message(
+      'Tue',
+      name: 'labelDialogTuesday',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelDialogWednesday {
+    return Intl.message(
+      'Wed',
+      name: 'labelDialogWednesday',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelDialogThursday {
+    return Intl.message(
+      'Thu',
+      name: 'labelDialogThursday',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelDialogFriday {
+    return Intl.message(
+      'Fri',
+      name: 'labelDialogFriday',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelDialogSaturday {
+    return Intl.message(
+      'Sat',
+      name: 'labelDialogSaturday',
+      desc: '',
+      args: [],
+    );
+  }
+
   String get msgPleaseFillRequiredField {
     return Intl.message(
       'Please fill in highlighted fields',

@@ -3,7 +3,6 @@ import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/comments/comment_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/comments/gallery_image_item.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/comments/gallery_photo_view.dart';
-import 'package:jom_malaysia/widgets/load_image.dart';
 
 class CommentItem extends StatelessWidget {
   CommentItem(
@@ -35,11 +34,12 @@ class CommentItem extends StatelessWidget {
               children: <Widget>[
                 _Username(comment: comment),
                 Gaps.vGap5,
+                //TODO use date util
                 _CommentTime(comment: comment),
                 Gaps.vGap5,
                 _CommentTitle(comment: comment),
                 Gaps.vGap12,
-                //TODO use date util
+
                 _CommentField(comment: comment, showFull: showFull),
                 if (comment.images?.isNotEmpty)
                   _BuildImageThumbnail(comment.images, showListView: !showFull),
@@ -106,7 +106,7 @@ class _CommentTime extends StatelessWidget {
   Widget build(BuildContext context) {
     return Flexible(
       child: Text(
-        comment.publishedTime.toString(),
+        comment.formattedPublishTime,
         style: Theme.of(context).textTheme.subtitle,
       ),
     );

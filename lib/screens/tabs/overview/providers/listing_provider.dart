@@ -49,7 +49,7 @@ class ListingProvider extends BaseChangeNotifier {
         isShow: false, onSuccess: (data) {
       if (data != null) {
         if (data.length > 0) {
-          _listing.addAll(data);
+          _listing = data;
           setStateTypeWithoutNotify(StateType.places);
           notifyListeners();
           return;
