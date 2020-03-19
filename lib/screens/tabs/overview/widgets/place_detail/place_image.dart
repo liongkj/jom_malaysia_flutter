@@ -28,7 +28,7 @@ class PlaceImage extends StatelessWidget {
             ),
             child: LoadImage(
               images[index].url,
-              fit: BoxFit.fill,
+              // fit: BoxFit.fill,
             ),
           );
         },

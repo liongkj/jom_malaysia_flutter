@@ -10,6 +10,7 @@ import 'package:jom_malaysia/screens/tabs/overview/widgets/comments/comment_item
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
 import 'package:jom_malaysia/widgets/my_button.dart';
+import 'package:jom_malaysia/widgets/my_card.dart';
 import 'package:provider/provider.dart';
 
 class CommentSection extends StatefulWidget {
@@ -30,51 +31,59 @@ class _CommentSectionState extends State<CommentSection> {
     final commentProvider =
         Provider.of<CommentsProvider>(context, listen: false);
     const int _MAXCOMMENTCOUNT = 3;
-    return StreamBuilder(
-        stream: commentProvider.fetchCommentsAsStream(widget.listingId),
-        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.hasData) {
-            comments = snapshot.data.documents
-                .map((doc) => CommentModel.fromMap(doc.data, doc.documentID))
-                .toList();
-            final hasMoreThanMax = comments.length > _MAXCOMMENTCOUNT;
-            final shouldLoad = comments?.isNotEmpty;
-            return Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-              child: Column(
-                children: <Widget>[
-                  _CommentHeader(
-                      comments: comments,
-                      shouldLoad: shouldLoad,
-                      widget: widget),
-                  Gaps.vGap16,
-                  Container(
-                    padding: EdgeInsets.symmetric(
-                      vertical: 10,
-                    ),
-                    child: ListView.builder(
-                      physics: NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemBuilder: (ctx, index) => CommentItem(
-                        comments[index],
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: MyCard(
+        child: StreamBuilder(
+            stream: commentProvider.fetchCommentsAsStream(widget.listingId),
+            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (snapshot.hasData) {
+                comments = snapshot.data.documents
+                    .map(
+                        (doc) => CommentModel.fromMap(doc.data, doc.documentID))
+                    .toList();
+                final hasMoreThanMax = comments.length > _MAXCOMMENTCOUNT;
+                final shouldLoad = comments?.isNotEmpty;
+                return Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0, vertical: 8.0),
+                  child: Column(
+                    children: <Widget>[
+                      _CommentHeader(
+                          comments: comments,
+                          shouldLoad: shouldLoad,
+                          widget: widget),
+                      Gaps.vGap16,
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                          vertical: 10,
+                        ),
+                        child: ListView.builder(
+                          physics: NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemBuilder: (ctx, index) => CommentItem(
+                            comments[index],
+                            itemIndex: index,
+                          ),
+                          itemCount: hasMoreThanMax
+                              ? _MAXCOMMENTCOUNT
+                              : comments.length,
+                        ),
                       ),
-                      itemCount:
-                          hasMoreThanMax ? _MAXCOMMENTCOUNT : comments.length,
-                    ),
+                      _CommentButton(
+                          shouldLoad: shouldLoad,
+                          listingId: widget.listingId,
+                          listingName: widget.listingName),
+                    ],
                   ),
-                  _CommentButton(
-                      shouldLoad: shouldLoad,
-                      listingId: widget.listingId,
-                      listingName: widget.listingName),
-                ],
-              ),
-            );
-          }
-          return SpinKitSquareCircle(
-            color: Theme.of(context).accentColor,
-          );
-        });
+                );
+              }
+              return SpinKitSquareCircle(
+                color: Theme.of(context).accentColor,
+              );
+            }),
+      ),
+    );
   }
 
   // Widget _buildComment(Stream<QuerySnapshot> stream) {

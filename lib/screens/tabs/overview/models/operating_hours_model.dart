@@ -16,14 +16,17 @@ class OperatingHours {
   String openTime;
   String closeTime;
 
-  String get openHour {
-    DateTime h = DateUtils.apiHourParse(openTime);
-    return DateUtils.apiTimeFormat(h);
+  String openHour(Locale locale) {
+    return _formattedTime(openTime, locale);
   }
 
-  String get closeHour {
-    DateTime h = DateUtils.apiHourParse(closeTime);
-    return DateUtils.apiTimeFormat(h);
+  String closeHour(Locale locale) {
+    return _formattedTime(closeTime, locale);
+  }
+
+  String _formattedTime(String raw, Locale locale) {
+    DateTime h = DateUtils.apiHourParse(raw);
+    return DateUtils.apiTimeFormat(h, locale.languageCode);
   }
 
   bool get closingSoon {

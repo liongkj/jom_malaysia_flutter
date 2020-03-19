@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:jom_malaysia/core/models/authuser_model.dart';
+import 'package:jom_malaysia/util/date_utils.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 
 class CommentModel {
@@ -23,6 +24,12 @@ class CommentModel {
   //holder
   List<Asset> imageAssets;
   AuthUser user;
+
+  String get formattedPublishTime {
+    if (publishedTime == null) return null;
+    var formatted = DateUtils.apiFullFormat(publishedTime as DateTime);
+    return formatted;
+  }
 
   CommentModel.fromMap(Map snapshot, String id)
       : id = id ?? '',

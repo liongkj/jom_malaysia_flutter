@@ -3,16 +3,17 @@ import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/comments/comment_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/comments/gallery_image_item.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/comments/gallery_photo_view.dart';
-import 'package:jom_malaysia/widgets/load_image.dart';
 
 class CommentItem extends StatelessWidget {
   CommentItem(
     this.comment, {
+    @required this.itemIndex,
     Key key,
     this.showFull = false,
   });
   final CommentModel comment;
   final bool showFull;
+  final int itemIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -34,21 +35,39 @@ class CommentItem extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 _Username(comment: comment),
-                Gaps.vGap5,
                 _CommentTime(comment: comment),
-                Gaps.vGap5,
-                _CommentTitle(comment: comment),
+                // Gaps.vGap5,
+                // _CommentTitle(comment: comment),
                 Gaps.vGap12,
-                //TODO use date util
                 _CommentField(comment: comment, showFull: showFull),
                 if (comment.images?.isNotEmpty)
-                  _BuildImageThumbnail(comment.images, showListView: !showFull),
+                  _BuildImageThumbnail(comment.images,
+                      showListView: !showFull, itemIndex: itemIndex),
                 Gaps.vGap16,
                 Gaps.line
               ],
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _CommentTitle extends StatelessWidget {
+  const _CommentTitle({
+    Key key,
+    @required this.comment,
+  }) : super(key: key);
+
+  final CommentModel comment;
+
+  @override
+  Widget build(BuildContext context) {
+    return Flexible(
+      child: Text(
+        comment.title,
+        style: TextStyles.title.copyWith(color: Colors.red),
       ),
     );
   }
@@ -70,25 +89,7 @@ class _CommentField extends StatelessWidget {
       child: Text(
         comment.commentText,
         maxLines: showFull ? 5 : 2,
-      ),
-    );
-  }
-}
-
-class _CommentTitle extends StatelessWidget {
-  const _CommentTitle({
-    Key key,
-    @required this.comment,
-  }) : super(key: key);
-
-  final CommentModel comment;
-
-  @override
-  Widget build(BuildContext context) {
-    return Flexible(
-      child: Text(
-        comment.title,
-        style: Theme.of(context).textTheme.body2,
+        style: TextStyles.caption,
       ),
     );
   }
@@ -106,8 +107,9 @@ class _CommentTime extends StatelessWidget {
   Widget build(BuildContext context) {
     return Flexible(
       child: Text(
-        comment.publishedTime.toString(),
-        style: Theme.of(context).textTheme.subtitle,
+        comment.formattedPublishTime ?? "",
+        style: TextStyles.textHint14
+            .copyWith(color: Colours.text_gray, fontSize: 10),
       ),
     );
   }
@@ -131,8 +133,7 @@ class _Username extends StatelessWidget {
           Expanded(
             child: Text(
               "liongkj",
-              style: TextStyle(
-                  color: Colors.blueAccent, fontWeight: FontWeight.bold),
+              style: TextStyle(color: Colours.app_secondary),
             ),
           ),
           Text(comment.rating?.toString() ?? "N/A"),
@@ -147,9 +148,11 @@ class _BuildImageThumbnail extends StatelessWidget {
     this.images, {
     this.showListView,
     Key key,
+    this.itemIndex,
   }) : super(key: key);
   final List<String> images;
   final bool showListView;
+  final int itemIndex;
 
   void open(BuildContext context, final int index) {
     Navigator.push(
@@ -161,8 +164,8 @@ class _BuildImageThumbnail extends StatelessWidget {
                 (f) => GalleryImageItem(
                     url: f,
                     tagId: showListView
-                        ? "image-list-${images.indexOf(f)}"
-                        : "image-grid-${images.indexOf(f)}"),
+                        ? "image-list-$itemIndex-${images.indexOf(f)}"
+                        : "image-grid-$itemIndex-${images.indexOf(f)}"),
               )
               .toList(),
           backgroundDecoration: const BoxDecoration(
@@ -196,7 +199,8 @@ class _BuildImageThumbnail extends StatelessWidget {
                       onTap: () => open(context, index),
                       index: index,
                       image: GalleryImageItem(
-                          url: images[index], tagId: "image-list-$index"),
+                          url: images[index],
+                          tagId: "image-list-$itemIndex-$index"),
                     ),
                   ),
                   if (hasMore) _HasMoreIndicator(images: images),
@@ -213,7 +217,8 @@ class _BuildImageThumbnail extends StatelessWidget {
                   onTap: () => open(context, index),
                   index: index,
                   image: GalleryImageItem(
-                      url: images[index], tagId: "image-grid-$index"),
+                      url: images[index],
+                      tagId: "image-grid-$itemIndex-$index"),
                 ),
                 physics: NeverScrollableScrollPhysics(),
               ),
