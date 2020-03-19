@@ -33,10 +33,9 @@ class CommentItem extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 _Username(comment: comment),
-                Gaps.vGap5,
                 _CommentTime(comment: comment),
-                Gaps.vGap5,
-                _CommentTitle(comment: comment),
+                // Gaps.vGap5,
+                // _CommentTitle(comment: comment),
                 Gaps.vGap12,
                 _CommentField(comment: comment, showFull: showFull),
                 if (comment.images?.isNotEmpty)
@@ -47,6 +46,25 @@ class CommentItem extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _CommentTitle extends StatelessWidget {
+  const _CommentTitle({
+    Key key,
+    @required this.comment,
+  }) : super(key: key);
+
+  final CommentModel comment;
+
+  @override
+  Widget build(BuildContext context) {
+    return Flexible(
+      child: Text(
+        comment.title,
+        style: TextStyles.title.copyWith(color: Colors.red),
       ),
     );
   }
@@ -68,25 +86,7 @@ class _CommentField extends StatelessWidget {
       child: Text(
         comment.commentText,
         maxLines: showFull ? 5 : 2,
-      ),
-    );
-  }
-}
-
-class _CommentTitle extends StatelessWidget {
-  const _CommentTitle({
-    Key key,
-    @required this.comment,
-  }) : super(key: key);
-
-  final CommentModel comment;
-
-  @override
-  Widget build(BuildContext context) {
-    return Flexible(
-      child: Text(
-        comment.title,
-        style: Theme.of(context).textTheme.body2,
+        style: TextStyles.caption,
       ),
     );
   }
@@ -105,7 +105,8 @@ class _CommentTime extends StatelessWidget {
     return Flexible(
       child: Text(
         comment.formattedPublishTime ?? "",
-        style: Theme.of(context).textTheme.subtitle,
+        style: TextStyles.textHint14
+            .copyWith(color: Colours.text_gray, fontSize: 10),
       ),
     );
   }
@@ -129,8 +130,7 @@ class _Username extends StatelessWidget {
           Expanded(
             child: Text(
               "liongkj",
-              style: TextStyle(
-                  color: Colors.blueAccent, fontWeight: FontWeight.bold),
+              style: TextStyle(color: Colours.app_secondary),
             ),
           ),
           Text(comment.rating?.toString() ?? "N/A"),

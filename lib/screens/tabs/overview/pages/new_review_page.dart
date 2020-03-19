@@ -185,26 +185,26 @@ class _BuildCommentField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        TextFormField(
-          validator: (value) {
-            if (value.isEmpty) {
-              return S.of(context).labelNewCommentPageTitleErrorMessage;
-            }
-            return null;
-          },
-          onSaved: (value) => commentModel.title = value,
-          decoration: InputDecoration(
-              contentPadding: const EdgeInsets.symmetric(vertical: 16.0),
-              hintText: S.of(context).labelNewCommentPageTitle,
-              counterText: "",
-              focusedBorder: UnderlineInputBorder(
-                  borderSide:
-                      BorderSide(color: themeData.primaryColor, width: 0.8)),
-              enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(
-                      color: Theme.of(context).dividerTheme.color,
-                      width: 0.8))),
-        ),
+        // TextFormField(
+        //   validator: (value) {
+        //     if (value.isEmpty) {
+        //       return S.of(context).labelNewCommentPageTitleErrorMessage;
+        //     }
+        //     return null;
+        //   },
+        //   onSaved: (value) => commentModel.title = value,
+        //   decoration: InputDecoration(
+        //       contentPadding: const EdgeInsets.symmetric(vertical: 16.0),
+        //       hintText: S.of(context).labelNewCommentPageTitle,
+        //       counterText: "",
+        //       focusedBorder: UnderlineInputBorder(
+        //           borderSide:
+        //               BorderSide(color: themeData.primaryColor, width: 0.8)),
+        //       enabledBorder: UnderlineInputBorder(
+        //           borderSide: BorderSide(
+        //               color: Theme.of(context).dividerTheme.color,
+        //               width: 0.8))),
+        // ),
         TextFormField(
           validator: (value) {
             if (value.isEmpty) {
