@@ -3,10 +3,12 @@ import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/operating_hours_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/place_detail/operating_hours_dialog.dart';
+import 'package:jom_malaysia/setting/provider/language_provider.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
 import 'package:jom_malaysia/util/utils.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
 import 'package:jom_malaysia/widgets/my_card.dart';
+import 'package:provider/provider.dart';
 
 class OperatingHour extends StatelessWidget {
   final List<OperatingHours> operatingHours;
@@ -18,6 +20,7 @@ class OperatingHour extends StatelessWidget {
     final _today = (DateTime.now().weekday == 7) ? 0 : DateTime.now().weekday;
     final _oh = operatingHours.firstWhere((x) => x.dayOfWeek.index == _today,
         orElse: () => null);
+    final lang = Provider.of<LanguageProvider>(context, listen: false).locale;
     return Material(
       child: InkWell(
         onTap: () => {},
@@ -34,7 +37,8 @@ class OperatingHour extends StatelessWidget {
                   flex: 6,
                   child: _oh != null
                       ? Row(children: <Widget>[
-                          Text('${_oh.openHour} - ${_oh.closeHour}'),
+                          Text(
+                              '${_oh.openHour(lang)} - ${_oh.closeHour(lang)}'),
                           Gaps.hGap15,
                           !_oh.isOpen
                               ? Text(

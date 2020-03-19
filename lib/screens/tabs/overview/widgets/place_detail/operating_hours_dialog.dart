@@ -3,10 +3,12 @@ import 'package:jom_malaysia/core/enums/day_of_week_enum.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/operating_hours_model.dart';
+import 'package:jom_malaysia/setting/provider/language_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/util/date_utils_.dart';
 import 'package:jom_malaysia/widgets/base_dialog.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
+import 'package:provider/provider.dart';
 
 class OperatingHoursDialog extends StatelessWidget {
   OperatingHoursDialog({
@@ -45,20 +47,30 @@ class _GetItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final lang = Provider.of<LanguageProvider>(context, listen: false).locale;
     final OperatingHours today =
         hours.firstWhere((x) => x.dayOfWeek == day, orElse: () => null);
+    final _days = [
+      S.of(context).labelDialogSunday,
+      S.of(context).labelDialogMonday,
+      S.of(context).labelDialogTuesday,
+      S.of(context).labelDialogWednesday,
+      S.of(context).labelDialogThursday,
+      S.of(context).labelDialogFriday,
+      S.of(context).labelDialogSaturday,
+    ];
     return Container(
       child: SizedBox(
         height: 42.0,
         child: Row(
           children: <Widget>[
             Gaps.hGap16,
-            Expanded(child: Text(Utils.weekdays[day.index])),
+            Expanded(child: Text(_days[day.index])),
             Expanded(
               flex: 3,
               child: today == null
                   ? Text(S.of(context).placeDetailOperatingCloseLabel)
-                  : Text('${today.openHour} - ${today.closeHour}'),
+                  : Text('${today.openHour(lang)} - ${today.closeHour(lang)}'),
             ),
             LoadAssetImage(
                 today != null ? "overview/icon_done" : "overview/icon_close",

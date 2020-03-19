@@ -18,8 +18,10 @@ class DateUtils {
   static final DateFormat _apiFullFormat = new DateFormat('dd-MM-yyyy');
   static String apiFullFormat(DateTime t) => _apiFullFormat.format(t);
 
-  static final DateFormat _apiTimeFormat = new DateFormat.jm();
-  static String apiTimeFormat(DateTime t) => _apiTimeFormat.format(t);
+  static String apiTimeFormat(DateTime t, String locale) {
+    DateFormat _apiTimeFormat = new DateFormat.jm(locale);
+    return _apiTimeFormat.format(t);
+  }
 
   static String previousWeek(DateTime w) {
     return apiDayFormat(w.subtract(new Duration(days: 6)));
