@@ -5,8 +5,10 @@ import 'package:jom_malaysia/core/models/ads_model.dart';
 import 'package:jom_malaysia/core/services/gateway/api_const.dart';
 import 'package:jom_malaysia/core/services/gateway/dio_utils.dart';
 import 'package:jom_malaysia/core/services/gateway/http_service.dart';
+import 'package:jom_malaysia/setting/provider/base_change_notifier.dart';
+import 'package:jom_malaysia/widgets/state_layout.dart';
 
-class AdsProvider with ChangeNotifier {
+class AdsProvider extends BaseChangeNotifier {
   HttpService _httpService;
   AdsProvider({@required HttpService httpService}) : _httpService = httpService;
 
@@ -24,25 +26,29 @@ class AdsProvider with ChangeNotifier {
     //change base url by adding new request option
     Map<String, dynamic> queries = Map<String, dynamic>();
     try {
-      _httpService.asyncRequestNetwork<List<AdsModel>, AdsModel>(
+      var data =
+          await _httpService.asyncRequestNetwork<List<AdsModel>, AdsModel>(
         Method.get,
         url: "",
         options: options,
         queryParameters: queries,
         isShow: false,
-        onSuccess: (data) {
-          // view.AdsProvider.clear();
-          _adList.clear();
-          if (data != null) {
-            if (data.length > 0) {
-              _adList.addAll(data);
-              notifyListeners();
-            }
-          }
-        },
       );
+      if (data != null) {
+        if (data.length > 0) {
+          _adList = data;
+          notifyListeners();
+          return;
+        } else {
+          setStateType(StateType.empty);
+          return;
+        }
+      } else {
+        setStateType(StateType.empty);
+        return;
+      }
     } on Exception catch (e) {
-      print(e);
+      setStateType(StateType.network);
     }
   }
 }
