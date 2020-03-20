@@ -94,19 +94,17 @@ class OverviewPageState extends State<OverviewPage>
                 controller: _scrollController ?? null,
                 headerSliverBuilder: (context, innerBoxIsScrolled) =>
                     _sliverBuilder(context),
-                body: Consumer<ListingProvider>(
-                  builder: (_, provider, __) => PageView.builder(
-                    key: const Key('pageView'),
-                    itemCount: 5,
-                    onPageChanged: _onPageChange,
-                    controller: _pageController,
-                    itemBuilder: (_, index) {
-                      return PlaceList(
-                        controller: this._scrollController,
-                        index: index,
-                      );
-                    },
-                  ),
+                body: PageView.builder(
+                  key: const Key('pageView'),
+                  itemCount: 5,
+                  onPageChanged: _onPageChange,
+                  controller: _pageController,
+                  itemBuilder: (_, index) {
+                    return PlaceList(
+                      controller: this._scrollController,
+                      index: index,
+                    );
+                  },
                 ),
               ),
             ],

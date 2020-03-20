@@ -28,14 +28,14 @@ class _PlaceListState extends State<PlaceList>
   int _page = 1;
   final int _maxPage = 3;
   int _index = 0;
-  String _selectedCity;
 
   @override
   void initState() {
     super.initState();
     _index = widget.index;
-    _onRefresh();
-    print("init");
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      _onRefresh();
+    });
   }
 
   @override

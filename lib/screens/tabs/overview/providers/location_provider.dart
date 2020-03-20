@@ -19,15 +19,7 @@ class LocationProvider extends ChangeNotifier {
   }
 
   selectPlace(CityModel city) {
-    debugPrint("location changed");
     SpUtil.putObject(Constant.prefLocation, city);
     notifyListeners();
-  }
-
-  void syncLoc() {
-    // String loc = SpUtil.getString(Constant.prefLocation);
-    // if (loc.isNotEmpty) {
-    //   notifyListeners();
-    // }
   }
 }

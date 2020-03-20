@@ -27,14 +27,14 @@ class DioUtils {
   }
 
   DioUtils._internal() {
+    String _webapi = "https://jommalaysiaapi.azurewebsites.net/";
+    String _local = "http://10.0.2.2:5000/";
     var options = BaseOptions(
       connectTimeout: 30000, //15000
       receiveTimeout: 15000,
       responseType: ResponseType.json,
 
-      baseUrl: "https://jommalaysiaapi.azurewebsites.net/api/",
-
-//      contentType: ContentType('application', 'x-www-form-urlencoded', charset: 'utf-8'),
+      baseUrl: "${_webapi}api/",
     );
     _dio = Dio(options);
 
@@ -74,8 +74,6 @@ class DioUtils {
           options: _checkOptions(m, options),
           cancelToken: cancelToken);
 
-      /// 集成测试无法使用 isolate
-
       return JsonParser.fromJson<T, K>(response.data);
     } on SocketException catch (e) {
       throw SocketException(e.message);
@@ -85,7 +83,7 @@ class DioUtils {
       }
       throw SocketException(e.message);
     } on Exception catch (e) {
-      debugPrint("unknown error");
+      throw SocketException("unkown exception");
     }
   }
 
