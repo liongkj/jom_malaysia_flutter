@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:jom_malaysia/core/constants/common.dart';
+import 'package:jom_malaysia/core/services/gateway/exception/api_exception.dart';
 import 'package:jom_malaysia/core/services/gateway/json_parser.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -35,21 +38,18 @@ class DioUtils {
     );
     _dio = Dio(options);
 
-    /// add authenticator
-    _dio.interceptors.add(AuthInterceptor());
-
     /// add cache for offline access
     _dio.interceptors.add(
         CacheInterceptor(CacheConfig(baseUrl: options.baseUrl)).interceptor);
 
     /// Refresh token
 
-    /// 统一添加身份验证请求头
-    _dio.interceptors.add(AuthInterceptor());
+    // /// 统一添加身份验证请求头
+    // _dio.interceptors.add(AuthInterceptor());
 
-    /// 刷新Token
+    // /// 刷新Token
 
-    _dio.interceptors.add(TokenInterceptor());
+    // _dio.interceptors.add(TokenInterceptor());
 
     /// 打印Log(生产模式去除)
     if (!Constant.inProduction) {
@@ -58,22 +58,34 @@ class DioUtils {
   }
 
   // 数据返回格式统一，统一处理异常
-  Future<T> _request<T, K>(String method, String url,
-      {dynamic data,
-      Map<String, dynamic> queryParameters,
-      CancelToken cancelToken,
-      Options options}) async {
-    Response response = await _dio.request(url,
-        data: data,
-        queryParameters: queryParameters,
-        options: _checkOptions(method, options),
-        cancelToken: cancelToken);
+  Future<T> request<T, K>(
+    Method method,
+    String url, {
+    dynamic data,
+    Map<String, dynamic> queryParameters,
+    CancelToken cancelToken,
+    Options options,
+  }) async {
+    String m = _getRequestMethod(method);
     try {
+      Response response = await _dio.request(url,
+          data: data,
+          queryParameters: queryParameters,
+          options: _checkOptions(m, options),
+          cancelToken: cancelToken);
+
       /// 集成测试无法使用 isolate
 
       return JsonParser.fromJson<T, K>(response.data);
-    } catch (e) {
-      throw e;
+    } on SocketException catch (e) {
+      throw SocketException(e.message);
+    } on DioError catch (e) {
+      if (e.response != null) {
+        throw ApiException(e.response.statusCode, e.response.statusMessage);
+      }
+      throw SocketException(e.message);
+    } on Exception catch (e) {
+      debugPrint("unknown error");
     }
   }
 
@@ -90,32 +102,25 @@ class DioUtils {
     Method method,
     String url, {
     Function(T t) onSuccess,
-    Function(List<T> list) onSuccessList,
-    Function(int code, String msg) onError,
     dynamic params,
     Map<String, dynamic> queryParameters,
     CancelToken cancelToken,
     Options options,
     bool isList: false,
-    @required BuildContext context,
   }) {
     String m = _getRequestMethod(method);
-    return _request<T, K>(m, url,
+    return request<T, K>(method, url,
             data: params,
             queryParameters: queryParameters,
             options: options,
             cancelToken: cancelToken)
-        .then((result) {
-      if (onSuccess != null) {
-        onSuccess(result);
-      } else {
-        _onError(400, "", onError);
-      }
-    }, onError: (e, _) {
-      _cancelLogPrint(e, url);
-      NetError error = ExceptionHandle.handleException(e, context);
-      _onError(error.code, error.msg, onError);
-    });
+        .then(
+      (result) {
+        if (onSuccess != null) {
+          onSuccess(result);
+        }
+      },
+    );
   }
 
   /// 统一处理(onSuccess返回T对象，onSuccessList返回List<T>)
@@ -123,48 +128,25 @@ class DioUtils {
     Method method,
     String url, {
     Function(T t) onSuccess,
-    Function(int code, String msg) onError,
     dynamic params,
     Map<String, dynamic> queryParameters,
     CancelToken cancelToken,
     Options options,
-    @required BuildContext context,
   }) {
     String m = _getRequestMethod(method);
-    Observable.fromFuture(_request<T, K>(m, url,
+    Observable.fromFuture(request<T, K>(method, url,
             data: params,
             queryParameters: queryParameters,
             options: options,
             cancelToken: cancelToken))
         .asBroadcastStream()
-        .listen((result) {
-      if (onSuccess != null) {
-        onSuccess(result);
-      } else {
-        _onError(400, "", onError);
-      }
-    }, onError: (e) {
-      _cancelLogPrint(e, url);
-      NetError error = ExceptionHandle.handleException(e, context);
-      _onError(error.code, error.msg, onError);
-    });
-  }
-
-  _cancelLogPrint(dynamic e, String url) {
-    if (e is DioError && CancelToken.isCancel(e)) {
-      logger.i("取消请求接口： $url");
-    }
-  }
-
-  _onError(int code, String msg, Function(int code, String mag) onError) {
-    if (code == null) {
-      code = ExceptionHandle.unknown_error;
-      msg = "Unknown Error";
-    }
-    logger.e("接口请求异常： code: $code, mag: $msg");
-    if (onError != null) {
-      onError(code, msg);
-    }
+        .listen(
+      (result) {
+        if (onSuccess != null) {
+          onSuccess(result);
+        }
+      },
+    );
   }
 
   String _getRequestMethod(Method method) {

@@ -34,6 +34,8 @@ class _PlaceListState extends State<PlaceList>
   void initState() {
     super.initState();
     _index = widget.index;
+    _onRefresh();
+    print("init");
   }
 
   @override
@@ -45,7 +47,7 @@ class _PlaceListState extends State<PlaceList>
     return NotificationListener(
       onNotification: (ScrollNotification note) {
         if (note.metrics.pixels == note.metrics.maxScrollExtent) {
-          _loadMore();
+          // _loadMore();
         }
         return true;
       },
@@ -69,8 +71,7 @@ class _PlaceListState extends State<PlaceList>
             );
           },
           child: Consumer<ListingProvider>(
-            builder: (_, listingProvider, child) {
-              // final placeList = listingProvider.fetchListingByType(_index);
+            builder: (_, listing, child) {
               final placeList =
                   Provider.of<ListingProvider>(context, listen: false)
                       .fetchListingByType(_index);
@@ -78,7 +79,7 @@ class _PlaceListState extends State<PlaceList>
                 padding: const EdgeInsets.only(left: 8.0, right: 8, top: 8),
                 sliver: placeList.isEmpty
                     ? SliverFillRemaining(
-                        child: StateLayout(type: listingProvider.stateType),
+                        child: StateLayout(type: listing.stateType),
                       )
                     : SliverList(
                         delegate: SliverChildBuilderDelegate(

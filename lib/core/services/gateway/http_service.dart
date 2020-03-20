@@ -16,52 +16,53 @@ class HttpService {
     bool isShow: true,
     bool isClose: true,
     Function(T t) onSuccess,
-    Function(int code, String msg) onError,
     dynamic params,
     Map<String, dynamic> queryParameters,
     CancelToken cancelToken,
     Options options,
   }) async {
     // if (isShow) view.showProgress();
-    await DioUtils.instance.requestNetwork<T, K>(method, url,
-        params: params,
-        queryParameters: queryParameters,
-        options: options,
-        cancelToken: cancelToken ?? _cancelToken, onSuccess: (data) {
-      // if (isClose) view.closeProgress();
-      if (onSuccess != null) {
-        onSuccess(data);
-      }
-    }, onError: (code, msg) {
-      // _onError(code, msg, onError);
-    });
+    await DioUtils.instance.requestNetwork<T, K>(
+      method,
+      url,
+      params: params,
+      queryParameters: queryParameters,
+      options: options,
+      cancelToken: cancelToken ?? _cancelToken,
+      onSuccess: (data) {
+        // if (isClose) view.closeProgress();
+        if (onSuccess != null) {
+          onSuccess(data);
+        }
+      },
+    );
   }
 
   ///async request
-  void asyncRequestNetwork<T, K>(
+  Future<T> asyncRequestNetwork<T, K>(
     Method method, {
     @required String url,
     bool isShow: true,
     bool isClose: true,
     Function(T t) onSuccess,
-    Function(int code, String msg) onError,
     dynamic params,
     Map<String, dynamic> queryParameters,
     CancelToken cancelToken,
     Options options,
   }) {
-    // if (isShow) view.showProgress();
-    DioUtils.instance.asyncRequestNetwork<T, K>(method, url,
-        params: params,
-        queryParameters: queryParameters,
-        options: options,
-        cancelToken: cancelToken ?? _cancelToken, onSuccess: (data) {
-      // if (isClose) view.closeProgress();
-      if (onSuccess != null) {
-        onSuccess(data);
-      }
-    }, onError: (code, msg) {
-      // _onError(code, msg, onError);
-    });
+    return DioUtils.instance.request<T, K>(
+      method,
+      url,
+      data: params,
+      queryParameters: queryParameters,
+      options: options,
+      cancelToken: cancelToken ?? _cancelToken,
+      // onSuccess: (data) {
+      //   // if (isClose) view.closeProgress();
+      //   if (onSuccess != null) {
+      //     onSuccess(data);
+      //   }
+      // },
+    );
   }
 }

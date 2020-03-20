@@ -32,9 +32,9 @@ List<SingleChildWidget> independentServices = [
   ChangeNotifierProvider<UserCurrentLocationProvider>(
     create: (_) => UserCurrentLocationProvider(),
   ),
-  ChangeNotifierProvider<LanguageProvider>(
-    create: (_) => LanguageProvider(),
-  ),
+  ChangeNotifierProvider<LanguageProvider>(create: (_) {
+    return LanguageProvider();
+  }),
   ChangeNotifierProvider<ThemeProvider>(
     create: (_) => ThemeProvider(),
   ),

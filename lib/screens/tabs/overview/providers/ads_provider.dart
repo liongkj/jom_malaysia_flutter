@@ -23,20 +23,26 @@ class AdsProvider with ChangeNotifier {
         options: new RequestOptions(baseUrl: APIEndpoint.getAdsRequest));
     //change base url by adding new request option
     Map<String, dynamic> queries = Map<String, dynamic>();
-
-    _httpService.asyncRequestNetwork<List<AdsModel>, AdsModel>(Method.get,
+    try {
+      _httpService.asyncRequestNetwork<List<AdsModel>, AdsModel>(
+        Method.get,
         url: "",
         options: options,
         queryParameters: queries,
-        isShow: false, onSuccess: (data) {
-      // view.AdsProvider.clear();
-      _adList.clear();
-      if (data != null) {
-        if (data.length > 0) {
-          _adList.addAll(data);
-          notifyListeners();
-        }
-      }
-    }, onError: (_, __) {});
+        isShow: false,
+        onSuccess: (data) {
+          // view.AdsProvider.clear();
+          _adList.clear();
+          if (data != null) {
+            if (data.length > 0) {
+              _adList.addAll(data);
+              notifyListeners();
+            }
+          }
+        },
+      );
+    } on Exception catch (e) {
+      print(e);
+    }
   }
 }

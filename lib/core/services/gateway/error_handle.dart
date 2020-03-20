@@ -19,7 +19,7 @@ class ExceptionHandle {
   static const int cancel_error = 1005;
   static const int unknown_error = 9999;
 
-  static NetError handleException(dynamic error, BuildContext context) {
+  static NetError handleException(dynamic error) {
     print(error);
     if (error is DioError) {
       if (error.type == DioErrorType.DEFAULT ||
@@ -31,7 +31,7 @@ class ExceptionHandle {
         if (e is HttpException) {
           return NetError(http_error, "服务器异常！");
         }
-        return NetError(net_error, S.of(context).errorMessageNetworkFailure);
+        return NetError(net_error, "Network error, Please check your network!");
       } else if (error.type == DioErrorType.CONNECT_TIMEOUT ||
           error.type == DioErrorType.SEND_TIMEOUT ||
           error.type == DioErrorType.RECEIVE_TIMEOUT) {

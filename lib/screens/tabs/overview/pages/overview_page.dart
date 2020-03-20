@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/res/colors.dart';
 import 'package:jom_malaysia/core/services/gateway/http_service.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/ads_provider.dart';
+import 'package:jom_malaysia/screens/tabs/overview/providers/listing_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/overview_page_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/ads_space.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/listing_type_tab.dart';
@@ -93,17 +94,19 @@ class OverviewPageState extends State<OverviewPage>
                 controller: _scrollController ?? null,
                 headerSliverBuilder: (context, innerBoxIsScrolled) =>
                     _sliverBuilder(context),
-                body: PageView.builder(
-                  key: const Key('pageView'),
-                  itemCount: 5,
-                  onPageChanged: _onPageChange,
-                  controller: _pageController,
-                  itemBuilder: (_, index) {
-                    return PlaceList(
-                      controller: this._scrollController,
-                      index: index,
-                    );
-                  },
+                body: Consumer<ListingProvider>(
+                  builder: (_, provider, __) => PageView.builder(
+                    key: const Key('pageView'),
+                    itemCount: 5,
+                    onPageChanged: _onPageChange,
+                    controller: _pageController,
+                    itemBuilder: (_, index) {
+                      return PlaceList(
+                        controller: this._scrollController,
+                        index: index,
+                      );
+                    },
+                  ),
                 ),
               ),
             ],

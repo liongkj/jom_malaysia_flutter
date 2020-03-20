@@ -30,29 +30,27 @@ class FeaturedPlaceProvider extends BaseChangeNotifier {
     // setStateType(StateType.loading);
     _httpService
         .asyncRequestNetwork<List<FeaturedPlaceModel>, FeaturedPlaceModel>(
-            Method.get,
-            url: APIEndpoint.listingQuery,
-            options: options,
-            queryParameters: queries,
-            isShow: false, onSuccess: (data) {
-      if (data != null) {
-        if (data.length > 0) {
-          _featured.addAll(data);
-          setStateTypeWithoutNotify(StateType.places);
-          notifyListeners();
-          return;
+      Method.get,
+      url: APIEndpoint.listingQuery,
+      options: options,
+      queryParameters: queries,
+      isShow: false,
+      onSuccess: (data) {
+        if (data != null) {
+          if (data.length > 0) {
+            _featured.addAll(data);
+            setStateTypeWithoutNotify(StateType.places);
+            notifyListeners();
+            return;
+          } else {
+            setStateType(StateType.places);
+            return;
+          }
         } else {
-          setStateType(StateType.places);
+          setStateType(StateType.network);
           return;
         }
-      } else {
-        setStateType(StateType.network);
-        return;
-      }
-    }, onError: (_, __) {
-      setStateType(StateType.network);
-      return;
-      // notifyListeners();
-    });
+      },
+    );
   }
 }

@@ -31,41 +31,44 @@ class ListingProvider extends BaseChangeNotifier {
     String city,
     bool refresh = false,
   }) async {
-    // setStateType(StateType.loading);
     setStateType(StateType.loading);
     final Options options =
         buildCacheOptions(Duration(days: 7), forceRefresh: refresh);
+    _listing.clear();
+    listing.clear();
+
     //queries
     Map<String, dynamic> queries = Map<String, dynamic>();
-
     if (city != "") queries[QueryParam.locationBiasCity] = city;
-    _listing.clear();
-    // setStateType(StateType.loading);
-    _httpService.asyncRequestNetwork<List<ListingModel>, ListingModel>(
+    debugPrint("fetching " + city + "..................");
+    try {
+      _httpService.asyncRequestNetwork<List<ListingModel>, ListingModel>(
         Method.get,
         url: APIEndpoint.listingQuery,
         options: options,
         queryParameters: queries,
-        isShow: false, onSuccess: (data) {
-      if (data != null) {
-        if (data.length > 0) {
-          _listing = data;
-          setStateTypeWithoutNotify(StateType.places);
-          notifyListeners();
-          return;
-        } else {
-          setStateType(StateType.places);
-          return;
-        }
-      } else {
-        setStateType(StateType.network);
-        return;
-      }
-    }, onError: (_, __) {
+        isShow: false,
+        onSuccess: (data) {
+          if (data != null) {
+            if (data.length > 0) {
+              _listing = data;
+              setStateTypeWithoutNotify(StateType.places);
+              notifyListeners();
+              return;
+            } else {
+              setStateType(StateType.places);
+              return;
+            }
+          } else {
+            setStateType(StateType.network);
+            return;
+          }
+        },
+      );
+    } on Exception catch (e) {
       setStateType(StateType.network);
-      return;
-      // notifyListeners();
-    });
+      print(e);
+    }
   }
 
   ListingModel findById(String placeId) {

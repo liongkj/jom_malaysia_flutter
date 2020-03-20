@@ -38,12 +38,11 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await SpUtil.getInstance();
       // 由于SpUtil未初始化，所以MaterialApp获取的为默认主题配置，这里同步一下。
 
       Provider.of<ThemeProvider>(context, listen: false).syncTheme();
-      Provider.of<LanguageProvider>(context, listen: false).syncLang();
-      Provider.of<LocationProvider>(context, listen: false).syncLoc();
+      // Provider.of<LanguageProvider>(context, listen: false).syncLang();
+      // Provider.of<LocationProvider>(context, listen: false).syncLoc();
     });
     // initData();
   }
