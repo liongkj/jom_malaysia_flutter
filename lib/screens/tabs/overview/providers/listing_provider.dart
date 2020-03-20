@@ -27,29 +27,35 @@ class ListingProvider extends BaseChangeNotifier {
     return list;
   }
 
+  void clear() {
+    _listing.clear();
+    notifyListeners();
+  }
+
   Future<void> fetchAndInitPlaces({
     String city,
     bool refresh = false,
   }) async {
     // setStateType(StateType.loading);
-    setStateType(StateType.loading);
     final Options options =
         buildCacheOptions(Duration(days: 7), forceRefresh: refresh);
+    clear();
+
     //queries
     Map<String, dynamic> queries = Map<String, dynamic>();
-
     if (city != "") queries[QueryParam.locationBiasCity] = city;
-    _listing.clear();
-    // setStateType(StateType.loading);
-    _httpService.asyncRequestNetwork<List<ListingModel>, ListingModel>(
+    try {
+      var result = await _httpService
+          .asyncRequestNetwork<List<ListingModel>, ListingModel>(
         Method.get,
         url: APIEndpoint.listingQuery,
         options: options,
         queryParameters: queries,
-        isShow: false, onSuccess: (data) {
-      if (data != null) {
-        if (data.length > 0) {
-          _listing = data;
+        isShow: false,
+      );
+      if (result != null) {
+        if (result.length > 0) {
+          _listing = result;
           setStateTypeWithoutNotify(StateType.places);
           notifyListeners();
           return;
@@ -61,11 +67,9 @@ class ListingProvider extends BaseChangeNotifier {
         setStateType(StateType.network);
         return;
       }
-    }, onError: (_, __) {
+    } on Exception catch (e) {
       setStateType(StateType.network);
-      return;
-      // notifyListeners();
-    });
+    }
   }
 
   ListingModel findById(String placeId) {

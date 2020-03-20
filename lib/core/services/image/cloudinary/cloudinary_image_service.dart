@@ -28,15 +28,15 @@ class CloudinaryImageService implements IImageService {
     });
     var result;
     await _httpService.requestNetwork<CloudinaryUploadResponse, Null>(
-        Method.post,
-        url: "",
-        params: formData,
-        options: options,
-        isShow: false, onSuccess: (data) {
-      result = data.secure_url;
-    }, onError: (_, __) {
-      return null;
-    });
+      Method.post,
+      url: "",
+      params: formData,
+      options: options,
+      isShow: false,
+      onSuccess: (data) {
+        result = data.secure_url;
+      },
+    );
     return result;
   }
 }

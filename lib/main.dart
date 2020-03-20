@@ -1,12 +1,14 @@
 import 'dart:io';
 
 import 'package:fluro/fluro.dart';
+import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:jom_malaysia/setting/layout/home_page.dart';
 import 'package:jom_malaysia/setting/provider/language_provider.dart';
 import 'package:jom_malaysia/setting/provider/provider_setup.dart';
+import 'package:logger/logger.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 
@@ -15,13 +17,16 @@ import 'setting/provider/theme_provider.dart';
 import 'setting/routers/application.dart';
 import 'setting/routers/routers.dart';
 
-void main() {
-  debugProfileBuildsEnabled = true;
+void main() async {
+  debugProfileBuildsEnabled = false;
 //  debugPaintLayerBordersEnabled = true;
 //  debugProfilePaintsEnabled = true;
 //  debugRepaintRainbowEnabled = true;
-  // Logger.level = Level.;c
+  WidgetsFlutterBinding.ensureInitialized();
+  await SpUtil.getInstance();
+  Logger.level = Level.debug;
   runApp(MyApp());
+
   //Portrait Mode only
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
@@ -30,10 +35,8 @@ void main() {
     SystemUiOverlayStyle systemUiOverlayStyle = SystemUiOverlayStyle(
       statusBarColor: Color(0x90CACACA), //top bar color
       statusBarIconBrightness: Brightness.dark, //top bar icons
-      
     );
     SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
-    
   }
 }
 
@@ -48,7 +51,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     return OKToast(
       backgroundColor: Colors.black54,
       textPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
@@ -58,7 +60,6 @@ class MyApp extends StatelessWidget {
         providers: providers,
         child: Consumer<ThemeProvider>(
           builder: (_, provider, __) {
-            
             return Consumer<LanguageProvider>(
               builder: (_, lang, __) {
                 return MaterialApp(

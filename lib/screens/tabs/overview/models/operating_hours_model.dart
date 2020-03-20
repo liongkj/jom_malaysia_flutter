@@ -26,7 +26,7 @@ class OperatingHours {
 
   String _formattedTime(String raw, Locale locale) {
     DateTime h = DateUtils.apiHourParse(raw);
-    return DateUtils.apiTimeFormat(h, locale.languageCode);
+    return DateUtils.apiTimeFormat(h, locale?.languageCode ?? 'en');
   }
 
   bool get closingSoon {

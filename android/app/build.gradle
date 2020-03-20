@@ -67,14 +67,14 @@ apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
    buildTypes {
        debug {
-      ext.enableCrashlytics = false
-      ext.alwaysUpdateBuildId = false
            minifyEnabled false
     }
        release {
 
            signingConfig signingConfigs.release
-           minifyEnabled true
+           minifyEnabled false
+           shrinkResources false
+            zipAlignEnabled false
        }
    }
    }

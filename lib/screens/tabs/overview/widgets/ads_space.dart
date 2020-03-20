@@ -46,7 +46,9 @@ class _AdsSpaceState extends State<AdsSpace> {
                             )
                           : showToast(S.of(context).labelNoDetail),
                       child: LoadImage(
-                        adsProvider.adList[index].imageUrl,
+                        adsProvider.adList[index].imageUrl.isNotEmpty
+                            ? adsProvider.adList[index].imageUrl
+                            : "",
                         fit: BoxFit.fitWidth,
                       ),
                     );
