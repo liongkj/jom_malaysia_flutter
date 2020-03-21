@@ -14,6 +14,14 @@ class AdsSpace extends StatefulWidget {
 
 class _AdsSpaceState extends State<AdsSpace> {
   bool _isInit = true;
+  SwiperController _controller;
+
+  @override
+  void initState() {
+    _controller = new SwiperController();
+
+    super.initState();
+  }
 
   @override
   void didChangeDependencies() {
@@ -23,7 +31,14 @@ class _AdsSpaceState extends State<AdsSpace> {
       }
       _isInit = false;
     });
+
     super.didChangeDependencies();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -36,7 +51,8 @@ class _AdsSpaceState extends State<AdsSpace> {
               height: MediaQuery.of(context).size.height * 0.35,
               child: Consumer<AdsProvider>(
                 builder: (context, adsProvider, child) => Swiper(
-                  itemBuilder: (BuildContext context, int index) {
+                  controller: _controller,
+                  itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: () => adsProvider.adList[index].linkTo != ""
                           ? NavigatorUtils.goWebViewPage(
@@ -55,8 +71,8 @@ class _AdsSpaceState extends State<AdsSpace> {
                   },
                   pagination: new SwiperPagination(),
                   itemCount: adsProvider.adList.length,
-                  autoplay: adsProvider.adList.isNotEmpty,
-                  autoplayDelay: 8000,
+                  autoplay: false,
+                  autoplayDelay: 1000,
                 ),
               ),
             ),
