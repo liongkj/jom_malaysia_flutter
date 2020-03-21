@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/core/services/location/location_utils.dart';
@@ -8,6 +9,7 @@ import 'package:jom_malaysia/setting/provider/user_current_location_provider.dar
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
 import 'package:jom_malaysia/widgets/state_layout.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 
 class CurrentLocation extends StatelessWidget {
@@ -21,66 +23,116 @@ class CurrentLocation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final CityModel currentSelected =
-        Provider.of<LocationProvider>(context, listen: false).selected;
+    final locationProvider =
+        Provider.of<LocationProvider>(context, listen: false);
+    final CityModel currentSelected = locationProvider.selected;
     final city = cityModel?.getCityName(locale, fullName: true);
     final bool isSelected = currentSelected?.cityName == cityModel?.cityName;
     return Container(
       child: Column(
         children: <Widget>[
-          ListTile(
-            selected: isSelected,
-            onTap: () async {
-              if (cityModel != null) {
-                Provider.of<LocationProvider>(context, listen: false)
-                    .selectPlace(cityModel);
-                NavigatorUtils.goBack(context);
-              }
-              await LocationUtils.getCurrentLocation(context);
-            },
-            leading: city != null
-                ? Icon(
-                    Icons.location_on,
-                    color: Colors.orangeAccent,
-                  )
-                : Icon(
-                    Icons.location_off,
-                    size: 28.0,
-                    color: ThemeUtils.getIconColor(context),
-                  ),
-            title: Consumer<UserCurrentLocationProvider>(
+          Consumer<UserCurrentLocationProvider>(
               builder: (context, provider, providerChild) {
-                switch (provider.locState) {
-                  case LocationState.loading:
-                    return Text("Locating");
-                    break;
-                  case LocationState.noPermit:
-                    return Text("Gps disabled");
-                    break;
-                  case LocationState.found:
-                    return city == null
+            Widget tile;
+            switch (provider.locState) {
+              case LocationState.found:
+                tile = _CurrentLocationSelector(
+                    isSelected: isSelected,
+                    cityModel: cityModel,
+                    leading: Icon(
+                      Icons.location_on,
+                      color: Colors.orangeAccent,
+                    ),
+                    title: city == null
                         ? Text(
                             "Not in service area",
                             style: TextStyle(
                                 color: ThemeUtils.getIconColor(context),
                                 fontSize: Dimens.font_sp12),
                           )
-                        : Text(city);
-                    break;
-                  default:
-                    return Text("Error");
-                }
-              },
-            ),
-            trailing: IconButton(
-              icon: Icon(Icons.refresh),
-              onPressed: () async =>
-                  await LocationUtils.getCurrentLocation(context),
-            ),
-          ),
+                        : Text(city),
+                    city: city);
+                break;
+              case LocationState.noPermit:
+                tile = _CurrentLocationSelector(
+                    isSelected: isSelected,
+                    cityModel: cityModel,
+                    leading: Icon(
+                      Icons.location_off,
+                      color: Colors.redAccent,
+                    ),
+                    title: Text("Gps disabled"),
+                    city: city);
+                break;
+              case LocationState.loading:
+                tile = _CurrentLocationSelector(
+                    isSelected: isSelected,
+                    cityModel: cityModel,
+                    leading: Icon(Icons.location_searching),
+                    title: Text("Fetching"),
+                    city: city);
+                break;
+              case LocationState.empty:
+                tile = _CurrentLocationSelector(
+                    isSelected: isSelected,
+                    cityModel: cityModel,
+                    leading: Icon(Icons.error_outline),
+                    title: Text("Unknown error"),
+                    city: city);
+                break;
+            }
+            return tile;
+          }),
           Gaps.line
         ],
       ),
+    );
+  }
+}
+
+class _CurrentLocationSelector extends StatelessWidget {
+  const _CurrentLocationSelector(
+      {Key key,
+      @required this.isSelected,
+      @required this.cityModel,
+      @required this.city,
+      @required this.title,
+      @required this.leading})
+      : super(key: key);
+
+  final bool isSelected;
+  final CityModel cityModel;
+  final Icon leading;
+  final Text title;
+  final String city;
+
+  @override
+  Widget build(BuildContext context) {
+    final locationProvider =
+        Provider.of<LocationProvider>(context, listen: false);
+    return ListTile(
+      selected: isSelected,
+      onTap: () async {
+        if (await LocationUtils.isLocationServiceDisabled())
+          showToast("Please grant location service permission from setting");
+        if (cityModel != null) {
+          locationProvider.selectPlace(cityModel);
+          NavigatorUtils.goBack(context);
+        } else {
+          await LocationUtils.getCurrentLocation(context);
+        }
+      },
+      leading: leading,
+      title: title,
+      trailing: IconButton(
+          icon: Icon(Icons.refresh),
+          onPressed: () async {
+            if (await LocationUtils.isLocationServiceDisabled())
+              showToast(
+                  "Please enable location service permission from settings");
+            else
+              await LocationUtils.getCurrentLocation(context);
+          }),
     );
   }
 }

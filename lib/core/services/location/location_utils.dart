@@ -13,9 +13,8 @@ class LocationUtils {
 
   ///check if location service is disabled
   static Future<bool> isLocationServiceDisabled() async {
-    var disabled = await _geolocator.checkGeolocationPermissionStatus() ==
-        GeolocationStatus.disabled;
-    return disabled;
+    var disabled = await _geolocator.checkGeolocationPermissionStatus();
+    return disabled != GeolocationStatus.granted;
   }
 
   ///get last known position
@@ -33,15 +32,15 @@ class LocationUtils {
     final provider =
         Provider.of<UserCurrentLocationProvider>(context, listen: false);
     provider.setLoading(LocationState.loading);
-    return await _geolocator
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.medium)
-        .then((Position position) async {
+    try {
+      var position = await _geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.medium);
       await _saveUserCoordinate(context, position);
       return position;
-    }).catchError((e) {
+    } catch (_) {
       provider.setLoading(LocationState.noPermit);
       return null;
-    });
+    }
   }
 
   /// Calculate distance between user current location to selected place, provided town is not null
