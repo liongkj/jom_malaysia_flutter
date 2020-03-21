@@ -78,51 +78,54 @@ class _LocationHeaderState extends State<LocationHeader> {
         centerTitle: true,
         titlePadding: const EdgeInsetsDirectional.only(start: 14.0),
         collapseMode: CollapseMode.pin,
-        title: GestureDetector(
-          onTap: () => _showCityPickerDialog(context, selectedLocation),
-          child: Container(
-            height: kExpandedHeight * 0.3,
-            // padding: const EdgeInsets.only(left: 12, right: 16.0),
-            child: Consumer<LocationProvider>(
-              child: Icon(
-                Icons.keyboard_arrow_down,
-                color: Colours.arrow_color,
-              ),
-              builder: (_, location, child) {
-                selectedLocation =
-                    _cities.isNotEmpty && location.selected != null
-                        ? _cities.firstWhere(
-                            (x) => x.cityName == location.selected?.cityName,
-                            orElse: null)
-                        : null;
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      selectedLocation == null
-                          ? S.of(context).locationSelectCityMessage
-                          : selectedLocation.getCityName(widget.locale),
-                      style: TextStyles.textBold16
-                          .copyWith(color: Colours.arrow_color),
-                      maxLines: 2,
-                    ),
-                    Gaps.hGap8,
-                    child,
-                  ],
-                );
-              },
-            ),
+        title: _buildHeaderTitle(context),
+      ),
+    );
+  }
+
+  GestureDetector _buildHeaderTitle(BuildContext context) {
+    return GestureDetector(
+      onTap: () => _showCityPickerDialog(context, selectedLocation),
+      child: Container(
+        height: kExpandedHeight * 0.3,
+        // padding: const EdgeInsets.only(left: 12, right: 16.0),
+        child: Consumer<LocationProvider>(
+          child: Icon(
+            Icons.keyboard_arrow_down,
+            color: Colours.arrow_color,
           ),
+          builder: (_, location, child) {
+            selectedLocation = _cities.isNotEmpty && location.selected != null
+                ? _cities.firstWhere(
+                    (x) => x.cityName == location.selected?.cityName,
+                    orElse: null)
+                : null;
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  selectedLocation == null
+                      ? S.of(context).locationSelectCityMessage
+                      : selectedLocation.getCityName(widget.locale),
+                  style: TextStyles.textBold16
+                      .copyWith(color: Colours.arrow_color),
+                  maxLines: 2,
+                ),
+                Gaps.hGap8,
+                child,
+              ],
+            );
+          },
         ),
       ),
     );
   }
 
-  Future<void> _showCityPickerDialog(
-      BuildContext context, CityModel selected) async {
+  Future<void> _showCityPickerDialog(context, selected) async {
+    _fetchCurrentLocation();
     return showDialog(
       context: context,
-      builder: (BuildContext context) {
+      builder: (context) {
         return Consumer<UserCurrentLocationProvider>(
           builder: (_, userLoc, __) => AlertDialog(
             title: Text(S.of(context).locationSelectCityMessage),
@@ -131,8 +134,9 @@ class _LocationHeaderState extends State<LocationHeader> {
               width: 300.0,
               child: Column(children: <Widget>[
                 Expanded(
-                  child: AzListView(
-                      header: AzListViewHeader(
+                    child: AzListView(
+                        header: AzListViewHeader(
+                          height: 60,
                           builder: (_) {
                             CityModel currentCity;
                             if (userLoc.currentLocation != null)
@@ -141,21 +145,18 @@ class _LocationHeaderState extends State<LocationHeader> {
                                   orElse: () => null);
                             return CurrentLocation(currentCity, widget.locale);
                           },
-                          height: 60),
-                      data: userLoc.currentLocation == null
-                          ? _cities
-                          : _cities
-                              .where(
-                                  (x) => x.cityName != userLoc.currentLocation)
-                              .toList(),
-                      isUseRealIndex: true,
-                      itemHeight: 40,
-                      suspensionWidget: null,
-                      suspensionHeight: 0,
-                      itemBuilder: (context, city) {
-                        return _buildListTile(city);
-                      }),
-                ),
+                        ),
+                        data: userLoc.currentLocation == null
+                            ? _cities
+                            : _cities
+                                .where((x) =>
+                                    x.cityName != userLoc.currentLocation)
+                                .toList(),
+                        isUseRealIndex: true,
+                        itemHeight: 40,
+                        suspensionWidget: null,
+                        suspensionHeight: 0,
+                        itemBuilder: (context, city) => _buildListTile(city))),
               ]),
             ),
           ),
@@ -165,10 +166,9 @@ class _LocationHeaderState extends State<LocationHeader> {
   }
 
   Widget _buildListTile(CityModel city) {
-    final bool selected = Provider.of<LocationProvider>(context, listen: false)
-            .selected
-            ?.cityName ==
-        city.cityName;
+    final locationProvider =
+        Provider.of<LocationProvider>(context, listen: false);
+    final bool selected = locationProvider.selected?.cityName == city.cityName;
     return Container(
       child: Column(
         children: [
@@ -180,8 +180,7 @@ class _LocationHeaderState extends State<LocationHeader> {
                   ),
             selected: selected,
             onTap: () {
-              Provider.of<LocationProvider>(context, listen: false)
-                  .selectPlace(city);
+              locationProvider.selectPlace(city);
               NavigatorUtils.goBack(context);
             },
             title: Text(
@@ -237,13 +236,14 @@ class _LocationHeaderState extends State<LocationHeader> {
     super.didUpdateWidget(oldWidget);
     //call process list again during rebuild. etc switch language
     _processList(_cities);
-    _fetchCurrentLocation();
   }
 
   void _fetchCurrentLocation() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       // _preCacheImage();
-      await LocationUtils.getCurrentLocation(context);
+      if (!await LocationUtils.isLocationServiceDisabled()) {
+        await LocationUtils.getCurrentLocation(context);
+      }
     });
   }
 }

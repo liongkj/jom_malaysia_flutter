@@ -2,13 +2,11 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:dio_http_cache/dio_http_cache.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:jom_malaysia/core/constants/common.dart';
 import 'package:jom_malaysia/core/services/gateway/exception/api_exception.dart';
 import 'package:jom_malaysia/core/services/gateway/json_parser.dart';
 import 'package:rxdart/rxdart.dart';
 
-import 'error_handle.dart';
 import 'intercept.dart';
 
 class DioUtils {
@@ -131,7 +129,6 @@ class DioUtils {
     CancelToken cancelToken,
     Options options,
   }) {
-    String m = _getRequestMethod(method);
     Observable.fromFuture(request<T, K>(method, url,
             data: params,
             queryParameters: queryParameters,
