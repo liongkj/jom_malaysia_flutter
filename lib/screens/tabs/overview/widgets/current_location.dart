@@ -4,8 +4,10 @@ import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/core/services/location/location_utils.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/city_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/location_provider.dart';
+import 'package:jom_malaysia/setting/provider/user_current_location_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
+import 'package:jom_malaysia/widgets/state_layout.dart';
 import 'package:provider/provider.dart';
 
 class CurrentLocation extends StatelessWidget {
@@ -46,26 +48,30 @@ class CurrentLocation extends StatelessWidget {
                     size: 28.0,
                     color: ThemeUtils.getIconColor(context),
                   ),
-            // title: FutureBuilder<Position>(
-            //   initialData: null,
-            //   future: LocationUtils.getCurrentLocation(context),
-            //   builder: (context, dataSnapshot) {
-            //     if (dataSnapshot.connectionState == ConnectionState.waiting) {
-            //       return Text("Locating..");
-            //     } else if (dataSnapshot.connectionState == ConnectionState.done)
-            //       return dataSnapshot.data == null
-            //           ? Text("Please enable GPS")
-            //           : Text(
-            //               city == null ? "Not in service area" : city,
-            //               style: TextStyle(
-            //                   color: ThemeUtils.getIconColor(context),
-            //                   fontSize: Dimens.font_sp16),
-            //             );
-            //     else {
-            //       return (Text("Error"));
-            //     }
-            //   },
-            // ),
+            title: Consumer<UserCurrentLocationProvider>(
+              builder: (context, provider, providerChild) {
+                switch (provider.locState) {
+                  case LocationState.loading:
+                    return Text("Locating");
+                    break;
+                  case LocationState.noPermit:
+                    return Text("Gps disabled");
+                    break;
+                  case LocationState.found:
+                    return city == null
+                        ? Text(
+                            "Not in service area",
+                            style: TextStyle(
+                                color: ThemeUtils.getIconColor(context),
+                                fontSize: Dimens.font_sp12),
+                          )
+                        : Text(city);
+                    break;
+                  default:
+                    return Text("Error");
+                }
+              },
+            ),
             trailing: IconButton(
               icon: Icon(Icons.refresh),
               onPressed: () async =>
