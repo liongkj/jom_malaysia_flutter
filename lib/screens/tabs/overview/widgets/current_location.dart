@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/core/services/location/location_utils.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/city_model.dart';
@@ -45,22 +46,26 @@ class CurrentLocation extends StatelessWidget {
                     size: 28.0,
                     color: ThemeUtils.getIconColor(context),
                   ),
-            title: FutureBuilder<bool>(
-              initialData: false,
-              future: LocationUtils.isLocationServiceDisabled(),
-              builder:
-                  (BuildContext context, AsyncSnapshot<bool> dataSnapshot) {
-                if (dataSnapshot.connectionState == ConnectionState.waiting) {
-                  return Text("GPS Disabled");
-                } else
-                  return Text(
-                    city == null ? "Not in service area" : city,
-                    style: TextStyle(
-                        color: ThemeUtils.getIconColor(context),
-                        fontSize: Dimens.font_sp16),
-                  );
-              },
-            ),
+            // title: FutureBuilder<Position>(
+            //   initialData: null,
+            //   future: LocationUtils.getCurrentLocation(context),
+            //   builder: (context, dataSnapshot) {
+            //     if (dataSnapshot.connectionState == ConnectionState.waiting) {
+            //       return Text("Locating..");
+            //     } else if (dataSnapshot.connectionState == ConnectionState.done)
+            //       return dataSnapshot.data == null
+            //           ? Text("Please enable GPS")
+            //           : Text(
+            //               city == null ? "Not in service area" : city,
+            //               style: TextStyle(
+            //                   color: ThemeUtils.getIconColor(context),
+            //                   fontSize: Dimens.font_sp16),
+            //             );
+            //     else {
+            //       return (Text("Error"));
+            //     }
+            //   },
+            // ),
             trailing: IconButton(
               icon: Icon(Icons.refresh),
               onPressed: () async =>

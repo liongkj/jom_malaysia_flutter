@@ -14,14 +14,6 @@ class AdsSpace extends StatefulWidget {
 
 class _AdsSpaceState extends State<AdsSpace> {
   bool _isInit = true;
-  SwiperController _controller;
-
-  @override
-  void initState() {
-    _controller = new SwiperController();
-
-    super.initState();
-  }
 
   @override
   void didChangeDependencies() {
@@ -36,12 +28,6 @@ class _AdsSpaceState extends State<AdsSpace> {
   }
 
   @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return SliverList(
       delegate: SliverChildListDelegate.fixed(
@@ -51,7 +37,7 @@ class _AdsSpaceState extends State<AdsSpace> {
               height: MediaQuery.of(context).size.height * 0.35,
               child: Consumer<AdsProvider>(
                 builder: (context, adsProvider, child) => Swiper(
-                  controller: _controller,
+                  controller: new SwiperController(),
                   itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: () => adsProvider.adList[index].linkTo != ""
@@ -71,8 +57,8 @@ class _AdsSpaceState extends State<AdsSpace> {
                   },
                   pagination: new SwiperPagination(),
                   itemCount: adsProvider.adList.length,
-                  autoplay: false,
-                  autoplayDelay: 1000,
+                  autoplay: adsProvider.adList.isNotEmpty,
+                  autoplayDelay: 10000,
                 ),
               ),
             ),

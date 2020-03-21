@@ -9,8 +9,8 @@ class UserCurrentLocationProvider extends ChangeNotifier {
 
   CoordinatesModel _currentCoordinate;
 
-  void setCurrentLocation(String currentLocation, Position coordinate) {
-    _currentLocation = currentLocation;
+  void setCurrentLocation(String currentCity, Position coordinate) {
+    _currentLocation = currentCity;
     _currentCoordinate = new CoordinatesModel(
         longitude: coordinate.longitude, latitude: coordinate.latitude);
     notifyListeners();

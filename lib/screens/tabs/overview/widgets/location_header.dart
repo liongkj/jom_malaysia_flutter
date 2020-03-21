@@ -118,11 +118,11 @@ class _LocationHeaderState extends State<LocationHeader> {
     );
   }
 
-  Future<void> _showCityPickerDialog(
-      BuildContext context, CityModel selected) async {
+  Future<void> _showCityPickerDialog(context, selected) async {
+    _fetchCurrentLocation();
     return showDialog(
       context: context,
-      builder: (BuildContext context) {
+      builder: (context) {
         return Consumer<UserCurrentLocationProvider>(
           builder: (_, userLoc, __) => AlertDialog(
             title: Text(S.of(context).locationSelectCityMessage),
@@ -237,7 +237,6 @@ class _LocationHeaderState extends State<LocationHeader> {
     super.didUpdateWidget(oldWidget);
     //call process list again during rebuild. etc switch language
     _processList(_cities);
-    _fetchCurrentLocation();
   }
 
   void _fetchCurrentLocation() {
