@@ -234,16 +234,13 @@ class _LocationHeaderState extends State<LocationHeader> {
   @override
   void didUpdateWidget(LocationHeader oldWidget) {
     super.didUpdateWidget(oldWidget);
-    //call process list again during rebuild. etc switch language
     _processList(_cities);
   }
 
   void _fetchCurrentLocation() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      // _preCacheImage();
-      if (await LocationUtils.isLocationServiceEnabled(context)) {
+      if (await LocationUtils.isLocationServiceEnabled(context))
         await LocationUtils.getCurrentLocation(context);
-      }
     });
   }
 }

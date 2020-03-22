@@ -3,6 +3,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/core/services/location/location_utils.dart';
+import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/city_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/location_provider.dart';
 import 'package:jom_malaysia/setting/provider/user_current_location_provider.dart';
@@ -52,7 +53,6 @@ class CurrentLocation extends StatelessWidget {
                           )
                         : Text(city),
                     city: city);
-
                 break;
               case LocationState.noPermit:
                 tile = _CurrentLocationSelector(
@@ -69,17 +69,16 @@ class CurrentLocation extends StatelessWidget {
                         onPressed: () async {
                           await LocationUtils.isLocationServiceEnabled(context);
                         }),
-                    title: Text("No GPS"),
+                    title: Text(S.of(context).locationServiceNoGps),
                     city: city);
                 break;
               case LocationState.init:
               case LocationState.loading:
                 tile = _CurrentLocationSelector(
-                    //TODO add animation
                     locatedUserCity: locatedUserCity,
-                    leading: Icon(Icons.location_searching),
+                    leading: _GpsSearchingAnimatedIcon(),
                     title: Text(
-                      "Locating city . . .",
+                      S.of(context).locationServiceLocating,
                       style: TextStyles.textBold14,
                     ),
                     trailing: Gaps.empty,
@@ -89,7 +88,7 @@ class CurrentLocation extends StatelessWidget {
                 tile = _CurrentLocationSelector(
                     locatedUserCity: locatedUserCity,
                     leading: Icon(Icons.error_outline),
-                    title: Text("Retry"),
+                    title: Text(S.of(context).locationServiceRetryOperation),
                     city: city);
                 break;
             }
@@ -99,6 +98,58 @@ class CurrentLocation extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class _GpsSearchingAnimatedIcon extends StatefulWidget {
+  _GpsSearchingAnimatedIcon({Key key}) : super(key: key);
+
+  @override
+  __GpsSearchingAnimatedIconState createState() =>
+      __GpsSearchingAnimatedIconState();
+}
+
+class __GpsSearchingAnimatedIconState extends State<_GpsSearchingAnimatedIcon>
+    with SingleTickerProviderStateMixin {
+  AnimationController _controller;
+  int _currentIcon = 0;
+  final List<IconData> icon = [
+    Icons.gps_fixed,
+    Icons.gps_not_fixed,
+    Icons.gps_fixed,
+    Icons.gps_not_fixed
+  ];
+  @override
+  void initState() {
+    super.initState();
+    _controller = new AnimationController(
+        animationBehavior: AnimationBehavior.preserve,
+        vsync: this,
+        duration: const Duration(milliseconds: 1));
+    _controller.fling(velocity: 2);
+    _controller.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        setState(() {
+          if (++_currentIcon == icon.length) {
+            _currentIcon = 0;
+          }
+        });
+
+        _controller.forward(from: 0.0);
+      }
+    });
+
+    _controller.forward();
+  }
+
+  dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Icon(icon[_currentIcon]);
   }
 }
 
@@ -114,7 +165,7 @@ class _CurrentLocationSelector extends StatelessWidget {
       : super(key: key);
 
   final CityModel locatedUserCity;
-  final Icon leading;
+  final Widget leading;
   final Text title;
   final Function onTap;
   final String city;
@@ -142,10 +193,11 @@ class _CurrentLocationSelector extends StatelessWidget {
       title: title,
       trailing: trailing ??
           IconButton(
-              icon: Icon(Icons.refresh),
-              onPressed: () async {
-                await LocationUtils.getCurrentLocation(context);
-              }),
+            icon: Icon(Icons.refresh),
+            onPressed: () async {
+              await LocationUtils.getCurrentLocation(context);
+            },
+          ),
     );
   }
 }
