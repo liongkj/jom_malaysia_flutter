@@ -61,6 +61,14 @@ class CurrentLocation extends StatelessWidget {
                       Icons.location_off,
                       color: Colors.redAccent,
                     ),
+                    onTap: () async {
+                      await LocationUtils.isLocationServiceEnabled(context);
+                    },
+                    trailing: IconButton(
+                        icon: Icon(Icons.refresh),
+                        onPressed: () async {
+                          await LocationUtils.isLocationServiceEnabled(context);
+                        }),
                     title: Text("No GPS"),
                     city: city);
                 break;

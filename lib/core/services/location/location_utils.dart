@@ -16,14 +16,20 @@ class LocationUtils {
 
   ///check if location service is disabled
   static Future<bool> isLocationServiceEnabled(BuildContext context) async {
-    var enabled = await _geolocator.isLocationServiceEnabled();
-    if (!enabled) {
+    var locationServiceEnabled = await _geolocator.isLocationServiceEnabled();
+    var permissionGranted =
+        await _geolocator.checkGeolocationPermissionStatus() ==
+            GeolocationStatus.granted;
+    if (!locationServiceEnabled || !permissionGranted) {
       _getProvider(context).setLoading(LocationState.noPermit);
-      showToast("Please grant location service permission from setting");
-      return enabled;
+      if (!permissionGranted)
+        showToast("Please grant location service permission from setting");
+      else if (!locationServiceEnabled) showToast("Please enable your GPS");
+      return false;
     }
+
     _getProvider(context).setLoading(LocationState.granted);
-    return enabled;
+    return locationServiceEnabled && permissionGranted;
   }
 
   ///get last known position
