@@ -13,21 +13,18 @@ import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 
 class CurrentLocation extends StatelessWidget {
-  final CityModel cityModel;
+  final CityModel locatedUserCity;
   final Locale locale;
   const CurrentLocation(
-    this.cityModel,
+    this.locatedUserCity,
     this.locale, {
     Key key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final locationProvider =
-        Provider.of<LocationProvider>(context, listen: false);
-    final CityModel currentSelected = locationProvider.selected;
-    final city = cityModel?.getCityName(locale, fullName: true);
-    final bool isSelected = currentSelected?.cityName == cityModel?.cityName;
+    final city = locatedUserCity?.getCityName(locale, fullName: true);
+
     return Container(
       child: Column(
         children: <Widget>[
@@ -37,47 +34,62 @@ class CurrentLocation extends StatelessWidget {
             switch (provider.locState) {
               case LocationState.found:
                 tile = _CurrentLocationSelector(
-                    isSelected: isSelected,
-                    cityModel: cityModel,
+                    locatedUserCity: locatedUserCity,
+                    onTap: city == null
+                        ? () => showToast("City not in service area")
+                        : null,
                     leading: Icon(
                       Icons.location_on,
                       color: Colors.orangeAccent,
                     ),
+                    trailing: Gaps.empty,
                     title: city == null
                         ? Text(
-                            "Not in service area",
+                            provider.currentLocation,
                             style: TextStyle(
                                 color: ThemeUtils.getIconColor(context),
                                 fontSize: Dimens.font_sp12),
                           )
                         : Text(city),
                     city: city);
+
                 break;
               case LocationState.noPermit:
                 tile = _CurrentLocationSelector(
-                    isSelected: isSelected,
-                    cityModel: cityModel,
+                    locatedUserCity: locatedUserCity,
                     leading: Icon(
                       Icons.location_off,
                       color: Colors.redAccent,
                     ),
-                    title: Text("Gps disabled"),
+                    onTap: () async {
+                      await LocationUtils.isLocationServiceEnabled(context);
+                    },
+                    trailing: IconButton(
+                        icon: Icon(Icons.refresh),
+                        onPressed: () async {
+                          await LocationUtils.isLocationServiceEnabled(context);
+                        }),
+                    title: Text("No GPS"),
                     city: city);
                 break;
+              case LocationState.init:
               case LocationState.loading:
                 tile = _CurrentLocationSelector(
-                    isSelected: isSelected,
-                    cityModel: cityModel,
+                    //TODO add animation
+                    locatedUserCity: locatedUserCity,
                     leading: Icon(Icons.location_searching),
-                    title: Text("Fetching"),
+                    title: Text(
+                      "Locating city . . .",
+                      style: TextStyles.textBold14,
+                    ),
+                    trailing: Gaps.empty,
                     city: city);
                 break;
-              case LocationState.empty:
+              case LocationState.granted:
                 tile = _CurrentLocationSelector(
-                    isSelected: isSelected,
-                    cityModel: cityModel,
+                    locatedUserCity: locatedUserCity,
                     leading: Icon(Icons.error_outline),
-                    title: Text("Unknown error"),
+                    title: Text("Retry"),
                     city: city);
                 break;
             }
@@ -93,46 +105,47 @@ class CurrentLocation extends StatelessWidget {
 class _CurrentLocationSelector extends StatelessWidget {
   const _CurrentLocationSelector(
       {Key key,
-      @required this.isSelected,
-      @required this.cityModel,
+      @required this.locatedUserCity,
       @required this.city,
       @required this.title,
+      this.onTap,
+      this.trailing,
       @required this.leading})
       : super(key: key);
 
-  final bool isSelected;
-  final CityModel cityModel;
+  final CityModel locatedUserCity;
   final Icon leading;
   final Text title;
+  final Function onTap;
   final String city;
+  final Widget trailing;
 
   @override
   Widget build(BuildContext context) {
     final locationProvider =
         Provider.of<LocationProvider>(context, listen: false);
+    final CityModel currentSelectedCity = locationProvider.selected;
+    final bool isSelected =
+        currentSelectedCity?.cityName == locatedUserCity?.cityName;
     return ListTile(
       selected: isSelected,
-      onTap: () async {
-        if (await LocationUtils.isLocationServiceDisabled())
-          showToast("Please grant location service permission from setting");
-        if (cityModel != null) {
-          locationProvider.selectPlace(cityModel);
-          NavigatorUtils.goBack(context);
-        } else {
-          await LocationUtils.getCurrentLocation(context);
-        }
-      },
+      onTap: onTap ??
+          () async {
+            if (locatedUserCity != null) {
+              locationProvider.selectPlace(locatedUserCity);
+              NavigatorUtils.goBack(context);
+            } else {
+              await LocationUtils.getCurrentLocation(context);
+            }
+          },
       leading: leading,
       title: title,
-      trailing: IconButton(
-          icon: Icon(Icons.refresh),
-          onPressed: () async {
-            if (await LocationUtils.isLocationServiceDisabled())
-              showToast(
-                  "Please enable location service permission from settings");
-            else
-              await LocationUtils.getCurrentLocation(context);
-          }),
+      trailing: trailing ??
+          IconButton(
+              icon: Icon(Icons.refresh),
+              onPressed: () async {
+                await LocationUtils.getCurrentLocation(context);
+              }),
     );
   }
 }

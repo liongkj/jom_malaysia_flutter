@@ -1,44 +1,58 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:jom_malaysia/core/models/coordinates_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/city_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
 import 'package:jom_malaysia/setting/provider/user_current_location_provider.dart';
 import 'package:jom_malaysia/widgets/state_layout.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 
 class LocationUtils {
   static Geolocator _geolocator = Geolocator();
+  static UserCurrentLocationProvider _getProvider(BuildContext context) {
+    return Provider.of<UserCurrentLocationProvider>(context, listen: false);
+  }
 
   ///check if location service is disabled
-  static Future<bool> isLocationServiceDisabled() async {
-    var disabled = await _geolocator.checkGeolocationPermissionStatus();
-    return disabled != GeolocationStatus.granted;
+  static Future<bool> isLocationServiceEnabled(BuildContext context) async {
+    var locationServiceEnabled = await _geolocator.isLocationServiceEnabled();
+    var permissionGranted =
+        await _geolocator.checkGeolocationPermissionStatus() ==
+            GeolocationStatus.granted;
+    if (!locationServiceEnabled || !permissionGranted) {
+      _getProvider(context).setLoading(LocationState.noPermit);
+      if (!permissionGranted)
+        showToast("Please grant location service permission from setting");
+      else if (!locationServiceEnabled) showToast("Please enable your GPS");
+      return false;
+    }
+
+    _getProvider(context).setLoading(LocationState.granted);
+    return locationServiceEnabled && permissionGranted;
   }
 
   ///get last known position
   ///return a position object
   ///return null if permission not enabled
   static Future<Position> getLastKnownPosition() async {
-    Position position = await Geolocator()
-        .getLastKnownPosition(desiredAccuracy: LocationAccuracy.medium);
+    Position position = await Geolocator().getLastKnownPosition();
     return position;
   }
 
   ///Get current location
   ///need a [context] object to get provider context
   static Future<Position> getCurrentLocation(BuildContext context) async {
-    final provider =
-        Provider.of<UserCurrentLocationProvider>(context, listen: false);
-    provider.setLoading(LocationState.loading);
     try {
-      var position = await _geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.medium);
+      var position = await getLastKnownPosition();
+      if (position == null) {
+        _getProvider(context).setLoading(LocationState.loading);
+        position = await _geolocator.getCurrentPosition();
+      }
       await _saveUserCoordinate(context, position);
       return position;
     } catch (_) {
-      provider.setLoading(LocationState.noPermit);
+      _getProvider(context).setLoading(LocationState.noPermit);
       return null;
     }
   }
@@ -50,7 +64,7 @@ class LocationUtils {
       CoordinatesModel userCurrent, ListingModel place, CityModel town) async {
     if (town != null) {
       //if user gps not open
-      if (await isLocationServiceDisabled() || userCurrent == null) {
+      if (userCurrent == null) {
         return await _getDistanceToTown(place.getCoord, town.coordinates);
       } else {
         //get user located town
@@ -72,8 +86,7 @@ class LocationUtils {
   static _saveUserCoordinate(BuildContext context, Position position) async {
     Placemark place = await _reverseGeocode(
         latitude: position.latitude, longitude: position.longitude);
-    Provider.of<UserCurrentLocationProvider>(context, listen: false)
-        .setCurrentLocation(place.locality, position);
+    _getProvider(context).setCurrentLocation(place.locality, position);
   }
 
   /// Get Location Base on Latitude and Longtitude

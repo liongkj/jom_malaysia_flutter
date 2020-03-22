@@ -100,6 +100,9 @@ class _StateLayoutState extends State<StateLayout> {
 }
 
 enum LocationState {
+  init,
+
+  ///found location
   found,
 
   ///show rejected state
@@ -109,7 +112,7 @@ enum LocationState {
   loading,
 
   ///  loading empty state
-  empty
+  granted,
 }
 enum StateType {
   /// show no place found state
