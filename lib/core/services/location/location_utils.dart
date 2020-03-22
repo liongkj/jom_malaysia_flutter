@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:jom_malaysia/core/models/coordinates_model.dart';
+import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/city_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
 import 'package:jom_malaysia/setting/provider/user_current_location_provider.dart';
@@ -23,8 +24,11 @@ class LocationUtils {
     if (!locationServiceEnabled || !permissionGranted) {
       _getProvider(context).setLoading(LocationState.noPermit);
       if (!permissionGranted)
-        showToast("Please grant location service permission from setting");
-      else if (!locationServiceEnabled) showToast("Please enable your GPS");
+        showToast(S.of(context).locationServicePromptEnableGps,
+            dismissOtherToast: true);
+      else if (!locationServiceEnabled)
+        showToast(S.of(context).locationServicePromptPermission,
+            dismissOtherToast: true);
       return false;
     }
 
@@ -44,7 +48,9 @@ class LocationUtils {
   ///need a [context] object to get provider context
   static Future<Position> getCurrentLocation(BuildContext context) async {
     try {
-      var position = await getLastKnownPosition();
+      Position position;
+      if (await _geolocator.checkGeolocationPermissionStatus() ==
+          GeolocationStatus.granted) position = await getLastKnownPosition();
       if (position == null) {
         _getProvider(context).setLoading(LocationState.loading);
         position = await _geolocator.getCurrentPosition();

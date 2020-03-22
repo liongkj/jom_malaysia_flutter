@@ -751,6 +751,51 @@ class S {
     );
   }
 
+  String get locationServicePromptEnableGps {
+    return Intl.message(
+      'Please grant location service permission from setting',
+      name: 'locationServicePromptEnableGps',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get locationServicePromptPermission {
+    return Intl.message(
+      'Please enable your GPS',
+      name: 'locationServicePromptPermission',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get locationServiceRetryOperation {
+    return Intl.message(
+      'Retry',
+      name: 'locationServiceRetryOperation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get locationServiceLocating {
+    return Intl.message(
+      'Locating city . . .',
+      name: 'locationServiceLocating',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get locationServiceNoGps {
+    return Intl.message(
+      'No GPS',
+      name: 'locationServiceNoGps',
+      desc: '',
+      args: [],
+    );
+  }
+
   String get overviewSection1Para1 {
     return Intl.message(
       'Negeri Sembilan is a Malaysian state on the Malay Peninsula\'s southwest coast, known for its beaches, nature parks and palaces. To the west, on the Malacca Strait, the area around Port Dickson has seaside resorts, the Wan Loong Chinese Temple and the Kota Lukut hilltop fort. South along the coast, in the neighboring state of Malacca, is Cape Rachado (Tanjung Tuan), a nature reserve with a lighthouse.',
