@@ -34,7 +34,7 @@ apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 
    android {
-    compileSdkVersion 28
+    compileSdkVersion 29
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
@@ -47,7 +47,7 @@ apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
     defaultConfig {
         applicationId "com.jomjommalaysia.jomn9"
         minSdkVersion 26
-        targetSdkVersion 28
+        targetSdkVersion 29
        
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true

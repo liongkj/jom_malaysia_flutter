@@ -7,7 +7,7 @@ class UserCurrentLocationProvider extends ChangeNotifier {
   String get currentLocation => _currentLocation;
   String _currentLocation;
 
-  LocationState locState = LocationState.empty;
+  LocationState locState = LocationState.init;
 
   CoordinatesModel get currentCoordinate => _currentCoordinate;
 

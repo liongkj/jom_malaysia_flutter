@@ -41,7 +41,7 @@ class _LocationHeaderState extends State<LocationHeader> {
   void initState() {
     super.initState();
     _loadData();
-    _fetchCurrentLocation();
+    // _fetchCurrentLocation();
   }
 
   @override
@@ -241,7 +241,7 @@ class _LocationHeaderState extends State<LocationHeader> {
   void _fetchCurrentLocation() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       // _preCacheImage();
-      if (!await LocationUtils.isLocationServiceDisabled()) {
+      if (await LocationUtils.isLocationServiceEnabled(context)) {
         await LocationUtils.getCurrentLocation(context);
       }
     });
