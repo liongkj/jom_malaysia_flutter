@@ -53,7 +53,6 @@ class CurrentLocation extends StatelessWidget {
                           )
                         : Text(city),
                     city: city);
-
                 break;
               case LocationState.noPermit:
                 tile = _CurrentLocationSelector(
@@ -76,9 +75,8 @@ class CurrentLocation extends StatelessWidget {
               case LocationState.init:
               case LocationState.loading:
                 tile = _CurrentLocationSelector(
-                    //TODO add animation
                     locatedUserCity: locatedUserCity,
-                    leading: Icon(Icons.location_searching),
+                    leading: _GpsSearchingAnimatedIcon(),
                     title: Text(
                       S.of(context).locationServiceLocating,
                       style: TextStyles.textBold14,
@@ -103,6 +101,58 @@ class CurrentLocation extends StatelessWidget {
   }
 }
 
+class _GpsSearchingAnimatedIcon extends StatefulWidget {
+  _GpsSearchingAnimatedIcon({Key key}) : super(key: key);
+
+  @override
+  __GpsSearchingAnimatedIconState createState() =>
+      __GpsSearchingAnimatedIconState();
+}
+
+class __GpsSearchingAnimatedIconState extends State<_GpsSearchingAnimatedIcon>
+    with SingleTickerProviderStateMixin {
+  AnimationController _controller;
+  int _currentIcon = 0;
+  final List<IconData> icon = [
+    Icons.gps_fixed,
+    Icons.gps_not_fixed,
+    Icons.gps_fixed,
+    Icons.gps_not_fixed
+  ];
+  @override
+  void initState() {
+    super.initState();
+    _controller = new AnimationController(
+        animationBehavior: AnimationBehavior.preserve,
+        vsync: this,
+        duration: const Duration(milliseconds: 1));
+    _controller.fling(velocity: 2);
+    _controller.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        setState(() {
+          if (++_currentIcon == icon.length) {
+            _currentIcon = 0;
+          }
+        });
+
+        _controller.forward(from: 0.0);
+      }
+    });
+
+    _controller.forward();
+  }
+
+  dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Icon(icon[_currentIcon]);
+  }
+}
+
 class _CurrentLocationSelector extends StatelessWidget {
   const _CurrentLocationSelector(
       {Key key,
@@ -115,7 +165,7 @@ class _CurrentLocationSelector extends StatelessWidget {
       : super(key: key);
 
   final CityModel locatedUserCity;
-  final Icon leading;
+  final Widget leading;
   final Text title;
   final Function onTap;
   final String city;
