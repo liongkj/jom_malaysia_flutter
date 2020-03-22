@@ -24,6 +24,7 @@ class UserCurrentLocationProvider extends ChangeNotifier {
         longitude: coordinate.longitude, latitude: coordinate.latitude);
     locState =
         currentCity == null ? LocationState.noPermit : LocationState.found;
+
     notifyListeners();
   }
 }

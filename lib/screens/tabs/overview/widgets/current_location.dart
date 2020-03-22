@@ -9,6 +9,7 @@ import 'package:jom_malaysia/screens/tabs/overview/providers/location_provider.d
 import 'package:jom_malaysia/setting/provider/user_current_location_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
+import 'package:jom_malaysia/widgets/gps_animated_icon.dart';
 import 'package:jom_malaysia/widgets/state_layout.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
@@ -62,12 +63,12 @@ class CurrentLocation extends StatelessWidget {
                       color: Colors.redAccent,
                     ),
                     onTap: () async {
-                      await LocationUtils.isLocationServiceEnabled(context);
+                      await LocationUtils.getCurrentLocation(context);
                     },
                     trailing: IconButton(
                         icon: Icon(Icons.refresh),
                         onPressed: () async {
-                          await LocationUtils.isLocationServiceEnabled(context);
+                          await LocationUtils.getCurrentLocation(context);
                         }),
                     title: Text(S.of(context).locationServiceNoGps),
                     city: city);
@@ -76,7 +77,7 @@ class CurrentLocation extends StatelessWidget {
               case LocationState.loading:
                 tile = _CurrentLocationSelector(
                     locatedUserCity: locatedUserCity,
-                    leading: _GpsSearchingAnimatedIcon(),
+                    leading: GpsAnimatedIcon(),
                     title: Text(
                       S.of(context).locationServiceLocating,
                       style: TextStyles.textBold14,
@@ -98,58 +99,6 @@ class CurrentLocation extends StatelessWidget {
         ],
       ),
     );
-  }
-}
-
-class _GpsSearchingAnimatedIcon extends StatefulWidget {
-  _GpsSearchingAnimatedIcon({Key key}) : super(key: key);
-
-  @override
-  __GpsSearchingAnimatedIconState createState() =>
-      __GpsSearchingAnimatedIconState();
-}
-
-class __GpsSearchingAnimatedIconState extends State<_GpsSearchingAnimatedIcon>
-    with SingleTickerProviderStateMixin {
-  AnimationController _controller;
-  int _currentIcon = 0;
-  final List<IconData> icon = [
-    Icons.gps_fixed,
-    Icons.gps_not_fixed,
-    Icons.gps_fixed,
-    Icons.gps_not_fixed
-  ];
-  @override
-  void initState() {
-    super.initState();
-    _controller = new AnimationController(
-        animationBehavior: AnimationBehavior.preserve,
-        vsync: this,
-        duration: const Duration(milliseconds: 1));
-    _controller.fling(velocity: 2);
-    _controller.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        setState(() {
-          if (++_currentIcon == icon.length) {
-            _currentIcon = 0;
-          }
-        });
-
-        _controller.forward(from: 0.0);
-      }
-    });
-
-    _controller.forward();
-  }
-
-  dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Icon(icon[_currentIcon]);
   }
 }
 

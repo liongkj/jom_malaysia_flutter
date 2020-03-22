@@ -16,49 +16,41 @@ class LocationUtils {
   }
 
   ///check if location service is disabled
-  static Future<bool> isLocationServiceEnabled(BuildContext context) async {
-    var locationServiceEnabled = await _geolocator.isLocationServiceEnabled();
-    var permissionGranted =
-        await _geolocator.checkGeolocationPermissionStatus() ==
-            GeolocationStatus.granted;
-    if (!locationServiceEnabled || !permissionGranted) {
-      _getProvider(context).setLoading(LocationState.noPermit);
-      if (!permissionGranted)
+  static Future<bool> _handlePermission(BuildContext context) async {
+    var gpsNotOpened = !await _locationServiceIsEnabled();
+    var doNotHavePermit = !await _permissionIsGranted();
+
+    if (gpsNotOpened || doNotHavePermit) {
+      if (doNotHavePermit) {
         showToast(S.of(context).locationServicePromptEnableGps,
             dismissOtherToast: true);
-      else if (!locationServiceEnabled)
+      } else if (gpsNotOpened)
         showToast(S.of(context).locationServicePromptPermission,
             dismissOtherToast: true);
+      _getProvider(context).setLoading(LocationState.noPermit);
       return false;
     }
-
     _getProvider(context).setLoading(LocationState.granted);
-    return locationServiceEnabled && permissionGranted;
-  }
-
-  ///get last known position
-  ///return a position object
-  ///return null if permission not enabled
-  static Future<Position> getLastKnownPosition() async {
-    Position position = await Geolocator().getLastKnownPosition();
-    return position;
+    return true;
   }
 
   ///Get current location
   ///need a [context] object to get provider context
   static Future<Position> getCurrentLocation(BuildContext context) async {
     try {
-      Position position;
-      if (await _geolocator.checkGeolocationPermissionStatus() ==
-          GeolocationStatus.granted) position = await getLastKnownPosition();
+      Position position = await _geolocator.getLastKnownPosition();
       if (position == null) {
         _getProvider(context).setLoading(LocationState.loading);
-        position = await _geolocator.getCurrentPosition();
+        position = await Geolocator()
+            .getCurrentPosition()
+            .timeout(Duration(seconds: 3))
+            .then(throw Exception("Gps not open"));
       }
       await _saveUserCoordinate(context, position);
       return position;
     } catch (_) {
-      _getProvider(context).setLoading(LocationState.noPermit);
+      // _getProvider(context).setLoading(LocationState.noPermit);
+      await _handlePermission(context);
       return null;
     }
   }
@@ -88,10 +80,20 @@ class LocationUtils {
     return "";
   }
 
+  static Future<bool> _locationServiceIsEnabled() async {
+    return await _geolocator.isLocationServiceEnabled();
+  }
+
+  static Future<bool> _permissionIsGranted() async {
+    return await _geolocator.checkGeolocationPermissionStatus() ==
+        GeolocationStatus.granted;
+  }
+
   ///save user located city and coordinate to provider
   static _saveUserCoordinate(BuildContext context, Position position) async {
     Placemark place = await _reverseGeocode(
         latitude: position.latitude, longitude: position.longitude);
+
     _getProvider(context).setCurrentLocation(place.locality, position);
   }
 

@@ -25,10 +25,8 @@ class _CommentListState extends State<CommentList>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    debugPrint(widget.placeId);
     final commentProvider =
         Provider.of<CommentsProvider>(context, listen: false);
-    debugPrint("comment page rebuild");
     return Scaffold(
       appBar: MyAppBar(
         centerTitle: S.of(context).labelPageComment,
@@ -49,7 +47,6 @@ class _CommentListState extends State<CommentList>
                 widget.placeId,
               ),
               builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                debugPrint("comment list rebuild");
                 if (snapshot.hasData) {
                   commentList = snapshot.data.documents
                       .map((doc) =>

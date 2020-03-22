@@ -239,8 +239,7 @@ class _LocationHeaderState extends State<LocationHeader> {
 
   void _fetchCurrentLocation() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      if (await LocationUtils.isLocationServiceEnabled(context))
-        await LocationUtils.getCurrentLocation(context);
+      await LocationUtils.getCurrentLocation(context);
     });
   }
 }
