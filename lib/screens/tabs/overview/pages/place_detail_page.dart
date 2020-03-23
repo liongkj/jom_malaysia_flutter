@@ -5,7 +5,7 @@ import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/overview_router.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/listing_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/comments/comment_section.dart';
-import 'package:jom_malaysia/screens/tabs/overview/widgets/fab_scroll_scaffold.dart';
+import 'package:jom_malaysia/screens/tabs/overview/widgets/overview/fab_scroll_scaffold.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/place_detail/app_bar_swiper.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/place_detail/merchant_info.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/place_detail/place_description.dart';
@@ -13,12 +13,10 @@ import 'package:jom_malaysia/screens/tabs/overview/widgets/place_detail/place_im
 import 'package:jom_malaysia/screens/tabs/overview/widgets/place_detail/place_info.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/place_detail/place_operating_hour.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
-import 'package:jom_malaysia/widgets/my_card.dart';
+import 'package:jom_malaysia/util/theme_utils.dart';
 import 'package:jom_malaysia/widgets/my_section_divider.dart';
 import 'package:jom_malaysia/widgets/sliver_appbar_delegate.dart';
 import 'package:provider/provider.dart';
-
-import '../../../../util/theme_utils.dart';
 
 class PlaceDetailPage extends StatefulWidget {
   const PlaceDetailPage({@required this.placeId});
@@ -37,23 +35,6 @@ class PlaceDetailPageState extends State<PlaceDetailPage>
   @override
   void initState() {
     _scrollController = new ScrollController();
-    //   ..addListener(() {
-    //     if (_scrollController.position.pixels >
-    //         _scrollController.position.maxScrollExtent * 0.9) {
-    //       if (_isVisible == true) {
-    //         setState(() {
-    //           _isVisible = false;
-    //         });
-    //       }
-    //     } else {
-    //       if (_isVisible == false) {
-    //         setState(() {
-    //           _isVisible = true;
-    //         });
-    //       }
-    //     }
-    //   });
-    // _isVisible = true;
 
     place = Provider.of<ListingProvider>(context, listen: false)
         .findById(widget.placeId);
