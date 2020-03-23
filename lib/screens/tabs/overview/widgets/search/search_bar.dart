@@ -4,8 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
-
-import 'load_image.dart';
+import 'package:jom_malaysia/widgets/load_image.dart';
 
 /// 搜索页的AppBar
 class SearchBar extends StatefulWidget implements PreferredSizeWidget {

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/listing_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/location_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/overview_page_provider.dart';
-import 'package:jom_malaysia/screens/tabs/overview/widgets/place_item.dart';
+import 'package:jom_malaysia/screens/tabs/overview/widgets/overview/place_item.dart';
 import 'package:jom_malaysia/widgets/state_layout.dart';
 import 'package:provider/provider.dart';
 

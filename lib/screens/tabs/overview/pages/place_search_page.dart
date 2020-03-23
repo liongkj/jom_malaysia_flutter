@@ -6,12 +6,12 @@ import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/overview_router.dart';
 import 'package:jom_malaysia/screens/tabs/overview/presenter/place_search_presenter.dart';
+import 'package:jom_malaysia/screens/tabs/overview/widgets/search/search_bar.dart';
 import 'package:jom_malaysia/setting/provider/base_list_provider.dart';
 import 'package:jom_malaysia/setting/provider/language_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/widgets/my_rating_bar.dart';
 import 'package:jom_malaysia/widgets/my_refresh_list.dart';
-import 'package:jom_malaysia/widgets/search_bar.dart';
 import 'package:jom_malaysia/widgets/state_layout.dart';
 import 'package:provider/provider.dart';
 

@@ -10,7 +10,7 @@ import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/city_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/overview_router.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/location_provider.dart';
-import 'package:jom_malaysia/screens/tabs/overview/widgets/current_location.dart';
+import 'package:jom_malaysia/screens/tabs/overview/widgets/overview/current_location.dart';
 import 'package:jom_malaysia/setting/provider/user_current_location_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
