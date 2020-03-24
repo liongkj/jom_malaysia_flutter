@@ -2,9 +2,9 @@ import 'package:dio/dio.dart';
 import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:jom_malaysia/core/models/ads_model.dart';
-import 'package:jom_malaysia/core/services/gateway/api_const.dart';
 import 'package:jom_malaysia/core/services/gateway/dio_utils.dart';
 import 'package:jom_malaysia/core/services/gateway/http_service.dart';
+import 'package:jom_malaysia/core/services/gateway/net.dart';
 import 'package:jom_malaysia/setting/provider/base_change_notifier.dart';
 import 'package:jom_malaysia/widgets/state_layout.dart';
 
