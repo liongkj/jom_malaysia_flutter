@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:jom_malaysia/core/interfaces/i_search_service.dart';
 import 'package:jom_malaysia/core/services/gateway/http_service.dart';
 import 'package:jom_malaysia/core/services/gateway/net.dart';
+import 'package:jom_malaysia/core/services/search/i_search_service.dart';
 import 'package:jom_malaysia/core/services/search/place_search_result_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
 

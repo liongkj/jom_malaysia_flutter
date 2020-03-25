@@ -1,11 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:flutter/material.dart';
-import 'package:jom_malaysia/core/interfaces/i_image_service.dart';
 import 'package:jom_malaysia/core/services/gateway/http_service.dart';
 import 'package:jom_malaysia/core/services/gateway/net.dart';
 import 'package:jom_malaysia/core/services/image/cloudinary/cloudinary_upload_request.dart';
 import 'package:jom_malaysia/core/services/image/cloudinary/cloudinary_upload_response.dart';
+import 'package:jom_malaysia/core/services/image/i_image_service.dart';
 
 class CloudinaryImageService implements IImageService {
   HttpService _httpService;
