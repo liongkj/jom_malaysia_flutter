@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import 'package:jom_malaysia/util/text_utils.dart';
+
 class PlaceSearchResult {
   String objectId;
   Merchant merchant;
@@ -136,6 +139,24 @@ class Category {
   List<String> ms;
 
   Category({this.en, this.zh, this.ms});
+
+  String getTranslated(Locale lang, int index) {
+    String text;
+    switch (lang.languageCode) {
+      case 'ms':
+        text = ms[index];
+        break;
+      case 'zh':
+        text = zh[index];
+        break;
+      case 'en':
+        text = en[index];
+        break;
+      default:
+        break;
+    }
+    return TextUtils.capitalize(text);
+  }
 
   Category.fromJson(Map<String, dynamic> json) {
     en = json['en'].cast<String>();

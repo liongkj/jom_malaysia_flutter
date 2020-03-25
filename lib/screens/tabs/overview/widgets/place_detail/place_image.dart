@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/models/image_model.dart';
-import 'package:jom_malaysia/screens/tabs/overview/widgets/comments/gallery_image_item.dart';
-import 'package:jom_malaysia/screens/tabs/overview/widgets/comments/gallery_photo_view.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/comments/single_photo_view.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
 
-class PlaceImage extends StatelessWidget {
+class PlaceImage extends StatefulWidget {
   final List<ImageModel> images;
   const PlaceImage({
     Key key,
     this.images,
   }) : super(key: key);
 
+  @override
+  _PlaceImageState createState() => _PlaceImageState();
+}
+
+class _PlaceImageState extends State<PlaceImage> {
   @override
   Widget build(BuildContext context) {
     return SliverList(
@@ -22,17 +25,17 @@ class PlaceImage extends StatelessWidget {
               context,
               MaterialPageRoute(
                 builder: (context) => SinglePhotoView(
-                    imageProvider: NetworkImage(images[index].url),
+                    imageProvider: NetworkImage(widget.images[index].url),
                     tagId: "image-ads-$index"),
               ),
             ),
             child: LoadImage(
-              images[index].url,
+              widget.images[index].url,
               // fit: BoxFit.fill,
             ),
           );
         },
-        childCount: images.length,
+        childCount: widget.images.length,
       ),
     );
   }

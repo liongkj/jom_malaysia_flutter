@@ -3,10 +3,12 @@ import 'package:jom_malaysia/core/enums/category_type_enum.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/core/services/search/place_search_result_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/overview_router.dart';
+import 'package:jom_malaysia/setting/provider/language_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
 import 'package:jom_malaysia/widgets/my_card.dart';
 import 'package:jom_malaysia/widgets/my_rating_bar.dart';
+import 'package:provider/provider.dart';
 
 class SearchResultItem extends StatelessWidget {
   SearchResultItem(this.result);
@@ -82,6 +84,7 @@ class _BuildSubtitle extends StatelessWidget {
   final PlaceSearchResult place;
   @override
   Widget build(BuildContext context) {
+    final locale = Provider.of<LanguageProvider>(context, listen: false).locale;
     return Container(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -101,14 +104,14 @@ class _BuildSubtitle extends StatelessWidget {
               Gaps.vLine,
               Gaps.hGap8,
               Text(
-                place.category.en[0],
+                place.category.getTranslated(locale ?? Locale('en'), 0),
                 style: Theme.of(context).textTheme.subtitle,
               ),
               Gaps.hGap4,
               Text("/"),
               Gaps.hGap4,
               Text(
-                place.category.en[1],
+                place.category.getTranslated(locale ?? Locale('en'), 1),
                 style: Theme.of(context).textTheme.subtitle,
               ),
             ],

@@ -38,6 +38,9 @@ class PlaceDetailPageState extends State<PlaceDetailPage>
 
     place = Provider.of<ListingProvider>(context, listen: false)
         .findById(widget.placeId);
+    place.listingImages.ads.forEach(
+        (f) async => await precacheImage(NetworkImage(f.url), context));
+
     super.initState();
   }
 
