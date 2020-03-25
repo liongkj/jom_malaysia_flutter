@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/enums/category_type_enum.dart';
-import 'package:jom_malaysia/core/mvp/base_page_state.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/overview_router.dart';
-import 'package:jom_malaysia/screens/tabs/overview/presenter/place_search_presenter.dart';
+import 'package:jom_malaysia/screens/tabs/overview/providers/search_result_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/search/search_bar.dart';
 import 'package:jom_malaysia/setting/provider/base_list_provider.dart';
 import 'package:jom_malaysia/setting/provider/language_provider.dart';
@@ -13,22 +12,21 @@ import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/widgets/my_rating_bar.dart';
 import 'package:jom_malaysia/widgets/my_refresh_list.dart';
 import 'package:jom_malaysia/widgets/state_layout.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 
 class PlaceSearchPage extends StatefulWidget {
   @override
-  PlaceSearchPageState createState() => PlaceSearchPageState();
+  _PlaceSearchPageState createState() => _PlaceSearchPageState();
 }
 
-class PlaceSearchPageState
-    extends BasePageState<PlaceSearchPage, PlaceSearchPresenter> {
-  BaseListProvider<ListingModel> provider = BaseListProvider<ListingModel>();
+class _PlaceSearchPageState extends State<PlaceSearchPage> {
   String _keyword;
+  SearchResultProvider provider;
   int _page = 1;
   Locale locale;
   @override
   void initState() {
-    provider.setStateTypeNotNotify(StateType.empty);
     super.initState();
   }
 
@@ -36,7 +34,7 @@ class PlaceSearchPageState
   Widget build(BuildContext context) {
     locale = Provider.of<LanguageProvider>(context, listen: false).locale ??
         Localizations.localeOf(context);
-    return ChangeNotifierProvider<BaseListProvider<ListingModel>>(
+    return ChangeNotifierProvider<SearchResultProvider>(
       create: (_) => provider,
       child: Scaffold(
         appBar: SearchBar(
@@ -50,7 +48,7 @@ class PlaceSearchPageState
             _keyword = text;
             provider.setStateType(StateType.loading);
             _page = 1;
-            presenter.search(_keyword, _page, true, locale: locale);
+            provider.search(_keyword, _page, locale: locale);
           },
         ),
         body: Consumer<BaseListProvider<ListingModel>>(
@@ -72,19 +70,14 @@ class PlaceSearchPageState
     );
   }
 
-  @override
-  PlaceSearchPresenter createPresenter() {
-    return new PlaceSearchPresenter();
-  }
-
   Future _onRefresh() async {
     _page = 1;
-    await presenter.search(_keyword, _page, false, locale: locale);
+    await provider.search(_keyword, _page, locale: locale);
   }
 
   Future _loadMore() async {
     _page++;
-    await presenter.search(_keyword, _page, false, locale: locale);
+    await provider.search(_keyword, _page, locale: locale);
   }
 }
 

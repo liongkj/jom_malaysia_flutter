@@ -1,7 +1,10 @@
 import 'package:algolia/algolia.dart';
+import 'package:flutter/material.dart';
+import 'package:jom_malaysia/core/interfaces/i_search_service.dart';
 import 'package:jom_malaysia/core/services/gateway/net.dart';
+import 'package:jom_malaysia/core/services/search/place_search_result_model.dart';
 
-class AlgoliaSearch {
+class AlgoliaSearch extends ISearchService {
   static final Algolia _algolia = Algolia.init(
       applicationId: AlgoliaContants.appId,
       apiKey: AlgoliaContants.searchApiKey);
@@ -11,5 +14,12 @@ class AlgoliaSearch {
         _algolia.instance.index(AlgoliaContants.indexName).search(keyword);
     var snap = await query.getObjects();
     return snap;
+  }
+
+  @override
+  Future<List<PlaceSearchResult>> search(String text, int page,
+      {Locale locale}) {
+    // TODO: implement search
+    return null;
   }
 }
