@@ -10,7 +10,6 @@ class DeerListView extends StatefulWidget {
     Key key,
     @required this.itemCount,
     @required this.itemBuilder,
-    @required this.onRefresh,
     this.loadMore,
     this.hasMore: false,
     this.stateType: StateType.empty,
@@ -19,7 +18,6 @@ class DeerListView extends StatefulWidget {
     this.itemExtent,
   }) : super(key: key);
 
-  final RefreshCallback onRefresh;
   final LoadMoreCallback loadMore;
   final int itemCount;
   final bool hasMore;
@@ -46,36 +44,33 @@ class _DeerListViewState extends State<DeerListView> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: NotificationListener(
-        onNotification: (ScrollNotification note) {
-          /// 确保是垂直方向滚动，且滑动至底部
-          if (note.metrics.pixels == note.metrics.maxScrollExtent &&
-              note.metrics.axis == Axis.vertical) {
-            _loadMore();
-          }
-          return true;
-        },
-        child: RefreshIndicator(
-            onRefresh: widget.onRefresh,
-            child: widget.itemCount == 0
-                ? StateLayout(type: widget.stateType)
-                : ListView.builder(
-                    itemCount: widget.loadMore == null
-                        ? widget.itemCount
-                        : widget.itemCount + 1,
-                    padding: widget.padding,
-                    itemExtent: widget.itemExtent,
-                    itemBuilder: (BuildContext context, int index) {
-                      /// 不需要加载更多则不需要添加FootView
-                      if (widget.loadMore == null) {
-                        return widget.itemBuilder(context, index);
-                      } else {
-                        return index < widget.itemCount
-                            ? widget.itemBuilder(context, index)
-                            : MoreWidget(widget.itemCount, widget.hasMore,
-                                widget.pageSize);
-                      }
-                    })),
-      ),
+          onNotification: (ScrollNotification note) {
+            /// 确保是垂直方向滚动，且滑动至底部
+            if (note.metrics.pixels == note.metrics.maxScrollExtent &&
+                note.metrics.axis == Axis.vertical) {
+              _loadMore();
+            }
+            return true;
+          },
+          child: widget.itemCount == 0
+              ? StateLayout(type: widget.stateType)
+              : ListView.builder(
+                  itemCount: widget.loadMore == null
+                      ? widget.itemCount
+                      : widget.itemCount + 1,
+                  padding: widget.padding,
+                  itemExtent: widget.itemExtent,
+                  itemBuilder: (BuildContext context, int index) {
+                    /// 不需要加载更多则不需要添加FootView
+                    if (widget.loadMore == null) {
+                      return widget.itemBuilder(context, index);
+                    } else {
+                      return index < widget.itemCount
+                          ? widget.itemBuilder(context, index)
+                          : MoreWidget(widget.itemCount, widget.hasMore,
+                              widget.pageSize);
+                    }
+                  })),
     );
   }
 

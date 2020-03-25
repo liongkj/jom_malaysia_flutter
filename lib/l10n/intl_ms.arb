@@ -75,6 +75,7 @@
   "clickItemSettingAboutTitle": "Perihal",
   "clickItemSettingShareTitle": "Beritahu rakan",
   "clickItemSettingRecommendPlaceTitle": "Cadangkan satu tempat",
+  "labelCityNotInServiceArea": "Anda berada di luar kawasan perkhidmatan",
   "cityPickerCurrentCity": "Pilihan Bandar: {selected}",
   "stateTypePlace": "Wuuu.. Sini sangat kosong",
   "stateTypeNoNetwork": "Ralat Rangkaian",

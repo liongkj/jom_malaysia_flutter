@@ -3,10 +3,12 @@ import 'package:jom_malaysia/core/services/gateway/firestore_api.dart';
 import 'package:jom_malaysia/core/services/gateway/http_service.dart';
 import 'package:jom_malaysia/core/services/image/cloudinary/cloudinary_image_service.dart';
 import 'package:jom_malaysia/core/services/image/firebase_storage_api.dart';
+import 'package:jom_malaysia/core/services/search/algolia_search.dart';
 import 'package:jom_malaysia/screens/tabs/explore/providers/featured_place_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/comments_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/listing_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/location_provider.dart';
+import 'package:jom_malaysia/screens/tabs/overview/providers/search_result_provider.dart';
 import 'package:jom_malaysia/setting/provider/language_provider.dart';
 import 'package:jom_malaysia/setting/provider/theme_provider.dart';
 import 'package:jom_malaysia/setting/provider/user_current_location_provider.dart';
@@ -22,6 +24,9 @@ List<SingleChildWidget> providers = [
 List<SingleChildWidget> independentServices = [
   InheritedProvider(
     create: (_) => HttpService(),
+  ),
+  InheritedProvider(
+    create: (_) => AlgoliaSearch(),
   ),
   InheritedProvider(
     create: (_) => FirestoreService(),
@@ -65,6 +70,11 @@ List<SingleChildWidget> dependentServices = [
   ChangeNotifierProvider<CommentsProvider>(
     create: (context) => CommentsProvider(
       firebaseService: Provider.of<FirestoreService>(context, listen: false),
+    ),
+  ),
+  ChangeNotifierProvider(
+    create: (context) => SearchResultProvider(
+      service: Provider.of<AlgoliaSearch>(context, listen: false),
     ),
   ),
 ];

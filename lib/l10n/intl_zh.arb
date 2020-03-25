@@ -74,6 +74,7 @@
   "clickItemSettingAboutTitle": "关于我们",
   "clickItemSettingShareTitle": "告诉朋友",
   "clickItemSettingRecommendPlaceTitle": "添加商户",
+  "labelCityNotInServiceArea": "您所在城市不在服务区域",
   "cityPickerCurrentCity": "当前城市: {selected}",
   "stateTypePlace": "呜呜这里空荡荡的",
   "stateTypeNoNetwork": "无网络连接",

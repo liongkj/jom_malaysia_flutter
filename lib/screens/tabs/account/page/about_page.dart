@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
-import 'package:jom_malaysia/core/services/gateway/api_const.dart';
+import 'package:jom_malaysia/core/services/gateway/net.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/widgets/app_bar.dart';

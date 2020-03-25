@@ -4,9 +4,11 @@ import 'package:jom_malaysia/core/constants/common.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/tabs/account/account_router.dart';
+import 'package:jom_malaysia/setting/provider/language_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/widgets/app_bar.dart';
 import 'package:jom_malaysia/widgets/click_item.dart';
+import 'package:provider/provider.dart';
 
 /// design/8设置/index.html
 class SettingPage extends StatefulWidget {
@@ -17,9 +19,9 @@ class SettingPage extends StatefulWidget {
 class _SettingPageState extends State<SettingPage> {
   @override
   Widget build(BuildContext context) {
-    String language = flutter_stars.SpUtil.getString(Constant.language);
+    var lang = Provider.of<LanguageProvider>(context, listen: false).locale;
     String preferredLang;
-    switch (language) {
+    switch (lang?.languageCode) {
       case "ms":
         preferredLang = "Bahasa Malaysia";
         break;
@@ -30,7 +32,7 @@ class _SettingPageState extends State<SettingPage> {
         preferredLang = "English";
         break;
       default:
-        preferredLang = "System Default";
+        preferredLang = S.of(context).settingLanguageLabelSystemDefault;
         break;
     }
 

@@ -46,6 +46,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "labelAveragePaxTitle" : MessageLookupByLibrary.simpleMessage("Perbelanjaan"),
     "labelAveratePaxPrefix" : MessageLookupByLibrary.simpleMessage("RM"),
     "labelAveratePaxSuffix" : MessageLookupByLibrary.simpleMessage("Seorang"),
+    "labelCityNotInServiceArea" : MessageLookupByLibrary.simpleMessage("Anda berada di luar kawasan perkhidmatan"),
     "labelClickToAddImage" : MessageLookupByLibrary.simpleMessage("Klik untuk tambah imej"),
     "labelDialogCancel" : MessageLookupByLibrary.simpleMessage("BATAL"),
     "labelDialogFriday" : MessageLookupByLibrary.simpleMessage("jmu"),
