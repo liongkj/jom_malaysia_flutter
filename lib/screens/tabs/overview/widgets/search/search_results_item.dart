@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:jom_malaysia/core/enums/category_type_enum.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/core/services/search/place_search_result_model.dart';
@@ -15,34 +14,37 @@ class SearchResultItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MyCard(
-      child: ListTile(
-        leading: result.photo == null
-            ? Container(
-                width: 80,
-                child: Icon(
-                  _getTypeIcon(result.categoryType),
-                  size: 50,
+      child: Padding(
+        padding: const EdgeInsets.only(top: 8.0),
+        child: ListTile(
+          leading: result.photo == null
+              ? Container(
+                  width: 80,
+                  child: Icon(
+                    _getTypeIcon(result.categoryType),
+                    size: 50,
+                  ),
+                )
+              : LoadImage(
+                  result.photo,
+                  width: 80,
+                  height: 65,
                 ),
-              )
-            : LoadImage(
-                result.photo,
-                width: 80,
-                height: 65,
-              ),
-        title: Text(
-          result.listingName,
-          overflow: TextOverflow.ellipsis,
-          style: Theme.of(context).textTheme.title.copyWith(
-                fontSize: 14.0,
-                fontWeight: FontWeight.w700,
-              ),
-        ),
+          title: Text(
+            result.listingName,
+            overflow: TextOverflow.ellipsis,
+            style: Theme.of(context).textTheme.title.copyWith(
+                  fontSize: 14.0,
+                  fontWeight: FontWeight.w700,
+                ),
+          ),
 
-        subtitle: _BuildSubtitle(result),
-        isThreeLine: false,
-        // trailing: Container(),
-        onTap: () => NavigatorUtils.push(
-            context, '${OverviewRouter.placeDetailPage}/${result.objectId}'),
+          subtitle: _BuildSubtitle(result),
+          isThreeLine: false,
+          // trailing: Container(),
+          onTap: () => NavigatorUtils.push(
+              context, '${OverviewRouter.placeDetailPage}/${result.objectId}'),
+        ),
       ),
     );
   }
@@ -88,7 +90,7 @@ class _BuildSubtitle extends StatelessWidget {
         children: <Widget>[
           Gaps.vGap4,
           MyRatingBar(
-            rating: 0,
+            rating: 3,
           ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
