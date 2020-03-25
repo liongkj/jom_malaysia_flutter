@@ -21,8 +21,8 @@ class AlgoliaSearch extends ISearchService {
       {Locale locale}) async {
     var snapshot = await _query(text);
     List<PlaceSearchResult> data = [];
-    snapshot.hits
-        .forEach((result) => data.add(PlaceSearchResult.fromJson(result.data)));
+    snapshot.hits.forEach((result) =>
+        data.add(PlaceSearchResult.fromJson(result.objectID, result.data)));
     return data;
   }
 }

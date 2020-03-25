@@ -29,6 +29,7 @@ class ListingProvider extends BaseChangeNotifier {
 
   void clear() {
     _listing.clear();
+    setStateTypeWithoutNotify(StateType.loading);
     notifyListeners();
   }
 

@@ -50,10 +50,6 @@ List<SingleChildWidget> independentServices = [
 
 List<SingleChildWidget> dependentServices = [
   InheritedProvider(
-      create: (context) => SearchResultProvider(
-            service: Provider.of<AlgoliaSearch>(context, listen: false),
-          )),
-  InheritedProvider(
       create: (context) => CloudinaryImageService(
             httpService: Provider.of<HttpService>(context, listen: false),
           )),
@@ -74,6 +70,11 @@ List<SingleChildWidget> dependentServices = [
   ChangeNotifierProvider<CommentsProvider>(
     create: (context) => CommentsProvider(
       firebaseService: Provider.of<FirestoreService>(context, listen: false),
+    ),
+  ),
+  ChangeNotifierProvider(
+    create: (context) => SearchResultProvider(
+      service: Provider.of<AlgoliaSearch>(context, listen: false),
     ),
   ),
 ];

@@ -84,7 +84,7 @@ class _Description extends StatelessWidget {
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.max,
+      mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         Text(
           listing.listingName,

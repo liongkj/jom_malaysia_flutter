@@ -3,33 +3,34 @@ class PlaceSearchResult {
   Merchant merchant;
   String listingName;
   String photo;
-  Description description;
+  // Description description;
   Address address;
   Category category;
   String categoryType;
   List<String> tags;
   Geoloc geoloc;
 
-  PlaceSearchResult(this.objectId,
+  PlaceSearchResult(
       {this.merchant,
       this.listingName,
       this.photo,
-      this.description,
+      // this.description,
       this.address,
       this.category,
       this.categoryType,
       this.tags,
       this.geoloc});
 
-  PlaceSearchResult.fromJson(Map<String, dynamic> json) {
+  PlaceSearchResult.fromJson(String objectId, Map<String, dynamic> json) {
+    this.objectId = objectId;
     merchant = json['merchant'] != null
         ? new Merchant.fromJson(json['merchant'])
         : null;
     listingName = json['listingName'];
     photo = json['photo'];
-    description = json['description'] != null
-        ? new Description.fromJson(json['description'])
-        : null;
+    // description = json['description'] != null
+    //     ? new Description.fromJson(json['description'])
+    //     : null;
     address =
         json['address'] != null ? new Address.fromJson(json['address']) : null;
     category = json['category'] != null
@@ -48,9 +49,9 @@ class PlaceSearchResult {
     }
     data['listingName'] = this.listingName;
     data['photo'] = this.photo;
-    if (this.description != null) {
-      data['description'] = this.description.toJson();
-    }
+    // if (this.description != null) {
+    //   data['description'] = this.description.toJson();
+    // }
     if (this.address != null) {
       data['address'] = this.address.toJson();
     }
