@@ -46,6 +46,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "labelAveragePaxTitle" : MessageLookupByLibrary.simpleMessage("Spending"),
     "labelAveratePaxPrefix" : MessageLookupByLibrary.simpleMessage("RM "),
     "labelAveratePaxSuffix" : MessageLookupByLibrary.simpleMessage("PAX"),
+    "labelCityNotInServiceArea" : MessageLookupByLibrary.simpleMessage("City not in service area"),
     "labelClickToAddImage" : MessageLookupByLibrary.simpleMessage("Add a image to let other know more about this place"),
     "labelDialogCancel" : MessageLookupByLibrary.simpleMessage("CANCEL"),
     "labelDialogFriday" : MessageLookupByLibrary.simpleMessage("fri"),

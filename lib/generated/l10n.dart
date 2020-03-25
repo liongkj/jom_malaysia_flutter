@@ -724,6 +724,15 @@ class S {
     );
   }
 
+  String get labelCityNotInServiceArea {
+    return Intl.message(
+      'City not in service area',
+      name: 'labelCityNotInServiceArea',
+      desc: '',
+      args: [],
+    );
+  }
+
   String get stateTypePlace {
     return Intl.message(
       'More places coming soon',

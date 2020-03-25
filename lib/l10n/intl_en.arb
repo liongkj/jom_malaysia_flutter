@@ -77,6 +77,7 @@
   "clickItemSettingShareTitle": "Tell a friend",
   "clickItemSettingRecommendPlaceTitle": "Add a missing place",
   "cityPickerCurrentCity": "Selected: {selected}",
+  "labelCityNotInServiceArea": "City not in service area",
   "stateTypePlace": "More places coming soon",
   "stateTypeNoNetwork": "Network error",
   "errorMessageNetworkFailure": "Unknown error, Please check your network!",

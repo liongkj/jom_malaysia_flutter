@@ -46,6 +46,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "labelAveragePaxTitle" : MessageLookupByLibrary.simpleMessage("人均"),
     "labelAveratePaxPrefix" : MessageLookupByLibrary.simpleMessage(""),
     "labelAveratePaxSuffix" : MessageLookupByLibrary.simpleMessage(" 令吉"),
+    "labelCityNotInServiceArea" : MessageLookupByLibrary.simpleMessage("您所在城市不在服务区域"),
     "labelClickToAddImage" : MessageLookupByLibrary.simpleMessage("点击添加商品图片"),
     "labelDialogCancel" : MessageLookupByLibrary.simpleMessage("取消"),
     "labelDialogFriday" : MessageLookupByLibrary.simpleMessage("五"),

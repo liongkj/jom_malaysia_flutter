@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/core/services/location/location_utils.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
@@ -38,7 +36,8 @@ class CurrentLocation extends StatelessWidget {
                 tile = _CurrentLocationSelector(
                     locatedUserCity: locatedUserCity,
                     onTap: city == null
-                        ? () => showToast("City not in service area")
+                        ? () =>
+                            showToast(S.of(context).labelCityNotInServiceArea)
                         : null,
                     leading: Icon(
                       Icons.location_on,
