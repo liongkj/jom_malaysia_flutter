@@ -6,7 +6,6 @@ import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/overview_router.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/search_result_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/search/search_bar.dart';
-import 'package:jom_malaysia/setting/provider/base_list_provider.dart';
 import 'package:jom_malaysia/setting/provider/language_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/widgets/my_rating_bar.dart';
@@ -51,18 +50,17 @@ class _PlaceSearchPageState extends State<PlaceSearchPage> {
             provider.search(_keyword, _page, locale: locale);
           },
         ),
-        body: Consumer<BaseListProvider<ListingModel>>(
-            builder: (_, provider, __) {
+        body: Consumer<SearchResultProvider>(builder: (_, provider, __) {
           return DeerListView(
             key: Key('order_search_list'),
-            itemCount: provider.list.length,
+            itemCount: provider.result.length,
             stateType: provider.stateType,
             onRefresh: _onRefresh,
             loadMore: _loadMore,
             itemExtent: 50.0,
-            hasMore: provider.hasMore,
+            hasMore: false,
             itemBuilder: (_, index) {
-              return _BuildListTile(provider.list[index]);
+              return _BuildListTile(provider.result[index]);
             },
           );
         }),

@@ -9,7 +9,7 @@ class AlgoliaSearch extends ISearchService {
       applicationId: AlgoliaContants.appId,
       apiKey: AlgoliaContants.searchApiKey);
 
-  static Future<AlgoliaQuerySnapshot> query(String keyword) async {
+  static Future<AlgoliaQuerySnapshot> _query(String keyword) async {
     var query =
         _algolia.instance.index(AlgoliaContants.indexName).search(keyword);
     var snap = await query.getObjects();
@@ -18,8 +18,11 @@ class AlgoliaSearch extends ISearchService {
 
   @override
   Future<List<PlaceSearchResult>> search(String text, int page,
-      {Locale locale}) {
-    // TODO: implement search
-    return null;
+      {Locale locale}) async {
+    var snapshot = await _query(text);
+    List<PlaceSearchResult> data = [];
+    snapshot.hits
+        .forEach((result) => data.add(PlaceSearchResult.fromJson(result.data)));
+    return data;
   }
 }
