@@ -6,11 +6,10 @@ class AlgoliaSearch {
       applicationId: AlgoliaContants.appId,
       apiKey: AlgoliaContants.searchApiKey);
 
-  Future<AlgoliaQuerySnapshot> query(String keyword) async {
-    Future<AlgoliaQuerySnapshot> query = _algolia.instance
-        .index(AlgoliaContants.indexName)
-        .search(keyword)
-        .getObjects();
-    return query;
+  static Future<AlgoliaQuerySnapshot> query(String keyword) async {
+    var query =
+        _algolia.instance.index(AlgoliaContants.indexName).search(keyword);
+    var snap = await query.getObjects();
+    return snap;
   }
 }

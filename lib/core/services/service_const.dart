@@ -36,5 +36,5 @@ class AlgoliaContants {
   static const String appId = "0CUJG6GNL8";
   static const String searchApiKey = "f5aff3f0495cfbf8577f0359b08ba2b4";
 
-  static const String indexName = "index_prod";
+  static const String indexName = "prod_jomn9";
 }
