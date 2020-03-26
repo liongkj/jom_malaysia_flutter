@@ -131,7 +131,7 @@ class _MyTextFieldState extends State<MyTextField> {
                 ? Gaps.empty
                 : GestureDetector(
                     child: LoadAssetImage(
-                      "login/qyg_shop_icon_delete",
+                      "login/icon_delete",
                       key: Key('${widget.keyName}_delete'),
                       width: 18.0,
                       height: 18.0,
@@ -144,8 +144,8 @@ class _MyTextFieldState extends State<MyTextField> {
                 : GestureDetector(
                     child: LoadAssetImage(
                       _isShowPwd
-                          ? "login/qyg_shop_icon_display"
-                          : "login/qyg_shop_icon_hide",
+                          ? "login/icon_display_pass"
+                          : "login/icon_hide_pass",
                       key: Key('${widget.keyName}_showPwd'),
                       width: 18.0,
                       height: 18.0,
