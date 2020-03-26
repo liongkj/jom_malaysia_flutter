@@ -37,6 +37,9 @@ List<SingleChildWidget> independentServices = [
   InheritedProvider(
     create: (_) => FirebaseStorageService(),
   ),
+  InheritedProvider(
+    create: (_) => FirebaseAuthService(),
+  ),
   ChangeNotifierProvider<UserCurrentLocationProvider>(
     create: (_) => UserCurrentLocationProvider(),
   ),
@@ -49,9 +52,6 @@ List<SingleChildWidget> independentServices = [
   ChangeNotifierProvider<LocationProvider>(
     create: (_) => LocationProvider(),
   ),
-  ChangeNotifierProvider(
-    create: (_) => FirebaseAuthService(),
-  )
 ];
 
 List<SingleChildWidget> dependentServices = [
@@ -85,7 +85,7 @@ List<SingleChildWidget> dependentServices = [
   ),
   ChangeNotifierProvider(
     create: (context) => AuthProvider(
-      service: Provider.of<IAuthenticationService>(context, listen: false),
+      service: Provider.of<FirebaseAuthService>(context, listen: false),
     ),
   )
 ];

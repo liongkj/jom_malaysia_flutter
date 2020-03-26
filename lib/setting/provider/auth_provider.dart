@@ -5,8 +5,8 @@ import 'package:jom_malaysia/core/services/authentication/i_auth_service.dart';
 enum AuthState { ghost, user }
 
 class AuthProvider extends ChangeNotifier {
-  IAuthenticationService _service;
-  AuthProvider({@required service}) : _service = service;
+  final IAuthenticationService _service;
+  AuthProvider({@required IAuthenticationService service}) : _service = service;
 
   String _token;
   DateTime _expiryDate;
@@ -19,6 +19,10 @@ class AuthProvider extends ChangeNotifier {
   AuthState get state => _state;
 
   Future<void> signUp(String email, String password) async {
-    _service.signUp(email, password);
+    var user = await _service.signUp(email, password);
+  }
+
+  Future<void> signInWithGoogle() {
+    return _service.signInWithGoogle();
   }
 }

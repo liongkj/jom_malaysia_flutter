@@ -1,19 +1,61 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:jom_malaysia/core/models/authuser_model.dart';
 import 'package:jom_malaysia/core/services/authentication/i_auth_service.dart';
 import 'package:jom_malaysia/core/services/authentication/requests/otp_request.dart';
+import 'package:jom_malaysia/core/services/gateway/exception/invalid_credential_exception.dart';
+import 'package:jom_malaysia/core/services/gateway/exception/invalid_email_exception.dart';
 import 'package:jom_malaysia/core/services/gateway/exception/network_exception.dart';
+import 'package:jom_malaysia/core/services/gateway/exception/not_found_exception.dart';
+import 'package:jom_malaysia/core/services/gateway/exception/unknown_error_exception.dart';
 
 class FirebaseAuthService extends IAuthenticationService {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   static final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
-  Future<void> signUp(String email, String password) async {
-    var result = await _auth.signInWithEmailAndPassword(
-        email: email, password: password);
-    return null;
+  Future<AuthUser> signUp(String email, String password) async {
+    try {
+      FirebaseUser result = (await _auth.createUserWithEmailAndPassword(
+              email: email, password: password))
+          .user;
+
+      AuthUser user = new AuthUser(
+          result.uid, result.displayName, result.photoUrl, result.email);
+      return user;
+    } catch (error) {
+      switch (error.code) {
+        case "ERROR_INVALID_EMAIL":
+          throw InvalidEmailException("");
+          break;
+        case "ERROR_WRONG_PASSWORD":
+          throw InvalidCredentialException("wrong password");
+          break;
+        case "ERROR_USER_NOT_FOUND":
+          throw NotFoundException("User not found");
+          break;
+
+        default:
+          throw UnknownErrorException(error.toString());
+      }
+    }
+  }
+
+  Future<AuthUser> signInWithGoogle() async {
+    final GoogleSignInAccount googleSignInAccount =
+        await _googleSignIn.signIn();
+    final GoogleSignInAuthentication googleSignInAuthentication =
+        await googleSignInAccount.authentication;
+    final AuthCredential credential = GoogleAuthProvider.getCredential(
+      accessToken: googleSignInAuthentication.accessToken,
+      idToken: googleSignInAuthentication.idToken,
+    );
+    final AuthResult authResult = await _auth.signInWithCredential(credential);
+    final FirebaseUser result = authResult.user;
+    AuthUser user = new AuthUser(
+        result.uid, result.displayName, result.photoUrl, result.email);
+    return user;
   }
 
   @override

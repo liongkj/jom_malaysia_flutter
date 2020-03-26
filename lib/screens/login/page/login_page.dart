@@ -6,11 +6,13 @@ import 'package:jom_malaysia/core/constants/common.dart';
 import 'package:jom_malaysia/core/res/gaps.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/screens/tabs/overview/overview_router.dart';
+import 'package:jom_malaysia/setting/provider/auth_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/widgets/app_bar.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
 import 'package:jom_malaysia/widgets/my_button.dart';
 import 'package:jom_malaysia/widgets/text_field.dart';
+import 'package:provider/provider.dart';
 
 import '../login_router.dart';
 
@@ -63,6 +65,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final loginProvider = Provider.of<AuthProvider>(context, listen: false);
     return Scaffold(
       appBar: MyAppBar(
         isBack: false,
@@ -87,7 +90,11 @@ class _LoginPageState extends State<LoginPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () =>
+                      loginProvider.signInWithGoogle().whenComplete(
+                            () => NavigatorUtils.push(
+                                context, OverviewRouter.overviewPage),
+                          ),
                   icon: LoadAssetImage('login/providers/icon_google'),
                 ),
               ],

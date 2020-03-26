@@ -3,8 +3,9 @@ class AuthUser {
     this.userId,
     this.username,
     this.profileImage,
+    this.email,
   );
-
+  String email;
   String userId;
   String username;
   String profileImage;
