@@ -1,11 +1,18 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
+import 'package:jom_malaysia/core/services/authentication/firebase_auth_service.dart';
+import 'package:jom_malaysia/core/services/authentication/i_auth_service.dart';
+import 'package:jom_malaysia/core/services/authentication/requests/otp_request.dart';
+import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/util/toast.dart';
 import 'package:jom_malaysia/widgets/app_bar.dart';
 import 'package:jom_malaysia/widgets/my_button.dart';
 import 'package:jom_malaysia/widgets/text_field.dart';
+import 'package:oktoast/oktoast.dart';
+import 'package:provider/provider.dart';
 
 /// design/1注册登录/index.html#artboard11
 class RegisterPage extends StatefulWidget {
@@ -15,48 +22,39 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
+  IAuthenticationService _authService;
   //定义一个controller
   TextEditingController _phoneNoController = TextEditingController();
   TextEditingController _vCodeController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
   final FocusNode _nodeText1 = FocusNode();
   final FocusNode _nodeText2 = FocusNode();
-  final FocusNode _nodeText3 = FocusNode();
-  bool _isClick = false;
-
+  OtpRequest request;
   @override
   void initState() {
+    _authService = Provider.of<FirebaseAuthService>(context, listen: false);
+    request = OtpRequest();
     super.initState();
-    //监听输入改变
-    _phoneNoController.addListener(_verify);
-    _vCodeController.addListener(_verify);
-    _passwordController.addListener(_verify);
-  }
-
-  void _verify() {
-    String name = _phoneNoController.text;
-    String vCode = _vCodeController.text;
-    String password = _passwordController.text;
-    bool isClick = true;
-    if (name.isEmpty || name.length < 11) {
-      isClick = false;
-    }
-    if (vCode.isEmpty || vCode.length < 6) {
-      isClick = false;
-    }
-    if (password.isEmpty || password.length < 6) {
-      isClick = false;
-    }
-    if (isClick != _isClick) {
-      setState(() {
-        _isClick = isClick;
-      });
-    }
   }
 
   void _register() {
+    if (_formKey.currentState.validate()) {
+      _formKey.currentState.save();
+      _authService.registerViaOtp(request);
+    }
     Toast.show("Tap to register");
   }
+
+  void _onRequestCode() {}
+
+  void _onCodeSent() {
+    showToast("Code sent to ${request.phoneNumber}");
+  }
+
+  void _onVerified() {
+    NavigatorUtils.push(context, "");
+  }
+
+  void _manualSignIn() {}
 
   @override
   Widget build(BuildContext context) {
@@ -84,8 +82,8 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
           Gaps.vGap16,
           MyTextField(
-            validator: (name) {
-              if (name.isEmpty || name.length < 11) {}
+            validator: (phone) {
+              if (phone.isEmpty || phone.length < 11) {}
               return null;
             },
             key: const Key('phone'),
@@ -94,6 +92,7 @@ class _RegisterPageState extends State<RegisterPage> {
             maxLength: 11,
             keyboardType: TextInputType.phone,
             hintText: "请输入手机号",
+            onSaved: (value) => request.setPhone(value),
           ),
           Gaps.vGap8,
           MyTextField(
@@ -105,9 +104,20 @@ class _RegisterPageState extends State<RegisterPage> {
             focusNode: _nodeText2,
             controller: _vCodeController,
             keyboardType: TextInputType.number,
+            onSaved: (value) => request.optCode = value,
             getVCode: () async {
-              if (_phoneNoController.text.length == 11) {
-                Toast.show("并没有真正发送哦，直接登录吧！");
+              if (request.hasValidPhone()) {
+                try {
+                  _authService.getOtp(
+                    request.phoneNumber,
+                    onRequestCode: _onRequestCode,
+                    onCodeSent: _onCodeSent,
+                    onVerified: _onVerified,
+                    onCodeRetrievalTimeout: (vId) => _manualSignIn,
+                  );
+                } catch (e) {
+                  showToast(e);
+                }
 
                 /// 一般可以在这里发送真正的请求，请求成功返回true
                 return true;
@@ -119,25 +129,25 @@ class _RegisterPageState extends State<RegisterPage> {
             maxLength: 6,
             hintText: "请输入验证码",
           ),
-          Gaps.vGap8,
-          MyTextField(
-            validator: (password) {
-              if (password.isEmpty || password.length < 6) {}
-              return null;
-            },
-            key: const Key('password'),
-            keyName: 'password',
-            focusNode: _nodeText3,
-            isInputPwd: true,
-            controller: _passwordController,
-            maxLength: 16,
-            hintText: "请输入密码",
-          ),
+          // Gaps.vGap8,
+          // MyTextField(
+          //   validator: (password) {
+          //     if (password.isEmpty || password.length < 6) {}
+          //     return null;
+          //   },
+          //   key: const Key('password'),
+          //   keyName: 'password',
+          //   focusNode: _nodeText3,
+          //   isInputPwd: true,
+          //   controller: _passwordController,
+          //   maxLength: 16,
+          //   hintText: "请输入密码",
+          // ),
           Gaps.vGap10,
           Gaps.vGap15,
           MyButton(
             key: const Key('register'),
-            onPressed: _isClick ? _register : null,
+            onPressed: _register,
             text: "注册",
           )
         ],
