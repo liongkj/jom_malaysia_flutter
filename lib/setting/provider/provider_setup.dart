@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jom_malaysia/core/services/authentication/firebase_auth_service.dart';
 import 'package:jom_malaysia/core/services/gateway/firestore_api.dart';
 import 'package:jom_malaysia/core/services/gateway/http_service.dart';
 import 'package:jom_malaysia/core/services/image/cloudinary/cloudinary_image_service.dart';
@@ -46,6 +47,9 @@ List<SingleChildWidget> independentServices = [
   ChangeNotifierProvider<LocationProvider>(
     create: (_) => LocationProvider(),
   ),
+  ChangeNotifierProvider(
+    create: (_) => FirebaseAuthService(),
+  )
 ];
 
 List<SingleChildWidget> dependentServices = [

@@ -1,7 +1,8 @@
 class OtpRequest {
   String _phoneNumber;
   String get phoneNumber => _phoneNumber.toString();
-  String optCode;
+  String otpCode;
+  String verificationId;
 
   void setPhone(String phone) {
     _phoneNumber = phone;
@@ -10,6 +11,7 @@ class OtpRequest {
   bool hasValidPhone() {
     Pattern pattern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
     RegExp regExp = new RegExp(pattern);
-    return _phoneNumber != null && regExp.hasMatch(_phoneNumber);
+    var isValid = _phoneNumber != null && regExp.hasMatch(_phoneNumber);
+    return isValid;
   }
 }

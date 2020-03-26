@@ -1,8 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/services/authentication/requests/otp_request.dart';
 
-abstract class IAuthenticationService {
+abstract class IAuthenticationService extends ChangeNotifier {
   Future register();
   Future registerViaOtp(OtpRequest request);
   Future getOtp(
@@ -12,6 +11,8 @@ abstract class IAuthenticationService {
     Function onRequestCode,
     Function onCodeSent,
   });
+  Future signInWithPhoneNumber(
+      {@required String verificationId, @required String vCode});
   Future login();
   Future resetPassword();
 }

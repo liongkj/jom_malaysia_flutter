@@ -6,6 +6,7 @@ import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/core/services/authentication/firebase_auth_service.dart';
 import 'package:jom_malaysia/core/services/authentication/i_auth_service.dart';
 import 'package:jom_malaysia/core/services/authentication/requests/otp_request.dart';
+import 'package:jom_malaysia/screens/tabs/overview/overview_router.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/util/toast.dart';
 import 'package:jom_malaysia/widgets/app_bar.dart';
@@ -39,7 +40,10 @@ class _RegisterPageState extends State<RegisterPage> {
   void _register() {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
-      _authService.registerViaOtp(request);
+      _authService.signInWithPhoneNumber(
+        verificationId: request.verificationId,
+        vCode: request.otpCode,
+      );
     }
     Toast.show("Tap to register");
   }
@@ -51,10 +55,16 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   void _onVerified() {
-    NavigatorUtils.push(context, "");
+    NavigatorUtils.push(
+      context,
+      OverviewRouter.overviewPage,
+      clearStack: false,
+    );
   }
 
-  void _manualSignIn() {}
+  void _manualSignIn(String verificationCode) {
+    request.verificationId = verificationCode;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -104,15 +114,16 @@ class _RegisterPageState extends State<RegisterPage> {
             focusNode: _nodeText2,
             controller: _vCodeController,
             keyboardType: TextInputType.number,
-            onSaved: (value) => request.optCode = value,
+            onSaved: (value) => request.otpCode = value,
             getVCode: () async {
+              _formKey.currentState.save();
               if (request.hasValidPhone()) {
                 try {
                   _authService.getOtp(
                     request.phoneNumber,
-                    onRequestCode: _onRequestCode,
-                    onCodeSent: _onCodeSent,
-                    onVerified: _onVerified,
+                    onRequestCode: () => _onRequestCode,
+                    onCodeSent: () => _onCodeSent,
+                    onVerified: () => _onVerified,
                     onCodeRetrievalTimeout: (vId) => _manualSignIn,
                   );
                 } catch (e) {
@@ -129,20 +140,6 @@ class _RegisterPageState extends State<RegisterPage> {
             maxLength: 6,
             hintText: "请输入验证码",
           ),
-          // Gaps.vGap8,
-          // MyTextField(
-          //   validator: (password) {
-          //     if (password.isEmpty || password.length < 6) {}
-          //     return null;
-          //   },
-          //   key: const Key('password'),
-          //   keyName: 'password',
-          //   focusNode: _nodeText3,
-          //   isInputPwd: true,
-          //   controller: _passwordController,
-          //   maxLength: 16,
-          //   hintText: "请输入密码",
-          // ),
           Gaps.vGap10,
           Gaps.vGap15,
           MyButton(
