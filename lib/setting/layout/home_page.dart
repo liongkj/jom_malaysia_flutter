@@ -23,7 +23,6 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final _pageList = [
     OverviewPage(),
-    // NearbyPage(),
     ExplorePage(),
     NotificationPage(),
     SettingPage(),
@@ -64,10 +63,6 @@ class _HomeState extends State<Home> {
         Icons.home,
         size: iconSize,
       ),
-      // Icon(
-      //   Icons.map,
-      //   size: iconSize,
-      // ),
       Icon(
         Icons.explore,
         size: iconSize,
@@ -138,8 +133,6 @@ class _HomeState extends State<Home> {
                 onTap: (index) => _pageController.jumpToPage(index),
               );
             }),
-
-            // 使用PageView的原因参看 https://zhuanlan.zhihu.com/p/58582876
             body: PageView(
               controller: _pageController,
               onPageChanged: _onPageChanged,

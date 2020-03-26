@@ -68,6 +68,7 @@ class _NewReviewPageState extends State<NewReviewPage> {
       appBar: MyAppBar(
         actionName: S.of(context).labelSubmitReview,
         onPressed: () async {
+          _db.setStateType(StateType.loading);
           if (_formKey.currentState.validate()) {
             _formKey.currentState.save();
             if (_commentModel.imageAssets.isNotEmpty) {
@@ -81,6 +82,7 @@ class _NewReviewPageState extends State<NewReviewPage> {
             await _db.addComment(widget.placeId, _commentModel);
             NavigatorUtils.goBack(context);
           } else {
+            _db.setStateType(StateType.empty);
             showToast(S.of(context).msgPleaseFillRequiredField);
           }
         },

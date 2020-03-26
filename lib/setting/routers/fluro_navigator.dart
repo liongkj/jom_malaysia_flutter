@@ -1,5 +1,9 @@
+import 'dart:js';
+
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
+import 'package:jom_malaysia/setting/provider/auth_provider.dart';
+import 'package:provider/provider.dart';
 
 import 'application.dart';
 import 'routers.dart';
@@ -45,6 +49,12 @@ class NavigatorUtils {
   static void goBackWithParams(BuildContext context, result) {
     FocusScope.of(context).unfocus();
     Navigator.pop(context, result);
+  }
+
+  static tryAuth(BuildContext context, String path) {
+    if (Provider.of<AuthProvider>(context, listen: false).state ==
+        AuthState.ghost) push(context, Routes.login);
+    push(context, path);
   }
 
   /// 跳到WebView页
