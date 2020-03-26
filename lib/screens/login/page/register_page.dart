@@ -48,9 +48,7 @@ class _RegisterPageState extends State<RegisterPage> {
     Toast.show("Tap to register");
   }
 
-  void _onRequestCode() {}
-
-  void _onCodeSent() {
+  void _onCodeSent(String str, int code) {
     showToast("Code sent to ${request.phoneNumber}");
   }
 
@@ -93,13 +91,13 @@ class _RegisterPageState extends State<RegisterPage> {
           Gaps.vGap16,
           MyTextField(
             validator: (phone) {
-              if (phone.isEmpty || phone.length < 11) {}
+              if (phone.isEmpty || phone.length < 1) {}
               return null;
             },
             key: const Key('phone'),
             focusNode: _nodeText1,
             controller: _phoneNoController,
-            maxLength: 11,
+            maxLength: 12,
             keyboardType: TextInputType.phone,
             hintText: "请输入手机号",
             onSaved: (value) => request.setPhone(value),
@@ -116,18 +114,18 @@ class _RegisterPageState extends State<RegisterPage> {
             keyboardType: TextInputType.number,
             onSaved: (value) => request.otpCode = value,
             getVCode: () async {
+              _nodeText1.unfocus();
               _formKey.currentState.save();
               if (request.hasValidPhone()) {
                 try {
-                  _authService.getOtp(
+                  await _authService.getOtp(
                     request.phoneNumber,
-                    onRequestCode: () => _onRequestCode,
-                    onCodeSent: () => _onCodeSent,
+                    onCodeSent: (str, [code]) => _onCodeSent(str, code),
                     onVerified: () => _onVerified,
                     onCodeRetrievalTimeout: (vId) => _manualSignIn,
                   );
-                } catch (e) {
-                  showToast(e);
+                } on Exception catch (e) {
+                  showToast(e.toString());
                 }
 
                 /// 一般可以在这里发送真正的请求，请求成功返回true

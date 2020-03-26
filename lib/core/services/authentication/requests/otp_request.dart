@@ -5,11 +5,14 @@ class OtpRequest {
   String verificationId;
 
   void setPhone(String phone) {
-    _phoneNumber = phone;
+    if (phone != null) {
+      _phoneNumber = "+$phone";
+    } else
+      throw FormatException("Number is null");
   }
 
   bool hasValidPhone() {
-    Pattern pattern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
+    Pattern pattern = r'(^(\+?6?01)[0-46-9]-*[0-9]{7,8}$)';
     RegExp regExp = new RegExp(pattern);
     var isValid = _phoneNumber != null && regExp.hasMatch(_phoneNumber);
     return isValid;

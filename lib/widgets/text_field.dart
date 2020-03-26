@@ -49,7 +49,7 @@ class _MyTextFieldState extends State<MyTextField> {
   bool _isClick = true;
 
   /// 倒计时秒数
-  final int second = 30;
+  final int second = 10;
 
   /// 当前秒数
   int s;

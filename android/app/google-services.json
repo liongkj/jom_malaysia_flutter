@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "877570527217-9uht2g2kd4bju982o7aj8o8de210kvng.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jomjommalaysia.jomn9",
+            "certificate_hash": "ee01c43e885c443a38dca3bb9f0f23fcf721a952"
+          }
+        },
+        {
           "client_id": "877570527217-t483elk5mo4lfsjienhf33v8ehtqo0jo.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

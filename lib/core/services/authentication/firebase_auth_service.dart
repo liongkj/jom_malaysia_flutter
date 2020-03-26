@@ -47,39 +47,36 @@ class FirebaseAuthService extends IAuthenticationService {
   @override
   Future getOtp(
     String phoneNumber, {
-    Function onRequestCode,
-    Function onCodeSent,
+    Function(String, [int]) onCodeSent,
     @required Function onVerified,
     @required Function onCodeRetrievalTimeout,
   }) async {
-    _auth
-        .verifyPhoneNumber(
-      phoneNumber: phoneNumber,
-      timeout: Duration(seconds: 30),
-      verificationCompleted: _signIn,
-      verificationFailed: _verificationFailed,
-      codeAutoRetrievalTimeout: onCodeRetrievalTimeout,
-      codeSent: onCodeSent,
-    )
-        .then((value) {
-      onRequestCode(value);
-    }).catchError((error) {
-      throw error;
-    });
+    try {
+      await _auth.verifyPhoneNumber(
+        phoneNumber: phoneNumber,
+        timeout: Duration(seconds: 30),
+        verificationCompleted: (cred) => _signIn,
+        verificationFailed: (auth) => _verificationFailed,
+        codeAutoRetrievalTimeout: onCodeRetrievalTimeout,
+        codeSent: (str, [code]) => onCodeSent,
+      );
+    } catch (e) {
+      throw e;
+    }
   }
 
   Future signInWithPhoneNumber(
       {@required String verificationId, @required String vCode}) async {
     AuthCredential _cred = PhoneAuthProvider.getCredential(
         verificationId: verificationId, smsCode: vCode);
-    _signIn(_cred);
+    await _signIn(_cred);
   }
 
   void _signIn(AuthCredential cred) async {
     await _auth.signInWithCredential(cred).then((AuthResult value) {
       if (value.user != null) {
       } else {
-        throw Exception(400);
+        throw Exception('error creating user');
       }
     }).catchError((error) {
       throw error;
@@ -87,6 +84,9 @@ class FirebaseAuthService extends IAuthenticationService {
   }
 
   PhoneVerificationFailed _verificationFailed(AuthException authException) {
+    if (authException.code.contains("invalidCredential")) {
+      throw FormatException(authException.message ?? authException.message);
+    }
     if (authException.message.contains('not authorized'))
       throw Exception('Something has gone wrong, please try later');
     else if (authException.message.contains('Network'))
