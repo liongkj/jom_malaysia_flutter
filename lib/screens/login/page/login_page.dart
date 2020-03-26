@@ -8,6 +8,7 @@ import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/screens/tabs/overview/overview_router.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/widgets/app_bar.dart';
+import 'package:jom_malaysia/widgets/load_image.dart';
 import 'package:jom_malaysia/widgets/my_button.dart';
 import 'package:jom_malaysia/widgets/text_field.dart';
 
@@ -63,18 +64,38 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: MyAppBar(
-          isBack: false,
-          actionName: '验证码登录',
-          onPressed: () {
-            NavigatorUtils.push(context, LoginRouter.smsLoginPage);
-          },
+      appBar: MyAppBar(
+        isBack: false,
+        actionName: '验证码登录',
+        onPressed: () {
+          NavigatorUtils.push(context, LoginRouter.smsLoginPage);
+        },
+      ),
+      body: Form(
+        child: SingleChildScrollView(
+          child: _buildBody(),
         ),
-        body: Form(
-          child: SingleChildScrollView(
-            child: _buildBody(),
-          ),
-        ));
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.only(bottom: 16.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Text("Sign in with"),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                IconButton(
+                  onPressed: () {},
+                  icon: LoadAssetImage('login/providers/icon_google'),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   _buildBody() {
@@ -82,6 +103,7 @@ class _LoginPageState extends State<LoginPage> {
       padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 20.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           const Text(
             "密码登录",
@@ -135,7 +157,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 onTap: () =>
                     NavigatorUtils.push(context, LoginRouter.registerPage),
-              ))
+              )),
         ],
       ),
     );

@@ -40,29 +40,29 @@ class _RegisterPageState extends State<RegisterPage> {
   void _register() {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
-      _authService.signInWithPhoneNumber(
-        verificationId: request.verificationId,
-        vCode: request.otpCode,
-      );
+      // _authService.signInWithPhoneNumber(
+      //   verificationId: request.verificationId,
+      //   vCode: request.otpCode,
+      // );
     }
     Toast.show("Tap to register");
   }
 
-  void _onCodeSent(String str, int code) {
-    showToast("Code sent to ${request.phoneNumber}");
-  }
+  // void _onCodeSent(String str, int code) {
+  //   showToast("Code sent to ${request.phoneNumber}");
+  // }
 
-  void _onVerified() {
-    NavigatorUtils.push(
-      context,
-      OverviewRouter.overviewPage,
-      clearStack: false,
-    );
-  }
+  // void _onVerified() {
+  //   NavigatorUtils.push(
+  //     context,
+  //     OverviewRouter.overviewPage,
+  //     clearStack: false,
+  //   );
+  // }
 
-  void _manualSignIn(String verificationCode) {
-    request.verificationId = verificationCode;
-  }
+  // void _manualSignIn(String verificationCode) {
+  //   request.verificationId = verificationCode;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -118,12 +118,12 @@ class _RegisterPageState extends State<RegisterPage> {
               _formKey.currentState.save();
               if (request.hasValidPhone()) {
                 try {
-                  await _authService.getOtp(
-                    request.phoneNumber,
-                    onCodeSent: (str, [code]) => _onCodeSent(str, code),
-                    onVerified: () => _onVerified,
-                    onCodeRetrievalTimeout: (vId) => _manualSignIn,
-                  );
+                  // await _authService.getOtp(
+                  //   request.phoneNumber,
+                  //   onCodeSent: (str, [code]) => _onCodeSent(str, code),
+                  //   onVerified: () => _onVerified,
+                  //   onCodeRetrievalTimeout: (vId) => _manualSignIn,
+                  // );
                 } on Exception catch (e) {
                   showToast(e.toString());
                 }

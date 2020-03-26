@@ -10,37 +10,9 @@ class FirebaseAuthService extends IAuthenticationService {
   static final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
-  Future<FirebaseUser> login() async {
-    final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
-    final GoogleSignInAuthentication googleAuth =
-        await googleUser.authentication;
-
-    final AuthCredential credential = GoogleAuthProvider.getCredential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
-    );
-
-    final FirebaseUser user =
-        (await _auth.signInWithCredential(credential)).user;
-    print("signed in " + user.displayName);
-    return user;
-  }
-
-  @override
-  Future register() {
-    // TODO: implement register
-    return null;
-  }
-
-  @override
-  Future resetPassword() {
-    // TODO: implement resetPassword
-    return null;
-  }
-
-  @override
-  Future registerViaOtp(OtpRequest request) {
-    // TODO: implement resetPassword
+  Future<void> signUp(String email, String password) async {
+    var result = await _auth.signInWithEmailAndPassword(
+        email: email, password: password);
     return null;
   }
 
@@ -65,16 +37,17 @@ class FirebaseAuthService extends IAuthenticationService {
     }
   }
 
-  Future signInWithPhoneNumber(
+  Future<void> signInWithPhoneNumber(
       {@required String verificationId, @required String vCode}) async {
     AuthCredential _cred = PhoneAuthProvider.getCredential(
         verificationId: verificationId, smsCode: vCode);
-    await _signIn(_cred);
+    _signIn(_cred);
   }
 
   void _signIn(AuthCredential cred) async {
     await _auth.signInWithCredential(cred).then((AuthResult value) {
       if (value.user != null) {
+        return value.user;
       } else {
         throw Exception('error creating user');
       }
@@ -94,5 +67,23 @@ class FirebaseAuthService extends IAuthenticationService {
           503, 'Please check your internet connection and try again');
     else
       throw Exception('Something has gone wrong, please try later');
+  }
+
+  @override
+  Future login() {
+    // TODO: implement login
+    return null;
+  }
+
+  @override
+  Future registerViaOtp(OtpRequest request) {
+    // TODO: implement registerViaOtp
+    return null;
+  }
+
+  @override
+  Future resetPassword() {
+    // TODO: implement resetPassword
+    return null;
   }
 }

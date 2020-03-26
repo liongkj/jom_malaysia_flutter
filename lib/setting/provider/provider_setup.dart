@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/services/authentication/firebase_auth_service.dart';
+import 'package:jom_malaysia/core/services/authentication/i_auth_service.dart';
 import 'package:jom_malaysia/core/services/gateway/firestore_api.dart';
 import 'package:jom_malaysia/core/services/gateway/http_service.dart';
 import 'package:jom_malaysia/core/services/image/cloudinary/cloudinary_image_service.dart';
@@ -10,6 +11,7 @@ import 'package:jom_malaysia/screens/tabs/overview/providers/comments_provider.d
 import 'package:jom_malaysia/screens/tabs/overview/providers/listing_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/location_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/search_result_provider.dart';
+import 'package:jom_malaysia/setting/provider/auth_provider.dart';
 import 'package:jom_malaysia/setting/provider/language_provider.dart';
 import 'package:jom_malaysia/setting/provider/theme_provider.dart';
 import 'package:jom_malaysia/setting/provider/user_current_location_provider.dart';
@@ -81,6 +83,11 @@ List<SingleChildWidget> dependentServices = [
       service: Provider.of<AlgoliaSearch>(context, listen: false),
     ),
   ),
+  ChangeNotifierProvider(
+    create: (context) => AuthProvider(
+      service: Provider.of<IAuthenticationService>(context, listen: false),
+    ),
+  )
 ];
 
 List<SingleChildWidget> uiConsumableProviders = [];
