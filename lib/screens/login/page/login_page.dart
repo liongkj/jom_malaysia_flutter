@@ -70,8 +70,10 @@ class _LoginPageState extends State<LoginPage> {
             NavigatorUtils.push(context, LoginRouter.smsLoginPage);
           },
         ),
-        body: SingleChildScrollView(
-          child: _buildBody(),
+        body: Form(
+          child: SingleChildScrollView(
+            child: _buildBody(),
+          ),
         ));
   }
 
@@ -92,7 +94,7 @@ class _LoginPageState extends State<LoginPage> {
             controller: _nameController,
             maxLength: 11,
             keyboardType: TextInputType.phone,
-            hintText: "请输入账号",
+            hintText: "请输入电话号码",
           ),
           Gaps.vGap8,
           MyTextField(

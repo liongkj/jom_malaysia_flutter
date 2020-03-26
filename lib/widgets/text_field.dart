@@ -20,6 +20,7 @@ class MyTextField extends StatefulWidget {
       this.focusNode,
       this.isInputPwd: false,
       this.getVCode,
+      this.validator,
       this.keyName})
       : super(key: key);
 
@@ -31,6 +32,7 @@ class MyTextField extends StatefulWidget {
   final FocusNode focusNode;
   final bool isInputPwd;
   final Future<bool> Function() getVCode;
+  final Function(String) validator;
 
   /// 用于集成测试寻找widget
   final String keyName;
@@ -99,7 +101,8 @@ class _MyTextFieldState extends State<MyTextField> {
     return Stack(
       alignment: Alignment.centerRight,
       children: <Widget>[
-        TextField(
+        TextFormField(
+          validator: widget.validator,
           focusNode: widget.focusNode,
           maxLength: widget.maxLength,
           obscureText: widget.isInputPwd ? !_isShowPwd : false,

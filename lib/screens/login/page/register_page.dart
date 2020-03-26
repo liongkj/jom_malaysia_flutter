@@ -14,8 +14,9 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  final _formKey = GlobalKey<FormState>();
   //定义一个controller
-  TextEditingController _nameController = TextEditingController();
+  TextEditingController _phoneNoController = TextEditingController();
   TextEditingController _vCodeController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   final FocusNode _nodeText1 = FocusNode();
@@ -27,13 +28,13 @@ class _RegisterPageState extends State<RegisterPage> {
   void initState() {
     super.initState();
     //监听输入改变
-    _nameController.addListener(_verify);
+    _phoneNoController.addListener(_verify);
     _vCodeController.addListener(_verify);
     _passwordController.addListener(_verify);
   }
 
   void _verify() {
-    String name = _nameController.text;
+    String name = _phoneNoController.text;
     String vCode = _vCodeController.text;
     String password = _passwordController.text;
     bool isClick = true;
@@ -63,8 +64,11 @@ class _RegisterPageState extends State<RegisterPage> {
         appBar: const MyAppBar(
           title: "注册",
         ),
-        body: SingleChildScrollView(
-          child: _buildBody(),
+        body: Form(
+          key: _formKey,
+          child: SingleChildScrollView(
+            child: _buildBody(),
+          ),
         ));
   }
 
@@ -80,21 +84,29 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
           Gaps.vGap16,
           MyTextField(
+            validator: (name) {
+              if (name.isEmpty || name.length < 11) {}
+              return null;
+            },
             key: const Key('phone'),
             focusNode: _nodeText1,
-            controller: _nameController,
+            controller: _phoneNoController,
             maxLength: 11,
             keyboardType: TextInputType.phone,
             hintText: "请输入手机号",
           ),
           Gaps.vGap8,
           MyTextField(
+            validator: (vCode) {
+              if (vCode.isEmpty || vCode.length < 6) {}
+              return null;
+            },
             key: const Key('vcode'),
             focusNode: _nodeText2,
             controller: _vCodeController,
             keyboardType: TextInputType.number,
             getVCode: () async {
-              if (_nameController.text.length == 11) {
+              if (_phoneNoController.text.length == 11) {
                 Toast.show("并没有真正发送哦，直接登录吧！");
 
                 /// 一般可以在这里发送真正的请求，请求成功返回true
@@ -109,6 +121,10 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
           Gaps.vGap8,
           MyTextField(
+            validator: (password) {
+              if (password.isEmpty || password.length < 6) {}
+              return null;
+            },
             key: const Key('password'),
             keyName: 'password',
             focusNode: _nodeText3,
