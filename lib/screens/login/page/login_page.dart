@@ -52,12 +52,15 @@ class _LoginPageState extends State<LoginPage> {
       else {
         sp.SpUtil.remove(Constant.email);
       }
+      Toast.show("go login");
       // _authService.signInWithPhoneNumber(
       //   verificationId: request.verificationId,
       //   vCode: request.otpCode,
       // );
+    } else {
+      _autovalidate = true;
     }
-    _autovalidate = true;
+
     // NavigatorUtils.push(context, OverviewRouter.overviewPage);
   }
 
@@ -107,6 +110,7 @@ class _LoginPageState extends State<LoginPage> {
               } on FormatException catch (e) {
                 return "Email Invalid";
               }
+              return null;
             },
             onSaved: (value) => request.setEmail(value),
           ),
