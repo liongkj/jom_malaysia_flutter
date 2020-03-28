@@ -21,7 +21,6 @@ class FirebaseAuthService extends IAuthenticationService {
       FirebaseUser result = (await _auth.createUserWithEmailAndPassword(
               email: request.email, password: request.password))
           .user;
-      print("Sign up called");
       AuthUser user = new AuthUser(
           result.uid, result.displayName, result.photoUrl, result.email);
       return user;
@@ -60,6 +59,28 @@ class FirebaseAuthService extends IAuthenticationService {
       return user;
     } catch (e) {
       debugPrint(e.toString());
+    }
+    return null;
+  }
+
+  @override
+  Future<AuthUser> signInWithEmailPassword(AuthRequest request) async {
+    try {
+      FirebaseUser result = (await _auth.signInWithEmailAndPassword(
+              email: request.email, password: request.password))
+          .user;
+      AuthUser user = new AuthUser(
+          result.uid, result.displayName, result.photoUrl, result.email);
+      return user;
+    } catch (error) {
+      switch (error.code) {
+        case "ERROR_WRONG_PASSWORD":
+          throw InvalidCredentialException("");
+          break;
+        case "ERROR_USER_NOT_FOUND":
+          throw NotFoundException("user");
+          break;
+      }
     }
     return null;
   }

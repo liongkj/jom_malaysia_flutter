@@ -4,6 +4,7 @@ import 'package:jom_malaysia/core/services/authentication/requests/auth_request.
 abstract class IAuthenticationService {
   Future<AuthUser> registerWithEmailPassword(AuthRequest request);
   Future<AuthUser> signInWithGoogle();
+  Future<AuthUser> signInWithEmailPassword(AuthRequest request);
 
   Future registerViaOtp(AuthRequest request);
   Future login();

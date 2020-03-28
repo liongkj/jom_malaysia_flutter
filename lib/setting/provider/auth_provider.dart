@@ -29,4 +29,8 @@ class AuthProvider extends ChangeNotifier {
     var result = await _service.signInWithGoogle();
     if (result == null) throw SignInCancelledException();
   }
+
+  Future<void> signInWithEmailPassword(AuthRequest request) async {
+    var result = await _service.signInWithEmailPassword(request);
+  }
 }

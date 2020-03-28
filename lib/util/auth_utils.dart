@@ -37,6 +37,16 @@ class AuthUtils {
             )
             .catchError(errorHandler);
         break;
+      case SignInTypeEnum.EMAIL:
+        _type = () => loginProvider
+            .signInWithEmailPassword(request)
+            .then(
+              (onValue) =>
+                  NavigatorUtils.push(context, Routes.home, clearStack: true),
+              //TODO change to previous path
+            )
+            .catchError(errorHandler);
+        break;
       default:
     }
     return _type;
