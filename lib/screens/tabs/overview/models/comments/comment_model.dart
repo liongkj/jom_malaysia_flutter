@@ -5,7 +5,8 @@ import 'package:multi_image_picker/multi_image_picker.dart';
 
 class CommentModel {
   CommentModel(
-    this.id, {
+    this.id,
+    this.userId, {
     this.title,
     this.commentText,
     this.rating = 3,
@@ -19,7 +20,7 @@ class CommentModel {
   String title;
   double rating;
   double costPax;
-
+  String userId;
   List<String> images;
   //holder
   List<Asset> imageAssets;
@@ -42,7 +43,8 @@ class CommentModel {
         publishedTime = snapshot['publishedTime'] != null
             ? (snapshot['publishedTime'] as Timestamp).toDate()
             : null,
-        rating = snapshot['rating'] ?? null;
+        rating = snapshot['rating'] ?? null,
+        userId = snapshot['userId'] ?? null;
 
   toJson() {
     return {
@@ -51,7 +53,8 @@ class CommentModel {
       "rating": rating,
       "title": title,
       "costPax": costPax,
-      "images": images
+      "images": images,
+      "userId": userId,
     };
   }
 }

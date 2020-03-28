@@ -10,7 +10,6 @@ import 'package:jom_malaysia/core/services/gateway/exception/invalid_credential_
 import 'package:jom_malaysia/core/services/gateway/exception/not_found_exception.dart';
 import 'package:jom_malaysia/screens/login/login_router.dart';
 import 'package:jom_malaysia/screens/login/widgets/third_party_providers.dart';
-import 'package:jom_malaysia/screens/tabs/overview/overview_router.dart';
 import 'package:jom_malaysia/setting/provider/auth_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/util/auth_utils.dart';

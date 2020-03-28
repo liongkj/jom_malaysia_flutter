@@ -12,7 +12,6 @@ import 'package:jom_malaysia/core/services/gateway/exception/invalid_email_excep
 import 'package:jom_malaysia/core/services/gateway/exception/network_exception.dart';
 import 'package:jom_malaysia/core/services/gateway/exception/not_found_exception.dart';
 import 'package:jom_malaysia/core/services/gateway/exception/unknown_error_exception.dart';
-import 'package:provider/provider.dart';
 
 class FirebaseAuthService extends IAuthenticationService {
   final GoogleSignIn _googleSignIn = GoogleSignIn();

@@ -10,7 +10,7 @@ class CustomSearch extends ISearchService {
   HttpService _httpService;
   CustomSearch({@required HttpService httpService})
       : _httpService = httpService;
-
+  //currently now not using
   @override
   Future<List<PlaceSearchResult>> search(String text, int page,
       {Locale locale}) async {

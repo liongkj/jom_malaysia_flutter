@@ -4,8 +4,6 @@ import 'package:jom_malaysia/core/services/authentication/requests/auth_request.
 import 'package:jom_malaysia/core/services/gateway/exception/signin_cancelled_exception.dart';
 import 'package:jom_malaysia/setting/provider/auth_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
-import 'package:jom_malaysia/setting/routers/routers.dart';
-import 'package:provider/provider.dart';
 
 class AuthUtils {
   static Function getSignInFunction(
@@ -21,7 +19,6 @@ class AuthUtils {
             .signInWithGoogle()
             .then(
               (onValue) => NavigatorUtils.goBack(context),
-              //TODO change to previous path
             )
             .catchError(errorHandler,
                 test: (e) => e is SignInCancelledException);
@@ -31,7 +28,6 @@ class AuthUtils {
             .signUp(request)
             .then(
               (onValue) => NavigatorUtils.goBack(context),
-              //TODO change to previous path
             )
             .catchError(errorHandler);
         break;
@@ -40,7 +36,6 @@ class AuthUtils {
             .signInWithEmailPassword(request)
             .then(
               (onValue) => NavigatorUtils.goBack(context),
-              //TODO change to previous path
             )
             .catchError(errorHandler);
         break;

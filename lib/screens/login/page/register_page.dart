@@ -3,19 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jom_malaysia/core/constants/common.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
-import 'package:jom_malaysia/core/services/authentication/firebase_auth_service.dart';
-import 'package:jom_malaysia/core/services/authentication/i_auth_service.dart';
 import 'package:jom_malaysia/core/services/authentication/requests/auth_request.dart';
 import 'package:jom_malaysia/core/services/gateway/exception/duplicate_exception.dart';
 import 'package:jom_malaysia/core/services/gateway/exception/invalid_credential_exception.dart';
-import 'package:jom_malaysia/core/services/gateway/exception/invalid_email_exception.dart';
 import 'package:jom_malaysia/setting/provider/auth_provider.dart';
 import 'package:jom_malaysia/util/auth_utils.dart';
 import 'package:jom_malaysia/util/toast.dart';
 import 'package:jom_malaysia/widgets/app_bar.dart';
 import 'package:jom_malaysia/widgets/my_button.dart';
 import 'package:jom_malaysia/widgets/text_field.dart';
-import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 
 /// design/1注册登录/index.html#artboard11

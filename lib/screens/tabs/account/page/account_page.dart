@@ -1,11 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
+import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/tabs/account/account_router.dart';
+import 'package:jom_malaysia/screens/tabs/account/widgets/exit_dialog.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/util/image_utils.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
+import 'package:jom_malaysia/widgets/my_button.dart';
 import 'package:provider/provider.dart';
 
 class AccountPage extends StatefulWidget {
@@ -22,18 +25,40 @@ class AccountPage extends StatefulWidget {
 
 class _ShopPageState extends State<AccountPage>
     with AutomaticKeepAliveClientMixin<AccountPage> {
-  var _menuTitle = ['账户流水', '资金管理', '提现账号'];
+  var _menuTitle = ['账号管理', '资金管理', '提现账号'];
   var _menuImage = ['zhls', 'zjgl', 'txzh'];
+
+  void _showExitDialog() {
+    showDialog(context: context, builder: (_) => ExitDialog());
+  }
 
   @override
   Widget build(BuildContext context) {
+    Color _backgroundColor = ThemeUtils.getBackgroundColor(context);
+
     super.build(context);
     final Color _iconColor = ThemeUtils.getIconColor(context);
     return Scaffold(
+        bottomNavigationBar: Consumer<FirebaseUser>(builder: (_, provider, __) {
+          if (provider != null)
+            return Container(
+              padding: EdgeInsets.symmetric(vertical: 32.0, horizontal: 48),
+              child: MyButton(
+                onPressed: () => _showExitDialog(),
+                text: "Logout",
+              ),
+            );
+          else
+            return Container(
+              width: 0,
+              height: 0,
+            );
+        }),
         appBar: AppBar(
+          backgroundColor: _backgroundColor,
           actions: <Widget>[
             IconButton(
-              tooltip: '消息',
+              tooltip: S.of(context).appBarTitleNotification,
               onPressed: () {
                 NavigatorUtils.push(context, AccountRouter.notificationPage);
               },
@@ -46,7 +71,7 @@ class _ShopPageState extends State<AccountPage>
               ),
             ),
             IconButton(
-              tooltip: '设置',
+              tooltip: S.of(context).appBarTitleSetting,
               onPressed: () {
                 NavigatorUtils.push(context, AccountRouter.settingPage);
               },
@@ -72,8 +97,10 @@ class _ShopPageState extends State<AccountPage>
                     child: Stack(
                       children: <Widget>[
                         const SizedBox(width: double.infinity, height: 56.0),
-                        const Text(
-                          '官方直营店',
+                        Text(
+                          provider == null
+                              ? 'Click here to login'
+                              : provider.displayName,
                           style: TextStyles.textBold24,
                         ),
                         Positioned(
@@ -89,12 +116,6 @@ class _ShopPageState extends State<AccountPage>
                           left: 0.0,
                           child: Row(
                             children: <Widget>[
-                              const LoadAssetImage(
-                                'shop/zybq',
-                                width: 40.0,
-                                height: 16.0,
-                              ),
-                              Gaps.hGap8,
                               const Text('店铺账号:15000000000',
                                   style: TextStyles.textSize12)
                             ],
@@ -133,31 +154,31 @@ class _ShopPageState extends State<AccountPage>
                 itemCount: _menuTitle.length,
                 itemBuilder: (_, index) {
                   return InkWell(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        LoadAssetImage('shop/${_menuImage[index]}',
-                            width: 32.0),
-                        Gaps.vGap4,
-                        Text(
-                          _menuTitle[index],
-                          style: TextStyles.textSize12,
-                        )
-                      ],
-                    ),
-                    onTap: () {
-                      // if (index == 0) {
-                      //   NavigatorUtils.push(
-                      //       context, AccountRouter.accountRecordListPage);
-                      // } else if (index == 1) {
-                      //   NavigatorUtils.push(
-                      //       context, AccountRouter.accountPage);
-                      // } else if (index == 2) {
-                      //   NavigatorUtils.push(
-                      //       context, AccountRouter.withdrawalAccountPage);
-                      // }
-                    },
-                  );
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          LoadAssetImage('shop/${_menuImage[index]}',
+                              width: 32.0),
+                          Gaps.vGap4,
+                          Text(
+                            _menuTitle[index],
+                            style: TextStyles.textSize12,
+                          )
+                        ],
+                      ),
+                      onTap: () {
+                        if (index == 0) {
+                          NavigatorUtils.push(
+                              context, AccountRouter.accountManagerPage);
+                        }
+                        // } else if (index == 1) {
+                        //   NavigatorUtils.push(
+                        //       context, AccountRouter.accountPage);
+                        // } else if (index == 2) {
+                        //   NavigatorUtils.push(
+                        //       context, AccountRouter.withdrawalAccountPage);
+                        // }
+                      });
                 },
               ),
             ),

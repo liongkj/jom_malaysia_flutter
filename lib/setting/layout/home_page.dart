@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
-import 'package:jom_malaysia/screens/tabs/account/page/account_manager_page.dart';
 import 'package:jom_malaysia/screens/tabs/account/page/account_page.dart';
-import 'package:jom_malaysia/screens/tabs/account/page/setting_page.dart';
 import 'package:jom_malaysia/screens/tabs/explore/pages/explore_page.dart';
 import 'package:jom_malaysia/screens/tabs/overview/pages/overview_page.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';

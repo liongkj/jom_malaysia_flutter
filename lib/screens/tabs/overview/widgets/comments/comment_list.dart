@@ -19,7 +19,6 @@ class _CommentListState extends State<CommentList>
     with AutomaticKeepAliveClientMixin {
   int _page = 1;
   final int _maxPage = 3;
-  bool _isLoading = false;
   List<CommentModel> commentList = [];
 
   @override
@@ -79,16 +78,6 @@ class _CommentListState extends State<CommentList>
         ),
       ),
     );
-  }
-
-  List _list = [];
-
-  Future _onRefresh() async {
-    // var loc = Provider.of<CommentsProvider>(context, listen: false)
-    //     .selected
-    //     ?.cityName;
-    // Provider.of<CommentsProvider>(context, listen: false)
-    //     .fetchAndInitPlaces(city: loc, refresh: true);
   }
 
   bool _hasMore() {

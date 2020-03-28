@@ -1,11 +1,8 @@
-import 'package:flustars/flustars.dart' as flutter_stars;
 import 'package:flutter/material.dart';
-import 'package:jom_malaysia/core/constants/common.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/core/services/gateway/net.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/tabs/account/account_router.dart';
-import 'package:jom_malaysia/screens/tabs/account/widgets/exit_dialog.dart';
 import 'package:jom_malaysia/setting/provider/language_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/widgets/app_bar.dart';
@@ -41,15 +38,10 @@ class _SettingPageState extends State<SettingPage> {
     return Scaffold(
       appBar: MyAppBar(
         centerTitle: S.of(context).appBarTitleSetting,
-        isBack: false,
       ),
       body: Column(
         children: <Widget>[
           Gaps.vGap5,
-          ClickItem(
-              title: '账号管理',
-              onTap: () => NavigatorUtils.push(
-                  context, AccountRouter.accountManagerPage)),
           ClickItem(
             title: S.of(context).appBarTitleSettingLanguage,
             content: preferredLang,
@@ -69,16 +61,8 @@ class _SettingPageState extends State<SettingPage> {
               title: S.of(context).clickItemSettingAboutTitle,
               onTap: () =>
                   NavigatorUtils.push(context, AccountRouter.aboutPage)),
-          ClickItem(
-            title: '退出当前账号',
-            onTap: () => _showExitDialog(),
-          ),
         ],
       ),
     );
-  }
-
-  void _showExitDialog() {
-    showDialog(context: context, builder: (_) => ExitDialog());
   }
 }

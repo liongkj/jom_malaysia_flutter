@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
-import 'package:jom_malaysia/screens/login/login_router.dart';
-import 'package:jom_malaysia/screens/tabs/overview/overview_router.dart';
 import 'package:jom_malaysia/setting/provider/auth_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/setting/routers/routers.dart';

@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:jom_malaysia/core/models/authuser_model.dart';
 import 'package:jom_malaysia/core/services/authentication/i_auth_service.dart';

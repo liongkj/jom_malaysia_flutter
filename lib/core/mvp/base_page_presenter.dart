@@ -95,17 +95,4 @@ class BasePagePresenter<V extends IMvpView> extends IPresenter {
       },
     );
   }
-
-  _onError(int code, String msg, Function(int code, String msg) onError) {
-    /// 异常时直接关闭加载圈，不受isClose影响
-    view.closeProgress();
-    if (code != ExceptionHandle.cancel_error) {
-      view.showToast(msg);
-    }
-
-    /// 页面如果dispose，则不回调onError
-    if (onError != null && view.getContext() != null) {
-      onError(code, msg);
-    }
-  }
 }

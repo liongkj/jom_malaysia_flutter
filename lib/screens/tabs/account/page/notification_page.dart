@@ -8,7 +8,6 @@ class NotificationPage extends StatelessWidget {
     return Scaffold(
       appBar: MyAppBar(
         centerTitle: S.of(context).appBarTitleNotification,
-        isBack: false,
       ),
       body: Container(
         child: Center(

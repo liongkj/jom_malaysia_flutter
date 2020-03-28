@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/services/authentication/firebase_auth_service.dart';
-import 'package:jom_malaysia/core/services/authentication/i_auth_service.dart';
 import 'package:jom_malaysia/core/services/gateway/firestore_api.dart';
 import 'package:jom_malaysia/core/services/gateway/http_service.dart';
 import 'package:jom_malaysia/core/services/image/cloudinary/cloudinary_image_service.dart';

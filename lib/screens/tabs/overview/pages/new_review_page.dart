@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
@@ -36,15 +37,15 @@ class _NewReviewPageState extends State<NewReviewPage> {
   CommentModel _commentModel;
   IImageService _storageService;
   CommentsProvider _db;
+  FirebaseUser user;
   StateType _loadingState = StateType.loading;
   @override
   void initState() {
+    user = Provider.of<FirebaseUser>(context, listen: false);
     _db = Provider.of<CommentsProvider>(context, listen: false);
     var commentId = _db.getCommentId();
-    _commentModel = new CommentModel(commentId);
-    //TODO init with user id
+    _commentModel = new CommentModel(commentId, user.uid);
     _storageService =
-        // Provider.of<FirebaseStorageService>(context, listen: false);
         Provider.of<CloudinaryImageService>(context, listen: false);
     super.initState();
   }
