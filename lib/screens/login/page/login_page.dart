@@ -7,6 +7,7 @@ import 'package:jom_malaysia/core/res/gaps.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/core/services/gateway/exception/signin_cancelled_exception.dart';
 import 'package:jom_malaysia/screens/login/widgets/sign_in_icon.dart';
+import 'package:jom_malaysia/screens/login/widgets/third_party_providers.dart';
 import 'package:jom_malaysia/screens/tabs/overview/overview_router.dart';
 import 'package:jom_malaysia/setting/provider/auth_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
@@ -33,37 +34,16 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController _passwordController = TextEditingController();
   final FocusNode _nodeText1 = FocusNode();
   final FocusNode _nodeText2 = FocusNode();
-  bool _isClick = false;
 
   @override
   void initState() {
     super.initState();
     //监听输入改变
-    _nameController.addListener(_verify);
-    _passwordController.addListener(_verify);
     _nameController.text = FlutterStars.SpUtil.getString(Constant.phone);
   }
 
-  void _verify() {
-    String name = _nameController.text;
-    String password = _passwordController.text;
-    bool isClick = true;
-    if (name.isEmpty || name.length < 11) {
-      isClick = false;
-    }
-    if (password.isEmpty || password.length < 6) {
-      isClick = false;
-    }
-
-    /// 状态不一样在刷新，避免重复不必要的setState
-    if (isClick != _isClick) {
-      setState(() {
-        _isClick = isClick;
-      });
-    }
-  }
-
   Future errorHandler(error) async {
+    debugPrint(error.toString());
     Toast.show("Sign In Cancelled");
   }
 
@@ -74,46 +54,19 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    final loginProvider = Provider.of<AuthProvider>(context, listen: false);
     return Scaffold(
       appBar: MyAppBar(
         isBack: false,
         actionName: '验证码登录',
-        onPressed: () {
-          NavigatorUtils.push(context, LoginRouter.smsLoginPage);
-        },
+        onPressed: () => NavigatorUtils.push(context, LoginRouter.smsLoginPage),
       ),
       body: Form(
         child: SingleChildScrollView(
           child: _buildBody(),
         ),
       ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(bottom: 16.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Text("Sign in with"),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                SignInIcon(
-                  iconString: 'icon_google',
-                  signInAction: () => loginProvider
-                      .signInWithGoogle()
-                      .then(
-                        (onValue) => NavigatorUtils.push(context, Routes.home,
-                            clearStack: true),
-                        //TODO change to previous path
-                      )
-                      .catchError(errorHandler,
-                          test: (e) => e is SignInCancelledException),
-                )
-              ],
-            ),
-          ],
-        ),
+      bottomNavigationBar: ThirdPartyProviders(
+        errorHandler: (error) => errorHandler(error),
       ),
     );
   }
@@ -131,12 +84,11 @@ class _LoginPageState extends State<LoginPage> {
           ),
           Gaps.vGap16,
           MyTextField(
-            key: const Key('phone'),
+            key: const Key('email'),
             focusNode: _nodeText1,
             controller: _nameController,
-            maxLength: 11,
-            keyboardType: TextInputType.phone,
-            hintText: "请输入电话号码",
+            keyboardType: TextInputType.emailAddress,
+            hintText: "Email Address",
           ),
           Gaps.vGap8,
           MyTextField(
@@ -152,7 +104,7 @@ class _LoginPageState extends State<LoginPage> {
           Gaps.vGap15,
           MyButton(
             key: const Key('login'),
-            onPressed: _isClick ? _login : null,
+            onPressed: _login,
             text: "登录",
           ),
           Container(

@@ -48,3 +48,5 @@ class Constant {
     Color(0xFFFA6464),
   ];
 }
+
+enum SignInTypeEnum { EMAIL, PHONE, GOOGLE }
