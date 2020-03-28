@@ -6,6 +6,7 @@ import 'package:jom_malaysia/core/constants/common.dart';
 import 'package:jom_malaysia/core/res/gaps.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/core/services/gateway/exception/signin_cancelled_exception.dart';
+import 'package:jom_malaysia/screens/login/widgets/sign_in_icon.dart';
 import 'package:jom_malaysia/screens/tabs/overview/overview_router.dart';
 import 'package:jom_malaysia/setting/provider/auth_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
@@ -34,11 +35,6 @@ class _LoginPageState extends State<LoginPage> {
   final FocusNode _nodeText2 = FocusNode();
   bool _isClick = false;
 
-  Future errorHandler(error) async {
-    debugPrint(error.toString());
-    Toast.show("Sign In Cancelled");
-  }
-
   @override
   void initState() {
     super.initState();
@@ -65,6 +61,10 @@ class _LoginPageState extends State<LoginPage> {
         _isClick = isClick;
       });
     }
+  }
+
+  Future errorHandler(error) async {
+    Toast.show("Sign In Cancelled");
   }
 
   void _login() {
@@ -98,8 +98,9 @@ class _LoginPageState extends State<LoginPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                IconButton(
-                  onPressed: () => loginProvider
+                SignInIcon(
+                  iconString: 'icon_google',
+                  signInAction: () => loginProvider
                       .signInWithGoogle()
                       .then(
                         (onValue) => NavigatorUtils.push(context, Routes.home,
@@ -108,8 +109,7 @@ class _LoginPageState extends State<LoginPage> {
                       )
                       .catchError(errorHandler,
                           test: (e) => e is SignInCancelledException),
-                  icon: LoadAssetImage('login/providers/icon_google'),
-                ),
+                )
               ],
             ),
           ],
