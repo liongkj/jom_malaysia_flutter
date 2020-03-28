@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/services/authentication/firebase_auth_service.dart';
 import 'package:jom_malaysia/core/services/authentication/i_auth_service.dart';
@@ -52,6 +53,8 @@ List<SingleChildWidget> independentServices = [
   ChangeNotifierProvider<LocationProvider>(
     create: (_) => LocationProvider(),
   ),
+  StreamProvider<FirebaseUser>.value(
+      value: FirebaseAuth.instance.onAuthStateChanged),
 ];
 
 List<SingleChildWidget> dependentServices = [

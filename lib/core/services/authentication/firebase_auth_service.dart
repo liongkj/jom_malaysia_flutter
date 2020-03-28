@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -10,6 +12,7 @@ import 'package:jom_malaysia/core/services/gateway/exception/invalid_email_excep
 import 'package:jom_malaysia/core/services/gateway/exception/network_exception.dart';
 import 'package:jom_malaysia/core/services/gateway/exception/not_found_exception.dart';
 import 'package:jom_malaysia/core/services/gateway/exception/unknown_error_exception.dart';
+import 'package:provider/provider.dart';
 
 class FirebaseAuthService extends IAuthenticationService {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
@@ -86,6 +89,11 @@ class FirebaseAuthService extends IAuthenticationService {
   }
 
   @override
+  Future<void> logout() async {
+    await _auth.signOut();
+  }
+
+  @override
   Future getOtp(
     String phoneNumber, {
     Function(String, [int]) onCodeSent,
@@ -136,12 +144,6 @@ class FirebaseAuthService extends IAuthenticationService {
           503, 'Please check your internet connection and try again');
     else
       throw Exception('Something has gone wrong, please try later');
-  }
-
-  @override
-  Future login() {
-    // TODO: implement login
-    return null;
   }
 
   @override

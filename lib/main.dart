@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:jom_malaysia/screens/login/page/login_page.dart';
 import 'package:jom_malaysia/setting/layout/home_page.dart';
+import 'package:jom_malaysia/setting/provider/auth_provider.dart';
 import 'package:jom_malaysia/setting/provider/language_provider.dart';
 import 'package:jom_malaysia/setting/provider/provider_setup.dart';
 import 'package:logger/logger.dart';
@@ -69,9 +70,8 @@ class MyApp extends StatelessWidget {
                   theme: provider.getTheme(
                     isChinese: lang.locale == Locale("zh"),
                   ),
-                  home:
-                      // Home(),
-                      LoginPage(),
+                  home: Home(),
+                  // LoginPage(),
                   //  ?? SplashPage(),
 
                   onGenerateRoute: Application.router.generator,

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/setting/provider/auth_provider.dart';
@@ -50,9 +51,12 @@ class NavigatorUtils {
   }
 
   static tryAuth(BuildContext context, String path) {
-    if (Provider.of<AuthProvider>(context, listen: false).state ==
-        AuthState.ghost) push(context, Routes.login);
-    push(context, path);
+    var provider = Provider.of<FirebaseUser>(context, listen: false);
+
+    if (provider == null)
+      push(context, Routes.login);
+    else
+      push(context, path);
   }
 
   /// 跳到WebView页

@@ -5,8 +5,6 @@ import 'package:jom_malaysia/core/services/authentication/i_auth_service.dart';
 import 'package:jom_malaysia/core/services/authentication/requests/auth_request.dart';
 import 'package:jom_malaysia/core/services/gateway/exception/signin_cancelled_exception.dart';
 
-enum AuthState { ghost, user }
-
 class AuthProvider extends ChangeNotifier {
   final IAuthenticationService _service;
   AuthProvider({@required IAuthenticationService service}) : _service = service;
@@ -18,11 +16,12 @@ class AuthProvider extends ChangeNotifier {
   AuthUser _user;
   AuthUser get user => _user;
 
-  AuthState _state;
-  AuthState get state => _state;
-
   Future<void> signUp(AuthRequest request) async {
     var result = await _service.registerWithEmailPassword(request);
+  }
+
+  Future<void> logOut() async {
+    var result = await _service.logout();
   }
 
   Future<void> signInWithGoogle() async {

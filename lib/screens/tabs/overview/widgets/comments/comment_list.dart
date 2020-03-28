@@ -77,19 +77,6 @@ class _CommentListState extends State<CommentList>
             ),
           ),
         ),
-        // SliverToBoxAdapter(
-        //   child: Container(
-        //     padding: EdgeInsets.symmetric(vertical: 6.0, horizontal: 8.0),
-        //     child: MyCard(
-        //       child: Container(
-        //         child: SliverPadding(
-        //           padding: const EdgeInsets.all(16.0),
-        //           sliver:
-        //         ),
-        //       ),
-        //     ),
-        //   ),
-        // ),
       ),
     );
   }

@@ -20,8 +20,7 @@ class AuthUtils {
         _type = () => loginProvider
             .signInWithGoogle()
             .then(
-              (onValue) =>
-                  NavigatorUtils.push(context, Routes.home, clearStack: true),
+              (onValue) => NavigatorUtils.goBack(context),
               //TODO change to previous path
             )
             .catchError(errorHandler,
@@ -31,8 +30,7 @@ class AuthUtils {
         _type = () => loginProvider
             .signUp(request)
             .then(
-              (onValue) =>
-                  NavigatorUtils.push(context, Routes.home, clearStack: true),
+              (onValue) => NavigatorUtils.goBack(context),
               //TODO change to previous path
             )
             .catchError(errorHandler);
@@ -41,8 +39,7 @@ class AuthUtils {
         _type = () => loginProvider
             .signInWithEmailPassword(request)
             .then(
-              (onValue) =>
-                  NavigatorUtils.push(context, Routes.home, clearStack: true),
+              (onValue) => NavigatorUtils.goBack(context),
               //TODO change to previous path
             )
             .catchError(errorHandler);
