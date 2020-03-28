@@ -136,6 +136,7 @@ flutter:
     - assets/images/explore/
     - assets/images/state/
     - assets/images/ads/
+    - assets/images/account/
     - assets/images/overview/
     - assets/images/widgets/rating/
     - assets/images/explore/featured/

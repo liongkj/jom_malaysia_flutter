@@ -1,6 +1,7 @@
 import 'package:fluro/fluro.dart';
 import 'package:jom_malaysia/screens/tabs/account/page/account_manager_page.dart';
 import 'package:jom_malaysia/screens/tabs/account/page/language_page.dart';
+import 'package:jom_malaysia/screens/tabs/account/page/notification_page.dart';
 import 'package:jom_malaysia/setting/routers/router_init.dart';
 
 import './page/about_page.dart';
@@ -11,6 +12,7 @@ class AccountRouter implements IRouterProvider {
   static String aboutPage = "/account/about";
   static String languagePage = "/account/language";
   static String accountManagerPage = "/setting/accountManager";
+  static String notificationPage = "/setting/notification";
 
   @override
   void initRouter(Router router) {
@@ -22,5 +24,7 @@ class AccountRouter implements IRouterProvider {
         handler: Handler(handlerFunc: (_, params) => LanguagePage()));
     router.define(accountManagerPage,
         handler: Handler(handlerFunc: (_, params) => AccountManagerPage()));
+    router.define(notificationPage,
+        handler: Handler(handlerFunc: (_, params) => NotificationPage()));
   }
 }

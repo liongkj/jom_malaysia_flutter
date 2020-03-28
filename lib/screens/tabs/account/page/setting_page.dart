@@ -47,6 +47,10 @@ class _SettingPageState extends State<SettingPage> {
         children: <Widget>[
           Gaps.vGap5,
           ClickItem(
+              title: '账号管理',
+              onTap: () => NavigatorUtils.push(
+                  context, AccountRouter.accountManagerPage)),
+          ClickItem(
             title: S.of(context).appBarTitleSettingLanguage,
             content: preferredLang,
             onTap: () =>

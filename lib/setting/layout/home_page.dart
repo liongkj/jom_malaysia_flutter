@@ -1,14 +1,11 @@
-import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
+import 'package:jom_malaysia/screens/tabs/account/page/account_manager_page.dart';
+import 'package:jom_malaysia/screens/tabs/account/page/account_page.dart';
 import 'package:jom_malaysia/screens/tabs/account/page/setting_page.dart';
 import 'package:jom_malaysia/screens/tabs/explore/pages/explore_page.dart';
-import 'package:jom_malaysia/screens/tabs/notification/pages/notification_page.dart';
 import 'package:jom_malaysia/screens/tabs/overview/pages/overview_page.dart';
-import 'package:jom_malaysia/screens/tabs/overview/providers/location_provider.dart';
-import 'package:jom_malaysia/setting/provider/language_provider.dart';
-import 'package:jom_malaysia/setting/provider/theme_provider.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
 import 'package:jom_malaysia/util/toast.dart';
 import 'package:provider/provider.dart';
@@ -24,8 +21,7 @@ class _HomeState extends State<Home> {
   final _pageList = [
     OverviewPage(),
     ExplorePage(),
-    NotificationPage(),
-    SettingPage(),
+    AccountPage(),
   ];
   final _pageController = PageController();
 
@@ -54,7 +50,6 @@ class _HomeState extends State<Home> {
     final _appBarTitles = [
       S.of(context).appBarTitleHome,
       S.of(context).appBarTitleExplore,
-      S.of(context).appBarTitleNotification,
       S.of(context).appBarTitleMe,
     ];
 
@@ -68,17 +63,13 @@ class _HomeState extends State<Home> {
         size: iconSize,
       ),
       Icon(
-        Icons.notifications,
-        size: iconSize,
-      ),
-      Icon(
         Icons.settings,
         size: iconSize,
       ),
 
       // [
     ];
-    _list = List.generate(4, (i) {
+    _list = List.generate(3, (i) {
       return BottomNavigationBarItem(
         icon: _tabImages[i],
         // activeIcon: _tabImages[i][1],
