@@ -58,7 +58,7 @@ class S {
 
   String get appBarTitleHome {
     return Intl.message(
-      'Home',
+      'JomN9',
       name: 'appBarTitleHome',
       desc: '',
       args: [],
@@ -78,6 +78,15 @@ class S {
     return Intl.message(
       'Setting',
       name: 'appBarTitleSetting',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get appBarTitleMe {
+    return Intl.message(
+      'Me',
+      name: 'appBarTitleMe',
       desc: '',
       args: [],
     );

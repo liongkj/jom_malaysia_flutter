@@ -42,7 +42,7 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     super.initState();
     //监听输入改变
-    _nameController.text = sp.SpUtil.getString(Constant.phone);
+    _nameController.text = sp.SpUtil.getString(Constant.email);
     request = new AuthRequest();
     _loginProvider = Provider.of<AuthProvider>(context, listen: false);
   }

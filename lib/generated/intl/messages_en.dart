@@ -28,7 +28,8 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
     "appBarTitleExplore" : MessageLookupByLibrary.simpleMessage("Discover"),
-    "appBarTitleHome" : MessageLookupByLibrary.simpleMessage("Home"),
+    "appBarTitleHome" : MessageLookupByLibrary.simpleMessage("JomN9"),
+    "appBarTitleMe" : MessageLookupByLibrary.simpleMessage("Me"),
     "appBarTitleNotification" : MessageLookupByLibrary.simpleMessage("Notification"),
     "appBarTitleSetting" : MessageLookupByLibrary.simpleMessage("Setting"),
     "appBarTitleSettingLanguage" : MessageLookupByLibrary.simpleMessage("Language"),

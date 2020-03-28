@@ -55,7 +55,7 @@ class _HomeState extends State<Home> {
       S.of(context).appBarTitleHome,
       S.of(context).appBarTitleExplore,
       S.of(context).appBarTitleNotification,
-      S.of(context).appBarTitleSetting,
+      S.of(context).appBarTitleMe,
     ];
 
     var _tabImages = [
