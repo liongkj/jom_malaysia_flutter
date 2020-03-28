@@ -43,19 +43,24 @@ class FirebaseAuthService extends IAuthenticationService {
   }
 
   Future<AuthUser> signInWithGoogle() async {
-    final GoogleSignInAccount googleSignInAccount =
-        await _googleSignIn.signIn();
-    final GoogleSignInAuthentication googleSignInAuthentication =
-        await googleSignInAccount.authentication;
-    final AuthCredential credential = GoogleAuthProvider.getCredential(
-      accessToken: googleSignInAuthentication.accessToken,
-      idToken: googleSignInAuthentication.idToken,
-    );
-    final AuthResult authResult = await _auth.signInWithCredential(credential);
-    final FirebaseUser result = authResult.user;
-    AuthUser user = new AuthUser(
-        result.uid, result.displayName, result.photoUrl, result.email);
-    return user;
+    try {
+      final GoogleSignInAccount googleSignInAccount =
+          await _googleSignIn.signIn();
+      final GoogleSignInAuthentication googleSignInAuthentication =
+          await googleSignInAccount.authentication;
+      final AuthCredential credential = GoogleAuthProvider.getCredential(
+        accessToken: googleSignInAuthentication.accessToken,
+        idToken: googleSignInAuthentication.idToken,
+      );
+      final AuthResult authResult =
+          await _auth.signInWithCredential(credential);
+      final FirebaseUser result = authResult.user;
+      AuthUser user = new AuthUser(
+          result.uid, result.displayName, result.photoUrl, result.email);
+      return user;
+    } catch (e) {
+      debugPrint(e.toString());
+    }
   }
 
   @override

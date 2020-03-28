@@ -69,8 +69,10 @@ class MyApp extends StatelessWidget {
                   theme: provider.getTheme(
                     isChinese: lang.locale == Locale("zh"),
                   ),
-                  home: LoginPage(),
-//                      ?? SplashPage(),
+                  home:
+                      // Home(),
+                      LoginPage(),
+                  //  ?? SplashPage(),
 
                   onGenerateRoute: Application.router.generator,
                   localizationsDelegates: [

@@ -5,13 +5,17 @@ import 'package:flustars/flustars.dart' as FlutterStars;
 import 'package:jom_malaysia/core/constants/common.dart';
 import 'package:jom_malaysia/core/res/gaps.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
+import 'package:jom_malaysia/core/services/gateway/exception/signin_cancelled_exception.dart';
 import 'package:jom_malaysia/screens/tabs/overview/overview_router.dart';
 import 'package:jom_malaysia/setting/provider/auth_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
+import 'package:jom_malaysia/setting/routers/routers.dart';
+import 'package:jom_malaysia/util/toast.dart';
 import 'package:jom_malaysia/widgets/app_bar.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
 import 'package:jom_malaysia/widgets/my_button.dart';
 import 'package:jom_malaysia/widgets/text_field.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 
 import '../login_router.dart';
@@ -29,6 +33,11 @@ class _LoginPageState extends State<LoginPage> {
   final FocusNode _nodeText1 = FocusNode();
   final FocusNode _nodeText2 = FocusNode();
   bool _isClick = false;
+
+  Future errorHandler(error) async {
+    debugPrint(error.toString());
+    Toast.show("Sign In Cancelled");
+  }
 
   @override
   void initState() {
@@ -90,11 +99,15 @@ class _LoginPageState extends State<LoginPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 IconButton(
-                  onPressed: () =>
-                      loginProvider.signInWithGoogle().whenComplete(
-                            () => NavigatorUtils.push(
-                                context, OverviewRouter.overviewPage),
-                          ),
+                  onPressed: () => loginProvider
+                      .signInWithGoogle()
+                      .then(
+                        (onValue) => NavigatorUtils.push(context, Routes.home,
+                            clearStack: true),
+                        //TODO change to previous path
+                      )
+                      .catchError(errorHandler,
+                          test: (e) => e is SignInCancelledException),
                   icon: LoadAssetImage('login/providers/icon_google'),
                 ),
               ],
