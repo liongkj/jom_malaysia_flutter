@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:jom_malaysia/core/constants/common.dart';
+import 'package:jom_malaysia/core/services/authentication/requests/auth_request.dart';
 import 'package:jom_malaysia/core/services/gateway/exception/signin_cancelled_exception.dart';
 import 'package:jom_malaysia/setting/provider/auth_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
@@ -11,7 +12,8 @@ class AuthUtils {
       {@required SignInTypeEnum type,
       @required Function(dynamic) errorHandler,
       @required AuthProvider loginProvider,
-      @required BuildContext context}) {
+      @required BuildContext context,
+      AuthRequest request}) {
     Function _type;
     switch (type) {
       case SignInTypeEnum.GOOGLE:
@@ -24,6 +26,16 @@ class AuthUtils {
             )
             .catchError(errorHandler,
                 test: (e) => e is SignInCancelledException);
+        break;
+      case SignInTypeEnum.SIGNUP:
+        _type = () => loginProvider
+            .signUp(request)
+            .then(
+              (onValue) =>
+                  NavigatorUtils.push(context, Routes.home, clearStack: true),
+              //TODO change to previous path
+            )
+            .catchError(errorHandler);
         break;
       default:
     }

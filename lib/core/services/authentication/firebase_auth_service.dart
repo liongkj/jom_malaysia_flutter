@@ -4,6 +4,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:jom_malaysia/core/models/authuser_model.dart';
 import 'package:jom_malaysia/core/services/authentication/i_auth_service.dart';
 import 'package:jom_malaysia/core/services/authentication/requests/auth_request.dart';
+import 'package:jom_malaysia/core/services/gateway/exception/duplicate_exception.dart';
 import 'package:jom_malaysia/core/services/gateway/exception/invalid_credential_exception.dart';
 import 'package:jom_malaysia/core/services/gateway/exception/invalid_email_exception.dart';
 import 'package:jom_malaysia/core/services/gateway/exception/network_exception.dart';
@@ -15,12 +16,12 @@ class FirebaseAuthService extends IAuthenticationService {
   static final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
-  Future<AuthUser> signUp(String email, String password) async {
+  Future<AuthUser> registerWithEmailPassword(AuthRequest request) async {
     try {
       FirebaseUser result = (await _auth.createUserWithEmailAndPassword(
-              email: email, password: password))
+              email: request.email, password: request.password))
           .user;
-
+      print("Sign up called");
       AuthUser user = new AuthUser(
           result.uid, result.displayName, result.photoUrl, result.email);
       return user;
@@ -29,13 +30,12 @@ class FirebaseAuthService extends IAuthenticationService {
         case "ERROR_INVALID_EMAIL":
           throw InvalidEmailException("");
           break;
-        case "ERROR_WRONG_PASSWORD":
-          throw InvalidCredentialException("wrong password");
+        case "ERROR_WEAK_PASSWORD":
+          throw InvalidCredentialException("WEAK");
           break;
-        case "ERROR_USER_NOT_FOUND":
-          throw NotFoundException("User not found");
+        case "ERROR_EMAIL_ALREADY_IN_USE":
+          throw DuplicateException(status: 'exists');
           break;
-
         default:
           throw UnknownErrorException(error.toString());
       }
@@ -61,6 +61,7 @@ class FirebaseAuthService extends IAuthenticationService {
     } catch (e) {
       debugPrint(e.toString());
     }
+    return null;
   }
 
   @override

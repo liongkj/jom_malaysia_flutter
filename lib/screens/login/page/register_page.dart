@@ -1,10 +1,16 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:jom_malaysia/core/constants/common.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/core/services/authentication/firebase_auth_service.dart';
 import 'package:jom_malaysia/core/services/authentication/i_auth_service.dart';
 import 'package:jom_malaysia/core/services/authentication/requests/auth_request.dart';
+import 'package:jom_malaysia/core/services/gateway/exception/duplicate_exception.dart';
+import 'package:jom_malaysia/core/services/gateway/exception/invalid_credential_exception.dart';
+import 'package:jom_malaysia/core/services/gateway/exception/invalid_email_exception.dart';
+import 'package:jom_malaysia/setting/provider/auth_provider.dart';
+import 'package:jom_malaysia/util/auth_utils.dart';
 import 'package:jom_malaysia/util/toast.dart';
 import 'package:jom_malaysia/widgets/app_bar.dart';
 import 'package:jom_malaysia/widgets/my_button.dart';
@@ -20,23 +26,46 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
-  IAuthenticationService _authService;
+  AuthProvider _authService;
   //定义一个controller
-  TextEditingController _phoneNoController = TextEditingController();
-  TextEditingController _vCodeController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
   final FocusNode _nodeText1 = FocusNode();
   final FocusNode _nodeText2 = FocusNode();
   AuthRequest request;
+
   @override
   void initState() {
-    _authService = Provider.of<FirebaseAuthService>(context, listen: false);
+    _authService = Provider.of<AuthProvider>(context, listen: false);
     request = AuthRequest();
     super.initState();
+  }
+
+  Future errorHandler(err) async {
+    String msg;
+    switch (err.runtimeType) {
+      case InvalidCredentialException:
+        msg = "Password is too weak";
+        break;
+      case DuplicateException:
+        msg = "Email exist";
+        break;
+      default:
+        msg = 'unknow error try agian later';
+    }
+    Toast.show(msg);
   }
 
   void _register() {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
+      var reg = AuthUtils.getSignInFunction(
+          type: SignInTypeEnum.SIGNUP,
+          errorHandler: (err) => errorHandler(err),
+          loginProvider: _authService,
+          request: request,
+          context: context);
+      reg();
       // _authService.signInWithPhoneNumber(
       //   verificationId: request.verificationId,
       //   vCode: request.otpCode,
@@ -44,22 +73,6 @@ class _RegisterPageState extends State<RegisterPage> {
     }
     Toast.show("Tap to register");
   }
-
-  // void _onCodeSent(String str, int code) {
-  //   showToast("Code sent to ${request.phoneNumber}");
-  // }
-
-  // void _onVerified() {
-  //   NavigatorUtils.push(
-  //     context,
-  //     OverviewRouter.overviewPage,
-  //     clearStack: false,
-  //   );
-  // }
-
-  // void _manualSignIn(String verificationCode) {
-  //   request.verificationId = verificationCode;
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -87,53 +100,32 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
           Gaps.vGap16,
           MyTextField(
-            validator: (phone) {
-              if (phone.isEmpty || phone.length < 1) {}
+            key: const Key('email'),
+            focusNode: _nodeText1,
+            maxLength: 30,
+            controller: _emailController,
+            keyboardType: TextInputType.emailAddress,
+            hintText: "Email Address",
+            validator: (value) {
+              try {
+                request.validateEmail(value);
+              } on FormatException catch (e) {
+                return "Email Invalid";
+              }
               return null;
             },
-            key: const Key('phone'),
-            focusNode: _nodeText1,
-            controller: _phoneNoController,
-            maxLength: 12,
-            keyboardType: TextInputType.phone,
-            hintText: "请输入手机号",
-            onSaved: (value) => request.setPhone(value),
+            onSaved: (value) => request.setEmail(value),
           ),
           Gaps.vGap8,
           MyTextField(
-            validator: (vCode) {
-              if (vCode.isEmpty || vCode.length < 6) {}
-              return null;
-            },
-            key: const Key('vcode'),
+            key: const Key('password'),
+            keyName: 'password',
             focusNode: _nodeText2,
-            controller: _vCodeController,
-            keyboardType: TextInputType.number,
-            onSaved: (value) => request.otpCode = value,
-            getVCode: () async {
-              _nodeText1.unfocus();
-              _formKey.currentState.save();
-              if (request.hasValidPhone()) {
-                try {
-                  // await _authService.getOtp(
-                  //   request.phoneNumber,
-                  //   onCodeSent: (str, [code]) => _onCodeSent(str, code),
-                  //   onVerified: () => _onVerified,
-                  //   onCodeRetrievalTimeout: (vId) => _manualSignIn,
-                  // );
-                } on Exception catch (e) {
-                  showToast(e.toString());
-                }
-
-                /// 一般可以在这里发送真正的请求，请求成功返回true
-                return true;
-              } else {
-                Toast.show("请输入有效的手机号");
-                return false;
-              }
-            },
-            maxLength: 6,
-            hintText: "请输入验证码",
+            isInputPwd: true,
+            controller: _passwordController,
+            maxLength: 16,
+            hintText: "请输入密码",
+            onSaved: (value) => request.setPassword(value),
           ),
           Gaps.vGap10,
           Gaps.vGap15,

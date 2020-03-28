@@ -50,4 +50,4 @@ class Constant {
   ];
 }
 
-enum SignInTypeEnum { EMAIL, PHONE, GOOGLE }
+enum SignInTypeEnum { EMAIL, PHONE, GOOGLE, SIGNUP }
