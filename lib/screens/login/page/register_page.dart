@@ -1,13 +1,10 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/core/services/authentication/firebase_auth_service.dart';
 import 'package:jom_malaysia/core/services/authentication/i_auth_service.dart';
-import 'package:jom_malaysia/core/services/authentication/requests/otp_request.dart';
-import 'package:jom_malaysia/screens/tabs/overview/overview_router.dart';
-import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
+import 'package:jom_malaysia/core/services/authentication/requests/auth_request.dart';
 import 'package:jom_malaysia/util/toast.dart';
 import 'package:jom_malaysia/widgets/app_bar.dart';
 import 'package:jom_malaysia/widgets/my_button.dart';
@@ -29,11 +26,11 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController _vCodeController = TextEditingController();
   final FocusNode _nodeText1 = FocusNode();
   final FocusNode _nodeText2 = FocusNode();
-  OtpRequest request;
+  AuthRequest request;
   @override
   void initState() {
     _authService = Provider.of<FirebaseAuthService>(context, listen: false);
-    request = OtpRequest();
+    request = AuthRequest();
     super.initState();
   }
 

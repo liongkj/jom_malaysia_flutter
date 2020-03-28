@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:jom_malaysia/core/models/authuser_model.dart';
 import 'package:jom_malaysia/core/services/authentication/i_auth_service.dart';
-import 'package:jom_malaysia/core/services/authentication/requests/otp_request.dart';
+import 'package:jom_malaysia/core/services/authentication/requests/auth_request.dart';
 import 'package:jom_malaysia/core/services/gateway/exception/invalid_credential_exception.dart';
 import 'package:jom_malaysia/core/services/gateway/exception/invalid_email_exception.dart';
 import 'package:jom_malaysia/core/services/gateway/exception/network_exception.dart';
@@ -123,7 +123,7 @@ class FirebaseAuthService extends IAuthenticationService {
   }
 
   @override
-  Future registerViaOtp(OtpRequest request) {
+  Future registerViaOtp(AuthRequest request) {
     // TODO: implement registerViaOtp
     return null;
   }

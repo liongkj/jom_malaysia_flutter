@@ -25,7 +25,7 @@ class ThirdPartyProviders extends StatelessWidget {
                 iconString: 'icon_google',
                 signInAction: AuthUtils.getSignInFunction(
                   type: SignInTypeEnum.GOOGLE,
-                  errorHandler: errorHandler,
+                  errorHandler: (err) => errorHandler("Cancel Google Login"),
                   loginProvider: loginProvider,
                   context: context,
                 ),
