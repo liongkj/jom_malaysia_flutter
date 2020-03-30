@@ -4,7 +4,6 @@ import 'package:jom_malaysia/core/services/authentication/firebase_auth_service.
 import 'package:jom_malaysia/core/services/gateway/firestore_api.dart';
 import 'package:jom_malaysia/core/services/gateway/http_service.dart';
 import 'package:jom_malaysia/core/services/image/cloudinary/cloudinary_image_service.dart';
-import 'package:jom_malaysia/core/services/image/firebase_storage_api.dart';
 import 'package:jom_malaysia/core/services/search/algolia_search.dart';
 import 'package:jom_malaysia/screens/tabs/explore/providers/featured_place_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/comments_provider.dart';
@@ -33,9 +32,6 @@ List<SingleChildWidget> independentServices = [
   ),
   InheritedProvider(
     create: (_) => FirestoreService(),
-  ),
-  InheritedProvider(
-    create: (_) => FirebaseStorageService(),
   ),
   InheritedProvider(
     create: (_) => FirebaseAuthService(),
