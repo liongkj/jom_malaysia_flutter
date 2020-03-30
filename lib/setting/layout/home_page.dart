@@ -1,14 +1,9 @@
-import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
-import 'package:jom_malaysia/screens/tabs/account/page/setting_page.dart';
+import 'package:jom_malaysia/screens/tabs/account/page/account_page.dart';
 import 'package:jom_malaysia/screens/tabs/explore/pages/explore_page.dart';
-import 'package:jom_malaysia/screens/tabs/notification/pages/notification_page.dart';
 import 'package:jom_malaysia/screens/tabs/overview/pages/overview_page.dart';
-import 'package:jom_malaysia/screens/tabs/overview/providers/location_provider.dart';
-import 'package:jom_malaysia/setting/provider/language_provider.dart';
-import 'package:jom_malaysia/setting/provider/theme_provider.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
 import 'package:jom_malaysia/util/toast.dart';
 import 'package:provider/provider.dart';
@@ -23,10 +18,8 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final _pageList = [
     OverviewPage(),
-    // NearbyPage(),
     ExplorePage(),
-    NotificationPage(),
-    SettingPage(),
+    AccountPage(),
   ];
   final _pageController = PageController();
 
@@ -40,7 +33,7 @@ class _HomeState extends State<Home> {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       // 由于SpUtil未初始化，所以MaterialApp获取的为默认主题配置，这里同步一下。
 
-      Provider.of<ThemeProvider>(context, listen: false).syncTheme();
+      // Provider.of<ThemeProvider>(context, listen: false).syncTheme();
       // Provider.of<LanguageProvider>(context, listen: false).syncLang();
       // Provider.of<LocationProvider>(context, listen: false).syncLoc();
     });
@@ -55,8 +48,7 @@ class _HomeState extends State<Home> {
     final _appBarTitles = [
       S.of(context).appBarTitleHome,
       S.of(context).appBarTitleExplore,
-      S.of(context).appBarTitleNotification,
-      S.of(context).appBarTitleSetting,
+      S.of(context).appBarTitleMe,
     ];
 
     var _tabImages = [
@@ -64,16 +56,8 @@ class _HomeState extends State<Home> {
         Icons.home,
         size: iconSize,
       ),
-      // Icon(
-      //   Icons.map,
-      //   size: iconSize,
-      // ),
       Icon(
         Icons.explore,
-        size: iconSize,
-      ),
-      Icon(
-        Icons.notifications,
         size: iconSize,
       ),
       Icon(
@@ -83,7 +67,7 @@ class _HomeState extends State<Home> {
 
       // [
     ];
-    _list = List.generate(4, (i) {
+    _list = List.generate(3, (i) {
       return BottomNavigationBarItem(
         icon: _tabImages[i],
         // activeIcon: _tabImages[i][1],
@@ -138,8 +122,6 @@ class _HomeState extends State<Home> {
                 onTap: (index) => _pageController.jumpToPage(index),
               );
             }),
-
-            // 使用PageView的原因参看 https://zhuanlan.zhihu.com/p/58582876
             body: PageView(
               controller: _pageController,
               onPageChanged: _onPageChanged,

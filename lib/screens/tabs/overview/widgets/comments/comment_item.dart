@@ -54,25 +54,6 @@ class CommentItem extends StatelessWidget {
   }
 }
 
-class _CommentTitle extends StatelessWidget {
-  const _CommentTitle({
-    Key key,
-    @required this.comment,
-  }) : super(key: key);
-
-  final CommentModel comment;
-
-  @override
-  Widget build(BuildContext context) {
-    return Flexible(
-      child: Text(
-        comment.title,
-        style: TextStyles.title.copyWith(color: Colors.red),
-      ),
-    );
-  }
-}
-
 class _CommentField extends StatelessWidget {
   const _CommentField({
     Key key,

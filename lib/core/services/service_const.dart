@@ -25,6 +25,8 @@ class WebUrl {
   static const String reportPlaceError = "$_home/report-error/";
 
   static const String suggestAddPlace = "$_home/add-a-place/";
+
+  static const String feedback = "$_home/feedback/";
 }
 
 class CloudinaryEndPoint {

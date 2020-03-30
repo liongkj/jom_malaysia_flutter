@@ -64,14 +64,13 @@ class MyApp extends StatelessWidget {
               builder: (_, lang, __) {
                 return MaterialApp(
                   locale: lang.locale,
-                  onGenerateTitle: (BuildContext context) =>
-                      S.of(context).appTitle,
+                  onGenerateTitle: (context) => S.of(context).appTitle,
                   theme: provider.getTheme(
                     isChinese: lang.locale == Locale("zh"),
                   ),
-                  // darkTheme: provider.getTheme(isDarkMode: true),
                   home: Home(),
-//                      ?? SplashPage(),
+                  // LoginPage(),
+                  //  ?? SplashPage(),
 
                   onGenerateRoute: Application.router.generator,
                   localizationsDelegates: [

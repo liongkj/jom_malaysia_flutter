@@ -1,6 +1,7 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/screens/login/login_router.dart';
+import 'package:jom_malaysia/screens/login/page/login_page.dart';
 import 'package:jom_malaysia/screens/tabs/account/account_router.dart';
 import 'package:jom_malaysia/screens/tabs/explore/explore_router.dart';
 import 'package:jom_malaysia/screens/tabs/overview/overview_router.dart';
@@ -12,6 +13,7 @@ import 'router_init.dart';
 class Routes {
   static String home = "/home";
   static String webViewPage = "/webview";
+  static String login = "/login";
 
   static List<IRouterProvider> _listRouter = [];
 
@@ -28,6 +30,10 @@ class Routes {
             handlerFunc:
                 (BuildContext context, Map<String, List<String>> params) =>
                     Home()));
+
+    router.define(login, handler: Handler(handlerFunc: (_, params) {
+      return LoginPage();
+    }));
 
     router.define(webViewPage, handler: Handler(handlerFunc: (_, params) {
       String title = params['title']?.first;

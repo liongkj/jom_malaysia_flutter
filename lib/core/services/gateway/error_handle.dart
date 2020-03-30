@@ -1,8 +1,6 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:jom_malaysia/generated/l10n.dart';
 
 class ExceptionHandle {
   static const int success = 200;

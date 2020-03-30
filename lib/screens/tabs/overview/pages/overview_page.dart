@@ -57,7 +57,7 @@ class OverviewPageState extends State<OverviewPage>
   }
 
   bool isDark = false;
-
+  int _lastReportedPage = 0;
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -93,19 +93,34 @@ class OverviewPageState extends State<OverviewPage>
                 controller: _scrollController ?? null,
                 headerSliverBuilder: (context, innerBoxIsScrolled) =>
                     _sliverBuilder(context),
-                body: PageView.builder(
-                  key: const Key('pageView'),
-                  itemCount: 5,
-                  onPageChanged: _onPageChange,
-                  controller: _pageController,
-                  itemBuilder: (_, index) {
-                    return PlaceList(
-                      controller: this._scrollController,
-                      index: index,
-                    );
+                body: NotificationListener<ScrollNotification>(
+                  onNotification: (ScrollNotification notification) {
+                    /// PageView的onPageChanged是监听ScrollUpdateNotification，会造成滑动中卡顿。这里修改为监听滚动结束再更新、
+                    if (notification.depth == 0 &&
+                        notification is ScrollEndNotification) {
+                      final PageMetrics metrics = notification.metrics;
+                      final int currentPage = metrics.page.round();
+                      if (currentPage != _lastReportedPage) {
+                        _lastReportedPage = currentPage;
+                        _onPageChange(currentPage);
+                      }
+                    }
+                    return false;
                   },
+                  child: PageView.builder(
+                    key: const Key('pageView'),
+                    itemCount: 5,
+                    onPageChanged: _onPageChange,
+                    controller: _pageController,
+                    itemBuilder: (_, index) {
+                      return PlaceList(
+                        controller: this._scrollController,
+                        index: index,
+                      );
+                    },
+                  ),
                 ),
-              ),
+              )
             ],
           ),
         ));

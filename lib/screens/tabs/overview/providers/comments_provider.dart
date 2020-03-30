@@ -6,9 +6,6 @@ import 'package:jom_malaysia/setting/provider/base_change_notifier.dart';
 import 'package:jom_malaysia/widgets/state_layout.dart';
 
 class CommentsProvider extends BaseChangeNotifier {
-  @override
-  StateType stateType = StateType.empty;
-
   FirestoreService _api;
   CommentsProvider({@required FirestoreService firebaseService})
       : _api = firebaseService;
@@ -22,11 +19,9 @@ class CommentsProvider extends BaseChangeNotifier {
   }
 
   Future<void> addComment(String listingId, CommentModel data) async {
-    setStateType(StateType.loading);
     var result =
         await _api.addDocument(listingId, collectionName, data.toJson());
-    setStateTypeWithoutNotify(StateType.empty);
-    return;
+    notifyListeners();
   }
 
   Future<List<CommentModel>> fetchComments() async {

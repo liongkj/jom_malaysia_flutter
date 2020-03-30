@@ -31,7 +31,7 @@ class MyButton extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          icon,
+          if (icon != null) icon,
           Gaps.hGap12,
           Container(
             height: 48,

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
@@ -106,13 +107,16 @@ class _CommentButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var user = Provider.of<FirebaseUser>(context, listen: false);
     return MyButton(
       icon: Icon(Icons.rate_review),
       text: shouldLoad
           ? S.of(context).labelAskReview
           : S.of(context).labelAskFirstReview,
-      onPressed: () => NavigatorUtils.push(context,
-          '${OverviewRouter.reviewPage}?title=$listingName&placeId=$listingId&userId=${"123"}'),
+      onPressed: () {
+        NavigatorUtils.tryAuth(context,
+            '${OverviewRouter.reviewPage}?title=$listingName&placeId=$listingId&userId=${"user.id"}');
+      },
     );
   }
 }

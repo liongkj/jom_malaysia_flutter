@@ -20,6 +20,8 @@ class MyTextField extends StatefulWidget {
       this.focusNode,
       this.isInputPwd: false,
       this.getVCode,
+      this.validator,
+      this.onSaved,
       this.keyName})
       : super(key: key);
 
@@ -31,6 +33,8 @@ class MyTextField extends StatefulWidget {
   final FocusNode focusNode;
   final bool isInputPwd;
   final Future<bool> Function() getVCode;
+  final Function(String) validator;
+  final Function(String) onSaved;
 
   /// 用于集成测试寻找widget
   final String keyName;
@@ -45,7 +49,7 @@ class _MyTextFieldState extends State<MyTextField> {
   bool _isClick = true;
 
   /// 倒计时秒数
-  final int second = 30;
+  final int second = 10;
 
   /// 当前秒数
   int s;
@@ -71,6 +75,7 @@ class _MyTextFieldState extends State<MyTextField> {
     _subscription?.cancel();
     widget.controller?.removeListener(() {});
     widget.controller?.dispose();
+    widget.focusNode?.dispose();
     super.dispose();
   }
 
@@ -99,7 +104,9 @@ class _MyTextFieldState extends State<MyTextField> {
     return Stack(
       alignment: Alignment.centerRight,
       children: <Widget>[
-        TextField(
+        TextFormField(
+          onSaved: widget.onSaved,
+          validator: widget.validator,
           focusNode: widget.focusNode,
           maxLength: widget.maxLength,
           obscureText: widget.isInputPwd ? !_isShowPwd : false,
@@ -131,7 +138,7 @@ class _MyTextFieldState extends State<MyTextField> {
                 ? Gaps.empty
                 : GestureDetector(
                     child: LoadAssetImage(
-                      "login/qyg_shop_icon_delete",
+                      "login/icon_delete",
                       key: Key('${widget.keyName}_delete'),
                       width: 18.0,
                       height: 18.0,
@@ -144,8 +151,8 @@ class _MyTextFieldState extends State<MyTextField> {
                 : GestureDetector(
                     child: LoadAssetImage(
                       _isShowPwd
-                          ? "login/qyg_shop_icon_display"
-                          : "login/qyg_shop_icon_hide",
+                          ? "login/icon_display_pass"
+                          : "login/icon_hide_pass",
                       key: Key('${widget.keyName}_showPwd'),
                       width: 18.0,
                       height: 18.0,

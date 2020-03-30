@@ -58,7 +58,7 @@ class S {
 
   String get appBarTitleHome {
     return Intl.message(
-      'Home',
+      'JomN9',
       name: 'appBarTitleHome',
       desc: '',
       args: [],
@@ -78,6 +78,15 @@ class S {
     return Intl.message(
       'Setting',
       name: 'appBarTitleSetting',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get appBarTitleMe {
+    return Intl.message(
+      'Me',
+      name: 'appBarTitleMe',
       desc: '',
       args: [],
     );
@@ -890,6 +899,60 @@ class S {
     return Intl.message(
       'Negeri Sembilan has a collective population of 1,098,500 as of 2015; the ethnic composition consisting of Malay 622,000 (56.6%) (mostly are Minangkabau descent), other Bumiputras 20,700 (1.9%), Chinese 234,300 (21.3%), Indian 154,000 (14%), Others 4,200 (0.4%), and Non Citizens 63,300 (5.8%). The state has the highest percentage of Indians when compared to other Malaysian states.',
       name: 'overviewSection5Para1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelLogout {
+    return Intl.message(
+      'Log Out',
+      name: 'labelLogout',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelLogIn {
+    return Intl.message(
+      'Click to sign in',
+      name: 'labelLogIn',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelProfileManager {
+    return Intl.message(
+      'Profile Setting',
+      name: 'labelProfileManager',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelCreditManager {
+    return Intl.message(
+      'Credit Setting',
+      name: 'labelCreditManager',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelWelcomeUser {
+    return Intl.message(
+      'Hi,',
+      name: 'labelWelcomeUser',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelAccount {
+    return Intl.message(
+      'Account',
+      name: 'labelAccount',
       desc: '',
       args: [],
     );

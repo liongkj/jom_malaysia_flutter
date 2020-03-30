@@ -19,7 +19,6 @@ class _CommentListState extends State<CommentList>
     with AutomaticKeepAliveClientMixin {
   int _page = 1;
   final int _maxPage = 3;
-  bool _isLoading = false;
   List<CommentModel> commentList = [];
 
   @override
@@ -77,31 +76,8 @@ class _CommentListState extends State<CommentList>
             ),
           ),
         ),
-        // SliverToBoxAdapter(
-        //   child: Container(
-        //     padding: EdgeInsets.symmetric(vertical: 6.0, horizontal: 8.0),
-        //     child: MyCard(
-        //       child: Container(
-        //         child: SliverPadding(
-        //           padding: const EdgeInsets.all(16.0),
-        //           sliver:
-        //         ),
-        //       ),
-        //     ),
-        //   ),
-        // ),
       ),
     );
-  }
-
-  List _list = [];
-
-  Future _onRefresh() async {
-    // var loc = Provider.of<CommentsProvider>(context, listen: false)
-    //     .selected
-    //     ?.cityName;
-    // Provider.of<CommentsProvider>(context, listen: false)
-    //     .fetchAndInitPlaces(city: loc, refresh: true);
   }
 
   bool _hasMore() {

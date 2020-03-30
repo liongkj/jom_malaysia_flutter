@@ -18,6 +18,7 @@ class Constant {
 
   static const String keyGuide = 'keyGuide';
   static const String phone = 'phone';
+  static const String email = 'email';
   static const String accessToken = 'accessToken';
   static const String refreshToken = 'refreshToken';
 
@@ -48,3 +49,5 @@ class Constant {
     Color(0xFFFA6464),
   ];
 }
+
+enum SignInTypeEnum { EMAIL, PHONE, GOOGLE, SIGNUP }

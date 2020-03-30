@@ -1,9 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/screens/login/login_router.dart';
+import 'package:jom_malaysia/setting/provider/auth_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/widgets/app_bar.dart';
 import 'package:jom_malaysia/widgets/click_item.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
+import 'package:provider/provider.dart';
 
 /// design/8设置/index.html#artboard1
 class AccountManagerPage extends StatefulWidget {
@@ -14,23 +17,14 @@ class AccountManagerPage extends StatefulWidget {
 class _AccountManagerPageState extends State<AccountManagerPage> {
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    final loggedInUser = Provider.of<FirebaseUser>(context, listen: false);
     return Scaffold(
       appBar: const MyAppBar(
         centerTitle: "账号管理",
       ),
       body: Column(
         children: <Widget>[
-          Stack(
-            children: <Widget>[
-              ClickItem(title: "店铺logo", onTap: () {}),
-              Positioned(
-                top: 8.0,
-                bottom: 8.0,
-                right: 40.0,
-                child: const LoadImage("shop/tx", width: 34.0),
-              )
-            ],
-          ),
           ClickItem(
               title: "修改密码",
               content: "用于密码登录",

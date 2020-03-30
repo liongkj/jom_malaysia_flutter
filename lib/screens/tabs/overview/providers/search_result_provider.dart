@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jom_malaysia/core/interfaces/i_search_service.dart';
+import 'package:jom_malaysia/core/services/search/i_search_service.dart';
 import 'package:jom_malaysia/core/services/search/place_search_result_model.dart';
 import 'package:jom_malaysia/setting/provider/base_change_notifier.dart';
 import 'package:jom_malaysia/widgets/state_layout.dart';

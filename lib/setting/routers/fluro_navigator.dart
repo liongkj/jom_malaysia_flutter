@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'application.dart';
 import 'routers.dart';
@@ -45,6 +47,15 @@ class NavigatorUtils {
   static void goBackWithParams(BuildContext context, result) {
     FocusScope.of(context).unfocus();
     Navigator.pop(context, result);
+  }
+
+  static tryAuth(BuildContext context, String path) {
+    var provider = Provider.of<FirebaseUser>(context, listen: false);
+
+    if (provider == null)
+      push(context, Routes.login);
+    else
+      push(context, path);
   }
 
   /// 跳到WebView页

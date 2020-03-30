@@ -1,17 +1,24 @@
+import 'package:flustars/flustars.dart' as sp;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flustars/flustars.dart' as FlutterStars;
 import 'package:jom_malaysia/core/constants/common.dart';
 import 'package:jom_malaysia/core/res/gaps.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
-import 'package:jom_malaysia/screens/tabs/overview/overview_router.dart';
+import 'package:jom_malaysia/core/services/authentication/requests/auth_request.dart';
+import 'package:jom_malaysia/core/services/gateway/exception/invalid_credential_exception.dart';
+import 'package:jom_malaysia/core/services/gateway/exception/not_found_exception.dart';
+import 'package:jom_malaysia/screens/login/login_router.dart';
+import 'package:jom_malaysia/screens/login/widgets/third_party_providers.dart';
+import 'package:jom_malaysia/setting/provider/auth_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
+import 'package:jom_malaysia/util/auth_utils.dart';
+import 'package:jom_malaysia/util/toast.dart';
 import 'package:jom_malaysia/widgets/app_bar.dart';
 import 'package:jom_malaysia/widgets/my_button.dart';
+import 'package:jom_malaysia/widgets/my_checkbox.dart';
 import 'package:jom_malaysia/widgets/text_field.dart';
-
-import '../login_router.dart';
+import 'package:provider/provider.dart';
 
 /// design/1注册登录/index.html
 class LoginPage extends StatefulWidget {
@@ -25,54 +32,75 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController _passwordController = TextEditingController();
   final FocusNode _nodeText1 = FocusNode();
   final FocusNode _nodeText2 = FocusNode();
-  bool _isClick = false;
+  AuthRequest request;
+  final _formKey = GlobalKey<FormState>();
+  var _autovalidate = false;
+  AuthProvider _loginProvider;
 
   @override
   void initState() {
     super.initState();
     //监听输入改变
-    _nameController.addListener(_verify);
-    _passwordController.addListener(_verify);
-    _nameController.text = FlutterStars.SpUtil.getString(Constant.phone);
+    _nameController.text = sp.SpUtil.getString(Constant.email);
+    request = new AuthRequest();
+    _loginProvider = Provider.of<AuthProvider>(context, listen: false);
   }
 
-  void _verify() {
-    String name = _nameController.text;
-    String password = _passwordController.text;
-    bool isClick = true;
-    if (name.isEmpty || name.length < 11) {
-      isClick = false;
+  Future errorHandler(err) async {
+    String msg;
+    switch (err.runtimeType) {
+      case InvalidCredentialException:
+        msg = "Email / Password is incorrect";
+        break;
+      case NotFoundException:
+        msg = "User not registered";
+        break;
+      default:
+        msg = 'Unknown error try agian later';
     }
-    if (password.isEmpty || password.length < 6) {
-      isClick = false;
-    }
-
-    /// 状态不一样在刷新，避免重复不必要的setState
-    if (isClick != _isClick) {
-      setState(() {
-        _isClick = isClick;
-      });
-    }
+    Toast.show(msg);
   }
 
   void _login() {
-    FlutterStars.SpUtil.putString(Constant.phone, _nameController.text);
-    NavigatorUtils.push(context, OverviewRouter.overviewPage);
+    if (_formKey.currentState.validate()) {
+      _formKey.currentState.save();
+      if (request.rememberMe)
+        sp.SpUtil.putString(Constant.email, request.email);
+      else
+        sp.SpUtil.remove(Constant.email);
+      var login = AuthUtils.getSignInFunction(
+          type: SignInTypeEnum.EMAIL,
+          errorHandler: (err) => errorHandler(err),
+          loginProvider: _loginProvider,
+          request: request,
+          context: context);
+      login();
+    } else {
+      _autovalidate = true;
+    }
+
+    // NavigatorUtils.push(context, OverviewRouter.overviewPage);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: MyAppBar(
-          isBack: false,
-          actionName: '验证码登录',
-          onPressed: () {
-            NavigatorUtils.push(context, LoginRouter.smsLoginPage);
-          },
-        ),
-        body: SingleChildScrollView(
+      appBar: MyAppBar(
+        backImg: "assets/images/ic_close.png",
+        actionName: '验证码登录',
+        onPressed: () => NavigatorUtils.push(context, LoginRouter.smsLoginPage),
+      ),
+      body: Form(
+        key: _formKey,
+        autovalidate: _autovalidate,
+        child: SingleChildScrollView(
           child: _buildBody(),
-        ));
+        ),
+      ),
+      bottomNavigationBar: ThirdPartyProviders(
+        errorHandler: (error) => errorHandler(error),
+      ),
+    );
   }
 
   _buildBody() {
@@ -80,6 +108,7 @@ class _LoginPageState extends State<LoginPage> {
       padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 20.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           const Text(
             "密码登录",
@@ -87,12 +116,21 @@ class _LoginPageState extends State<LoginPage> {
           ),
           Gaps.vGap16,
           MyTextField(
-            key: const Key('phone'),
+            key: const Key('email'),
             focusNode: _nodeText1,
+            maxLength: 30,
             controller: _nameController,
-            maxLength: 11,
-            keyboardType: TextInputType.phone,
-            hintText: "请输入账号",
+            keyboardType: TextInputType.emailAddress,
+            hintText: "Email Address",
+            validator: (value) {
+              try {
+                request.validateEmail(value);
+              } on FormatException catch (e) {
+                return "Email Invalid";
+              }
+              return null;
+            },
+            onSaved: (value) => request.setEmail(value),
           ),
           Gaps.vGap8,
           MyTextField(
@@ -103,12 +141,22 @@ class _LoginPageState extends State<LoginPage> {
             controller: _passwordController,
             maxLength: 16,
             hintText: "请输入密码",
+            onSaved: (value) => request.setPassword(value),
+          ),
+          Container(
+            width: 200,
+            child: MyCheckbox(
+              initialValue: false,
+              title: Text('remember me'),
+              context: context,
+              onSaved: (value) => request.setRememberMe(value),
+            ),
           ),
           Gaps.vGap10,
           Gaps.vGap15,
           MyButton(
             key: const Key('login'),
-            onPressed: _isClick ? _login : null,
+            onPressed: _login,
             text: "登录",
           ),
           Container(
@@ -133,7 +181,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 onTap: () =>
                     NavigatorUtils.push(context, LoginRouter.registerPage),
-              ))
+              )),
         ],
       ),
     );

@@ -1,7 +1,6 @@
-import 'package:flustars/flustars.dart' as flutter_stars;
 import 'package:flutter/material.dart';
-import 'package:jom_malaysia/core/constants/common.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
+import 'package:jom_malaysia/core/services/gateway/net.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/tabs/account/account_router.dart';
 import 'package:jom_malaysia/setting/provider/language_provider.dart';
@@ -39,7 +38,6 @@ class _SettingPageState extends State<SettingPage> {
     return Scaffold(
       appBar: MyAppBar(
         centerTitle: S.of(context).appBarTitleSetting,
-        isBack: false,
       ),
       body: Column(
         children: <Widget>[
@@ -57,7 +55,7 @@ class _SettingPageState extends State<SettingPage> {
                 return NavigatorUtils.goWebViewPage(
                     context,
                     S.of(context).clickItemSettingFeedbackTitle,
-                    "https://www.jomn9.com/feedback");
+                    WebUrl.feedback);
               }),
           ClickItem(
               title: S.of(context).clickItemSettingAboutTitle,

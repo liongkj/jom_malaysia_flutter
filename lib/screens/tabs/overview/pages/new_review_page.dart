@@ -1,10 +1,11 @@
 import 'dart:typed_data';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:jom_malaysia/core/interfaces/i_image_service.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/core/services/image/cloudinary/cloudinary_image_service.dart';
+import 'package:jom_malaysia/core/services/image/i_image_service.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/comments/comment_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/comments_provider.dart';
@@ -36,15 +37,15 @@ class _NewReviewPageState extends State<NewReviewPage> {
   CommentModel _commentModel;
   IImageService _storageService;
   CommentsProvider _db;
+  FirebaseUser user;
   StateType _loadingState = StateType.loading;
   @override
   void initState() {
+    user = Provider.of<FirebaseUser>(context, listen: false);
     _db = Provider.of<CommentsProvider>(context, listen: false);
     var commentId = _db.getCommentId();
-    _commentModel = new CommentModel(commentId);
-    //TODO init with user id
+    _commentModel = new CommentModel(commentId, user.uid);
     _storageService =
-        // Provider.of<FirebaseStorageService>(context, listen: false);
         Provider.of<CloudinaryImageService>(context, listen: false);
     super.initState();
   }
@@ -68,6 +69,7 @@ class _NewReviewPageState extends State<NewReviewPage> {
       appBar: MyAppBar(
         actionName: S.of(context).labelSubmitReview,
         onPressed: () async {
+          _db.setStateType(StateType.loading);
           if (_formKey.currentState.validate()) {
             _formKey.currentState.save();
             if (_commentModel.imageAssets.isNotEmpty) {
@@ -81,6 +83,7 @@ class _NewReviewPageState extends State<NewReviewPage> {
             await _db.addComment(widget.placeId, _commentModel);
             NavigatorUtils.goBack(context);
           } else {
+            _db.setStateType(StateType.empty);
             showToast(S.of(context).msgPleaseFillRequiredField);
           }
         },
