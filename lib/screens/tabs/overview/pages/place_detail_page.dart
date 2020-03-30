@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
@@ -55,6 +56,7 @@ class PlaceDetailPageState extends State<PlaceDetailPage>
   Widget build(BuildContext context) {
     super.build(context);
     isDark = ThemeUtils.isDark(context);
+    var user = Provider.of<FirebaseUser>(context, listen: false);
     return HideFabOnScrollScaffold(
       body: SafeArea(
         child: CustomScrollView(
@@ -67,8 +69,10 @@ class PlaceDetailPageState extends State<PlaceDetailPage>
       floatingActionButton: FloatingActionButton.extended(
         heroTag: "btn_open_form",
         tooltip: "Rate",
-        onPressed: () => NavigatorUtils.push(context,
-            '${OverviewRouter.reviewPage}?title=${place.listingName}&placeId=${place.listingId}&userId=${"123"}'),
+        onPressed: () => NavigatorUtils.tryAuth(
+          context,
+          '${OverviewRouter.reviewPage}?title=${place.listingName}&placeId=${place.listingId}&userId=${user.uid}',
+        ),
         icon: Icon(Icons.star),
         label: Text("Rate"),
       ),

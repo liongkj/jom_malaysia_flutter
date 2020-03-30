@@ -18,24 +18,13 @@ class _AccountManagerPageState extends State<AccountManagerPage> {
   @override
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
-    final isLoggedIn = Provider.of<FirebaseUser>(context, listen: false);
+    final loggedInUser = Provider.of<FirebaseUser>(context, listen: false);
     return Scaffold(
       appBar: const MyAppBar(
         centerTitle: "账号管理",
       ),
       body: Column(
         children: <Widget>[
-          Stack(
-            children: <Widget>[
-              ClickItem(title: "店铺logo", onTap: () {}),
-              Positioned(
-                top: 8.0,
-                bottom: 8.0,
-                right: 40.0,
-                child: const LoadImage("shop/tx", width: 34.0),
-              )
-            ],
-          ),
           ClickItem(
               title: "修改密码",
               content: "用于密码登录",

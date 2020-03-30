@@ -903,6 +903,60 @@ class S {
       args: [],
     );
   }
+
+  String get labelLogout {
+    return Intl.message(
+      'Log Out',
+      name: 'labelLogout',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelLogIn {
+    return Intl.message(
+      'Click to sign in',
+      name: 'labelLogIn',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelProfileManager {
+    return Intl.message(
+      'Profile Setting',
+      name: 'labelProfileManager',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelCreditManager {
+    return Intl.message(
+      'Credit Setting',
+      name: 'labelCreditManager',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelWelcomeUser {
+    return Intl.message(
+      'Hi,',
+      name: 'labelWelcomeUser',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelAccount {
+    return Intl.message(
+      'Account',
+      name: 'labelAccount',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

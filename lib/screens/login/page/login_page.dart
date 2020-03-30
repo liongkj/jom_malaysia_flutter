@@ -86,7 +86,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyAppBar(
-        isBack: false,
+        backImg: "assets/images/ic_close.png",
         actionName: '验证码登录',
         onPressed: () => NavigatorUtils.push(context, LoginRouter.smsLoginPage),
       ),
