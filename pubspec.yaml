@@ -80,6 +80,8 @@ dependencies:
   #https://github.com/flutter/plugins/tree/master/packages/share:
   shared_preferences: ^0.5.6+3
   # https://pub.dev/packages/shared_preferences#-changelog-tab-
+  shimmer: ^1.1.0
+  # https://pub.dev/packages/shimmer#-changelog-tab-
   sprintf: ^4.0.2
   # 格式化String https://github.com/Naddiseo/dart-sprintf
   rxdart: ^0.22.5

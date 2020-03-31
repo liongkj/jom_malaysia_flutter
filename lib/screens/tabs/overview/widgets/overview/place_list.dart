@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:jom_malaysia/core/res/gaps.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/listing_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/location_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/overview_page_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/overview/place_item.dart';
+import 'package:jom_malaysia/widgets/my_card.dart';
 import 'package:jom_malaysia/widgets/state_layout.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 class PlaceList extends StatefulWidget {
   const PlaceList({
     Key key,
     @required this.index,
-    @required this.controller,
   }) : super(key: key);
 
   final int index;
-
-  final ScrollController controller;
 
   @override
   _PlaceListState createState() => _PlaceListState();
@@ -29,10 +29,12 @@ class _PlaceListState extends State<PlaceList>
   final int _maxPage = 3;
   int _index = 0;
 
+  ScrollController _controller;
   @override
   void initState() {
     super.initState();
     _index = widget.index;
+    _controller = ScrollController();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       _onRefresh();
     });
@@ -59,7 +61,7 @@ class _PlaceListState extends State<PlaceList>
             return CustomScrollView(
               /// 这里指定controller可以与外层NestedScrollView的滚动分离，避免一处滑动，5个Tab中的列表同步滑动。
               /// 这种方法的缺点是会重新layout列表
-              controller: _index != provider.index ? widget.controller : null,
+              controller: _index != provider.index ? _controller : null,
               key: PageStorageKey<String>("$_index"),
               slivers: <Widget>[
                 SliverOverlapInjector(
@@ -78,9 +80,11 @@ class _PlaceListState extends State<PlaceList>
               return SliverPadding(
                 padding: const EdgeInsets.only(left: 8.0, right: 8, top: 8),
                 sliver: placeList.isEmpty
-                    ? SliverFillRemaining(
-                        child: StateLayout(type: listing.stateType),
-                      )
+                    ? StateType.loading == listing.stateType
+                        ? _buildShimmer()
+                        : SliverFillRemaining(
+                            child: StateLayout(type: listing.stateType),
+                          )
                     : SliverList(
                         delegate: SliverChildBuilderDelegate(
                             (BuildContext context, int index) {
@@ -98,6 +102,69 @@ class _PlaceListState extends State<PlaceList>
         ),
       ),
     );
+  }
+
+  SliverToBoxAdapter _buildShimmer() {
+    return SliverToBoxAdapter(
+        child: Shimmer.fromColors(
+            baseColor: Colors.grey[300],
+            highlightColor: Colors.grey[100],
+            child: ListView.builder(
+                itemCount: 6,
+                shrinkWrap: true,
+                itemBuilder: (_, __) => Container(
+                    margin: const EdgeInsets.only(bottom: 8.0),
+                    child: Container(
+                        padding: const EdgeInsets.fromLTRB(
+                          8.0,
+                          0.0,
+                          16.0,
+                          8.0,
+                        ),
+                        child: Container(
+                            child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                              Container(
+                                width: 100.0,
+                                height: 80.0,
+                                color: Colors.white,
+                              ),
+                              const Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 8.0),
+                              ),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Container(
+                                      width: double.infinity,
+                                      height: 8.0,
+                                      color: Colors.white,
+                                    ),
+                                    const Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 2.0),
+                                    ),
+                                    Container(
+                                      width: double.infinity,
+                                      height: 8.0,
+                                      color: Colors.white,
+                                    ),
+                                    const Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 2.0),
+                                    ),
+                                    Container(
+                                      width: 40.0,
+                                      height: 8.0,
+                                      color: Colors.white,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ])))))));
   }
 
   List _list = [];

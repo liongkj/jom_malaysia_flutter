@@ -39,11 +39,16 @@ class PlaceDetailPageState extends State<PlaceDetailPage>
 
     place = Provider.of<ListingProvider>(context, listen: false)
         .findById(widget.placeId);
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       place.listingImages.ads.forEach(
           (f) async => await precacheImage(NetworkImage(f.url), context));
     });
-    super.initState();
   }
 
   @override
@@ -116,16 +121,17 @@ class PlaceDetailPageState extends State<PlaceDetailPage>
       SliverToBoxAdapter(
         child: Gaps.vGap16,
       ),
-      PlaceImage(
-        images: place.listingImages.ads,
-      ),
-      SliverToBoxAdapter(
-        child: CommentSection(
+      SliverList(
+          delegate: SliverChildListDelegate([
+        PlaceImage(
+          images: place.listingImages.ads,
+        ),
+        CommentSection(
           listingName: place.listingName,
           listingId: place.listingId,
         ),
-      ),
-      MerchantInfo(merchant: place.merchant),
+        MerchantInfo(merchant: place.merchant),
+      ]))
     ];
   }
 
