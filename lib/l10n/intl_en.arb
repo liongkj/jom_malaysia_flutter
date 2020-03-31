@@ -107,6 +107,7 @@
   "labelDisplayName": "Your username",
   "labelUsernameTitle": "Username",
   "labelChangeHintText": "Please enter your {item}",
-  "labelConfirmLogoutTitle": "Logout",
-  "labelConfirmLogoutMsg": "Confirm logout?"
+  "labelConfirmLogoutMsg": "Confirm log out?",
+  "labelStranger": "Stranger",
+  "labelEdit": "Edit"
 }

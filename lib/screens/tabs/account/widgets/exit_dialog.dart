@@ -21,7 +21,7 @@ class _ExitDialog extends State<ExitDialog> {
   Widget build(BuildContext context) {
     return BaseDialog(
         showCancel: true,
-        title: S.of(context).labelConfirmLogoutTitle,
+        title: S.of(context).labelLogout,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
           child: Text(S.of(context).labelConfirmLogoutMsg,

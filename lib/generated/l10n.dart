@@ -994,19 +994,28 @@ class S {
     );
   }
 
-  String get labelConfirmLogoutTitle {
+  String get labelConfirmLogoutMsg {
     return Intl.message(
-      'Logout',
-      name: 'labelConfirmLogoutTitle',
+      'Confirm log out?',
+      name: 'labelConfirmLogoutMsg',
       desc: '',
       args: [],
     );
   }
 
-  String get labelConfirmLogoutMsg {
+  String get labelStranger {
     return Intl.message(
-      'Confirm logout?',
-      name: 'labelConfirmLogoutMsg',
+      'Stranger',
+      name: 'labelStranger',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelEdit {
+    return Intl.message(
+      'Edit',
+      name: 'labelEdit',
       desc: '',
       args: [],
     );

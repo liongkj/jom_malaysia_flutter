@@ -67,6 +67,14 @@ class _ShopPageState extends State<AccountPage>
 
   String _displayName;
   AuthProvider authProvider;
+
+  @override
+  void initState() {
+    super.initState();
+    _displayName =
+        Provider.of<FirebaseUser>(context, listen: false)?.displayName;
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -98,7 +106,6 @@ class _ShopPageState extends State<AccountPage>
       ),
       body: Consumer2<FirebaseUser, AuthProvider>(
         builder: (_, loggedUser, authProvider, __) {
-          _displayName = loggedUser?.displayName;
           return SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -131,11 +138,13 @@ class _ShopPageState extends State<AccountPage>
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
-                                  Text(_displayName ?? "Liong Khai Jiet",
+                                  Text(
+                                      _displayName ??
+                                          S.of(context).labelStranger,
                                       style: TextStyles.textSize16),
                                   FlatButton(
                                       child: Text(
-                                        "Edit Name",
+                                        S.of(context).labelEdit,
                                         style: TextStyles.textSize12.copyWith(
                                             fontWeight: FontWeight.bold),
                                       ),

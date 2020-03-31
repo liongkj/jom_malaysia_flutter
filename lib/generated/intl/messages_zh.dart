@@ -21,6 +21,8 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m0(selected) => "当前城市: ${selected}";
 
+  static m1(item) => "输入您的${item}";
+
   static m2(item) => "正火速上传您的${item}";
 
   static m3(commentCount) => "点评 (${commentCount})";
@@ -43,27 +45,32 @@ class MessageLookup extends MessageLookupByLibrary {
     "clickItemSettingShareTitle" : MessageLookupByLibrary.simpleMessage("告诉朋友"),
     "errorMessageNetworkFailure" : MessageLookupByLibrary.simpleMessage("网络异常，请检查你的网络！"),
     "labelAccount" : MessageLookupByLibrary.simpleMessage("帐户"),
+    "labelAppSettings" : MessageLookupByLibrary.simpleMessage("系统设置"),
     "labelAskFirstReview" : MessageLookupByLibrary.simpleMessage("快来做第一个点评吧"),
     "labelAskReview" : MessageLookupByLibrary.simpleMessage("说点什么"),
     "labelAveragePaxTitle" : MessageLookupByLibrary.simpleMessage("人均"),
     "labelAveratePaxPrefix" : MessageLookupByLibrary.simpleMessage(""),
     "labelAveratePaxSuffix" : MessageLookupByLibrary.simpleMessage(" 令吉"),
+    "labelChangeHintText" : m1,
     "labelCityNotInServiceArea" : MessageLookupByLibrary.simpleMessage("您所在城市不在服务区域"),
     "labelClickToAddImage" : MessageLookupByLibrary.simpleMessage("点击添加商品图片"),
+    "labelConfirmLogoutMsg" : MessageLookupByLibrary.simpleMessage("确认退出？"),
     "labelCreditManager" : MessageLookupByLibrary.simpleMessage("资金管理"),
     "labelDialogCancel" : MessageLookupByLibrary.simpleMessage("取消"),
     "labelDialogFriday" : MessageLookupByLibrary.simpleMessage("五"),
     "labelDialogMonday" : MessageLookupByLibrary.simpleMessage("一"),
-    "labelDialogOkay" : MessageLookupByLibrary.simpleMessage("好的"),
+    "labelDialogOkay" : MessageLookupByLibrary.simpleMessage("确定"),
     "labelDialogSaturday" : MessageLookupByLibrary.simpleMessage("六"),
     "labelDialogSunday" : MessageLookupByLibrary.simpleMessage("日"),
     "labelDialogThursday" : MessageLookupByLibrary.simpleMessage("四"),
     "labelDialogTuesday" : MessageLookupByLibrary.simpleMessage("二"),
     "labelDialogWednesday" : MessageLookupByLibrary.simpleMessage("三"),
+    "labelDisplayName" : MessageLookupByLibrary.simpleMessage("您的用户名"),
+    "labelEdit" : MessageLookupByLibrary.simpleMessage("编辑"),
     "labelImageRemoved" : MessageLookupByLibrary.simpleMessage("成功删除"),
     "labelInputCostAmount" : MessageLookupByLibrary.simpleMessage("请输入消费金额"),
     "labelLogIn" : MessageLookupByLibrary.simpleMessage("点击登录"),
-    "labelLogout" : MessageLookupByLibrary.simpleMessage("登出"),
+    "labelLogout" : MessageLookupByLibrary.simpleMessage("退出登出"),
     "labelMapChooser" : MessageLookupByLibrary.simpleMessage("选择地图"),
     "labelNewCommentPageComment" : MessageLookupByLibrary.simpleMessage("你有什么要说?"),
     "labelNewCommentPageCommentErrorMessage" : MessageLookupByLibrary.simpleMessage("点评不可为空"),
@@ -85,10 +92,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "labelSearchHint" : MessageLookupByLibrary.simpleMessage("请输入关键词查询"),
     "labelSearchHintNotEmpty" : MessageLookupByLibrary.simpleMessage("搜索关键词不能为空！"),
     "labelStatusPublish" : m2,
+    "labelStranger" : MessageLookupByLibrary.simpleMessage("陌生人"),
     "labelSubmitReview" : MessageLookupByLibrary.simpleMessage("发布"),
     "labelTagMustTry" : MessageLookupByLibrary.simpleMessage("必打卡"),
     "labelUndoAction" : MessageLookupByLibrary.simpleMessage("撤消"),
-    "labelWelcomeUser" : MessageLookupByLibrary.simpleMessage("你好,"),
+    "labelUsernameTitle" : MessageLookupByLibrary.simpleMessage("用户名"),
+    "labelWelcomeUser" : MessageLookupByLibrary.simpleMessage("嗨,"),
     "locationSelectCityMessage" : MessageLookupByLibrary.simpleMessage("选择城市"),
     "locationSelectTownMessage" : MessageLookupByLibrary.simpleMessage("选择区"),
     "locationServiceLocating" : MessageLookupByLibrary.simpleMessage("定位中..."),
