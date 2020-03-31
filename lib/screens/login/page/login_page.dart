@@ -8,6 +8,7 @@ import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/core/services/authentication/requests/auth_request.dart';
 import 'package:jom_malaysia/core/services/gateway/exception/invalid_credential_exception.dart';
 import 'package:jom_malaysia/core/services/gateway/exception/not_found_exception.dart';
+import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/login/login_router.dart';
 import 'package:jom_malaysia/screens/login/widgets/third_party_providers.dart';
 import 'package:jom_malaysia/setting/provider/auth_provider.dart';
@@ -50,13 +51,13 @@ class _LoginPageState extends State<LoginPage> {
     String msg;
     switch (err.runtimeType) {
       case InvalidCredentialException:
-        msg = "Email / Password is incorrect";
+        msg = S.of(context).errorMsgEmailPasswordIncorrect;
         break;
       case NotFoundException:
-        msg = "User not registered";
+        msg = S.of(context).errorMsgUserNotRegistered;
         break;
       default:
-        msg = 'Unknown error try agian later';
+        msg = S.of(context).errorMsgUnknownError;
     }
     Toast.show(msg);
   }
@@ -87,7 +88,7 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       appBar: MyAppBar(
         backImg: "assets/images/ic_close.png",
-        actionName: '验证码登录',
+        actionName: S.of(context).labelOtpLogin,
         onPressed: () => NavigatorUtils.push(context, LoginRouter.smsLoginPage),
       ),
       body: Form(
@@ -110,8 +111,8 @@ class _LoginPageState extends State<LoginPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          const Text(
-            "密码登录",
+          Text(
+            S.of(context).labelEmailSignIn,
             style: TextStyles.textBold26,
           ),
           Gaps.vGap16,
@@ -121,12 +122,12 @@ class _LoginPageState extends State<LoginPage> {
             maxLength: 30,
             controller: _nameController,
             keyboardType: TextInputType.emailAddress,
-            hintText: "Email Address",
+            hintText: S.of(context).labelInputFieldEmail,
             validator: (value) {
               try {
                 request.validateEmail(value);
               } on FormatException catch (e) {
-                return "Email Invalid";
+                return S.of(context).errorMsgInvalidFormatEmail;
               }
               return null;
             },
@@ -140,31 +141,28 @@ class _LoginPageState extends State<LoginPage> {
             isInputPwd: true,
             controller: _passwordController,
             maxLength: 16,
-            hintText: "请输入密码",
+            hintText: S.of(context).labelInputFieldPassword,
             onSaved: (value) => request.setPassword(value),
           ),
-          Container(
-            width: 200,
-            child: MyCheckbox(
-              initialValue: false,
-              title: Text('remember me'),
-              context: context,
-              onSaved: (value) => request.setRememberMe(value),
-            ),
+          MyCheckbox(
+            initialValue: true,
+            title: Text(S.of(context).labelRememberMe),
+            context: context,
+            onSaved: (value) => request.setRememberMe(value),
           ),
           Gaps.vGap10,
           Gaps.vGap15,
           MyButton(
             key: const Key('login'),
             onPressed: _login,
-            text: "登录",
+            text: S.of(context).labelLogIn,
           ),
           Container(
             height: 40.0,
             alignment: Alignment.centerRight,
             child: GestureDetector(
               child: Text(
-                '忘记密码',
+                S.of(context).labelForgetPassword,
                 style: Theme.of(context).textTheme.subtitle,
               ),
               onTap: () =>
@@ -176,7 +174,7 @@ class _LoginPageState extends State<LoginPage> {
               alignment: Alignment.center,
               child: GestureDetector(
                 child: Text(
-                  '还没账号？快去注册',
+                  S.of(context).labelRegister,
                   style: TextStyle(color: Theme.of(context).primaryColor),
                 ),
                 onTap: () =>

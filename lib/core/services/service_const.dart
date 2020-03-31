@@ -19,6 +19,8 @@ class QueryParam {
   static const String featured = 'featured';
 }
 
+class FirebaseConst {}
+
 ///endpoint for webview pages
 class WebUrl {
   static const String _home = "https://www.jomn9.com";

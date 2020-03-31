@@ -1,16 +1,21 @@
+import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
+import 'package:jom_malaysia/core/services/gateway/exception/not_found_exception.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/login/login_router.dart';
 import 'package:jom_malaysia/screens/tabs/account/account_router.dart';
 import 'package:jom_malaysia/screens/tabs/account/widgets/exit_dialog.dart';
+import 'package:jom_malaysia/screens/tabs/account/widgets/logout_button.dart';
+import 'package:jom_malaysia/screens/tabs/account/widgets/text_input_dialog.dart';
+
 import 'package:jom_malaysia/setting/provider/auth_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/util/image_utils.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
-import 'package:jom_malaysia/widgets/my_button.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 
 class AccountPage extends StatefulWidget {
@@ -27,32 +32,75 @@ class AccountPage extends StatefulWidget {
 
 class _ShopPageState extends State<AccountPage>
     with AutomaticKeepAliveClientMixin<AccountPage> {
+  Future errorHandler(err) async {
+    String msg;
+    switch (err.runtimeType) {
+      case NotFoundException:
+        msg = "Please sign in again";
+        break;
+
+      default:
+        msg = 'Unknown error try again later';
+    }
+    showToast(msg);
+  }
+
+  FutureOr successHandler(String msg, dataType type, String data) async {
+    switch (type) {
+      case dataType.username:
+        setState(() {
+          _displayName = data;
+        });
+        break;
+      case dataType.photo:
+        setState(() {
+          _photoUrl = data;
+        });
+        break;
+      default:
+    }
+
+    showToast(msg);
+  }
+
   void _showExitDialog() {
     showDialog(context: context, builder: (_) => ExitDialog());
   }
 
+  void _editDisplayNameDialog(AuthProvider authProvider) {
+    showDialog(
+        context: context,
+        builder: (BuildContext ctx) {
+          return TextInputDialog(
+            title: S.of(context).labelUsernameTitle,
+            onPressed: (value) {
+              authProvider
+                  .changeDisplayName(value)
+                  .then(
+                    (val) => successHandler(
+                        S.of(context).msgUpdateUsernameSuccess(value),
+                        dataType.username,
+                        value),
+                  )
+                  .catchError(errorHandler);
+            },
+          );
+        });
+  }
+
+  String _photoUrl;
+  String _displayName;
+
   @override
   Widget build(BuildContext context) {
-    Color _backgroundColor = ThemeUtils.getBackgroundColor(context);
-
     super.build(context);
+
+    Color _backgroundColor = ThemeUtils.getBackgroundColor(context);
     final Color _iconColor = ThemeUtils.getIconColor(context);
     return Scaffold(
-      bottomNavigationBar: Consumer<FirebaseUser>(builder: (_, provider, __) {
-        if (provider != null)
-          return Container(
-            padding: EdgeInsets.symmetric(vertical: 32.0, horizontal: 48),
-            child: MyButton(
-              onPressed: () => _showExitDialog(),
-              text: S.of(context).labelLogout,
-            ),
-          );
-        else
-          return Container(
-            width: 0,
-            height: 0,
-          );
-      }),
+      bottomNavigationBar: LogOutButton(
+        logOut: _showExitDialog,
+      ),
       appBar: AppBar(
         backgroundColor: _backgroundColor,
         actions: <Widget>[
@@ -69,69 +117,79 @@ class _ShopPageState extends State<AccountPage>
               color: _iconColor,
             ),
           ),
-          IconButton(
-            tooltip: S.of(context).appBarTitleSetting,
-            onPressed: () {
-              NavigatorUtils.push(context, AccountRouter.settingPage);
-            },
-            icon: LoadAssetImage(
-              'account/setting',
-              key: const Key('setting'),
-              width: 24.0,
-              height: 24.0,
-              color: _iconColor,
-            ),
-          )
         ],
       ),
-      body: Consumer<FirebaseUser>(
-        builder: (_, loggedUser, __) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Gaps.vGap12,
-              Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: MergeSemantics(
-                      child: Stack(
-                    children: <Widget>[
-                      const SizedBox(width: double.infinity, height: 56.0),
-                      if (loggedUser == null)
-                        GestureDetector(
-                          onTap: () => NavigatorUtils.push(
-                              context, LoginRouter.loginPage),
-                          child: Text(
-                            S.of(context).labelLogIn,
-                            style: TextStyles.textBold24,
+      body: Consumer<AuthProvider>(
+        child: _AppSettings(),
+        builder: (ctx, authProvider, child) {
+          var loggedUser = authProvider.user;
+          _displayName = loggedUser?.username;
+          _photoUrl = loggedUser?.profileImage;
+          return SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Gaps.vGap12,
+                Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: MergeSemantics(
+                        child: Stack(
+                      children: <Widget>[
+                        const SizedBox(width: double.infinity, height: 56.0),
+                        if (loggedUser == null)
+                          GestureDetector(
+                            onTap: () => NavigatorUtils.push(
+                                context, LoginRouter.loginPage),
+                            child: Text(
+                              S.of(context).labelLogIn,
+                              style: TextStyles.textBold24,
+                            ),
+                          )
+                        else
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                S.of(context).labelWelcomeUser,
+                                style: TextStyles.textBold24,
+                              ),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  Text(
+                                      _displayName ??
+                                          S.of(context).labelStranger,
+                                      style: TextStyles.textSize16),
+                                  FlatButton(
+                                    materialTapTargetSize:
+                                        MaterialTapTargetSize.shrinkWrap,
+                                    child: Text(
+                                      S.of(context).labelEdit,
+                                      style: TextStyles.textSize12.copyWith(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    onPressed: () =>
+                                        _editDisplayNameDialog(authProvider),
+                                  )
+                                ],
+                              ),
+                            ],
                           ),
-                        )
-                      else
-                        Text(
-                          S.of(context).labelWelcomeUser,
-                          style: TextStyles.textBold24,
-                        ),
-                      Positioned(
-                          right: 0.0,
-                          child: CircleAvatar(
-                              radius: 28.0,
-                              backgroundColor: Colors.transparent,
-                              backgroundImage: ImageUtils.getImageProvider(
-                                  loggedUser?.photoUrl,
-                                  holderImg: 'account/dummy_profile_pic'))),
-                      Text(loggedUser?.displayName ?? "",
-                          style: TextStyles.textSize12),
-                    ],
-                  ))),
-              Gaps.vGap24,
-              Container(
-                height: 0.6,
-                width: double.infinity,
-                margin: const EdgeInsets.only(left: 16.0),
-                child: Gaps.line,
-              ),
-              if (loggedUser != null) _UserSettings(),
-              _AppSettings(),
-            ],
+                        Positioned(
+                            right: 0.0,
+                            child: CircleAvatar(
+                                radius: 28.0,
+                                backgroundColor: Colors.transparent,
+                                backgroundImage: ImageUtils.getImageProvider(
+                                    loggedUser?.profileImage,
+                                    holderImg: 'account/dummy_profile_pic'))),
+                      ],
+                    ))),
+                if (loggedUser != null) _UserSettings(),
+                child,
+              ],
+            ),
           );
         },
       ),
@@ -144,24 +202,24 @@ class _ShopPageState extends State<AccountPage>
 
 class _AppSettings extends StatelessWidget {
   final _menuImage = [
-    'profile'
+    'setting'
     // 'credit'
   ];
   @override
   Widget build(BuildContext context) {
     var _menuTitle = [
-      S.of(context).labelProfileManager,
+      S.of(context).labelAppSettings,
       // S.of(context).labelCreditManager
     ];
     return Column(
       mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Gaps.vGap24,
         MergeSemantics(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Text(
-              S.of(context).labelAccount,
+              S.of(context).appBarTitleSetting,
               style: TextStyles.textBold18,
             ),
           ),
@@ -190,8 +248,7 @@ class _AppSettings extends StatelessWidget {
                   ),
                   onTap: () {
                     if (index == 0) {
-                      NavigatorUtils.push(
-                          context, AccountRouter.accountManagerPage);
+                      NavigatorUtils.push(context, AccountRouter.settingPage);
                     }
                   });
             },
@@ -221,6 +278,8 @@ class _UserSettings extends StatelessWidget {
       // S.of(context).labelCreditManager
     ];
     return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Gaps.vGap24,
         MergeSemantics(
@@ -274,3 +333,5 @@ class _UserSettings extends StatelessWidget {
     );
   }
 }
+
+enum dataType { photo, username }

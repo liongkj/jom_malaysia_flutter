@@ -12,7 +12,7 @@
 
     <application
 
-        android:label="Jom N9"
+        android:label="JomN9"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         tools:ignore="GoogleAppIndexingWarning">

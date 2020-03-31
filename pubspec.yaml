@@ -32,7 +32,7 @@ dependencies:
   cupertino_icons: ^0.1.3
   dio: ^3.0.9
   # https://pub.dev/packages/dio#-changelog-tab-
-  fancy_on_boarding: ^1.5.0
+  # fancy_on_boarding: ^1.5.0
   # https://pub.dev/packages/fancy_on_boarding#-changelog-tab-
   flustars: 0.2.6+1
   # Flutter 常用工具类库 https://github.com/Sky24n/flustars
@@ -58,7 +58,8 @@ dependencies:
   #enable i10n https://pub.dev/packages/intl_utils#-changelog-tab-
   intro_slider: ^2.2.9
   # https://pub.dev/packages/intro_slider#-changelog-tab-
-  json_serializable: ^3.2.5
+  json_serializable: ^3.3.0
+  # https://pub.dev/packages/json_serializable#-changelog-tab-
   json_annotation: ^3.0.1
   logger: ^0.7.0+2
   lpinyin: ^1.0.9
@@ -97,10 +98,8 @@ dependencies:
   firebase_analytics: ^5.0.11
   firebase_auth: ^0.15.5+3
   # https://pub.dev/packages/firebase_auth#-changelog-tab-
-  firebase_storage: ^3.1.3
-  google_sign_in: ^4.2.0
+  google_sign_in: ^4.3.0
   # https://pub.dev/packages/google_sign_in#-changelog-tab-
-  # https://pub.dev/packages/firebase_storage#-changelog-tab-
   ###firebase end
   # # 用于日历功能 https://github.com/apptreesoftware/date_utils
   # # date_utils: ^0.1.0+2

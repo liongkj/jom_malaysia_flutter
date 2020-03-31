@@ -21,9 +21,15 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m0(selected) => "Pilihan Bandar: ${selected}";
 
-  static m1(item) => "Muat naik ${item} anda";
+  static m1(len) => "Kata laluan mestilah sekurang-kurangnya ${len} aksara";
 
-  static m2(commentCount) => "Komen (${commentCount})";
+  static m2(item) => "Sila masukkan ${item} anda";
+
+  static m3(item) => "Muat naik ${item} anda";
+
+  static m4(uname) => "Baik untuk bertemu dengan anda ${uname}";
+
+  static m5(commentCount) => "Komen (${commentCount})";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
@@ -42,13 +48,25 @@ class MessageLookup extends MessageLookupByLibrary {
     "clickItemSettingRecommendPlaceTitle" : MessageLookupByLibrary.simpleMessage("Cadangkan satu tempat"),
     "clickItemSettingShareTitle" : MessageLookupByLibrary.simpleMessage("Beritahu rakan"),
     "errorMessageNetworkFailure" : MessageLookupByLibrary.simpleMessage("Ralat tidak diketahui, Semak rangkaian anda!"),
+    "errorMsgAccountExist" : MessageLookupByLibrary.simpleMessage("Alamat E-mel Sudah Daftarkan"),
+    "errorMsgEmailPasswordIncorrect" : MessageLookupByLibrary.simpleMessage("E-mel / Kata Laluan tidak betul"),
+    "errorMsgInvalidFormatEmail" : MessageLookupByLibrary.simpleMessage("E-mel tidak sah"),
+    "errorMsgPasswordPolicy" : m1,
+    "errorMsgPasswordTooWeak" : MessageLookupByLibrary.simpleMessage("Kata laluan terlalu lemah"),
+    "errorMsgUnknownError" : MessageLookupByLibrary.simpleMessage("Kesilapan tidak diketahui cuba lagi nanti"),
+    "errorMsgUserNotRegistered" : MessageLookupByLibrary.simpleMessage("Pengguna tidak didaftarkan"),
+    "labelAccount" : MessageLookupByLibrary.simpleMessage("Akaun"),
+    "labelAppSettings" : MessageLookupByLibrary.simpleMessage("Tetapan Apl"),
     "labelAskFirstReview" : MessageLookupByLibrary.simpleMessage("Buat komen pertama"),
     "labelAskReview" : MessageLookupByLibrary.simpleMessage("Komen sesuatu"),
     "labelAveragePaxTitle" : MessageLookupByLibrary.simpleMessage("Perbelanjaan"),
     "labelAveratePaxPrefix" : MessageLookupByLibrary.simpleMessage("RM"),
     "labelAveratePaxSuffix" : MessageLookupByLibrary.simpleMessage("Seorang"),
+    "labelChangeHintText" : m2,
     "labelCityNotInServiceArea" : MessageLookupByLibrary.simpleMessage("Anda berada di luar kawasan perkhidmatan"),
     "labelClickToAddImage" : MessageLookupByLibrary.simpleMessage("Klik untuk tambah imej"),
+    "labelConfirmLogoutMsg" : MessageLookupByLibrary.simpleMessage("Sahkan log keluar?"),
+    "labelCreditManager" : MessageLookupByLibrary.simpleMessage("Tetapan Kredit"),
     "labelDialogCancel" : MessageLookupByLibrary.simpleMessage("BATAL"),
     "labelDialogFriday" : MessageLookupByLibrary.simpleMessage("jmu"),
     "labelDialogMonday" : MessageLookupByLibrary.simpleMessage("isn"),
@@ -58,8 +76,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "labelDialogThursday" : MessageLookupByLibrary.simpleMessage("kms"),
     "labelDialogTuesday" : MessageLookupByLibrary.simpleMessage("sls"),
     "labelDialogWednesday" : MessageLookupByLibrary.simpleMessage("rbu"),
+    "labelDisplayName" : MessageLookupByLibrary.simpleMessage("Nama pengguna anda"),
+    "labelEdit" : MessageLookupByLibrary.simpleMessage("Edit"),
+    "labelEmailSignIn" : MessageLookupByLibrary.simpleMessage("Masuk E-mel anda"),
+    "labelForgetPassword" : MessageLookupByLibrary.simpleMessage("Lupakan Kata Laluan"),
     "labelImageRemoved" : MessageLookupByLibrary.simpleMessage("Gambar dipadam"),
     "labelInputCostAmount" : MessageLookupByLibrary.simpleMessage("Sila masukkan jumlah perbelanjaan"),
+    "labelInputFieldEmail" : MessageLookupByLibrary.simpleMessage("Sila masukkan e-mel anda"),
+    "labelInputFieldPassword" : MessageLookupByLibrary.simpleMessage("Sila masukkan kata laluan anda"),
+    "labelLogIn" : MessageLookupByLibrary.simpleMessage("Klik untuk log masuk"),
+    "labelLogout" : MessageLookupByLibrary.simpleMessage("Log Keluar"),
     "labelMapChooser" : MessageLookupByLibrary.simpleMessage("Pilih Peta"),
     "labelNewCommentPageComment" : MessageLookupByLibrary.simpleMessage("Apa yang anda mahu katakan?"),
     "labelNewCommentPageCommentErrorMessage" : MessageLookupByLibrary.simpleMessage("komen tidak boleh kosong"),
@@ -68,21 +94,29 @@ class MessageLookup extends MessageLookupByLibrary {
     "labelNoDetail" : MessageLookupByLibrary.simpleMessage("Tiada Butiran"),
     "labelNoNotification" : MessageLookupByLibrary.simpleMessage("Tiada Pemberitahuan"),
     "labelNone" : MessageLookupByLibrary.simpleMessage("Tiada"),
+    "labelOtpLogin" : MessageLookupByLibrary.simpleMessage("Log masuk dgn OTP"),
     "labelPageComment" : MessageLookupByLibrary.simpleMessage("Semua komen"),
+    "labelProfileManager" : MessageLookupByLibrary.simpleMessage("Tetapan Profil"),
     "labelRatePlace" : MessageLookupByLibrary.simpleMessage("Komen"),
     "labelRatingStatus1" : MessageLookupByLibrary.simpleMessage("Sampah"),
     "labelRatingStatus2" : MessageLookupByLibrary.simpleMessage("Makan Anjing"),
     "labelRatingStatus3" : MessageLookupByLibrary.simpleMessage("OK"),
     "labelRatingStatus4" : MessageLookupByLibrary.simpleMessage("Delicious"),
     "labelRatingStatus5" : MessageLookupByLibrary.simpleMessage("akan datang lagi"),
+    "labelRegister" : MessageLookupByLibrary.simpleMessage("Daftar"),
+    "labelRegisterYourAccount" : MessageLookupByLibrary.simpleMessage("Mulakan perjalanan jomn9 anda"),
+    "labelRememberMe" : MessageLookupByLibrary.simpleMessage("Ingat saya"),
     "labelReview" : MessageLookupByLibrary.simpleMessage("Review"),
     "labelSearch" : MessageLookupByLibrary.simpleMessage("Cari"),
     "labelSearchHint" : MessageLookupByLibrary.simpleMessage("Sila masukkan kata kunci carian"),
     "labelSearchHintNotEmpty" : MessageLookupByLibrary.simpleMessage("Kata kunci carian tidak boleh kosong!"),
-    "labelStatusPublish" : m1,
+    "labelStatusPublish" : m3,
+    "labelStranger" : MessageLookupByLibrary.simpleMessage("Orang yang tidak dikenali"),
     "labelSubmitReview" : MessageLookupByLibrary.simpleMessage("Pos"),
     "labelTagMustTry" : MessageLookupByLibrary.simpleMessage("Mesti Cuba"),
     "labelUndoAction" : MessageLookupByLibrary.simpleMessage("Tarik Balik"),
+    "labelUsernameTitle" : MessageLookupByLibrary.simpleMessage("Nama pengguna"),
+    "labelWelcomeUser" : MessageLookupByLibrary.simpleMessage("Hi,"),
     "locationSelectCityMessage" : MessageLookupByLibrary.simpleMessage("Pilih Bandar"),
     "locationSelectTownMessage" : MessageLookupByLibrary.simpleMessage("Kawasan Pemilihan"),
     "locationServiceLocating" : MessageLookupByLibrary.simpleMessage("Mencari lokasi ..."),
@@ -91,6 +125,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "locationServicePromptPermission" : MessageLookupByLibrary.simpleMessage("Sila hidupkan GPS anda"),
     "locationServiceRetryOperation" : MessageLookupByLibrary.simpleMessage("Cuba Semula"),
     "msgPleaseFillRequiredField" : MessageLookupByLibrary.simpleMessage("Field tidak boleh kosong"),
+    "msgRegistrationSuccess" : MessageLookupByLibrary.simpleMessage("Pendaftaran selesai. Log masuk ..."),
+    "msgUpdatePhotoSuccess" : MessageLookupByLibrary.simpleMessage("Mengedit foto profil anda"),
+    "msgUpdateUsernameSuccess" : m4,
     "overviewSection1Para1" : MessageLookupByLibrary.simpleMessage("Negeri Sembilan adalah negeri Malaysia di pantai barat daya Semenanjung Malaysia yang terkenal dengan pantai, taman semula jadi dan istana. Di barat, Selat Melaka dan kawasan berhampiran Port Dickson mempunyai tempat peranginan pantai, Bandung Chinese St Kuil Kota dan Benteng Kota Lukut Bukit Di pantai selatan, di negeri jiran Melaka, ialah Tanjung Tuan, sebuah rizab alam semula jadi dengan sebuah rumah api. "),
     "overviewSection1Para2" : MessageLookupByLibrary.simpleMessage("Dixon Harbour, timur laut ibukota Seremban, terkenal dengan bangunan penjajahnya, Taman Taman Tasik dan istana kayu rakyat Minangkabau, yang berasal dari Indonesia. Pengaruh mereka juga boleh didapati di Seri Menanti di timur Bekas istana kini adalah Muzium Diraja Sri Menanti, dan bandaraya Kuala Pilah yang terletak berhampiran dengan Kuil Cina San Sheng Gong dan Kuil Sri Kanthasamy kuil Hindu berwarna-warni. Di barat adalah Taman Rekreasi Ulu Bendul termasuk hutan, air terjun dan Gunung Gunung Angsi. "),
     "overviewSection2Para1" : MessageLookupByLibrary.simpleMessage("Nama ini dianggap dihuni oleh 9 (Sumbian) desa atau nagari dalam bahasa Minangkabau (sekarang disebut luak) yang didiami oleh Minangkabau, yang berasal dari Sumatra Barat (sekarang Indonesia) Rakyat Minangkabau masih sangat jelas dalam seni bina tradisional dan dialek Melayu. "),
@@ -101,7 +138,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "overviewSection4Title" : MessageLookupByLibrary.simpleMessage("Modal (Furong)"),
     "overviewSection5Para1" : MessageLookupByLibrary.simpleMessage("Pada tahun 2015, jumlah penduduk Negeri Sembilan adalah 1,098,500; komposisi etnik adalah Melayu 622,000 (56.6%) (terutamanya berasal dari Minangkabau), 20,700 orang asli (1.9%), Cina 234.300 (21.3% India adalah 154,000 (14%), 4,200 yang lain (0.4%) dan bukan rakyat 63,300 (5.8%) berbanding negeri-negeri lain di Malaysia."),
     "overviewSection5Title" : MessageLookupByLibrary.simpleMessage("Demografi"),
-    "placeDetailCommentCountLabel" : m2,
+    "placeDetailCommentCountLabel" : m5,
     "placeDetailInfoLabel" : MessageLookupByLibrary.simpleMessage("Butiran Tempat"),
     "placeDetailMerchantInfoLabel" : MessageLookupByLibrary.simpleMessage("Maklumat Pedagang"),
     "placeDetailMerchantRegistrationNameLabel" : MessageLookupByLibrary.simpleMessage("Nama Pendaftaran"),

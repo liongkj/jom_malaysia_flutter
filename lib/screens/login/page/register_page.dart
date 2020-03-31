@@ -6,6 +6,7 @@ import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/core/services/authentication/requests/auth_request.dart';
 import 'package:jom_malaysia/core/services/gateway/exception/duplicate_exception.dart';
 import 'package:jom_malaysia/core/services/gateway/exception/invalid_credential_exception.dart';
+import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/setting/provider/auth_provider.dart';
 import 'package:jom_malaysia/util/auth_utils.dart';
 import 'package:jom_malaysia/util/toast.dart';
@@ -29,6 +30,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final FocusNode _nodeText1 = FocusNode();
   final FocusNode _nodeText2 = FocusNode();
   AuthRequest request;
+  int _PASSWORD_LENGTH_POLICY = 8;
 
   @override
   void initState() {
@@ -41,13 +43,13 @@ class _RegisterPageState extends State<RegisterPage> {
     String msg;
     switch (err.runtimeType) {
       case InvalidCredentialException:
-        msg = "Password is too weak";
+        msg = S.of(context).errorMsgPasswordTooWeak;
         break;
       case DuplicateException:
-        msg = "Email exist";
+        msg = S.of(context).errorMsgAccountExist;
         break;
       default:
-        msg = 'unknow error try agian later';
+        msg = S.of(context).errorMsgUnknownError;
     }
     Toast.show(msg);
   }
@@ -62,19 +64,18 @@ class _RegisterPageState extends State<RegisterPage> {
           request: request,
           context: context);
       reg();
-      // _authService.signInWithPhoneNumber(
-      //   verificationId: request.verificationId,
-      //   vCode: request.otpCode,
-      // );
+
+      Toast.show(S.of(context).msgRegistrationSuccess);
+    } else {
+      Toast.show(S.of(context).msgPleaseFillRequiredField);
     }
-    Toast.show("Tap to register");
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: const MyAppBar(
-          title: "注册",
+        appBar: MyAppBar(
+          title: S.of(context).labelRegister,
         ),
         body: Form(
           key: _formKey,
@@ -90,8 +91,8 @@ class _RegisterPageState extends State<RegisterPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          const Text(
-            "开启你的账号",
+          Text(
+            S.of(context).labelRegisterYourAccount,
             style: TextStyles.textBold26,
           ),
           Gaps.vGap16,
@@ -101,12 +102,12 @@ class _RegisterPageState extends State<RegisterPage> {
             maxLength: 30,
             controller: _emailController,
             keyboardType: TextInputType.emailAddress,
-            hintText: "Email Address",
+            hintText: S.of(context).labelInputFieldEmail,
             validator: (value) {
               try {
                 request.validateEmail(value);
               } on FormatException catch (e) {
-                return "Email Invalid";
+                return S.of(context).errorMsgInvalidFormatEmail;
               }
               return null;
             },
@@ -120,7 +121,17 @@ class _RegisterPageState extends State<RegisterPage> {
             isInputPwd: true,
             controller: _passwordController,
             maxLength: 16,
-            hintText: "请输入密码",
+            hintText: S.of(context).labelInputFieldPassword,
+            validator: (value) {
+              try {
+                request.validatePassword(value, _PASSWORD_LENGTH_POLICY);
+              } on FormatException catch (e) {
+                return S
+                    .of(context)
+                    .errorMsgPasswordPolicy(_PASSWORD_LENGTH_POLICY);
+              }
+              return null;
+            },
             onSaved: (value) => request.setPassword(value),
           ),
           Gaps.vGap10,
@@ -128,7 +139,7 @@ class _RegisterPageState extends State<RegisterPage> {
           MyButton(
             key: const Key('register'),
             onPressed: _register,
-            text: "注册",
+            text: S.of(context).labelRegister,
           )
         ],
       ),

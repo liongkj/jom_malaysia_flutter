@@ -6,6 +6,8 @@ abstract class IAuthenticationService {
   Future<AuthUser> signInWithGoogle();
   Future<AuthUser> signInWithEmailPassword(AuthRequest request);
   Future<void> logout();
+  Future<AuthUser> changeDisplayName(String displayName);
+
   Future registerViaOtp(AuthRequest request);
 
   Future resetPassword();

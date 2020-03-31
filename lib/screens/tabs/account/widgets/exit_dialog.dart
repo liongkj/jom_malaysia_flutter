@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
+import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/setting/provider/auth_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/setting/routers/routers.dart';
@@ -19,10 +20,12 @@ class _ExitDialog extends State<ExitDialog> {
   @override
   Widget build(BuildContext context) {
     return BaseDialog(
-        title: '提示',
-        child: const Padding(
+        showCancel: true,
+        title: S.of(context).labelLogout,
+        child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-          child: const Text('您确定要退出登录吗？', style: TextStyles.textSize16),
+          child: Text(S.of(context).labelConfirmLogoutMsg,
+              style: TextStyles.textSize16),
         ),
         onPressed: () async {
           await Provider.of<AuthProvider>(context, listen: false).logOut();

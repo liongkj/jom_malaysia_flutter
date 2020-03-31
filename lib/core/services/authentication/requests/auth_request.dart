@@ -28,14 +28,10 @@ class AuthRequest {
       throw FormatException("email is invalid");
   }
 
-  bool _hasValidEmail(String value) {
-    return RegExp(
-            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-        .hasMatch(value);
-  }
-
   void setPassword(String value) {
-    password = value;
+    if (value != null) {
+      password = value;
+    }
   }
 
   void setRememberMe(bool value) {
@@ -44,6 +40,24 @@ class AuthRequest {
 
   String validateEmail(String value) {
     if (_hasValidEmail(value))
+      return null;
+    else {
+      throw FormatException();
+    }
+  }
+
+  bool _hasValidEmail(String value) {
+    return RegExp(
+            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+        .hasMatch(value);
+  }
+
+  bool _hasValidLength(String value, int length) {
+    return value.length >= length;
+  }
+
+  String validatePassword(String value, int lenght) {
+    if (_hasValidLength(value, lenght))
       return null;
     else {
       throw FormatException();

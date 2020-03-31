@@ -16,18 +16,18 @@ class UsNumberTextInputFormatter extends TextInputFormatter {
       TextEditingValue oldValue, TextEditingValue newValue) {
     String value = newValue.text;
     int selectionIndex = newValue.selection.end;
-    if (value == ".") {
-      value = "0.";
+    if (value == '.') {
+      value = '0.';
       selectionIndex++;
-    } else if (value != "" &&
+    } else if (value != '' &&
         value != defaultDouble.toString() &&
         strToFloat(value, defaultDouble) == defaultDouble) {
       value = oldValue.text;
       selectionIndex = oldValue.selection.end;
     }
-    return new TextEditingValue(
+    return TextEditingValue(
       text: value,
-      selection: new TextSelection.collapsed(offset: selectionIndex),
+      selection: TextSelection.collapsed(offset: selectionIndex),
     );
   }
 }

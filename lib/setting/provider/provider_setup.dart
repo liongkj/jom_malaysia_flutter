@@ -48,11 +48,17 @@ List<SingleChildWidget> independentServices = [
   ChangeNotifierProvider<LocationProvider>(
     create: (_) => LocationProvider(),
   ),
-  StreamProvider<FirebaseUser>.value(
-      value: FirebaseAuth.instance.onAuthStateChanged),
+  StreamProvider<FirebaseUser>(
+      create: (_) => FirebaseAuth.instance.onAuthStateChanged),
 ];
 
 List<SingleChildWidget> dependentServices = [
+  ChangeNotifierProxyProvider<FirebaseUser, AuthProvider>(
+    create: (context) => AuthProvider(
+      service: Provider.of<FirebaseAuthService>(context, listen: false),
+    ),
+    update: (context, value, previous) => previous..setUser(value),
+  ),
   InheritedProvider(
       create: (context) => CloudinaryImageService(
             httpService: Provider.of<HttpService>(context, listen: false),
@@ -81,11 +87,6 @@ List<SingleChildWidget> dependentServices = [
       service: Provider.of<AlgoliaSearch>(context, listen: false),
     ),
   ),
-  ChangeNotifierProvider(
-    create: (context) => AuthProvider(
-      service: Provider.of<FirebaseAuthService>(context, listen: false),
-    ),
-  )
 ];
 
 List<SingleChildWidget> uiConsumableProviders = [];
