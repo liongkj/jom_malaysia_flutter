@@ -65,7 +65,7 @@ dependencies:
   lpinyin: ^1.0.9
   dio_http_cache: ^0.2.6
   #json parser library
-  multi_image_picker: ^4.6.4
+  multi_image_picker: ^4.6.5+rc.1
   # https://pub.dev/packages/multi_image_picker#-changelog-tab-
   #  image_picker: 0.6.3+1
   oktoast: ^2.3.1+1
