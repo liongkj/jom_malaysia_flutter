@@ -74,7 +74,7 @@ class _StateLayoutState extends State<StateLayout> {
               : (widget.type == StateType.empty
                   ? Gaps.empty
                   : Opacity(
-                      opacity: ThemeUtils.isDark(context) ? 0.5 : 1,
+                      opacity: 1,
                       child: Container(
                         height: MediaQuery.of(context).size.height * 0.1,
                         width: 120.0,
@@ -90,7 +90,7 @@ class _StateLayoutState extends State<StateLayout> {
             style: Theme.of(context)
                 .textTheme
                 .subtitle
-                .copyWith(fontSize: Dimens.font_sp14),
+                .copyWith(fontSize: Dimens.font_sp14, color: Colours.text_gray),
           ),
           Gaps.vGap50,
         ],
