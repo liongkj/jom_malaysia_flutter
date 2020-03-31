@@ -54,7 +54,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "labelDialogCancel" : MessageLookupByLibrary.simpleMessage("取消"),
     "labelDialogFriday" : MessageLookupByLibrary.simpleMessage("五"),
     "labelDialogMonday" : MessageLookupByLibrary.simpleMessage("一"),
-    "labelDialogOkay" : MessageLookupByLibrary.simpleMessage("知道了"),
+    "labelDialogOkay" : MessageLookupByLibrary.simpleMessage("好的"),
     "labelDialogSaturday" : MessageLookupByLibrary.simpleMessage("六"),
     "labelDialogSunday" : MessageLookupByLibrary.simpleMessage("日"),
     "labelDialogThursday" : MessageLookupByLibrary.simpleMessage("四"),

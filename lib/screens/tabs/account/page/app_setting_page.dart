@@ -10,12 +10,12 @@ import 'package:jom_malaysia/widgets/click_item.dart';
 import 'package:provider/provider.dart';
 
 /// design/8设置/index.html
-class SettingPage extends StatefulWidget {
+class AppSettingPage extends StatefulWidget {
   @override
-  _SettingPageState createState() => _SettingPageState();
+  _AppSettingPageState createState() => _AppSettingPageState();
 }
 
-class _SettingPageState extends State<SettingPage> {
+class _AppSettingPageState extends State<AppSettingPage> {
   @override
   Widget build(BuildContext context) {
     var lang = Provider.of<LanguageProvider>(context, listen: false).locale;

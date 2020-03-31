@@ -12,6 +12,7 @@ import 'package:jom_malaysia/core/services/gateway/exception/invalid_email_excep
 import 'package:jom_malaysia/core/services/gateway/exception/network_exception.dart';
 import 'package:jom_malaysia/core/services/gateway/exception/not_found_exception.dart';
 import 'package:jom_malaysia/core/services/gateway/exception/unknown_error_exception.dart';
+import 'package:jom_malaysia/util/text_utils.dart';
 
 class FirebaseAuthService extends IAuthenticationService {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
@@ -90,6 +91,22 @@ class FirebaseAuthService extends IAuthenticationService {
   @override
   Future<void> logout() async {
     await _auth.signOut();
+  }
+
+  Future<void> changeDisplayName(String displayName) async {
+    try {
+      var user = await _auth.currentUser();
+      UserUpdateInfo updated = UserUpdateInfo();
+      updated.displayName = TextUtils.capitalize(displayName.trim());
+      user.updateProfile(updated);
+    } catch (error) {
+      switch (error.code) {
+        case "ERROR_USER_NOT_FOUND":
+          throw NotFoundException("user");
+          break;
+      }
+    }
+    return null;
   }
 
   @override

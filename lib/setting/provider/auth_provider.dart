@@ -31,4 +31,9 @@ class AuthProvider extends ChangeNotifier {
   Future<void> signInWithEmailPassword(AuthRequest request) async {
     var result = await _service.signInWithEmailPassword(request);
   }
+
+  Future<void> changeDisplayName(String dn) async {
+    var result = await _service.changeDisplayName(dn);
+    // notifyListeners();
+  }
 }

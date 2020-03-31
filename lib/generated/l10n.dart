@@ -957,6 +957,33 @@ class S {
       args: [],
     );
   }
+
+  String get labelAppSettings {
+    return Intl.message(
+      'App Settings',
+      name: 'labelAppSettings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelDisplayName {
+    return Intl.message(
+      'Your username',
+      name: 'labelDisplayName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelChangeUsernameHintText {
+    return Intl.message(
+      'Let us know ur cool name',
+      name: 'labelChangeUsernameHintText',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

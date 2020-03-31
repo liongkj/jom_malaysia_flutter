@@ -102,5 +102,8 @@
   "labelProfileManager": "Profile Setting",
   "labelCreditManager": "Credit Setting",
   "labelWelcomeUser": "Hi,",
-  "labelAccount": "Account"
+  "labelAccount": "Account",
+  "labelAppSettings": "App Settings",
+  "labelDisplayName": "Your username",
+  "labelChangeUsernameHintText": "Let us know ur cool name"
 }
