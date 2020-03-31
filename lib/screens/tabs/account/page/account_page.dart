@@ -164,13 +164,6 @@ class _ShopPageState extends State<AccountPage>
                                     holderImg: 'account/dummy_profile_pic'))),
                       ],
                     ))),
-                Gaps.vGap24,
-                Container(
-                  height: 0.6,
-                  width: double.infinity,
-                  margin: const EdgeInsets.only(left: 16.0),
-                  child: Gaps.line,
-                ),
                 if (loggedUser != null) _UserSettings(),
                 _AppSettings(),
               ],
@@ -200,7 +193,6 @@ class _AppSettings extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Gaps.vGap24,
         MergeSemantics(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),

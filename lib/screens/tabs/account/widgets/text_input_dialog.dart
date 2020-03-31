@@ -28,6 +28,7 @@ class _PriceInputDialog extends State<TextInputDialog> {
   Widget build(BuildContext context) {
     return BaseDialog(
       title: widget.title,
+      showCancel: true,
       child: Container(
         height: 34.0,
         alignment: Alignment.center,
