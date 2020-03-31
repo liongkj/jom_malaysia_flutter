@@ -124,7 +124,8 @@
   "labelForgetPassword": "Forget Password",
   "labelRegister": "Register",
   "errorMsgPasswordTooWeak": "Password is too weak",
-  "errorMsgAccountExist": "Email is used",
+  "errorMsgAccountExist": "Email Address is Already Registered",
   "msgRegistrationSuccess": "Registration completed. Loggin in...",
-  "labelRegisterYourAccount": "Start your jomn9 journey"
+  "labelRegisterYourAccount": "Start your jomn9 journey",
+  "errorMsgPasswordPolicy": "Password must be at least {len} characters"
 }

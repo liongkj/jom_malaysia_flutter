@@ -105,6 +105,7 @@ class _MyTextFieldState extends State<MyTextField> {
       alignment: Alignment.centerRight,
       children: <Widget>[
         TextFormField(
+          
           onSaved: widget.onSaved,
           validator: widget.validator,
           focusNode: widget.focusNode,

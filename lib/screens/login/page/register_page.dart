@@ -30,6 +30,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final FocusNode _nodeText1 = FocusNode();
   final FocusNode _nodeText2 = FocusNode();
   AuthRequest request;
+  int _PASSWORD_LENGTH_POLICY = 8;
 
   @override
   void initState() {
@@ -121,6 +122,16 @@ class _RegisterPageState extends State<RegisterPage> {
             controller: _passwordController,
             maxLength: 16,
             hintText: S.of(context).labelInputFieldPassword,
+            validator: (value) {
+              try {
+                request.validatePassword(value, _PASSWORD_LENGTH_POLICY);
+              } on FormatException catch (e) {
+                return S
+                    .of(context)
+                    .errorMsgPasswordPolicy(_PASSWORD_LENGTH_POLICY);
+              }
+              return null;
+            },
             onSaved: (value) => request.setPassword(value),
           ),
           Gaps.vGap10,

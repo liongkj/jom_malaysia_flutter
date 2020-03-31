@@ -1149,7 +1149,7 @@ class S {
 
   String get errorMsgAccountExist {
     return Intl.message(
-      'Email is used',
+      'Email Address is Already Registered',
       name: 'errorMsgAccountExist',
       desc: '',
       args: [],
@@ -1171,6 +1171,15 @@ class S {
       name: 'labelRegisterYourAccount',
       desc: '',
       args: [],
+    );
+  }
+
+  String errorMsgPasswordPolicy(dynamic len) {
+    return Intl.message(
+      'Password must be at least $len characters',
+      name: 'errorMsgPasswordPolicy',
+      desc: '',
+      args: [len],
     );
   }
 }

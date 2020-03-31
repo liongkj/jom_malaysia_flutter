@@ -121,5 +121,10 @@
   "errorMsgInvalidFormatEmail": "E-mel tidak sah",
   "labelRememberMe": "Ingat saya",
   "labelForgetPassword": "Lupakan Kata Laluan",
-  "labelRegister": "Daftar"
+  "labelRegister": "Daftar",
+  "errorMsgPasswordTooWeak": "Kata laluan terlalu lemah",
+  "errorMsgAccountExist": "Alamat E-mel Sudah Daftarkan",
+  "msgRegistrationSuccess": "Pendaftaran selesai. Log masuk ...",
+  "labelRegisterYourAccount": "Mulakan perjalanan jomn9 anda",
+  "errorMsgPasswordPolicy": "Kata laluan mestilah sekurang-kurangnya {len} aksara"
 }
