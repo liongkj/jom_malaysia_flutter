@@ -39,11 +39,17 @@ class PlaceDetailPageState extends State<PlaceDetailPage>
 
     place = Provider.of<ListingProvider>(context, listen: false)
         .findById(widget.placeId);
+    debugPrint("page built");
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       place.listingImages.ads.forEach(
           (f) async => await precacheImage(NetworkImage(f.url), context));
     });
-    super.initState();
   }
 
   @override

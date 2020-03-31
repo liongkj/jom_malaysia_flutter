@@ -31,7 +31,7 @@ class _PlaceImageState extends State<PlaceImage> {
             ),
             child: LoadImage(
               widget.images[index].url,
-              // fit: BoxFit.fill,
+              fit: BoxFit.fitWidth,
             ),
           );
         },

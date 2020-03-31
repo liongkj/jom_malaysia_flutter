@@ -32,6 +32,7 @@ class _CommentSectionState extends State<CommentSection> {
     final commentProvider =
         Provider.of<CommentsProvider>(context, listen: false);
     const int _MAXCOMMENTCOUNT = 3;
+    debugPrint("comment built");
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: MyCard(

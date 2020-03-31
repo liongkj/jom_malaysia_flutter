@@ -28,7 +28,6 @@ class OverviewPageState extends State<OverviewPage>
   PageController _pageController = PageController(initialPage: 0);
 
   TextEditingController searchController = TextEditingController();
-  ScrollController _scrollController;
 
   _onPageChange(int index) async {
     // presenter.onPageChange(index, city);
@@ -41,7 +40,6 @@ class OverviewPageState extends State<OverviewPage>
   void initState() {
     super.initState();
     _tabController = TabController(vsync: this, length: 5);
-    _scrollController = ScrollController();
   }
 
   @override
@@ -52,7 +50,6 @@ class OverviewPageState extends State<OverviewPage>
   @override
   void dispose() {
     _tabController?.dispose();
-    _scrollController?.dispose();
     super.dispose();
   }
 
@@ -88,9 +85,8 @@ class OverviewPageState extends State<OverviewPage>
                 ),
               ),
               NestedScrollView(
-                key: const Key('order_list'),
+                key: const Key('place_list'),
                 physics: ClampingScrollPhysics(),
-                controller: _scrollController ?? null,
                 headerSliverBuilder: (context, innerBoxIsScrolled) =>
                     _sliverBuilder(context),
                 body: NotificationListener<ScrollNotification>(
@@ -114,7 +110,6 @@ class OverviewPageState extends State<OverviewPage>
                     controller: _pageController,
                     itemBuilder: (_, index) {
                       return PlaceList(
-                        controller: this._scrollController,
                         index: index,
                       );
                     },
