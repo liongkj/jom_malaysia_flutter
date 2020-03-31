@@ -1020,6 +1020,159 @@ class S {
       args: [],
     );
   }
+
+  String get msgUpdatePhotoSuccess {
+    return Intl.message(
+      'Updated your profile pic',
+      name: 'msgUpdatePhotoSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String msgUpdateUsernameSuccess(dynamic uname) {
+    return Intl.message(
+      'Nice to meet you $uname',
+      name: 'msgUpdateUsernameSuccess',
+      desc: '',
+      args: [uname],
+    );
+  }
+
+  String get errorMsgEmailPasswordIncorrect {
+    return Intl.message(
+      'Email / Password is incorrect',
+      name: 'errorMsgEmailPasswordIncorrect',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get errorMsgUserNotRegistered {
+    return Intl.message(
+      'User not registered',
+      name: 'errorMsgUserNotRegistered',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get errorMsgUnknownError {
+    return Intl.message(
+      'Unknown error try again later',
+      name: 'errorMsgUnknownError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelOtpLogin {
+    return Intl.message(
+      'OTP Sign In',
+      name: 'labelOtpLogin',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelEmailSignIn {
+    return Intl.message(
+      'Email Sign In',
+      name: 'labelEmailSignIn',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelInputFieldEmail {
+    return Intl.message(
+      'Please enter your email',
+      name: 'labelInputFieldEmail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelInputFieldPassword {
+    return Intl.message(
+      'Please enter your password',
+      name: 'labelInputFieldPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get errorMsgInvalidFormatEmail {
+    return Intl.message(
+      'Email is Invalid',
+      name: 'errorMsgInvalidFormatEmail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelRememberMe {
+    return Intl.message(
+      'Remember me',
+      name: 'labelRememberMe',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelForgetPassword {
+    return Intl.message(
+      'Forget Password',
+      name: 'labelForgetPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelRegister {
+    return Intl.message(
+      'Register',
+      name: 'labelRegister',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get errorMsgPasswordTooWeak {
+    return Intl.message(
+      'Password is too weak',
+      name: 'errorMsgPasswordTooWeak',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get errorMsgAccountExist {
+    return Intl.message(
+      'Email is used',
+      name: 'errorMsgAccountExist',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get msgRegistrationSuccess {
+    return Intl.message(
+      'Registration completed. Loggin in...',
+      name: 'msgRegistrationSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelRegisterYourAccount {
+    return Intl.message(
+      'Start your jomn9 journey',
+      name: 'labelRegisterYourAccount',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

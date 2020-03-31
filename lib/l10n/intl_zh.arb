@@ -107,5 +107,18 @@
   "labelChangeHintText": "输入您的{item}",
   "labelConfirmLogoutMsg": "确认退出？",
   "labelStranger": "陌生人",
-  "labelEdit": "编辑"
+  "labelEdit": "编辑",
+  "msgUpdatePhotoSuccess": "已更新您的个人资料图片",
+  "msgUpdateUsernameSuccess": "很高兴认识你{uname}",
+  "errorMsgEmailPasswordIncorrect": "电子邮件/密码不正确",
+  "errorMsgUserNotRegistered": "用户未注册",
+  "errorMsgUnknownError": "未知错误,请稍后再试",
+  "labelOtpLogin": " OTP登录",
+  "labelEmailSignIn": "电子邮件登录",
+  "labelInputFieldEmail": "请输入您的电子邮件",
+  "labelInputFieldPassword": "请输入您的密码",
+  "errorMsgInvalidFormatEmail": "电子邮件格式错误",
+  "labelRememberMe": "记住我",
+  "labelForgetPassword": "忘记密码",
+  "labelRegister": "还没有帐号？快去注册"
 }

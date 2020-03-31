@@ -109,5 +109,22 @@
   "labelChangeHintText": "Please enter your {item}",
   "labelConfirmLogoutMsg": "Confirm log out?",
   "labelStranger": "Stranger",
-  "labelEdit": "Edit"
+  "labelEdit": "Edit",
+  "msgUpdatePhotoSuccess": "Updated your profile pic",
+  "msgUpdateUsernameSuccess": "Nice to meet you {uname}",
+  "errorMsgEmailPasswordIncorrect": "Email / Password is incorrect",
+  "errorMsgUserNotRegistered": "User not registered",
+  "errorMsgUnknownError": "Unknown error try again later",
+  "labelOtpLogin": "OTP Sign In",
+  "labelEmailSignIn": "Email Sign In",
+  "labelInputFieldEmail": "Please enter your email",
+  "labelInputFieldPassword": "Please enter your password",
+  "errorMsgInvalidFormatEmail": "Email is Invalid",
+  "labelRememberMe": "Remember me",
+  "labelForgetPassword": "Forget Password",
+  "labelRegister": "Register",
+  "errorMsgPasswordTooWeak": "Password is too weak",
+  "errorMsgAccountExist": "Email is used",
+  "msgRegistrationSuccess": "Registration completed. Loggin in...",
+  "labelRegisterYourAccount": "Start your jomn9 journey"
 }

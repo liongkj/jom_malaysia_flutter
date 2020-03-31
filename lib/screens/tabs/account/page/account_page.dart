@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
@@ -14,7 +15,6 @@ import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/util/image_utils.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
-import 'package:jom_malaysia/widgets/my_button.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 
@@ -45,42 +45,57 @@ class _ShopPageState extends State<AccountPage>
     showToast(msg);
   }
 
+  FutureOr successHandler(String msg, dataType type, String data) async {
+    switch (type) {
+      case dataType.username:
+        setState(() {
+          _displayName = data;
+        });
+        break;
+      case dataType.photo:
+        setState(() {
+          _photoUrl = data;
+        });
+        break;
+      default:
+    }
+
+    showToast(msg);
+  }
+
   void _showExitDialog() {
     showDialog(context: context, builder: (_) => ExitDialog());
   }
 
-  void _editDisplayNameDialog(String displayName) {
+  void _editDisplayNameDialog(AuthProvider authProvider) {
     showDialog(
         context: context,
-        builder: (BuildContext context) {
+        builder: (BuildContext ctx) {
           return TextInputDialog(
             title: S.of(context).labelUsernameTitle,
             onPressed: (value) {
-              authProvider.changeDisplayName(value).catchError(errorHandler);
-              setState(() {
-                _displayName = value;
-              });
+              authProvider
+                  .changeDisplayName(value)
+                  .then(
+                    (val) => successHandler(
+                        S.of(context).msgUpdateUsernameSuccess(value),
+                        dataType.username,
+                        value),
+                  )
+                  .catchError(errorHandler);
             },
           );
         });
   }
 
+  String _photoUrl;
   String _displayName;
-  AuthProvider authProvider;
-
-  @override
-  void initState() {
-    super.initState();
-    _displayName =
-        Provider.of<FirebaseUser>(context, listen: false)?.displayName;
-  }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
 
     Color _backgroundColor = ThemeUtils.getBackgroundColor(context);
-    authProvider = Provider.of<AuthProvider>(context, listen: false);
     final Color _iconColor = ThemeUtils.getIconColor(context);
     return Scaffold(
       bottomNavigationBar: LogOutButton(
@@ -104,8 +119,12 @@ class _ShopPageState extends State<AccountPage>
           ),
         ],
       ),
-      body: Consumer2<FirebaseUser, AuthProvider>(
-        builder: (_, loggedUser, authProvider, __) {
+      body: Consumer<AuthProvider>(
+        child: _AppSettings(),
+        builder: (ctx, authProvider, child) {
+          var loggedUser = authProvider.user;
+          _displayName = loggedUser?.username;
+          _photoUrl = loggedUser?.profileImage;
           return SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -143,13 +162,16 @@ class _ShopPageState extends State<AccountPage>
                                           S.of(context).labelStranger,
                                       style: TextStyles.textSize16),
                                   FlatButton(
-                                      child: Text(
-                                        S.of(context).labelEdit,
-                                        style: TextStyles.textSize12.copyWith(
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      onPressed: () =>
-                                          _editDisplayNameDialog(_displayName)),
+                                    materialTapTargetSize:
+                                        MaterialTapTargetSize.shrinkWrap,
+                                    child: Text(
+                                      S.of(context).labelEdit,
+                                      style: TextStyles.textSize12.copyWith(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    onPressed: () =>
+                                        _editDisplayNameDialog(authProvider),
+                                  )
                                 ],
                               ),
                             ],
@@ -160,12 +182,12 @@ class _ShopPageState extends State<AccountPage>
                                 radius: 28.0,
                                 backgroundColor: Colors.transparent,
                                 backgroundImage: ImageUtils.getImageProvider(
-                                    loggedUser?.photoUrl,
+                                    loggedUser?.profileImage,
                                     holderImg: 'account/dummy_profile_pic'))),
                       ],
                     ))),
                 if (loggedUser != null) _UserSettings(),
-                _AppSettings(),
+                child,
               ],
             ),
           );
@@ -311,3 +333,5 @@ class _UserSettings extends StatelessWidget {
     );
   }
 }
+
+enum dataType { photo, username }

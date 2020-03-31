@@ -4,7 +4,9 @@ class TextUtils {
     if (text.length == 0) {
       return text.toUpperCase();
     }
-    return text[0].toUpperCase() + text.substring(1);
+    if (text.codeUnits.where((ch) => ch > 128).toList().length > 0)
+      return text[0].toUpperCase() + text.substring(1);
+    return text;
   }
 
   ///shorten city name -> Port dickson to P.Dickson

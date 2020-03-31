@@ -25,7 +25,9 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m2(item) => "Adding your ${item}";
 
-  static m3(commentCount) => "${Intl.plural(commentCount, one: 'Comment (1)', other: 'Comments (${commentCount})')}";
+  static m3(uname) => "Nice to meet you ${uname}";
+
+  static m4(commentCount) => "${Intl.plural(commentCount, one: 'Comment (1)', other: 'Comments (${commentCount})')}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
@@ -44,6 +46,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "clickItemSettingRecommendPlaceTitle" : MessageLookupByLibrary.simpleMessage("Add a missing place"),
     "clickItemSettingShareTitle" : MessageLookupByLibrary.simpleMessage("Tell a friend"),
     "errorMessageNetworkFailure" : MessageLookupByLibrary.simpleMessage("Unknown error, Please check your network!"),
+    "errorMsgAccountExist" : MessageLookupByLibrary.simpleMessage("Email is used"),
+    "errorMsgEmailPasswordIncorrect" : MessageLookupByLibrary.simpleMessage("Email / Password is incorrect"),
+    "errorMsgInvalidFormatEmail" : MessageLookupByLibrary.simpleMessage("Email is Invalid"),
+    "errorMsgPasswordTooWeak" : MessageLookupByLibrary.simpleMessage("Password is too weak"),
+    "errorMsgUnknownError" : MessageLookupByLibrary.simpleMessage("Unknown error try again later"),
+    "errorMsgUserNotRegistered" : MessageLookupByLibrary.simpleMessage("User not registered"),
     "labelAccount" : MessageLookupByLibrary.simpleMessage("Account"),
     "labelAppSettings" : MessageLookupByLibrary.simpleMessage("App Settings"),
     "labelAskFirstReview" : MessageLookupByLibrary.simpleMessage("Submit first review"),
@@ -67,9 +75,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "labelDialogWednesday" : MessageLookupByLibrary.simpleMessage("wed"),
     "labelDisplayName" : MessageLookupByLibrary.simpleMessage("Your username"),
     "labelEdit" : MessageLookupByLibrary.simpleMessage("Edit"),
+    "labelEmailSignIn" : MessageLookupByLibrary.simpleMessage("Email Sign In"),
+    "labelForgetPassword" : MessageLookupByLibrary.simpleMessage("Forget Password"),
     "labelImageChosen" : MessageLookupByLibrary.simpleMessage("Image Chosen"),
     "labelImageRemoved" : MessageLookupByLibrary.simpleMessage("Image Removed"),
     "labelInputCostAmount" : MessageLookupByLibrary.simpleMessage("Please enter your spending"),
+    "labelInputFieldEmail" : MessageLookupByLibrary.simpleMessage("Please enter your email"),
+    "labelInputFieldPassword" : MessageLookupByLibrary.simpleMessage("Please enter your password"),
     "labelLogIn" : MessageLookupByLibrary.simpleMessage("Click to sign in"),
     "labelLogout" : MessageLookupByLibrary.simpleMessage("Log Out"),
     "labelMapChooser" : MessageLookupByLibrary.simpleMessage("\'Choose a map"),
@@ -80,6 +92,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "labelNoDetail" : MessageLookupByLibrary.simpleMessage("No more details"),
     "labelNoNotification" : MessageLookupByLibrary.simpleMessage("Awww...No Notification"),
     "labelNone" : MessageLookupByLibrary.simpleMessage("None"),
+    "labelOtpLogin" : MessageLookupByLibrary.simpleMessage("OTP Sign In"),
     "labelPageComment" : MessageLookupByLibrary.simpleMessage("Comment"),
     "labelProfileManager" : MessageLookupByLibrary.simpleMessage("Profile Setting"),
     "labelRatePlace" : MessageLookupByLibrary.simpleMessage("Rate"),
@@ -88,6 +101,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "labelRatingStatus3" : MessageLookupByLibrary.simpleMessage("Ok Ok la"),
     "labelRatingStatus4" : MessageLookupByLibrary.simpleMessage("Not bad la"),
     "labelRatingStatus5" : MessageLookupByLibrary.simpleMessage("Sui!"),
+    "labelRegister" : MessageLookupByLibrary.simpleMessage("Register"),
+    "labelRegisterYourAccount" : MessageLookupByLibrary.simpleMessage("Start your jomn9 journey"),
+    "labelRememberMe" : MessageLookupByLibrary.simpleMessage("Remember me"),
     "labelReview" : MessageLookupByLibrary.simpleMessage("Review"),
     "labelSearch" : MessageLookupByLibrary.simpleMessage("Search"),
     "labelSearchHint" : MessageLookupByLibrary.simpleMessage("Search for a name or keyword"),
@@ -107,6 +123,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "locationServicePromptPermission" : MessageLookupByLibrary.simpleMessage("Please enable your GPS"),
     "locationServiceRetryOperation" : MessageLookupByLibrary.simpleMessage("Retry"),
     "msgPleaseFillRequiredField" : MessageLookupByLibrary.simpleMessage("Please fill in highlighted fields"),
+    "msgRegistrationSuccess" : MessageLookupByLibrary.simpleMessage("Registration completed. Loggin in..."),
+    "msgUpdatePhotoSuccess" : MessageLookupByLibrary.simpleMessage("Updated your profile pic"),
+    "msgUpdateUsernameSuccess" : m3,
     "overviewSection1Para1" : MessageLookupByLibrary.simpleMessage("Negeri Sembilan is a Malaysian state on the Malay Peninsula\'s southwest coast, known for its beaches, nature parks and palaces. To the west, on the Malacca Strait, the area around Port Dickson has seaside resorts, the Wan Loong Chinese Temple and the Kota Lukut hilltop fort. South along the coast, in the neighboring state of Malacca, is Cape Rachado (Tanjung Tuan), a nature reserve with a lighthouse."),
     "overviewSection1Para2" : MessageLookupByLibrary.simpleMessage("Northeast from Port Dickson, the state capital of Seremban is known for its colonial architecture, Lake Garden park and wooden palaces of the Minangkabau people, an ethnic group with Indonesian roots. Their influence can also be seen in the town of Seri Menanti to the east, where a former palace is now the Sri Menanti Royal Museum. The nearby town of Kuala Pilah is home to the San Sheng Gong Chinese Temple and the colorful Hindu temple of Kuil Sri Kanthasamy. To the west, Ulu Bendul Recreational Park encompasses jungle, waterfalls and Gunung Angsi mountain."),
     "overviewSection2Para1" : MessageLookupByLibrary.simpleMessage("The name is believed to derive from the nine (sembilan) villages or nagari in the Minangkabau language (now known as luak) settled by the Minangkabau, a people originally from West Sumatra (in present-day Indonesia). Minangkabau features are still visible today in traditional architecture and the dialect of Malay spoken."),
@@ -117,7 +136,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "overviewSection4Title" : MessageLookupByLibrary.simpleMessage("Capital (Seremban)"),
     "overviewSection5Para1" : MessageLookupByLibrary.simpleMessage("Negeri Sembilan has a collective population of 1,098,500 as of 2015; the ethnic composition consisting of Malay 622,000 (56.6%) (mostly are Minangkabau descent), other Bumiputras 20,700 (1.9%), Chinese 234,300 (21.3%), Indian 154,000 (14%), Others 4,200 (0.4%), and Non Citizens 63,300 (5.8%). The state has the highest percentage of Indians when compared to other Malaysian states."),
     "overviewSection5Title" : MessageLookupByLibrary.simpleMessage("Demographic"),
-    "placeDetailCommentCountLabel" : m3,
+    "placeDetailCommentCountLabel" : m4,
     "placeDetailInfoLabel" : MessageLookupByLibrary.simpleMessage("Detail"),
     "placeDetailMerchantInfoLabel" : MessageLookupByLibrary.simpleMessage("Merchant Info"),
     "placeDetailMerchantRegistrationNameLabel" : MessageLookupByLibrary.simpleMessage("Registration Name"),

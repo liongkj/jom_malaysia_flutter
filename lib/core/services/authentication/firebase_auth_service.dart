@@ -93,12 +93,14 @@ class FirebaseAuthService extends IAuthenticationService {
     await _auth.signOut();
   }
 
-  Future<void> changeDisplayName(String displayName) async {
+  Future<AuthUser> changeDisplayName(String displayName) async {
+    var user = await _auth.currentUser();
     try {
-      var user = await _auth.currentUser();
       UserUpdateInfo updated = UserUpdateInfo();
       updated.displayName = TextUtils.capitalize(displayName.trim());
       await user.updateProfile(updated);
+      user.reload();
+      user = await _auth.currentUser();
     } catch (error) {
       switch (error.code) {
         case "ERROR_USER_NOT_FOUND":
@@ -106,7 +108,7 @@ class FirebaseAuthService extends IAuthenticationService {
           break;
       }
     }
-    return null;
+    return new AuthUser(user.uid, user.displayName, user.photoUrl, user.email);
   }
 
   @override
