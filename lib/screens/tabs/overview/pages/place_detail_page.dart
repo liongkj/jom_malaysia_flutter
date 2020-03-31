@@ -39,7 +39,6 @@ class PlaceDetailPageState extends State<PlaceDetailPage>
 
     place = Provider.of<ListingProvider>(context, listen: false)
         .findById(widget.placeId);
-    debugPrint("page built");
     super.initState();
   }
 
@@ -122,16 +121,17 @@ class PlaceDetailPageState extends State<PlaceDetailPage>
       SliverToBoxAdapter(
         child: Gaps.vGap16,
       ),
-      PlaceImage(
-        images: place.listingImages.ads,
-      ),
-      SliverToBoxAdapter(
-        child: CommentSection(
+      SliverList(
+          delegate: SliverChildListDelegate([
+        PlaceImage(
+          images: place.listingImages.ads,
+        ),
+        CommentSection(
           listingName: place.listingName,
           listingId: place.listingId,
         ),
-      ),
-      MerchantInfo(merchant: place.merchant),
+        MerchantInfo(merchant: place.merchant),
+      ]))
     ];
   }
 

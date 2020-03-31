@@ -14,31 +14,29 @@ class MerchantInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SliverToBoxAdapter(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
-        child: MyCard(
-          child: Container(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  S.of(context).placeDetailMerchantInfoLabel,
-                  style: Theme.of(context).textTheme.body1,
-                ),
-                Gaps.vGap12,
-                _MerchantInfoItem(
-                  title: S.of(context).placeDetailMerchantRegistrationNameLabel,
-                  data: merchant.registrationName,
-                ),
-                Gaps.vGap12,
-                _MerchantInfoItem(
-                  title: S.of(context).placeDetailMerchantSSMLabel,
-                  data: merchant.ssmId,
-                )
-              ],
-            ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+      child: MyCard(
+        child: Container(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                S.of(context).placeDetailMerchantInfoLabel,
+                style: Theme.of(context).textTheme.body1,
+              ),
+              Gaps.vGap12,
+              _MerchantInfoItem(
+                title: S.of(context).placeDetailMerchantRegistrationNameLabel,
+                data: merchant.registrationName,
+              ),
+              Gaps.vGap12,
+              _MerchantInfoItem(
+                title: S.of(context).placeDetailMerchantSSMLabel,
+                data: merchant.ssmId,
+              )
+            ],
           ),
         ),
       ),
