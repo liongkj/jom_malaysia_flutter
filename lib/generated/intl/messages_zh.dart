@@ -21,9 +21,9 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m0(selected) => "当前城市: ${selected}";
 
-  static m1(item) => "正火速上传您的${item}";
+  static m2(item) => "正火速上传您的${item}";
 
-  static m2(commentCount) => "点评 (${commentCount})";
+  static m3(commentCount) => "点评 (${commentCount})";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
@@ -84,7 +84,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "labelSearch" : MessageLookupByLibrary.simpleMessage("搜索"),
     "labelSearchHint" : MessageLookupByLibrary.simpleMessage("请输入关键词查询"),
     "labelSearchHintNotEmpty" : MessageLookupByLibrary.simpleMessage("搜索关键词不能为空！"),
-    "labelStatusPublish" : m1,
+    "labelStatusPublish" : m2,
     "labelSubmitReview" : MessageLookupByLibrary.simpleMessage("发布"),
     "labelTagMustTry" : MessageLookupByLibrary.simpleMessage("必打卡"),
     "labelUndoAction" : MessageLookupByLibrary.simpleMessage("撤消"),
@@ -107,7 +107,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "overviewSection4Title" : MessageLookupByLibrary.simpleMessage("首都（芙蓉市）"),
     "overviewSection5Para1" : MessageLookupByLibrary.simpleMessage("截至2015年，森美兰州的总人口为1,098,500；族裔构成为马来人622,000（56.6％）（主要是Minangkabau血统），其他土著20,700（1.9％），华裔234,300（21.3％），印度是154,000（14％），其他4,200（0.4％）和非公民63,300（5.8％）。与马来西亚其他州相比，该州的印度人比例最高。"),
     "overviewSection5Title" : MessageLookupByLibrary.simpleMessage("人口统计"),
-    "placeDetailCommentCountLabel" : m2,
+    "placeDetailCommentCountLabel" : m3,
     "placeDetailInfoLabel" : MessageLookupByLibrary.simpleMessage("产品详情"),
     "placeDetailMerchantInfoLabel" : MessageLookupByLibrary.simpleMessage("商家信息"),
     "placeDetailMerchantRegistrationNameLabel" : MessageLookupByLibrary.simpleMessage("注册名字"),

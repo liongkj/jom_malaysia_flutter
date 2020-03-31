@@ -976,10 +976,37 @@ class S {
     );
   }
 
-  String get labelChangeUsernameHintText {
+  String get labelUsernameTitle {
     return Intl.message(
-      'Let us know ur cool name',
-      name: 'labelChangeUsernameHintText',
+      'Username',
+      name: 'labelUsernameTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String labelChangeHintText(dynamic item) {
+    return Intl.message(
+      'Please enter your $item',
+      name: 'labelChangeHintText',
+      desc: '',
+      args: [item],
+    );
+  }
+
+  String get labelConfirmLogoutTitle {
+    return Intl.message(
+      'Logout',
+      name: 'labelConfirmLogoutTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelConfirmLogoutMsg {
+    return Intl.message(
+      'Confirm logout?',
+      name: 'labelConfirmLogoutMsg',
       desc: '',
       args: [],
     );

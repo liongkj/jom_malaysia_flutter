@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
 import 'package:jom_malaysia/widgets/base_dialog.dart';
@@ -46,14 +47,16 @@ class _PriceInputDialog extends State<TextInputDialog> {
             isDense: true,
             contentPadding: const EdgeInsets.symmetric(horizontal: 16.0),
             border: InputBorder.none,
-            hintText: '输入${widget.title}',
+            hintText:
+                S.of(context).labelChangeHintText(widget.title.toLowerCase()),
             //hintStyle: TextStyles.textGrayC14,
           ),
         ),
       ),
       onPressed: () {
         if (_controller.text.isEmpty) {
-          showToast('请输入${widget.title}');
+          showToast(
+              S.of(context).labelChangeHintText(widget.title.toLowerCase()));
           return;
         }
         NavigatorUtils.goBack(context);

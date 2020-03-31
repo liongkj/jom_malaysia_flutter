@@ -105,5 +105,8 @@
   "labelAccount": "Account",
   "labelAppSettings": "App Settings",
   "labelDisplayName": "Your username",
-  "labelChangeUsernameHintText": "Let us know ur cool name"
+  "labelUsernameTitle": "Username",
+  "labelChangeHintText": "Please enter your {item}",
+  "labelConfirmLogoutTitle": "Logout",
+  "labelConfirmLogoutMsg": "Confirm logout?"
 }

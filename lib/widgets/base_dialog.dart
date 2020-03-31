@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
+import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
 
 /// 自定义dialog的模板
@@ -10,6 +11,7 @@ class BaseDialog extends StatelessWidget {
       {Key key,
       this.title,
       this.onPressed,
+      this.showCancel: false,
       this.hiddenTitle: false,
       @required this.child})
       : super(key: key);
@@ -18,6 +20,7 @@ class BaseDialog extends StatelessWidget {
   final Function onPressed;
   final Widget child;
   final bool hiddenTitle;
+  final bool showCancel;
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +79,21 @@ class BaseDialog extends StatelessWidget {
                           },
                         ),
                       ),
-                    )
+                    ),
+                    if (showCancel)
+                      Expanded(
+                        child: SizedBox(
+                          height: 48.0,
+                          child: FlatButton(
+                            child: Text(
+                              S.of(context).labelDialogCancel,
+                              style: TextStyle(fontSize: Dimens.font_sp18),
+                            ),
+                            textColor: Theme.of(context).primaryColor,
+                            onPressed: () => NavigatorUtils.goBack(context),
+                          ),
+                        ),
+                      )
                   ],
                 )
               ],

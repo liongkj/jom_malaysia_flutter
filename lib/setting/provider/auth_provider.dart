@@ -34,6 +34,5 @@ class AuthProvider extends ChangeNotifier {
 
   Future<void> changeDisplayName(String dn) async {
     var result = await _service.changeDisplayName(dn);
-    // notifyListeners();
   }
 }

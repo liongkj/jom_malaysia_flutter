@@ -98,7 +98,7 @@ class FirebaseAuthService extends IAuthenticationService {
       var user = await _auth.currentUser();
       UserUpdateInfo updated = UserUpdateInfo();
       updated.displayName = TextUtils.capitalize(displayName.trim());
-      user.updateProfile(updated);
+      await user.updateProfile(updated);
     } catch (error) {
       switch (error.code) {
         case "ERROR_USER_NOT_FOUND":

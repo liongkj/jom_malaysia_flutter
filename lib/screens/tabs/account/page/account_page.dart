@@ -1,10 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
+import 'package:jom_malaysia/core/services/gateway/exception/not_found_exception.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/login/login_router.dart';
 import 'package:jom_malaysia/screens/tabs/account/account_router.dart';
 import 'package:jom_malaysia/screens/tabs/account/widgets/exit_dialog.dart';
+import 'package:jom_malaysia/screens/tabs/account/widgets/logout_button.dart';
 import 'package:jom_malaysia/screens/tabs/account/widgets/text_input_dialog.dart';
 
 import 'package:jom_malaysia/setting/provider/auth_provider.dart';
@@ -13,6 +15,7 @@ import 'package:jom_malaysia/util/image_utils.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
 import 'package:jom_malaysia/widgets/my_button.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 
 class AccountPage extends StatefulWidget {
@@ -29,24 +32,40 @@ class AccountPage extends StatefulWidget {
 
 class _ShopPageState extends State<AccountPage>
     with AutomaticKeepAliveClientMixin<AccountPage> {
+  Future errorHandler(err) async {
+    String msg;
+    switch (err.runtimeType) {
+      case NotFoundException:
+        msg = "Please sign in again";
+        break;
+
+      default:
+        msg = 'Unknown error try again later';
+    }
+    showToast(msg);
+  }
+
   void _showExitDialog() {
     showDialog(context: context, builder: (_) => ExitDialog());
   }
 
-  void _editDisplayNameDialog() {
+  void _editDisplayNameDialog(String displayName) {
     showDialog(
         context: context,
-        barrierDismissible: false,
         builder: (BuildContext context) {
           return TextInputDialog(
-            title: S.of(context).labelChangeUsernameHintText,
+            title: S.of(context).labelUsernameTitle,
             onPressed: (value) {
-              authProvider.changeDisplayName(value);
+              authProvider.changeDisplayName(value).catchError(errorHandler);
+              setState(() {
+                _displayName = value;
+              });
             },
           );
         });
   }
 
+  String _displayName;
   AuthProvider authProvider;
   @override
   Widget build(BuildContext context) {
@@ -56,21 +75,9 @@ class _ShopPageState extends State<AccountPage>
     authProvider = Provider.of<AuthProvider>(context, listen: false);
     final Color _iconColor = ThemeUtils.getIconColor(context);
     return Scaffold(
-      bottomNavigationBar: Consumer<FirebaseUser>(builder: (_, provider, __) {
-        if (provider != null)
-          return Container(
-            padding: EdgeInsets.symmetric(vertical: 32.0, horizontal: 48),
-            child: MyButton(
-              onPressed: () => _showExitDialog(),
-              text: S.of(context).labelLogout,
-            ),
-          );
-        else
-          return Container(
-            width: 0,
-            height: 0,
-          );
-      }),
+      bottomNavigationBar: LogOutButton(
+        logOut: _showExitDialog,
+      ),
       appBar: AppBar(
         backgroundColor: _backgroundColor,
         actions: <Widget>[
@@ -89,8 +96,9 @@ class _ShopPageState extends State<AccountPage>
           ),
         ],
       ),
-      body: Consumer<FirebaseUser>(
-        builder: (_, loggedUser, __) {
+      body: Consumer2<FirebaseUser, AuthProvider>(
+        builder: (_, loggedUser, authProvider, __) {
+          _displayName = loggedUser?.displayName;
           return SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -123,9 +131,7 @@ class _ShopPageState extends State<AccountPage>
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
-                                  Text(
-                                      loggedUser?.displayName ??
-                                          "Liong Khai Jiet",
+                                  Text(_displayName ?? "Liong Khai Jiet",
                                       style: TextStyles.textSize16),
                                   FlatButton(
                                       child: Text(
@@ -134,7 +140,7 @@ class _ShopPageState extends State<AccountPage>
                                             fontWeight: FontWeight.bold),
                                       ),
                                       onPressed: () =>
-                                          _editDisplayNameDialog()),
+                                          _editDisplayNameDialog(_displayName)),
                                 ],
                               ),
                             ],

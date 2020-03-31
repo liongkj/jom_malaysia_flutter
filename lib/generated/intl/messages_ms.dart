@@ -21,9 +21,9 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m0(selected) => "Pilihan Bandar: ${selected}";
 
-  static m1(item) => "Muat naik ${item} anda";
+  static m2(item) => "Muat naik ${item} anda";
 
-  static m2(commentCount) => "Komen (${commentCount})";
+  static m3(commentCount) => "Komen (${commentCount})";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
@@ -79,7 +79,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "labelSearch" : MessageLookupByLibrary.simpleMessage("Cari"),
     "labelSearchHint" : MessageLookupByLibrary.simpleMessage("Sila masukkan kata kunci carian"),
     "labelSearchHintNotEmpty" : MessageLookupByLibrary.simpleMessage("Kata kunci carian tidak boleh kosong!"),
-    "labelStatusPublish" : m1,
+    "labelStatusPublish" : m2,
     "labelSubmitReview" : MessageLookupByLibrary.simpleMessage("Pos"),
     "labelTagMustTry" : MessageLookupByLibrary.simpleMessage("Mesti Cuba"),
     "labelUndoAction" : MessageLookupByLibrary.simpleMessage("Tarik Balik"),
@@ -101,7 +101,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "overviewSection4Title" : MessageLookupByLibrary.simpleMessage("Modal (Furong)"),
     "overviewSection5Para1" : MessageLookupByLibrary.simpleMessage("Pada tahun 2015, jumlah penduduk Negeri Sembilan adalah 1,098,500; komposisi etnik adalah Melayu 622,000 (56.6%) (terutamanya berasal dari Minangkabau), 20,700 orang asli (1.9%), Cina 234.300 (21.3% India adalah 154,000 (14%), 4,200 yang lain (0.4%) dan bukan rakyat 63,300 (5.8%) berbanding negeri-negeri lain di Malaysia."),
     "overviewSection5Title" : MessageLookupByLibrary.simpleMessage("Demografi"),
-    "placeDetailCommentCountLabel" : m2,
+    "placeDetailCommentCountLabel" : m3,
     "placeDetailInfoLabel" : MessageLookupByLibrary.simpleMessage("Butiran Tempat"),
     "placeDetailMerchantInfoLabel" : MessageLookupByLibrary.simpleMessage("Maklumat Pedagang"),
     "placeDetailMerchantRegistrationNameLabel" : MessageLookupByLibrary.simpleMessage("Nama Pendaftaran"),
