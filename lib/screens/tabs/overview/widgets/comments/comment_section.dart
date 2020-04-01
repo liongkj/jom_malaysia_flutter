@@ -115,7 +115,7 @@ class _CommentButton extends StatelessWidget {
           : S.of(context).labelAskFirstReview,
       onPressed: () {
         NavigatorUtils.tryAuth(context,
-            '${OverviewRouter.reviewPage}?title=$listingName&placeId=$listingId&userId=${"user.id"}');
+            '${OverviewRouter.reviewPage}?title=$listingName&placeId=$listingId');
       },
     );
   }

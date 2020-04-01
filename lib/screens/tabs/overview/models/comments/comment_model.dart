@@ -6,7 +6,7 @@ import 'package:multi_image_picker/multi_image_picker.dart';
 class CommentModel {
   CommentModel(
     this.id,
-    this.userId, {
+    this.user, {
     this.title,
     this.commentText,
     this.rating = 3,

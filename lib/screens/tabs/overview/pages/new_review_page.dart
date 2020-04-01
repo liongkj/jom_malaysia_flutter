@@ -1,14 +1,17 @@
+import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:jom_malaysia/core/models/authuser_model.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/core/services/image/cloudinary/cloudinary_image_service.dart';
 import 'package:jom_malaysia/core/services/image/i_image_service.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/comments/comment_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/comments_provider.dart';
+import 'package:jom_malaysia/setting/provider/auth_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/widgets/add_rating_bar.dart';
 import 'package:jom_malaysia/widgets/app_bar.dart';
@@ -21,14 +24,12 @@ import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 
 class NewReviewPage extends StatefulWidget {
-  NewReviewPage(
-      {@required this.placeId,
-      @required this.userId,
-      @required this.placeName});
+  NewReviewPage({
+    @required this.placeId,
+    @required this.placeName,
+  });
   final String placeId;
-  final String userId;
   final String placeName;
-
   @override
   _NewReviewPageState createState() => _NewReviewPageState();
 }
@@ -36,18 +37,18 @@ class NewReviewPage extends StatefulWidget {
 class _NewReviewPageState extends State<NewReviewPage> {
   CommentModel _commentModel;
   IImageService _storageService;
-  CommentsProvider _db;
-  FirebaseUser user;
-  StateType _loadingState = StateType.loading;
+  CommentsProvider _commentsProvider;
+  AuthUser user;
+  int _retrycount = 1;
   @override
-  void initState() {
-    user = Provider.of<FirebaseUser>(context, listen: false);
-    _db = Provider.of<CommentsProvider>(context, listen: false);
-    var commentId = _db.getCommentId();
-    _commentModel = new CommentModel(commentId, user.uid);
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _commentsProvider = Provider.of<CommentsProvider>(context, listen: false);
+    user = Provider.of<AuthProvider>(context, listen: false).user;
+    var commentId = _commentsProvider.getCommentId();
+    _commentModel = new CommentModel(commentId, user);
     _storageService =
         Provider.of<CloudinaryImageService>(context, listen: false);
-    super.initState();
   }
 
   Future<String> _saveImage(Asset asset, int index) async {
@@ -64,13 +65,12 @@ class _NewReviewPageState extends State<NewReviewPage> {
 
   @override
   Widget build(BuildContext context) {
-    final ThemeData themeData = Theme.of(context);
     return Scaffold(
       appBar: MyAppBar(
         actionName: S.of(context).labelSubmitReview,
         onPressed: () async {
-          _db.setStateType(StateType.loading);
           if (_formKey.currentState.validate()) {
+            _commentsProvider.setStateType(StateType.loading);
             _formKey.currentState.save();
             if (_commentModel.imageAssets.isNotEmpty) {
               var _index = 0;
@@ -80,10 +80,36 @@ class _NewReviewPageState extends State<NewReviewPage> {
                 _index++;
               }
             }
-            await _db.addComment(widget.placeId, _commentModel);
             NavigatorUtils.goBack(context);
+            _commentsProvider
+                .addComment(widget.placeId, _commentModel)
+                .then(
+                  (value) => Scaffold.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text("Thank you for your review"),
+                    ),
+                  ),
+                )
+                .timeout(Duration(seconds: 2), onTimeout: () {
+              if (_retrycount > 0) {
+                _retrycount -= 1;
+                return Scaffold.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text("Error adding your review. Try again?"),
+                    action: SnackBarAction(
+                      label: "Retry",
+                      onPressed: () => _commentsProvider.addComment(
+                          widget.placeId, _commentModel),
+                    ),
+                  ),
+                );
+              } else
+                return Scaffold.of(context).showSnackBar(SnackBar(
+                  content: Text("Unknown error. Please try again later"),
+                ));
+            }).catchError((e) => showToast(e));
           } else {
-            _db.setStateType(StateType.empty);
+            _commentsProvider.setStateType(StateType.empty);
             showToast(S.of(context).msgPleaseFillRequiredField);
           }
         },
@@ -108,11 +134,11 @@ class _NewReviewPageState extends State<NewReviewPage> {
                           }
                         },
                         child: _CommentForm(
-                            placeName: widget.placeName,
-                            placeId: widget.placeId,
-                            formKey: _formKey,
-                            commentModel: _commentModel,
-                            themeData: themeData),
+                          placeName: widget.placeName,
+                          placeId: widget.placeId,
+                          formKey: _formKey,
+                          commentModel: _commentModel,
+                        ),
                       ),
                     ),
                   )
@@ -133,16 +159,15 @@ class _CommentForm extends StatelessWidget {
       @required this.placeId,
       @required this.formKey,
       @required this.commentModel,
-      @required this.themeData,
       @required this.placeName});
   final String placeName;
   final GlobalKey<FormState> formKey;
   final String placeId;
   final CommentModel commentModel;
-  final ThemeData themeData;
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData themeData = Theme.of(context);
     return Form(
       key: formKey,
       child: Column(
@@ -353,9 +378,7 @@ class __ImageAreaState extends State<_ImageArea> {
             Scaffold.of(context).showSnackBar(SnackBar(
                 action: SnackBarAction(
                   label: S.of(context).labelUndoAction,
-                  onPressed: () {
-                    _undoDelete();
-                  },
+                  onPressed: () => _undoDelete(),
                 ),
                 content: Text(S.of(context).labelImageRemoved)));
           },
@@ -385,7 +408,6 @@ class __AverageCostState extends State<_AverageCost> {
 
   _parseAndSave() {
     if (_controller.text != "") {
-      print(_controller.text);
       final cost = double.parse(_controller.text);
       widget.commentModel.costPax = cost;
     }

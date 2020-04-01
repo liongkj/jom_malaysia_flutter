@@ -14,7 +14,6 @@ class AuthProvider extends ChangeNotifier {
 
   void setUser(FirebaseUser fUser) {
     if (fUser != null) {
-      print(fUser.email + fUser?.displayName);
       _user = new AuthUser(
           fUser.uid, fUser.displayName, fUser.photoUrl, fUser.photoUrl);
     } else {

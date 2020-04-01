@@ -19,7 +19,9 @@ class QueryParam {
   static const String featured = 'featured';
 }
 
-class FirebaseConst {}
+class FirebaseConst {
+  static const String firebaseUsername = 'username';
+}
 
 ///endpoint for webview pages
 class WebUrl {

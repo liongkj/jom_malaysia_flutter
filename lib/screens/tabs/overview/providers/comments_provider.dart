@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/services/gateway/firestore_api.dart';
@@ -21,6 +23,7 @@ class CommentsProvider extends BaseChangeNotifier {
   Future<void> addComment(String listingId, CommentModel data) async {
     var result =
         await _api.addDocument(listingId, collectionName, data.toJson());
+    setStateTypeWithoutNotify(StateType.empty);
     notifyListeners();
   }
 

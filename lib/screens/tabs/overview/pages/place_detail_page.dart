@@ -13,6 +13,7 @@ import 'package:jom_malaysia/screens/tabs/overview/widgets/place_detail/place_de
 import 'package:jom_malaysia/screens/tabs/overview/widgets/place_detail/place_image.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/place_detail/place_info.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/place_detail/place_operating_hour.dart';
+import 'package:jom_malaysia/setting/provider/auth_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
 import 'package:jom_malaysia/widgets/my_section_divider.dart';
@@ -61,7 +62,7 @@ class PlaceDetailPageState extends State<PlaceDetailPage>
   Widget build(BuildContext context) {
     super.build(context);
     isDark = ThemeUtils.isDark(context);
-    var user = Provider.of<FirebaseUser>(context, listen: false);
+    var user = Provider.of<AuthProvider>(context, listen: false).user;
     return HideFabOnScrollScaffold(
       body: SafeArea(
         child: CustomScrollView(
@@ -76,7 +77,7 @@ class PlaceDetailPageState extends State<PlaceDetailPage>
         tooltip: "Rate",
         onPressed: () => NavigatorUtils.tryAuth(
           context,
-          '${OverviewRouter.reviewPage}?title=${place.listingName}&placeId=${place.listingId}&userId=${user.uid}',
+          '${OverviewRouter.reviewPage}?title=${place.listingName}&placeId=${place.listingId}',
         ),
         icon: Icon(Icons.star),
         label: Text("Rate"),
@@ -118,11 +119,11 @@ class PlaceDetailPageState extends State<PlaceDetailPage>
           50,
         ),
       ),
-      SliverToBoxAdapter(
-        child: Gaps.vGap16,
-      ),
+
+      // allow lazy building of comment section
       SliverList(
           delegate: SliverChildListDelegate([
+        Gaps.vGap16,
         PlaceImage(
           images: place.listingImages.ads,
         ),
