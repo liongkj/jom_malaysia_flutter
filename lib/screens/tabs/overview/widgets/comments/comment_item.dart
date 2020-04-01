@@ -113,7 +113,7 @@ class _Username extends StatelessWidget {
         children: <Widget>[
           Expanded(
             child: Text(
-              comment.user?.username ?? "Stranger",
+              comment.user?.getSocialName(),
               style: TextStyle(color: Colours.app_secondary),
             ),
           ),

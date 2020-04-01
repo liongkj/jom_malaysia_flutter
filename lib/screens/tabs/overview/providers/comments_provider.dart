@@ -23,8 +23,7 @@ class CommentsProvider extends BaseChangeNotifier {
   Future<void> addComment(String listingId, CommentModel data) async {
     var result =
         await _api.addDocument(listingId, collectionName, data.toJson());
-    setStateTypeWithoutNotify(StateType.empty);
-    notifyListeners();
+    setStateType(StateType.empty); //end loading
   }
 
   Future<List<CommentModel>> fetchComments() async {

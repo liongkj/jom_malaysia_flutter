@@ -18,18 +18,18 @@ import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 
-class NewReviewPage extends StatefulWidget {
-  NewReviewPage({
+class NewCommentPage extends StatefulWidget {
+  NewCommentPage({
     @required this.placeId,
     @required this.placeName,
   });
   final String placeId;
   final String placeName;
   @override
-  _NewReviewPageState createState() => _NewReviewPageState();
+  _NewCommentPageState createState() => _NewCommentPageState();
 }
 
-class _NewReviewPageState extends State<NewReviewPage> {
+class _NewCommentPageState extends State<NewCommentPage> {
   CommentModel _commentModel;
   IImageService _storageService;
   CommentsProvider _commentsProvider;
@@ -148,7 +148,7 @@ class _NewReviewPageState extends State<NewReviewPage> {
                 ),
               );
             } else
-              SnackBar(
+              return SnackBar(
                 content: Text("Unknown error. Please try again later"),
               );
           }).catchError(

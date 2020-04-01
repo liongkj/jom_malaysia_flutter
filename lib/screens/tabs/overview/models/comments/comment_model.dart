@@ -22,6 +22,7 @@ class CommentModel {
   double costPax;
   String userId;
   List<String> images;
+
   //holder
   List<Asset> imageAssets;
   AuthUser user;
@@ -44,6 +45,7 @@ class CommentModel {
             ? (snapshot['publishedTime'] as Timestamp).toDate()
             : null,
         rating = snapshot['rating'] ?? null,
+        user = AuthUser.fromJson(snapshot['user']) ?? null,
         userId = snapshot['userId'] ?? null;
 
   toJson() {
@@ -55,6 +57,7 @@ class CommentModel {
       "costPax": costPax,
       "images": images,
       "userId": userId,
+      "user": user.toJson(),
     };
   }
 }

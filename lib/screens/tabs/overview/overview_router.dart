@@ -1,6 +1,5 @@
 import 'package:fluro/fluro.dart';
-import 'package:jom_malaysia/core/services/gateway/net.dart';
-import 'package:jom_malaysia/screens/tabs/overview/pages/new_review_page.dart';
+import 'package:jom_malaysia/screens/tabs/overview/pages/new_comment_page.dart';
 import 'package:jom_malaysia/screens/tabs/overview/pages/place_detail_page.dart';
 import 'package:jom_malaysia/screens/tabs/overview/pages/place_search_page.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/comments/comment_list.dart';
@@ -33,7 +32,7 @@ class OverviewRouter implements IRouterProvider {
       var placeId = params["placeId"]?.first;
       var title = params["title"]?.first;
 
-      return NewReviewPage(
+      return NewCommentPage(
         placeId: placeId,
         placeName: title,
       );
