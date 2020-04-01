@@ -51,16 +51,6 @@ class _NewReviewPageState extends State<NewReviewPage> {
         Provider.of<CloudinaryImageService>(context, listen: false);
   }
 
-  Future<String> _saveImage(Asset asset, int index) async {
-    ByteData byteData = await asset.getByteData();
-    List<int> imageData = byteData.buffer.asUint8List();
-    var url = await _storageService.uploadFile(
-        "place/${widget.placeId}/comments/${_commentModel.id}",
-        imageData,
-        "${_commentModel.id}-image-$index");
-    return url;
-  }
-
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -69,49 +59,7 @@ class _NewReviewPageState extends State<NewReviewPage> {
       appBar: MyAppBar(
         actionName: S.of(context).labelSubmitReview,
         onPressed: () async {
-          if (_formKey.currentState.validate()) {
-            _commentsProvider.setStateType(StateType.loading);
-            _formKey.currentState.save();
-            if (_commentModel.imageAssets.isNotEmpty) {
-              var _index = 0;
-              for (Asset image in _commentModel.imageAssets) {
-                var url = await _saveImage(image, _index);
-                _commentModel.images.add(url);
-                _index++;
-              }
-            }
-            NavigatorUtils.goBack(context);
-            _commentsProvider
-                .addComment(widget.placeId, _commentModel)
-                .then(
-                  (value) => Scaffold.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text("Thank you for your review"),
-                    ),
-                  ),
-                )
-                .timeout(Duration(seconds: 2), onTimeout: () {
-              if (_retrycount > 0) {
-                _retrycount -= 1;
-                return Scaffold.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text("Error adding your review. Try again?"),
-                    action: SnackBarAction(
-                      label: "Retry",
-                      onPressed: () => _commentsProvider.addComment(
-                          widget.placeId, _commentModel),
-                    ),
-                  ),
-                );
-              } else
-                return Scaffold.of(context).showSnackBar(SnackBar(
-                  content: Text("Unknown error. Please try again later"),
-                ));
-            }).catchError((e) => showToast(e));
-          } else {
-            _commentsProvider.setStateType(StateType.empty);
-            showToast(S.of(context).msgPleaseFillRequiredField);
-          }
+          await _handleFormSubmit(context);
         },
         backImg: "assets/images/ic_close.png",
       ),
@@ -150,6 +98,64 @@ class _NewReviewPageState extends State<NewReviewPage> {
                   ),
       ),
     );
+  }
+
+  ///receive asset and index of image
+  ///return cloudinary url
+  Future<String> _saveImage(Asset asset, int index) async {
+    ByteData byteData = await asset.getByteData();
+    List<int> imageData = byteData.buffer.asUint8List();
+    var url = await _storageService.uploadFile(
+        "place/${widget.placeId}/comments/${_commentModel.id}",
+        imageData,
+        "${_commentModel.id}-image-$index");
+    return url;
+  }
+
+  Future _handleFormSubmit(BuildContext context) async {
+    if (_formKey.currentState.validate()) {
+      _commentsProvider.setStateType(StateType.loading);
+      _formKey.currentState.save();
+      if (_commentModel.imageAssets.isNotEmpty) {
+        var _index = 0;
+        for (Asset image in _commentModel.imageAssets) {
+          var url = await _saveImage(image, _index);
+          _commentModel.images.add(url);
+          _index++;
+        }
+      }
+      NavigatorUtils.goBack(context);
+      _commentsProvider
+          .addComment(widget.placeId, _commentModel)
+          .then(
+            (value) => Scaffold.of(context).showSnackBar(
+              SnackBar(
+                content: Text("Thank you for your review"),
+              ),
+            ),
+          )
+          .timeout(Duration(seconds: 2), onTimeout: () {
+        if (_retrycount > 0) {
+          _retrycount -= 1;
+          return Scaffold.of(context).showSnackBar(
+            SnackBar(
+              content: Text("Error adding your review. Try again?"),
+              action: SnackBarAction(
+                label: "Retry",
+                onPressed: () =>
+                    _commentsProvider.addComment(widget.placeId, _commentModel),
+              ),
+            ),
+          );
+        } else
+          return Scaffold.of(context).showSnackBar(SnackBar(
+            content: Text("Unknown error. Please try again later"),
+          ));
+      }).catchError((e) => showToast(e));
+    } else {
+      _commentsProvider.setStateType(StateType.empty);
+      showToast(S.of(context).msgPleaseFillRequiredField);
+    }
   }
 }
 
@@ -281,9 +287,10 @@ class __ImageAreaState extends State<_ImageArea> {
     } on NoImagesSelectedException catch (customere) {
       //if user did not choose image on 2nd time, add back current selected
       resultList.addAll(_images);
+    } on PermissionDeniedException catch (e) {
+      showToast(e.toString());
     } on Exception catch (e) {
-      error = e.toString();
-      print(error);
+      showToast(e.toString());
     }
     if (!mounted) return;
     if (resultList != null) {
