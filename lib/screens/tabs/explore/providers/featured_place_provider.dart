@@ -25,7 +25,6 @@ class FeaturedPlaceProvider extends BaseChangeNotifier {
     //queries
     Map<String, dynamic> queries = Map<String, dynamic>();
     queries[QueryParam.featured] = true;
-    print("fetched");
     _featured.clear();
     // setStateType(StateType.loading);
     _httpService

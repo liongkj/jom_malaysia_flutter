@@ -109,7 +109,7 @@
   "labelStranger": "陌生人",
   "labelEdit": "编辑",
   "msgUpdatePhotoSuccess": "已更新您的个人资料图片",
-  "msgUpdateUsernameSuccess": "很高兴认识你{uname}",
+  "msgUpdateUsernameSuccess": "{uname},很高兴认识你",
   "errorMsgEmailPasswordIncorrect": "电子邮件/密码不正确",
   "errorMsgUserNotRegistered": "用户未注册",
   "errorMsgUnknownError": "未知错误,请稍后再试",

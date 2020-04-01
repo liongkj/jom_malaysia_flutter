@@ -15,7 +15,13 @@ import 'package:jom_malaysia/widgets/my_card.dart';
 import 'package:provider/provider.dart';
 
 class CommentSection extends StatefulWidget {
-  CommentSection({@required this.listingId, @required this.listingName});
+  CommentSection({
+    Key key,
+    @required this.listingId,
+    @required this.listingName,
+    @required this.addNewReview,
+  }) : super(key: key);
+  final Function addNewReview;
   final String listingId;
   final String listingName;
 
@@ -28,7 +34,6 @@ class _CommentSectionState extends State<CommentSection> {
 
   @override
   Widget build(BuildContext context) {
-    final TextStyle sectionTitleStyle = Theme.of(context).textTheme.body1;
     final commentProvider =
         Provider.of<CommentsProvider>(context, listen: false);
     const int _MAXCOMMENTCOUNT = 3;
@@ -72,9 +77,11 @@ class _CommentSectionState extends State<CommentSection> {
                         ),
                       ),
                       _CommentButton(
-                          shouldLoad: shouldLoad,
-                          listingId: widget.listingId,
-                          listingName: widget.listingName),
+                        shouldLoad: shouldLoad,
+                        listingId: widget.listingId,
+                        listingName: widget.listingName,
+                        addNewReview: widget.addNewReview,
+                      ),
                     ],
                   ),
                 );
@@ -99,24 +106,21 @@ class _CommentButton extends StatelessWidget {
     @required this.shouldLoad,
     @required this.listingName,
     @required this.listingId,
+    @required this.addNewReview,
   }) : super(key: key);
-
+  final Function addNewReview;
   final bool shouldLoad;
   final String listingName;
   final String listingId;
 
   @override
   Widget build(BuildContext context) {
-    var user = Provider.of<FirebaseUser>(context, listen: false);
     return MyButton(
       icon: Icon(Icons.rate_review),
       text: shouldLoad
           ? S.of(context).labelAskReview
           : S.of(context).labelAskFirstReview,
-      onPressed: () {
-        NavigatorUtils.tryAuth(context,
-            '${OverviewRouter.reviewPage}?title=$listingName&placeId=$listingId&userId=${"user.id"}');
-      },
+      onPressed: addNewReview,
     );
   }
 }

@@ -36,25 +36,26 @@ dependencies:
   # https://pub.dev/packages/fancy_on_boarding#-changelog-tab-
   flustars: 0.2.6+1
   # Flutter 常用工具类库 https://github.com/Sky24n/flustars
-  fluro: ^1.6.1
+  fluro: ^1.6.2
   # 路由框架 https://pub.dev/packages/fluro#-changelog-tab-
   #community-based, can upload file
-  flutter_webview_plugin: ^0.3.10+1
+  flutter_webview_plugin: ^0.3.10+2
+  #  https://pub.dev/packages/flutter_webview_plugin#-changelog-tab-
   flutter_cupertino_localizations: ^1.0.1
-  flutter_spinkit: ^4.1.2
-  # used for loading web view https://github.com/jogboms/flutter_spinkit
+  flutter_spinkit: ^4.1.2+1
+  # used for loading web view https://pub.flutter-io.cn/packages/flutter_spinkit#-changelog-tab-
   # flutter_launcher_icons: ^0.7.4
   # used to generate app icon
   flutter_rating_bar: ^3.0.1+1
   # used to build rating bar
   flutter_swiper: ^1.1.6
   # Flutter 轮播图 https://github.com/best-flutter/flutter_swiper
-  geolocator: ^5.3.0
+  geolocator: ^5.3.1
   #used to detect user gps status and locate
   #https://pub.dev/packages/geolocator#-changelog-tab-
   google_fonts: ^0.3.10
   # https://pub.dev/packages/google_fonts#-changelog-tab-
-  intl_utils: ^1.2.0
+  intl_utils: ^1.2.1
   #enable i10n https://pub.dev/packages/intl_utils#-changelog-tab-
   intro_slider: ^2.2.9
   # https://pub.dev/packages/intro_slider#-changelog-tab-
@@ -113,7 +114,8 @@ dev_dependencies:
   flutter_driver:
     sdk: flutter
   # 单元测试
-  build_runner: ^1.8.0
+  build_runner: ^1.8.1
+  #  https://pub.dev/packages/build_runner#-changelog-tab-
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

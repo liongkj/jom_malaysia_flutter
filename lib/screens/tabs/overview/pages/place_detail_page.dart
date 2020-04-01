@@ -13,6 +13,7 @@ import 'package:jom_malaysia/screens/tabs/overview/widgets/place_detail/place_de
 import 'package:jom_malaysia/screens/tabs/overview/widgets/place_detail/place_image.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/place_detail/place_info.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/place_detail/place_operating_hour.dart';
+import 'package:jom_malaysia/setting/provider/auth_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
 import 'package:jom_malaysia/widgets/my_section_divider.dart';
@@ -39,16 +40,11 @@ class PlaceDetailPageState extends State<PlaceDetailPage>
 
     place = Provider.of<ListingProvider>(context, listen: false)
         .findById(widget.placeId);
-    super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       place.listingImages.ads.forEach(
           (f) async => await precacheImage(NetworkImage(f.url), context));
     });
+    super.initState();
   }
 
   @override
@@ -61,7 +57,7 @@ class PlaceDetailPageState extends State<PlaceDetailPage>
   Widget build(BuildContext context) {
     super.build(context);
     isDark = ThemeUtils.isDark(context);
-    var user = Provider.of<FirebaseUser>(context, listen: false);
+    var user = Provider.of<AuthProvider>(context, listen: false).user;
     return HideFabOnScrollScaffold(
       body: SafeArea(
         child: CustomScrollView(
@@ -71,16 +67,23 @@ class PlaceDetailPageState extends State<PlaceDetailPage>
         ),
       ),
       controller: _scrollController,
-      floatingActionButton: FloatingActionButton.extended(
-        heroTag: "btn_open_form",
-        tooltip: "Rate",
-        onPressed: () => NavigatorUtils.tryAuth(
-          context,
-          '${OverviewRouter.reviewPage}?title=${place.listingName}&placeId=${place.listingId}&userId=${user.uid}',
+      floatingActionButton: Builder(
+        builder: (ctx) => FloatingActionButton.extended(
+          heroTag: "btn_open_form",
+          tooltip: "Rate",
+          onPressed: () => _addNewReview(),
+          icon: Icon(Icons.star),
+          label: Text("Rate"),
         ),
-        icon: Icon(Icons.star),
-        label: Text("Rate"),
       ),
+    );
+  }
+
+  _addNewReview() {
+    NavigatorUtils.tryAuthResult(
+      context,
+      '${OverviewRouter.reviewPage}?title=${place.listingName}&placeId=${place.listingId}',
+      (result) => Scaffold.of(context).showSnackBar(result),
     );
   }
 
@@ -118,17 +121,18 @@ class PlaceDetailPageState extends State<PlaceDetailPage>
           50,
         ),
       ),
-      SliverToBoxAdapter(
-        child: Gaps.vGap16,
-      ),
+
+      // allow lazy building of comment section
       SliverList(
           delegate: SliverChildListDelegate([
+        Gaps.vGap16,
         PlaceImage(
           images: place.listingImages.ads,
         ),
         CommentSection(
           listingName: place.listingName,
           listingId: place.listingId,
+          addNewReview: () => _addNewReview(),
         ),
         MerchantInfo(merchant: place.merchant),
       ]))

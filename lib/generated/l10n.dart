@@ -9,7 +9,7 @@ import 'intl/messages_all.dart';
 // **************************************************************************
 
 class S {
-  S(this.localeName);
+  S();
   
   static const AppLocalizationDelegate delegate =
     AppLocalizationDelegate();
@@ -19,15 +19,13 @@ class S {
     final String localeName = Intl.canonicalizedLocale(name);
     return initializeMessages(localeName).then((_) {
       Intl.defaultLocale = localeName;
-      return S(localeName);
+      return S();
     });
   } 
 
   static S of(BuildContext context) {
     return Localizations.of<S>(context, S);
   }
-
-  final String localeName;
 
   String get appTitle {
     return Intl.message(
@@ -137,7 +135,7 @@ class S {
     );
   }
 
-  String placeDetailCommentCountLabel(dynamic commentCount) {
+  String placeDetailCommentCountLabel(num commentCount) {
     return Intl.plural(
       commentCount,
       one: 'Comment (1)',
@@ -517,7 +515,7 @@ class S {
     );
   }
 
-  String labelStatusPublish(dynamic item) {
+  String labelStatusPublish(Object item) {
     return Intl.message(
       'Adding your $item',
       name: 'labelStatusPublish',
@@ -724,7 +722,7 @@ class S {
     );
   }
 
-  String cityPickerCurrentCity(dynamic selected) {
+  String cityPickerCurrentCity(Object selected) {
     return Intl.message(
       'Selected: $selected',
       name: 'cityPickerCurrentCity',
@@ -985,7 +983,7 @@ class S {
     );
   }
 
-  String labelChangeHintText(dynamic item) {
+  String labelChangeHintText(Object item) {
     return Intl.message(
       'Please enter your $item',
       name: 'labelChangeHintText',
@@ -1030,7 +1028,7 @@ class S {
     );
   }
 
-  String msgUpdateUsernameSuccess(dynamic uname) {
+  String msgUpdateUsernameSuccess(Object uname) {
     return Intl.message(
       'Nice to meet you $uname',
       name: 'msgUpdateUsernameSuccess',
@@ -1174,7 +1172,7 @@ class S {
     );
   }
 
-  String errorMsgPasswordPolicy(dynamic len) {
+  String errorMsgPasswordPolicy(Object len) {
     return Intl.message(
       'Password must be at least $len characters',
       name: 'errorMsgPasswordPolicy',

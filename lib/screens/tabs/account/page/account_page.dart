@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/core/services/gateway/exception/not_found_exception.dart';
@@ -9,7 +9,6 @@ import 'package:jom_malaysia/screens/tabs/account/account_router.dart';
 import 'package:jom_malaysia/screens/tabs/account/widgets/exit_dialog.dart';
 import 'package:jom_malaysia/screens/tabs/account/widgets/logout_button.dart';
 import 'package:jom_malaysia/screens/tabs/account/widgets/text_input_dialog.dart';
-
 import 'package:jom_malaysia/setting/provider/auth_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/util/image_utils.dart';
@@ -102,6 +101,7 @@ class _ShopPageState extends State<AccountPage>
         logOut: _showExitDialog,
       ),
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: _backgroundColor,
         actions: <Widget>[
           IconButton(

@@ -1,3 +1,8 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'authuser_model.g.dart';
+
+@JsonSerializable()
 class AuthUser {
   AuthUser(
     this.userId,
@@ -5,19 +10,22 @@ class AuthUser {
     this.profileImage,
     this.email,
   );
+
   String email;
   String userId;
   String username;
   String profileImage;
 
-  AuthUser.fromMap(Map snapshot, String id)
-      : userId = snapshot['userId'] ?? '',
-        username = snapshot['username'] ?? '';
+  factory AuthUser.fromJson(Map<String, dynamic> json) =>
+      _$AuthUserFromJson(json);
 
-  toJson() {
-    return {
-      "userId": userId,
-      "username": username,
-    };
+  Map<String, dynamic> toJson() => _$AuthUserToJson(this);
+
+  String getSocialName() {
+    if (username != null || username != "") {
+      return username;
+    } else {
+      return email;
+    }
   }
 }

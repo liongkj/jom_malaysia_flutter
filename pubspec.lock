@@ -91,14 +91,14 @@ packages:
       name: build_runner
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.8.0"
+    version: "1.8.1"
   build_runner_core:
     dependency: transitive
     description:
       name: build_runner_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.5.3"
+    version: "5.0.0"
   built_collection:
     dependency: transitive
     description:
@@ -408,7 +408,7 @@ packages:
       name: geolocator
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.3.0"
+    version: "5.3.1"
   glob:
     dependency: transitive
     description:
@@ -422,7 +422,7 @@ packages:
       name: google_api_availability
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.3"
+    version: "2.0.4"
   google_fonts:
     dependency: "direct main"
     description:
@@ -506,14 +506,14 @@ packages:
       name: intl_translation
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.17.8"
+    version: "0.17.9"
   intl_utils:
     dependency: "direct main"
     description:
       name: intl_utils
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.0"
+    version: "1.2.1"
   intro_slider:
     dependency: "direct main"
     description:
@@ -1025,4 +1025,4 @@ packages:
     version: "2.2.0"
 sdks:
   dart: ">=2.7.0 <3.0.0"
-  flutter: ">=1.12.13+hotfix.5 <1.17.0"
+  flutter: ">=1.12.13+hotfix.6 <1.17.0"

@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
+import 'package:jom_malaysia/core/services/gateway/net.dart';
+import 'package:jom_malaysia/setting/provider/auth_provider.dart';
 import 'package:provider/provider.dart';
 
 import 'application.dart';
@@ -49,13 +51,27 @@ class NavigatorUtils {
     Navigator.pop(context, result);
   }
 
-  static tryAuth(BuildContext context, String path) {
-    var provider = Provider.of<FirebaseUser>(context, listen: false);
+  static tryAuthResult(
+      BuildContext context, String path, Function(Object) function,
+      {bool replace = false, bool clearStack = false}) {
+    var provider = Provider.of<AuthProvider>(context, listen: false).user;
 
     if (provider == null)
       push(context, Routes.login);
     else
-      push(context, path);
+      //append username
+      pushResult(context, "$path", function,
+          replace: replace, clearStack: clearStack);
+  }
+
+  static tryAuth(BuildContext context, String path) {
+    var provider = Provider.of<AuthProvider>(context, listen: false).user;
+
+    if (provider == null)
+      push(context, Routes.login);
+    else
+      //append username
+      push(context, "$path");
   }
 
   /// 跳到WebView页
