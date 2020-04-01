@@ -40,16 +40,11 @@ class PlaceDetailPageState extends State<PlaceDetailPage>
 
     place = Provider.of<ListingProvider>(context, listen: false)
         .findById(widget.placeId);
-    super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       place.listingImages.ads.forEach(
           (f) async => await precacheImage(NetworkImage(f.url), context));
     });
+    super.initState();
   }
 
   @override
@@ -72,16 +67,23 @@ class PlaceDetailPageState extends State<PlaceDetailPage>
         ),
       ),
       controller: _scrollController,
-      floatingActionButton: FloatingActionButton.extended(
-        heroTag: "btn_open_form",
-        tooltip: "Rate",
-        onPressed: () => NavigatorUtils.tryAuth(
-          context,
-          '${OverviewRouter.reviewPage}?title=${place.listingName}&placeId=${place.listingId}',
+      floatingActionButton: Builder(
+        builder: (ctx) => FloatingActionButton.extended(
+          heroTag: "btn_open_form",
+          tooltip: "Rate",
+          onPressed: () => _addNewReview(),
+          icon: Icon(Icons.star),
+          label: Text("Rate"),
         ),
-        icon: Icon(Icons.star),
-        label: Text("Rate"),
       ),
+    );
+  }
+
+  _addNewReview() {
+    NavigatorUtils.tryAuthResult(
+      context,
+      '${OverviewRouter.reviewPage}?title=${place.listingName}&placeId=${place.listingId}',
+      (result) => Scaffold.of(context).showSnackBar(result),
     );
   }
 
@@ -130,6 +132,7 @@ class PlaceDetailPageState extends State<PlaceDetailPage>
         CommentSection(
           listingName: place.listingName,
           listingId: place.listingId,
+          addNewReview: () => _addNewReview(),
         ),
         MerchantInfo(merchant: place.merchant),
       ]))

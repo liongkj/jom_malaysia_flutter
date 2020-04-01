@@ -6,7 +6,6 @@ import 'package:jom_malaysia/util/theme_utils.dart';
 import 'package:jom_malaysia/widgets/base_dialog.dart';
 import 'package:oktoast/oktoast.dart';
 
-/// design/7店铺-店铺配置/index.html#artboard3
 class TextInputDialog extends StatefulWidget {
   TextInputDialog({
     Key key,

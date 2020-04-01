@@ -1,24 +1,19 @@
 import 'dart:async';
 import 'dart:typed_data';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:jom_malaysia/core/models/authuser_model.dart';
-import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/core/services/image/cloudinary/cloudinary_image_service.dart';
 import 'package:jom_malaysia/core/services/image/i_image_service.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/comments/comment_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/comments_provider.dart';
+import 'package:jom_malaysia/screens/tabs/overview/widgets/comment_form/comment_form.dart';
 import 'package:jom_malaysia/setting/provider/auth_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
-import 'package:jom_malaysia/widgets/add_rating_bar.dart';
 import 'package:jom_malaysia/widgets/app_bar.dart';
-import 'package:jom_malaysia/widgets/load_image.dart';
-import 'package:jom_malaysia/widgets/selected_image.dart';
 import 'package:jom_malaysia/widgets/state_layout.dart';
-import 'package:jom_malaysia/widgets/text_field_item.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
@@ -39,16 +34,18 @@ class _NewReviewPageState extends State<NewReviewPage> {
   IImageService _storageService;
   CommentsProvider _commentsProvider;
   AuthUser user;
-  int _retrycount = 1;
+
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+  void initState() {
     _commentsProvider = Provider.of<CommentsProvider>(context, listen: false);
+
     user = Provider.of<AuthProvider>(context, listen: false).user;
     var commentId = _commentsProvider.getCommentId();
     _commentModel = new CommentModel(commentId, user);
     _storageService =
         Provider.of<CloudinaryImageService>(context, listen: false);
+
+    super.initState();
   }
 
   final _formKey = GlobalKey<FormState>();
@@ -81,7 +78,7 @@ class _NewReviewPageState extends State<NewReviewPage> {
                             currentFocus.unfocus();
                           }
                         },
-                        child: _CommentForm(
+                        child: CommentForm(
                           placeName: widget.placeName,
                           placeId: widget.placeId,
                           formKey: _formKey,
@@ -113,6 +110,7 @@ class _NewReviewPageState extends State<NewReviewPage> {
   }
 
   Future _handleFormSubmit(BuildContext context) async {
+    int _retrycount = 1;
     if (_formKey.currentState.validate()) {
       _commentsProvider.setStateType(StateType.loading);
       _formKey.currentState.save();
@@ -124,382 +122,41 @@ class _NewReviewPageState extends State<NewReviewPage> {
           _index++;
         }
       }
-      NavigatorUtils.goBack(context);
-      _commentsProvider
-          .addComment(widget.placeId, _commentModel)
-          .then(
-            (value) => Scaffold.of(context).showSnackBar(
+      NavigatorUtils.goBackWithParams(
+          context,
+          _commentsProvider
+              .addComment(widget.placeId, _commentModel)
+              .then(
+                (_) => SnackBar(
+                  content: Text("Thank you for your review"),
+                  action: SnackBarAction(
+                    label: "Retry",
+                    onPressed: () => _commentsProvider.addComment(
+                        widget.placeId, _commentModel),
+                  ),
+                ),
+              )
+              .timeout(Duration(seconds: 2), onTimeout: () {
+            if (_retrycount > 0) {
+              _retrycount -= 1;
+              return SnackBar(
+                content: Text("Error adding your review. Try again?"),
+                action: SnackBarAction(
+                  label: "Retry",
+                  onPressed: () => _commentsProvider.addComment(
+                      widget.placeId, _commentModel),
+                ),
+              );
+            } else
               SnackBar(
-                content: Text("Thank you for your review"),
-              ),
-            ),
-          )
-          .timeout(Duration(seconds: 2), onTimeout: () {
-        if (_retrycount > 0) {
-          _retrycount -= 1;
-          return Scaffold.of(context).showSnackBar(
-            SnackBar(
-              content: Text("Error adding your review. Try again?"),
-              action: SnackBarAction(
-                label: "Retry",
-                onPressed: () =>
-                    _commentsProvider.addComment(widget.placeId, _commentModel),
-              ),
-            ),
-          );
-        } else
-          return Scaffold.of(context).showSnackBar(SnackBar(
-            content: Text("Unknown error. Please try again later"),
+                content: Text("Unknown error. Please try again later"),
+              );
+          }).catchError(
+            (e) => SnackBar(content: Text(e.toString())),
           ));
-      }).catchError((e) => showToast(e));
     } else {
       _commentsProvider.setStateType(StateType.empty);
       showToast(S.of(context).msgPleaseFillRequiredField);
     }
-  }
-}
-
-class _CommentForm extends StatelessWidget {
-  const _CommentForm(
-      {Key key,
-      @required this.placeId,
-      @required this.formKey,
-      @required this.commentModel,
-      @required this.placeName});
-  final String placeName;
-  final GlobalKey<FormState> formKey;
-  final String placeId;
-  final CommentModel commentModel;
-
-  @override
-  Widget build(BuildContext context) {
-    final ThemeData themeData = Theme.of(context);
-    return Form(
-      key: formKey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            //title
-            placeName.toUpperCase(),
-            maxLines: 1,
-            style: Theme.of(context).textTheme.title,
-          ),
-          Gaps.vGap12,
-          _RatingArea(commentModel: commentModel),
-          Gaps.vGap12,
-          _BuildCommentField(
-            commentModel: commentModel,
-            themeData: themeData,
-          ),
-          Gaps.vGap12,
-          _ImageArea(
-            placeId: placeId,
-            commentModel: commentModel,
-          ),
-          Gaps.vGap12,
-          _AverageCost(commentModel: commentModel),
-        ],
-      ),
-    );
-  }
-}
-
-class _BuildCommentField extends StatelessWidget {
-  const _BuildCommentField({
-    Key key,
-    @required this.commentModel,
-    @required this.themeData,
-  });
-
-  final CommentModel commentModel;
-  final ThemeData themeData;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        TextFormField(
-          validator: (value) {
-            if (value.isEmpty) {
-              return S.of(context).labelNewCommentPageCommentErrorMessage;
-            }
-            return null;
-          },
-          onSaved: (value) => commentModel.commentText = value,
-          maxLines: 5,
-          decoration: InputDecoration(
-              contentPadding: const EdgeInsets.symmetric(vertical: 16.0),
-              hintText: S.of(context).labelNewCommentPageComment,
-              counterText: "",
-              focusedBorder: UnderlineInputBorder(
-                  borderSide:
-                      BorderSide(color: themeData.primaryColor, width: 0.8)),
-              enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(
-                      color: Theme.of(context).dividerTheme.color,
-                      width: 0.8))),
-        ),
-      ],
-    );
-  }
-}
-
-class _ImageArea extends StatefulWidget {
-  @override
-  __ImageAreaState createState() => __ImageAreaState();
-
-  const _ImageArea({
-    Key key,
-    @required this.placeId,
-    @required this.commentModel,
-  }) : super(key: key);
-  final String placeId;
-  final CommentModel commentModel;
-}
-
-class __ImageAreaState extends State<_ImageArea> {
-  List<Asset> _images = [];
-  String _error = 'No Error Dectected';
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  Future<void> loadAssets() async {
-    List<Asset> resultList = [];
-    String error = 'No Error Dectected';
-
-    try {
-      resultList = await MultiImagePicker.pickImages(
-        maxImages: 5 - _images.length,
-        enableCamera: true,
-        selectedAssets: _images,
-        materialOptions: MaterialOptions(
-          actionBarColor:
-              '#${Colours.app_secondary.value.toRadixString(16).substring(2)}',
-          actionBarTitle: S.of(context).labelImageChosen,
-          allViewTitle: "All Photos",
-          startInAllView: true,
-        ),
-      );
-    } on NoImagesSelectedException catch (customere) {
-      //if user did not choose image on 2nd time, add back current selected
-      resultList.addAll(_images);
-    } on PermissionDeniedException catch (e) {
-      showToast(e.toString());
-    } on Exception catch (e) {
-      showToast(e.toString());
-    }
-    if (!mounted) return;
-    if (resultList != null) {
-      _images
-        ..clear()
-        ..addAll(resultList);
-      _error = error;
-      widget.commentModel.imageAssets = _images;
-    }
-    setState(() {
-//      _images = resultList;
-    });
-  }
-
-  Asset _tempImage;
-  int _tempIndex;
-  void _deleteImage(int index) {
-    _tempIndex = index;
-    _tempImage = _images[index];
-    setState(() {
-      _images.removeAt(index);
-    });
-  }
-
-  void _undoDelete() {
-    setState(() {
-      _images.insert(
-        _tempIndex,
-        _tempImage,
-      );
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Text(
-            S.of(context).labelClickToAddImage,
-            style: Theme.of(context)
-                .textTheme
-                .subtitle
-                .copyWith(fontSize: Dimens.font_sp14),
-          ),
-          Gaps.vGap12,
-          Container(
-            height: 120.0,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                if (_images == null || _images.length < 5)
-                  Padding(
-                    padding: const EdgeInsets.only(right: 8.0),
-                    child: Center(
-                      child: SelectedImage(size: 96.0, onTap: loadAssets),
-                    ),
-                  ),
-                Expanded(
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: _images.length,
-                    itemBuilder: (context, index) => _buildThumbnail(index),
-                  ),
-                )
-              ],
-            ),
-          ),
-        ]);
-  }
-
-  Stack _buildThumbnail(int index) {
-    return Stack(children: <Widget>[
-      Padding(
-        padding: EdgeInsets.all(8),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(16.0),
-          child: AssetThumb(
-            width: 100,
-            height: 100,
-            asset: _images[index],
-          ),
-        ),
-      ),
-      Positioned(
-        top: 0,
-        right: 0,
-        child: GestureDetector(
-          onTap: () {
-            _deleteImage(index);
-            Scaffold.of(context).showSnackBar(SnackBar(
-                action: SnackBarAction(
-                  label: S.of(context).labelUndoAction,
-                  onPressed: () => _undoDelete(),
-                ),
-                content: Text(S.of(context).labelImageRemoved)));
-          },
-          child: LoadAssetImage(
-            "comment/icon_delete_image",
-            height: 30,
-          ),
-        ),
-      ),
-    ]);
-  }
-}
-
-class _AverageCost extends StatefulWidget {
-  @override
-  __AverageCostState createState() => __AverageCostState();
-
-  _AverageCost({@required this.commentModel});
-  final CommentModel commentModel;
-}
-
-class __AverageCostState extends State<_AverageCost> {
-  void initState() {
-    _controller.addListener(_parseAndSave);
-    super.initState();
-  }
-
-  _parseAndSave() {
-    if (_controller.text != "") {
-      final cost = double.parse(_controller.text);
-      widget.commentModel.costPax = cost;
-    }
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  final TextEditingController _controller = TextEditingController();
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Expanded(
-            child: TextFieldItem(
-                hintText: S.of(context).labelInputCostAmount,
-                prefixIcon: Text(S.of(context).labelAveratePaxPrefix),
-                suffixIcon: Text(S.of(context).labelAveratePaxSuffix),
-                controller: _controller,
-                keyboardType: TextInputType.numberWithOptions(),
-                title: S.of(context).labelAveragePaxTitle),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _RatingArea extends StatefulWidget {
-  @override
-  __RatingAreaState createState() => __RatingAreaState();
-  _RatingArea({this.commentModel});
-  final CommentModel commentModel;
-}
-
-class __RatingAreaState extends State<_RatingArea> {
-  int _currentRating = 0;
-
-  void _ratingUpdated(double value) {
-    widget.commentModel.rating = value;
-    setState(() {
-      _currentRating = value.toInt();
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final _list = [
-      S.of(context).labelRatingStatus1,
-      S.of(context).labelRatingStatus2,
-      S.of(context).labelRatingStatus3,
-      S.of(context).labelRatingStatus4,
-      S.of(context).labelRatingStatus5,
-    ];
-
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Hero(
-          tag: "btn_open_form",
-          child: Material(
-            color: Colors.transparent,
-            child: Text(S.of(context).labelRatePlace),
-          ),
-        ),
-        Gaps.hGap12,
-        AddRatingBar(
-          (rating) => _ratingUpdated(rating),
-        ),
-        Expanded(
-            flex: 2,
-            child: Align(
-              alignment: Alignment.centerRight,
-              child: _currentRating == 0
-                  ? Text("")
-                  : Text(
-                      _list[_currentRating - 1],
-                    ),
-            ))
-      ],
-    );
   }
 }

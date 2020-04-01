@@ -51,6 +51,19 @@ class NavigatorUtils {
     Navigator.pop(context, result);
   }
 
+  static tryAuthResult(
+      BuildContext context, String path, Function(Object) function,
+      {bool replace = false, bool clearStack = false}) {
+    var provider = Provider.of<AuthProvider>(context, listen: false).user;
+
+    if (provider == null)
+      push(context, Routes.login);
+    else
+      //append username
+      pushResult(context, "$path", function,
+          replace: replace, clearStack: clearStack);
+  }
+
   static tryAuth(BuildContext context, String path) {
     var provider = Provider.of<AuthProvider>(context, listen: false).user;
 

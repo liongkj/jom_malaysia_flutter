@@ -34,8 +34,8 @@ apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 
    android {
-    compileSdkVersion 29
-
+    compileSdkVersion 28
+    //28 for multiimagepicker to work
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
