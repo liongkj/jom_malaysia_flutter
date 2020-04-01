@@ -6,11 +6,11 @@ import 'package:jom_malaysia/widgets/load_image.dart';
 import 'package:jom_malaysia/widgets/selected_image.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 
-class ImageChooser extends StatefulWidget {
+class CommentImageChooser extends StatefulWidget {
   @override
-  _ImageChooserState createState() => _ImageChooserState();
+  _CommentImageChooserState createState() => _CommentImageChooserState();
 
-  const ImageChooser({
+  const CommentImageChooser({
     Key key,
     @required this.placeId,
     @required this.commentModel,
@@ -19,7 +19,7 @@ class ImageChooser extends StatefulWidget {
   final CommentModel commentModel;
 }
 
-class _ImageChooserState extends State<ImageChooser> {
+class _CommentImageChooserState extends State<CommentImageChooser> {
   List<Asset> _images;
 
   @override
@@ -34,7 +34,7 @@ class _ImageChooserState extends State<ImageChooser> {
     try {
       resultList = await MultiImagePicker.pickImages(
         maxImages: 5 - _images.length,
-        enableCamera: false,
+        enableCamera: true,
         selectedAssets: _images,
         materialOptions: MaterialOptions(
           actionBarColor:

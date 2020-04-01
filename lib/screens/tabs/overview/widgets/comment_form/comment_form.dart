@@ -2,12 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/comments/comment_model.dart';
-import 'package:jom_malaysia/screens/tabs/overview/widgets/comment_form/image_picker.dart';
+import 'package:jom_malaysia/screens/tabs/overview/widgets/comment_form/comment_image_chooser.dart';
 import 'package:jom_malaysia/widgets/add_rating_bar.dart';
-import 'package:jom_malaysia/widgets/load_image.dart';
-import 'package:jom_malaysia/widgets/selected_image.dart';
 import 'package:jom_malaysia/widgets/text_field_item.dart';
-import 'package:multi_image_picker/multi_image_picker.dart';
 
 class CommentForm extends StatefulWidget {
   const CommentForm({
@@ -60,7 +57,7 @@ class _CommentFormState extends State<CommentForm> {
             commentController: _commentController,
           ),
           Gaps.vGap12,
-          ImageChooser(
+          CommentImageChooser(
             placeId: widget.placeId,
             commentModel: widget.commentModel,
           ),
