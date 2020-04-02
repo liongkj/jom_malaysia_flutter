@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
@@ -22,20 +24,43 @@ class _PlaceSearchPageState extends State<PlaceSearchPage> {
   SearchResultProvider searchProvider;
   TextEditingController _controller;
   FocusNode _focusNode;
+  Timer _timer;
 
-  _getSuggestion() {}
+  _getSuggestion() {
+    var q = _controller.text;
+    if (q.length > 2) {
+      debugPrint(_timer?.tick?.toString());
+      _timer = Timer(const Duration(seconds: 5),
+          () => searchProvider.getSuggestions(_controller.text));
+    }
+  }
+
+  _stopTimer() {
+    if (!_focusNode.hasFocus) _timer?.cancel();
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
 
   @override
   void initState() {
     searchProvider = Provider.of<SearchResultProvider>(context, listen: false);
-    _controller = TextEditingController()..addListener(_getSuggestion);
-    _focusNode = FocusNode();
+    _controller = TextEditingController()..addListener(() => _getSuggestion());
+    _focusNode = FocusNode()..addListener(_stopTimer);
+
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       searchProvider.clearOldResult();
       FocusScope.of(context).requestFocus(_focusNode);
     });
-
-    super.initState();
+    super.didChangeDependencies();
   }
 
   @override
@@ -62,23 +87,42 @@ class _PlaceSearchPageState extends State<PlaceSearchPage> {
           focusNode: _focusNode,
         ),
         body: Consumer<SearchResultProvider>(builder: (_, provider, __) {
-          return provider.showResult
-              ? DeerListView(
-                  key: Key('place_search_list'),
-                  itemCount: provider.result.length,
-                  stateType: provider.stateType,
-                  loadMore: _loadMore,
-                  itemExtent: 90.0,
-                  hasMore: false,
-                  itemBuilder: (_, index) {
-                    debugPrint("printing search results");
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 8.0),
-                      child: SearchResultItem(provider.result[index]),
-                    );
-                  },
-                )
-              : DeerListView(
+          var list;
+          switch (provider.resultType) {
+            case ResultType.search:
+              list = DeerListView(
+                key: Key('place_search_list'),
+                itemCount: provider.result.length,
+                stateType: provider.stateType,
+                loadMore: _loadMore,
+                itemExtent: 90.0,
+                hasMore: false,
+                itemBuilder: (_, index) {
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: SearchResultItem(provider.result[index]),
+                  );
+                },
+              );
+              break;
+            case ResultType.suggestion:
+              list = DeerListView(
+                key: Key('place_search_list'),
+                itemCount: provider.suggestions.length,
+                stateType: provider.stateType,
+                loadMore: _loadMore,
+                itemExtent: 90.0,
+                hasMore: false,
+                itemBuilder: (_, index) {
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: SearchResultItem(provider.suggestions[index]),
+                  );
+                },
+              );
+              break;
+            case ResultType.history:
+              list = DeerListView(
                   key: Key('place_search_history'),
                   itemCount: provider.history.length,
                   stateType: provider.stateType,
@@ -99,10 +143,13 @@ class _PlaceSearchPageState extends State<PlaceSearchPage> {
                       title: Text(provider.history[index]),
                       trailing: IconButton(
                         icon: Icon(Icons.delete_forever),
-                        onPressed: () => provider.history.removeAt(index),
+                        onPressed: () => provider.removeHistoryAt(index),
                       ),
                     );
                   });
+              break;
+          }
+          return list;
         }));
   }
 

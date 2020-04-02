@@ -6,12 +6,14 @@ import 'package:jom_malaysia/core/services/search/place_search_result_model.dart
 import 'package:jom_malaysia/setting/provider/base_change_notifier.dart';
 import 'package:jom_malaysia/widgets/state_layout.dart';
 
+enum ResultType { search, history, suggestion }
+
 class SearchResultProvider extends BaseChangeNotifier {
   final ISearchService _service;
 
   static const int _HISTORYMAXCOUNT = 5;
 
-  bool showResult = false;
+  ResultType resultType;
 
   SearchResultProvider({@required ISearchService service}) : _service = service;
 
@@ -19,7 +21,7 @@ class SearchResultProvider extends BaseChangeNotifier {
 
   List<PlaceSearchResult> get result => [..._result];
 
-  var _suggestions = [];
+  List<PlaceSearchResult> _suggestions = [];
 
   List<PlaceSearchResult> get suggestions => [..._suggestions];
 
@@ -29,19 +31,23 @@ class SearchResultProvider extends BaseChangeNotifier {
 
   Future search(String text, int page, {Locale locale}) async {
     _saveHistory(text);
-    var data = await _service.search(text, page);
+    var data = await _service.search(text, page: page);
     if (data != null) {
       _result = data;
-      showResult = true;
+      resultType = ResultType.search;
     }
     setStateType(StateType.goods);
   }
 
   Future getSuggestions(String value) async {
+    debugPrint("called");
     _service
-        .search(value, 1)
+        .search(value, page: 1)
         .then((value) => _suggestions = value)
-        .whenComplete(() => this.notifyListeners());
+        .whenComplete(() {
+      resultType = ResultType.suggestion;
+      this.notifyListeners();
+    });
   }
 
   void _saveHistory(String text) {
@@ -58,8 +64,14 @@ class SearchResultProvider extends BaseChangeNotifier {
 
   void clearOldResult() {
     _result.clear();
-    showResult = false;
+    resultType = ResultType.history;
     _loadHistory();
+    notifyListeners();
+  }
+
+  void removeHistoryAt(int index) {
+    _history.removeAt(index);
+    SpUtil.putStringList(Constant.historySearch, _history);
     notifyListeners();
   }
 }

@@ -10,15 +10,17 @@ class AlgoliaSearch extends ISearchService {
       apiKey: AlgoliaContants.searchApiKey);
 
   static Future<AlgoliaQuerySnapshot> _query(String keyword) async {
-    var query =
-        _algolia.instance.index(AlgoliaContants.indexName).search(keyword);
+    var query = _algolia.instance
+        .index(AlgoliaContants.indexName)
+        .search(keyword)
+        .setHitsPerPage(5);
     var snap = await query.getObjects();
     return snap;
   }
 
   @override
-  Future<List<PlaceSearchResult>> search(String text, int page,
-      {Locale locale}) async {
+  Future<List<PlaceSearchResult>> search(String text,
+      {int page = 1, Locale locale}) async {
     var snapshot = await _query(text);
     List<PlaceSearchResult> data = [];
     snapshot.hits.forEach((result) =>
