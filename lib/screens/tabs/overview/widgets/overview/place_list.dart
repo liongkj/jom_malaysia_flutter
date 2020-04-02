@@ -81,7 +81,7 @@ class _PlaceListState extends State<PlaceList>
               return SliverPadding(
                 padding: const EdgeInsets.only(left: 8.0, right: 8, top: 8),
                 sliver: placeList.isEmpty
-                    ? StateType.loading == StateType.loading
+                    ? StateType.loading == listing.stateType
                         ? _buildShimmer()
                         : SliverFillRemaining(
                             child: StateLayout(type: listing.stateType),
@@ -106,11 +106,12 @@ class _PlaceListState extends State<PlaceList>
   }
 
   Widget _buildShimmer() {
-    return SliverToBoxAdapter(
+    return SliverFillRemaining(
       child: Shimmer.fromColors(
         baseColor: Colors.grey[300],
         highlightColor: Colors.grey[100],
         child: ListView.builder(
+          physics: NeverScrollableScrollPhysics(),
           itemBuilder: (_, __) => ShimmerItem(),
           itemCount: 6,
         ),
