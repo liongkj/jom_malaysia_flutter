@@ -14,13 +14,19 @@ class SearchBar extends StatefulWidget implements PreferredSizeWidget {
       this.backImg: "assets/images/ic_back_black.png",
       this.onPressed,
       this.onTap,
+      this.suggestionController,
+      @required this.controller,
+      @required this.focusNode,
       this.showBack = true})
       : super(key: key);
   final bool showBack;
   final String backImg;
   final String hintText;
   final Function onTap;
+  final Function(String) suggestionController;
   final Function(String) onPressed;
+  final TextEditingController controller;
+  final FocusNode focusNode;
 
   @override
   _SearchBarState createState() => _SearchBarState();
@@ -31,12 +37,18 @@ class SearchBar extends StatefulWidget implements PreferredSizeWidget {
 
 class _SearchBarState extends State<SearchBar> {
   SystemUiOverlayStyle overlayStyle = SystemUiOverlayStyle.light;
-  TextEditingController _controller = TextEditingController();
 
   Color getColor() {
     return overlayStyle == SystemUiOverlayStyle.light
         ? Colours.dark_text
         : Colours.text;
+  }
+
+  @override
+  void dispose() {
+    widget.controller?.dispose();
+    widget.focusNode?.dispose();
+    super.dispose();
   }
 
   @override
@@ -66,8 +78,9 @@ class _SearchBarState extends State<SearchBar> {
                     enabled: widget.showBack,
                     onSubmitted: (text) => widget.onPressed(text),
                     key: const Key('search_text_field'),
-                    autofocus: widget.showBack,
-                    controller: _controller,
+                    focusNode: widget.focusNode,
+                    controller: widget.controller,
+                    onChanged: (value) => widget.suggestionController(value),
                     maxLines: 1,
                     decoration: InputDecoration(
                       contentPadding: const EdgeInsets.only(
@@ -92,7 +105,8 @@ class _SearchBarState extends State<SearchBar> {
                         onTap: () {
                           /// https://github.com/flutter/flutter/issues/35909
                           SchedulerBinding.instance.addPostFrameCallback((_) {
-                            _controller.text = "";
+                            FocusScope.of(context).unfocus();
+                            widget.controller.clear();
                           });
                         },
                       ),
@@ -117,7 +131,7 @@ class _SearchBarState extends State<SearchBar> {
                   child: FlatButton(
                     textColor: Colors.white,
                     color: Colours.app_main,
-                    onPressed: () => widget.onPressed(_controller.text),
+                    onPressed: () => widget.onPressed(widget.controller.text),
                     child: Text(S.of(context).labelSearch,
                         style: TextStyle(fontSize: Dimens.font_sp14)),
                   ),

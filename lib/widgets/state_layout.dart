@@ -4,7 +4,6 @@ import 'package:flutter/painting.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/util/image_utils.dart';
-import 'package:jom_malaysia/util/theme_utils.dart';
 
 /// design/9暂无状态页面/index.html#artboard3
 class StateLayout extends StatefulWidget {

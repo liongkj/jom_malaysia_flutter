@@ -1,9 +1,8 @@
 import 'dart:convert';
 
 import 'package:azlistview/azlistview.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:jom_malaysia/core/constants/common.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/core/services/location/location_utils.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
@@ -17,6 +16,14 @@ import 'package:jom_malaysia/util/theme_utils.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
 import 'package:jom_malaysia/widgets/my_flexible_space_bar.dart';
 import 'package:provider/provider.dart';
+
+List<CityModel> _parseCity(String json) {
+  final parsed = jsonDecode(json).cast<Map<String, dynamic>>();
+//    List<CityModel> parsed = [];
+  return parsed.map<CityModel>((json) => CityModel.fromJsonMap(json)).toList();
+//    decoded.forEach((f) => parsed.add(CityModel.fromJsonMap(f)));
+//    return parsed;
+}
 
 class LocationHeader extends StatefulWidget {
   const LocationHeader({
@@ -63,9 +70,11 @@ class _LocationHeaderState extends State<LocationHeader> {
         ),
       ],
       backgroundColor: Colours.dark_button_text,
-      floating: true, // 不随着滑动隐藏标题
+      floating: true,
+      // 不随着滑动隐藏标题
       snap: true,
-      pinned: false, // 固定在顶部
+      pinned: false,
+      // 固定在顶部
       elevation: 0.0,
       expandedHeight: MediaQuery.of(context).size.height * 0.10,
 
@@ -197,24 +206,13 @@ class _LocationHeaderState extends State<LocationHeader> {
   }
 
   void _loadData() async {
-    var jsonCities;
-    if (Constant.isTest) {
-      jsonCities = await loadString('assets/data/cities.json');
-    } else {
-      jsonCities = await rootBundle.loadString('assets/json/cities.json');
-    }
+    String jsonCities = await DefaultAssetBundle.of(context)
+        .loadString('assets/json/cities.json');
 
-    List decoded = json.decode(jsonCities);
-    decoded.forEach((f) => _cities.add(CityModel.fromJsonMap(f)));
+    _cities = await compute(_parseCity, jsonCities);
     _processList(_cities);
 
     setState(() {});
-  }
-
-  Future<String> loadString(String key, {bool cache = true}) async {
-    final ByteData data = await rootBundle.load(key);
-    if (data == null) throw FlutterError('Unable to load asset: $key');
-    return utf8.decode(data.buffer.asUint8List());
   }
 
   void _processList(List<CityModel> list) {
