@@ -41,10 +41,8 @@ class _SearchBarState extends State<SearchBar> {
 
   @override
   Widget build(BuildContext context) {
-    bool isDark = ThemeUtils.isDark(context);
-    overlayStyle =
-        isDark ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark;
-    Color iconColor = isDark ? Colours.dark_text_gray : Colours.text_gray_c;
+    overlayStyle = SystemUiOverlayStyle.dark;
+    Color iconColor = Colours.text_gray_c;
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: overlayStyle,
       child: Material(
@@ -60,7 +58,7 @@ class _SearchBarState extends State<SearchBar> {
                 child: Container(
                   height: 32.0,
                   decoration: BoxDecoration(
-                    color: isDark ? Colours.dark_material_bg : Colours.bg_gray,
+                    color: Colours.bg_gray,
                     borderRadius: BorderRadius.circular(4.0),
                   ),
                   child: TextField(
@@ -110,15 +108,15 @@ class _SearchBarState extends State<SearchBar> {
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         height: 32.0,
                         minWidth: 44.0,
-                        materialTapTargetSize:
-                            MaterialTapTargetSize.shrinkWrap, // 距顶部距离为0
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        // 距顶部距离为0
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(4.0),
                         )),
                   ),
                   child: FlatButton(
-                    textColor: isDark ? Colours.dark_button_text : Colors.white,
-                    color: isDark ? Colours.dark_app_main : Colours.app_main,
+                    textColor: Colors.white,
+                    color: Colours.app_main,
                     onPressed: () => widget.onPressed(_controller.text),
                     child: Text(S.of(context).labelSearch,
                         style: TextStyle(fontSize: Dimens.font_sp14)),

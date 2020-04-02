@@ -14,6 +14,7 @@ class CommentForm extends StatefulWidget {
     @required this.commentModel,
     @required this.placeName,
   });
+
   final String placeName;
   final GlobalKey<FormState> formKey;
   final String placeId;
@@ -49,20 +50,24 @@ class _CommentFormState extends State<CommentForm> {
             style: Theme.of(context).textTheme.title,
           ),
           Gaps.vGap12,
-          _RatingArea(commentModel: widget.commentModel),
+          _RatingArea(
+              key: Key("rating_field"), commentModel: widget.commentModel),
           Gaps.vGap12,
           _BuildCommentField(
+            key: Key("comment_field"),
             commentModel: widget.commentModel,
             themeData: themeData,
             commentController: _commentController,
           ),
           Gaps.vGap12,
           CommentImageChooser(
+            key: Key("image_field"),
             placeId: widget.placeId,
             commentModel: widget.commentModel,
           ),
           Gaps.vGap12,
           _AverageCost(
+            key: Key("cost_field"),
             commentModel: widget.commentModel,
             controller: _costController,
           ),
@@ -78,6 +83,7 @@ class _BuildCommentField extends StatefulWidget {
       @required this.commentModel,
       @required this.themeData,
       @required this.commentController});
+
   final CommentModel commentModel;
   final ThemeData themeData;
   final TextEditingController commentController;
@@ -129,9 +135,11 @@ class _AverageCost extends StatefulWidget {
   __AverageCostState createState() => __AverageCostState();
 
   _AverageCost({
+    Key key,
     @required this.commentModel,
     @required this.controller,
-  });
+  }) : super(key: key);
+
   final CommentModel commentModel;
   final TextEditingController controller;
 }
@@ -179,7 +187,9 @@ class __AverageCostState extends State<_AverageCost> {
 class _RatingArea extends StatefulWidget {
   @override
   __RatingAreaState createState() => __RatingAreaState();
-  _RatingArea({this.commentModel});
+
+  _RatingArea({Key key, this.commentModel}) : super(key: key);
+
   final CommentModel commentModel;
 }
 
