@@ -8,7 +8,6 @@ import 'package:jom_malaysia/screens/tabs/overview/widgets/overview/listing_type
 import 'package:jom_malaysia/screens/tabs/overview/widgets/overview/location_header.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/overview/place_list.dart';
 import 'package:jom_malaysia/setting/provider/language_provider.dart';
-import 'package:jom_malaysia/util/theme_utils.dart';
 import 'package:provider/provider.dart';
 
 class OverviewPage extends StatefulWidget {
@@ -30,7 +29,6 @@ class OverviewPageState extends State<OverviewPage>
   TextEditingController searchController = TextEditingController();
 
   _onPageChange(int index) async {
-    // presenter.onPageChange(index, city);
     provider.setIndex(index);
 
     _tabController.animateTo(index);
@@ -58,7 +56,6 @@ class OverviewPageState extends State<OverviewPage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    isDark = ThemeUtils.isDark(context);
     return MultiProvider(
         providers: [
           ChangeNotifierProvider<OverviewPageProvider>.value(

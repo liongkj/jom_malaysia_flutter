@@ -152,6 +152,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "stateSubtitle" : MessageLookupByLibrary.simpleMessage("Malaysian state"),
     "stateTitle" : MessageLookupByLibrary.simpleMessage("Negeri Sembilan"),
     "stateTypeNoNetwork" : MessageLookupByLibrary.simpleMessage("Network error"),
+    "stateTypeNotFound" : MessageLookupByLibrary.simpleMessage("awww... can\'t find what you want"),
     "stateTypePlace" : MessageLookupByLibrary.simpleMessage("More places coming soon"),
     "tabTitleExploreOverview" : MessageLookupByLibrary.simpleMessage("Overview"),
     "tabTitleExploreTodo" : MessageLookupByLibrary.simpleMessage("TODO"),

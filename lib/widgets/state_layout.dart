@@ -30,7 +30,7 @@ class _StateLayoutState extends State<StateLayout> {
         break;
       case StateType.goods:
         _img = "not_found";
-        _hintText = "暂无商品";
+        _hintText = S.of(context).stateTypeNotFound;
         break;
       case StateType.network:
         _img = "network_error";

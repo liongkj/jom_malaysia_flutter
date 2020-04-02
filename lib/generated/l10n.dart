@@ -758,6 +758,15 @@ class S {
     );
   }
 
+  String get stateTypeNotFound {
+    return Intl.message(
+      'awww... can\'t find what you want',
+      name: 'stateTypeNotFound',
+      desc: '',
+      args: [],
+    );
+  }
+
   String get errorMessageNetworkFailure {
     return Intl.message(
       'Unknown error, Please check your network!',

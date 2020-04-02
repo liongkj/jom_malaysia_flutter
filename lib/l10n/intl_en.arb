@@ -81,6 +81,7 @@
   "labelCityNotInServiceArea": "City not in service area",
   "stateTypePlace": "More places coming soon",
   "stateTypeNoNetwork": "Network error",
+  "stateTypeNotFound": "awww... can't find what you want",
   "errorMessageNetworkFailure": "Unknown error, Please check your network!",
   "locationServicePromptEnableGps": "Please grant location service permission from setting",
   "locationServicePromptPermission": "Please enable your GPS",

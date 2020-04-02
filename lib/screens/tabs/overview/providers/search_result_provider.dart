@@ -46,7 +46,7 @@ class SearchResultProvider extends BaseChangeNotifier {
         .then((value) => _suggestions = value)
         .whenComplete(() {
       resultType = ResultType.suggestion;
-      this.notifyListeners();
+      setStateType(StateType.goods);
     });
   }
 

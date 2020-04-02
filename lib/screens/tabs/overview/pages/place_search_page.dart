@@ -29,9 +29,9 @@ class _PlaceSearchPageState extends State<PlaceSearchPage> {
   _getSuggestion() {
     var q = _controller.text;
     if (q.length > 2) {
-      debugPrint(_timer?.tick?.toString());
-      _timer = Timer(const Duration(seconds: 5),
-          () => searchProvider.getSuggestions(_controller.text));
+      if (_timer == null || !_timer.isActive)
+        _timer = Timer(const Duration(seconds: 1),
+            () async => await searchProvider.getSuggestions(q));
     }
   }
 
@@ -48,6 +48,7 @@ class _PlaceSearchPageState extends State<PlaceSearchPage> {
   @override
   void initState() {
     searchProvider = Provider.of<SearchResultProvider>(context, listen: false);
+    searchProvider.resultType = ResultType.history;
     _controller = TextEditingController()..addListener(() => _getSuggestion());
     _focusNode = FocusNode()..addListener(_stopTimer);
 
@@ -72,7 +73,6 @@ class _PlaceSearchPageState extends State<PlaceSearchPage> {
         appBar: SearchBar(
           controller: _controller,
           hintText: S.of(context).labelSearchHint,
-          suggestionController: (value) => searchProvider.getSuggestions(value),
           onPressed: (text) {
             if (text.isEmpty) {
               showToast(S.of(context).labelSearchHintNotEmpty);

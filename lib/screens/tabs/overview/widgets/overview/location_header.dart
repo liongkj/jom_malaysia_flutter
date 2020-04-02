@@ -53,14 +53,14 @@ class _LocationHeaderState extends State<LocationHeader> {
 
   @override
   Widget build(BuildContext context) {
-    const Color iconColor = Color(0xFFb8b8b8);
+    Color iconColor = Theme.of(context).iconTheme.color;
     return SliverAppBar(
       leading: null,
       // brightness: Brightness.dark,
       actions: <Widget>[
         // SearchBarButton(
         IconButton(
-          icon: const LoadAssetImage(
+          icon: LoadAssetImage(
             "overview/icon_search",
             color: iconColor,
             width: 24,

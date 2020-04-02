@@ -3,8 +3,10 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
+import 'package:jom_malaysia/screens/tabs/overview/providers/search_result_provider.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
+import 'package:provider/provider.dart';
 
 /// 搜索页的AppBar
 class SearchBar extends StatefulWidget implements PreferredSizeWidget {
@@ -14,7 +16,6 @@ class SearchBar extends StatefulWidget implements PreferredSizeWidget {
       this.backImg: "assets/images/ic_back_black.png",
       this.onPressed,
       this.onTap,
-      this.suggestionController,
       @required this.controller,
       @required this.focusNode,
       this.showBack = true})
@@ -23,7 +24,6 @@ class SearchBar extends StatefulWidget implements PreferredSizeWidget {
   final String backImg;
   final String hintText;
   final Function onTap;
-  final Function(String) suggestionController;
   final Function(String) onPressed;
   final TextEditingController controller;
   final FocusNode focusNode;
@@ -80,7 +80,6 @@ class _SearchBarState extends State<SearchBar> {
                     key: const Key('search_text_field'),
                     focusNode: widget.focusNode,
                     controller: widget.controller,
-                    onChanged: (value) => widget.suggestionController(value),
                     maxLines: 1,
                     decoration: InputDecoration(
                       contentPadding: const EdgeInsets.only(
@@ -107,6 +106,9 @@ class _SearchBarState extends State<SearchBar> {
                           SchedulerBinding.instance.addPostFrameCallback((_) {
                             FocusScope.of(context).unfocus();
                             widget.controller.clear();
+                            Provider.of<SearchResultProvider>(context,
+                                    listen: false)
+                                .clearOldResult();
                           });
                         },
                       ),

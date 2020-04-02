@@ -27,7 +27,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m3(item) => "正火速上传您的${item}";
 
-  static m4(uname) => "很高兴认识你${uname}";
+  static m4(uname) => "${uname},很高兴认识你";
 
   static m5(commentCount) => "点评 (${commentCount})";
 
