@@ -362,15 +362,6 @@ class S {
     );
   }
 
-  String get labelNoNotification {
-    return Intl.message(
-      'Awww...No Notification',
-      name: 'labelNoNotification',
-      desc: '',
-      args: [],
-    );
-  }
-
   String get labelSearchHint {
     return Intl.message(
       'Search for a name or keyword',
@@ -762,6 +753,15 @@ class S {
     return Intl.message(
       'awww... can\'t find what you want',
       name: 'stateTypeNotFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get stateTypeNotification {
+    return Intl.message(
+      'Awww...No Notification',
+      name: 'stateTypeNotification',
       desc: '',
       args: [],
     );

@@ -37,7 +37,6 @@
   "labelNone": "None",
   "labelImageChosen": "Image Chosen",
   "labelNoDetail": "No more details",
-  "labelNoNotification": "Awww...No Notification",
   "labelSearchHint": "Search for a name or keyword",
   "labelSearchHintNotEmpty": "Keyword cannot be blank",
   "labelImageRemoved": "Image Removed",
@@ -82,6 +81,8 @@
   "stateTypePlace": "More places coming soon",
   "stateTypeNoNetwork": "Network error",
   "stateTypeNotFound": "awww... can't find what you want",
+
+  "stateTypeNotification": "Awww...No Notification",
   "errorMessageNetworkFailure": "Unknown error, Please check your network!",
   "locationServicePromptEnableGps": "Please grant location service permission from setting",
   "locationServicePromptPermission": "Please enable your GPS",

@@ -38,7 +38,7 @@ class _StateLayoutState extends State<StateLayout> {
         break;
       case StateType.message:
         _img = "zwxx";
-        _hintText = "暂无消息";
+        _hintText = S.of(context).stateTypeNotification;
         break;
       case StateType.account:
         _img = "zwzh";

@@ -92,7 +92,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "labelNewCommentPageTitle" : MessageLookupByLibrary.simpleMessage("Tajuk Komen"),
     "labelNewCommentPageTitleErrorMessage" : MessageLookupByLibrary.simpleMessage("Tajuk tidak boleh kosong"),
     "labelNoDetail" : MessageLookupByLibrary.simpleMessage("Tiada Butiran"),
-    "labelNoNotification" : MessageLookupByLibrary.simpleMessage("Tiada Pemberitahuan"),
     "labelNone" : MessageLookupByLibrary.simpleMessage("Tiada"),
     "labelOtpLogin" : MessageLookupByLibrary.simpleMessage("Log masuk dgn OTP"),
     "labelPageComment" : MessageLookupByLibrary.simpleMessage("Semua komen"),

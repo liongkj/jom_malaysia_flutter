@@ -92,7 +92,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "labelNewCommentPageTitle" : MessageLookupByLibrary.simpleMessage("标题"),
     "labelNewCommentPageTitleErrorMessage" : MessageLookupByLibrary.simpleMessage("标题不可为空"),
     "labelNoDetail" : MessageLookupByLibrary.simpleMessage("无详情"),
-    "labelNoNotification" : MessageLookupByLibrary.simpleMessage("无通知"),
     "labelNone" : MessageLookupByLibrary.simpleMessage("无"),
     "labelOtpLogin" : MessageLookupByLibrary.simpleMessage(" OTP登录"),
     "labelPageComment" : MessageLookupByLibrary.simpleMessage("全部点评"),

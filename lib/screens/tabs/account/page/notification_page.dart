@@ -12,8 +12,8 @@ class NotificationPage extends StatelessWidget {
       ),
       body: Container(
         child: StateLayout(
-            type: StateType.message,
-            hintText: S.of(context).labelNoNotification),
+          type: StateType.message,
+        ),
       ),
     );
   }
