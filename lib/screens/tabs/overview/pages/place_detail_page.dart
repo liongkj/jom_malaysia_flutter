@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
@@ -13,9 +12,7 @@ import 'package:jom_malaysia/screens/tabs/overview/widgets/place_detail/place_de
 import 'package:jom_malaysia/screens/tabs/overview/widgets/place_detail/place_image.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/place_detail/place_info.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/place_detail/place_operating_hour.dart';
-import 'package:jom_malaysia/setting/provider/auth_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
-import 'package:jom_malaysia/util/theme_utils.dart';
 import 'package:jom_malaysia/widgets/my_section_divider.dart';
 import 'package:jom_malaysia/widgets/sliver_appbar_delegate.dart';
 import 'package:provider/provider.dart';
@@ -24,16 +21,16 @@ class PlaceDetailPage extends StatefulWidget {
   const PlaceDetailPage({@required this.placeId});
 
   final String placeId;
+
   @override
   PlaceDetailPageState createState() => PlaceDetailPageState();
 }
 
 class PlaceDetailPageState extends State<PlaceDetailPage>
     with AutomaticKeepAliveClientMixin {
-  bool isDark = false;
-  bool _isVisible;
   var place;
   ScrollController _scrollController;
+
   @override
   void initState() {
     _scrollController = new ScrollController();
@@ -56,8 +53,6 @@ class PlaceDetailPageState extends State<PlaceDetailPage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    isDark = ThemeUtils.isDark(context);
-    var user = Provider.of<AuthProvider>(context, listen: false).user;
     return HideFabOnScrollScaffold(
       body: SafeArea(
         child: CustomScrollView(
@@ -70,10 +65,10 @@ class PlaceDetailPageState extends State<PlaceDetailPage>
       floatingActionButton: Builder(
         builder: (ctx) => FloatingActionButton.extended(
           heroTag: "btn_open_form",
-          tooltip: "Rate",
+          tooltip: S.of(context).labelRatePlace,
           onPressed: () => _addNewReview(),
           icon: Icon(Icons.star),
-          label: Text("Rate"),
+          label: Text(S.of(context).labelRatePlace),
         ),
       ),
     );
@@ -99,10 +94,13 @@ class PlaceDetailPageState extends State<PlaceDetailPage>
       ),
       SliverToBoxAdapter(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+          padding: const EdgeInsets.symmetric(
+            horizontal: 8.0,
+            vertical: 8.0,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
+            children: [
               PlaceInfo(place),
               Gaps.vGap16,
               OperatingHour(place.operatingHours),
