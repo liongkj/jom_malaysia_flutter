@@ -51,23 +51,24 @@ class _CommentFormState extends State<CommentForm> {
           ),
           Gaps.vGap12,
           _RatingArea(
-              key: Key("rating_field"), commentModel: widget.commentModel),
+              key: const Key("rating_field"),
+              commentModel: widget.commentModel),
           Gaps.vGap12,
           _BuildCommentField(
-            key: Key("comment_field"),
+            key: const Key("comment_field"),
             commentModel: widget.commentModel,
             themeData: themeData,
             commentController: _commentController,
           ),
           Gaps.vGap12,
           CommentImageChooser(
-            key: Key("image_field"),
+            key: const Key("image_field"),
             placeId: widget.placeId,
             commentModel: widget.commentModel,
           ),
           Gaps.vGap12,
           _AverageCost(
-            key: Key("cost_field"),
+            key: const Key("cost_field"),
             commentModel: widget.commentModel,
             controller: _costController,
           ),
