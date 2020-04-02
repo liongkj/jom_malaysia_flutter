@@ -4,7 +4,6 @@ import 'package:flutter/painting.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/util/image_utils.dart';
-import 'package:jom_malaysia/util/theme_utils.dart';
 
 /// design/9暂无状态页面/index.html#artboard3
 class StateLayout extends StatefulWidget {
@@ -21,6 +20,7 @@ class StateLayout extends StatefulWidget {
 class _StateLayoutState extends State<StateLayout> {
   String _img;
   String _hintText;
+
   @override
   Widget build(BuildContext context) {
     switch (widget.type) {
@@ -30,7 +30,7 @@ class _StateLayoutState extends State<StateLayout> {
         break;
       case StateType.goods:
         _img = "not_found";
-        _hintText = "暂无商品";
+        _hintText = S.of(context).stateTypeNotFound;
         break;
       case StateType.network:
         _img = "network_error";
@@ -38,7 +38,7 @@ class _StateLayoutState extends State<StateLayout> {
         break;
       case StateType.message:
         _img = "zwxx";
-        _hintText = "暂无消息";
+        _hintText = S.of(context).stateTypeNotification;
         break;
       case StateType.account:
         _img = "zwzh";
@@ -53,47 +53,50 @@ class _StateLayoutState extends State<StateLayout> {
         _hintText = "";
         break;
     }
-    return Container(
-      width: double.infinity,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          widget.type == StateType.loading
-              ? Container(
-                  decoration: BoxDecoration(
-                    color: Colors.grey[300],
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  height: 60,
-                  width: 60,
-                  child: const CupertinoActivityIndicator(
-                    radius: 18.0,
-                  ),
-                )
-              : (widget.type == StateType.empty
-                  ? Gaps.empty
-                  : Opacity(
-                      opacity: 1,
-                      child: Container(
-                        height: MediaQuery.of(context).size.height * 0.1,
-                        width: 120.0,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: ImageUtils.getAssetImage("state/$_img"),
-                          ),
-                        ),
-                      ))),
-          Gaps.vGap16,
-          Text(
-            widget.hintText ?? _hintText,
-            style: Theme.of(context)
-                .textTheme
-                .subtitle
-                .copyWith(fontSize: Dimens.font_sp14, color: Colours.text_gray),
+    return Center(
+      child: SingleChildScrollView(
+        padding: EdgeInsets.only(top: 16),
+        child: Container(
+          width: double.infinity,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              widget.type == StateType.loading
+                  ? Container(
+                      decoration: BoxDecoration(
+                        color: Colors.grey[300],
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      height: 60,
+                      width: 60,
+                      child: const CupertinoActivityIndicator(
+                        radius: 18.0,
+                      ),
+                    )
+                  : (widget.type == StateType.empty
+                      ? Gaps.empty
+                      : Opacity(
+                          opacity: 1,
+                          child: Container(
+                            height: MediaQuery.of(context).size.height * 0.1,
+                            width: 120.0,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: ImageUtils.getAssetImage("state/$_img"),
+                              ),
+                            ),
+                          ))),
+              Gaps.vGap16,
+              Text(
+                widget.hintText ?? _hintText,
+                style: Theme.of(context).textTheme.subtitle.copyWith(
+                    fontSize: Dimens.font_sp14, color: Colours.text_gray),
+              ),
+              Gaps.vGap50,
+            ],
           ),
-          Gaps.vGap50,
-        ],
+        ),
       ),
     );
   }

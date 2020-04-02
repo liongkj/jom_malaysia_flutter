@@ -31,17 +31,6 @@
     }
   },
   {
-    "cityName": "Port Dickson",
-    "cityNameZh": "波德申",
-    "firstChar": "P",
-    "firstCharZh": "B",
-    "isHot": true,
-    "coordinates": {
-      "latitude": 2.53718,
-      "longitude": 101.80571
-    }
-  },
-  {
     "cityName": "Kuala Pilah",
     "cityNameZh": "瓜拉庇劳",
     "firstChar": "K",
@@ -59,6 +48,17 @@
     "coordinates": {
       "latitude": 2.94107,
       "longitude": 102.07191
+    }
+  },
+  {
+    "cityName": "Port Dickson",
+    "cityNameZh": "波德申",
+    "firstChar": "P",
+    "firstCharZh": "B",
+    "isHot": true,
+    "coordinates": {
+      "latitude": 2.53718,
+      "longitude": 101.80571
     }
   },
   {

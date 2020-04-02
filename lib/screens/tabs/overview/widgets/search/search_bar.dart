@@ -3,8 +3,10 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
+import 'package:jom_malaysia/screens/tabs/overview/providers/search_result_provider.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
+import 'package:provider/provider.dart';
 
 /// 搜索页的AppBar
 class SearchBar extends StatefulWidget implements PreferredSizeWidget {
@@ -14,6 +16,8 @@ class SearchBar extends StatefulWidget implements PreferredSizeWidget {
       this.backImg: "assets/images/ic_back_black.png",
       this.onPressed,
       this.onTap,
+      @required this.controller,
+      @required this.focusNode,
       this.showBack = true})
       : super(key: key);
   final bool showBack;
@@ -21,6 +25,8 @@ class SearchBar extends StatefulWidget implements PreferredSizeWidget {
   final String hintText;
   final Function onTap;
   final Function(String) onPressed;
+  final TextEditingController controller;
+  final FocusNode focusNode;
 
   @override
   _SearchBarState createState() => _SearchBarState();
@@ -31,7 +37,6 @@ class SearchBar extends StatefulWidget implements PreferredSizeWidget {
 
 class _SearchBarState extends State<SearchBar> {
   SystemUiOverlayStyle overlayStyle = SystemUiOverlayStyle.light;
-  TextEditingController _controller = TextEditingController();
 
   Color getColor() {
     return overlayStyle == SystemUiOverlayStyle.light
@@ -40,11 +45,16 @@ class _SearchBarState extends State<SearchBar> {
   }
 
   @override
+  void dispose() {
+    widget.controller?.dispose();
+    widget.focusNode?.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    bool isDark = ThemeUtils.isDark(context);
-    overlayStyle =
-        isDark ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark;
-    Color iconColor = isDark ? Colours.dark_text_gray : Colours.text_gray_c;
+    overlayStyle = SystemUiOverlayStyle.dark;
+    Color iconColor = Colours.text_gray_c;
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: overlayStyle,
       child: Material(
@@ -60,7 +70,7 @@ class _SearchBarState extends State<SearchBar> {
                 child: Container(
                   height: 32.0,
                   decoration: BoxDecoration(
-                    color: isDark ? Colours.dark_material_bg : Colours.bg_gray,
+                    color: Colours.bg_gray,
                     borderRadius: BorderRadius.circular(4.0),
                   ),
                   child: TextField(
@@ -68,8 +78,8 @@ class _SearchBarState extends State<SearchBar> {
                     enabled: widget.showBack,
                     onSubmitted: (text) => widget.onPressed(text),
                     key: const Key('search_text_field'),
-                    autofocus: widget.showBack,
-                    controller: _controller,
+                    focusNode: widget.focusNode,
+                    controller: widget.controller,
                     maxLines: 1,
                     decoration: InputDecoration(
                       contentPadding: const EdgeInsets.only(
@@ -94,7 +104,11 @@ class _SearchBarState extends State<SearchBar> {
                         onTap: () {
                           /// https://github.com/flutter/flutter/issues/35909
                           SchedulerBinding.instance.addPostFrameCallback((_) {
-                            _controller.text = "";
+                            FocusScope.of(context).unfocus();
+                            widget.controller.clear();
+                            Provider.of<SearchResultProvider>(context,
+                                    listen: false)
+                                .clearOldResult();
                           });
                         },
                       ),
@@ -110,16 +124,16 @@ class _SearchBarState extends State<SearchBar> {
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         height: 32.0,
                         minWidth: 44.0,
-                        materialTapTargetSize:
-                            MaterialTapTargetSize.shrinkWrap, // 距顶部距离为0
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        // 距顶部距离为0
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(4.0),
                         )),
                   ),
                   child: FlatButton(
-                    textColor: isDark ? Colours.dark_button_text : Colors.white,
-                    color: isDark ? Colours.dark_app_main : Colours.app_main,
-                    onPressed: () => widget.onPressed(_controller.text),
+                    textColor: Colors.white,
+                    color: Colours.app_main,
+                    onPressed: () => widget.onPressed(widget.controller.text),
                     child: Text(S.of(context).labelSearch,
                         style: TextStyle(fontSize: Dimens.font_sp14)),
                   ),
