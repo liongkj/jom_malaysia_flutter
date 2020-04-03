@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
+import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/comments/comment_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/comments/gallery_image_item.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/comments/gallery_photo_view.dart';
@@ -10,7 +11,8 @@ class CommentItem extends StatelessWidget {
     @required this.itemIndex,
     Key key,
     this.showFull = false,
-  });
+  }) : super(key: key);
+
   final CommentModel comment;
   final bool showFull;
   final int itemIndex;
@@ -113,11 +115,12 @@ class _Username extends StatelessWidget {
         children: <Widget>[
           Expanded(
             child: Text(
+              //TODO
               comment.user?.getSocialName(),
               style: TextStyle(color: Colours.app_secondary),
             ),
           ),
-          Text(comment.rating?.toString() ?? "N/A"),
+          Text(comment.rating?.toString() ?? S.of(context).labelNoRating),
         ],
       ),
     );

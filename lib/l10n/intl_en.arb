@@ -81,7 +81,6 @@
   "stateTypePlace": "More places coming soon",
   "stateTypeNoNetwork": "Network error",
   "stateTypeNotFound": "awww... can't find what you want",
-
   "stateTypeNotification": "Awww...No Notification",
   "errorMessageNetworkFailure": "Unknown error, Please check your network!",
   "locationServicePromptEnableGps": "Please grant location service permission from setting",
@@ -112,6 +111,7 @@
   "labelConfirmLogoutMsg": "Confirm log out?",
   "labelStranger": "Stranger",
   "labelEdit": "Edit",
+  "labelNoRating": "N/A",
   "msgUpdatePhotoSuccess": "Updated your profile pic",
   "msgUpdateUsernameSuccess": "Nice to meet you {uname}",
   "errorMsgEmailPasswordIncorrect": "Email / Password is incorrect",
