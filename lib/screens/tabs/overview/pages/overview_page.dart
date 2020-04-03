@@ -53,6 +53,7 @@ class OverviewPageState extends State<OverviewPage>
 
   bool isDark = false;
   int _lastReportedPage = 0;
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -124,7 +125,7 @@ class OverviewPageState extends State<OverviewPage>
         locale: Provider.of<LanguageProvider>(context).locale ??
             Localizations.localeOf(context),
       ),
-      AdsSpace(),
+      SliverToBoxAdapter(child: AdsSpace()),
       SliverOverlapAbsorber(
         handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
         child: ListingTypeTabs(
