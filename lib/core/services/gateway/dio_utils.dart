@@ -5,7 +5,6 @@ import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:jom_malaysia/core/constants/common.dart';
 import 'package:jom_malaysia/core/services/gateway/exception/api_exception.dart';
 import 'package:jom_malaysia/core/services/gateway/json_parser.dart';
-import 'package:rxdart/rxdart.dart';
 
 import 'intercept.dart';
 
@@ -26,6 +25,7 @@ class DioUtils {
 
   DioUtils._internal() {
     String _webapi = "https://jommalaysiaapi.azurewebsites.net/";
+    // ignore: unused_local_variable
     String _local = "http://10.0.2.2:5000/";
     var options = BaseOptions(
       connectTimeout: 30000, //15000
@@ -80,7 +80,7 @@ class DioUtils {
         throw ApiException(e.response.statusCode, e.response.statusMessage);
       }
       throw SocketException(e.message);
-    } on Exception catch (e) {
+    } on Exception {
       throw SocketException("unkown exception");
     }
   }
@@ -104,38 +104,12 @@ class DioUtils {
     Options options,
     bool isList: false,
   }) {
-    String m = _getRequestMethod(method);
     return request<T, K>(method, url,
             data: params,
             queryParameters: queryParameters,
             options: options,
             cancelToken: cancelToken)
         .then(
-      (result) {
-        if (onSuccess != null) {
-          onSuccess(result);
-        }
-      },
-    );
-  }
-
-  /// 统一处理(onSuccess返回T对象，onSuccessList返回List<T>)
-  asyncRequestNetwork<T, K>(
-    Method method,
-    String url, {
-    Function(T t) onSuccess,
-    dynamic params,
-    Map<String, dynamic> queryParameters,
-    CancelToken cancelToken,
-    Options options,
-  }) {
-    Observable.fromFuture(request<T, K>(method, url,
-            data: params,
-            queryParameters: queryParameters,
-            options: options,
-            cancelToken: cancelToken))
-        .asBroadcastStream()
-        .listen(
       (result) {
         if (onSuccess != null) {
           onSuccess(result);

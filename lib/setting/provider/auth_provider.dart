@@ -24,11 +24,11 @@ class AuthProvider extends ChangeNotifier {
   }
 
   Future<void> signUp(AuthRequest request) async {
-    var result = await _service.registerWithEmailPassword(request);
+    await _service.registerWithEmailPassword(request);
   }
 
   Future<void> logOut() async {
-    var result = await _service.logout();
+    await _service.logout();
   }
 
   Future<void> signInWithGoogle() async {
@@ -37,7 +37,7 @@ class AuthProvider extends ChangeNotifier {
   }
 
   Future<void> signInWithEmailPassword(AuthRequest request) async {
-    var result = await _service.signInWithEmailPassword(request);
+    await _service.signInWithEmailPassword(request);
   }
 
   Future<void> changeDisplayName(String dn) async {

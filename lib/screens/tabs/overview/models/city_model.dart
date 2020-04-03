@@ -3,12 +3,8 @@ import 'dart:ui';
 import 'package:azlistview/azlistview.dart';
 import 'package:jom_malaysia/core/models/coordinates_model.dart';
 import 'package:jom_malaysia/util/text_utils.dart';
-import 'package:json_annotation/json_annotation.dart';
 import 'package:lpinyin/lpinyin.dart';
 
-part 'city_model.g.dart';
-
-@JsonSerializable()
 class CityModel extends ISuspensionBean {
   CityModel(
       {this.cityName,

@@ -1,7 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
-import 'package:jom_malaysia/core/services/gateway/net.dart';
 import 'package:jom_malaysia/setting/provider/auth_provider.dart';
 import 'package:provider/provider.dart';
 

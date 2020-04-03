@@ -85,8 +85,6 @@ dependencies:
   # https://pub.dev/packages/shimmer#-changelog-tab-
   sprintf: ^4.0.2
   # 格式化String https://github.com/Naddiseo/dart-sprintf
-  rxdart: ^0.22.5
-  # https://github.com/ReactiveX/rxdart
   url_launcher: ^5.4.2
   # 启动URL的插件 https://github.com/flutter/plugins/tree/master/packages/url_launcher
   webview_flutter: ^0.3.19+9

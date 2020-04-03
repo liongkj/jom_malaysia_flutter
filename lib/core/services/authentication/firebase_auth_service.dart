@@ -111,7 +111,6 @@ class FirebaseAuthService extends IAuthenticationService {
     return new AuthUser(user.uid, user.displayName, user.photoUrl, user.email);
   }
 
-  @override
   Future getOtp(
     String phoneNumber, {
     Function(String, [int]) onCodeSent,
@@ -162,17 +161,5 @@ class FirebaseAuthService extends IAuthenticationService {
           503, 'Please check your internet connection and try again');
     else
       throw Exception('Something has gone wrong, please try later');
-  }
-
-  @override
-  Future registerViaOtp(AuthRequest request) {
-    // TODO: implement registerViaOtp
-    return null;
-  }
-
-  @override
-  Future resetPassword() {
-    // TODO: implement resetPassword
-    return null;
   }
 }

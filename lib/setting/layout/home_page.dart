@@ -30,19 +30,11 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      // 由于SpUtil未初始化，所以MaterialApp获取的为默认主题配置，这里同步一下。
-
-      // Provider.of<ThemeProvider>(context, listen: false).syncTheme();
-      // Provider.of<LanguageProvider>(context, listen: false).syncLang();
-      // Provider.of<LocationProvider>(context, listen: false).syncLoc();
-    });
-    // initData();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {});
   }
 
-  // void initData() {}
-
   final double iconSize = 24;
+
   List<BottomNavigationBarItem> _buildBottomNavigationBarItem(
       BuildContext context) {
     final _appBarTitles = [
@@ -70,7 +62,6 @@ class _HomeState extends State<Home> {
     _list = List.generate(3, (i) {
       return BottomNavigationBarItem(
         icon: _tabImages[i],
-        // activeIcon: _tabImages[i][1],
         title: Padding(
           padding: const EdgeInsets.only(top: 1.5),
           child: Text(
@@ -100,7 +91,6 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    bool isDark = ThemeUtils.isDark(context);
     return ChangeNotifierProvider<HomeProvider>(
         create: (_) => provider,
         child: WillPopScope(

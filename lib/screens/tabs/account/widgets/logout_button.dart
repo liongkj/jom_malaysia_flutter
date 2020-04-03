@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/setting/provider/auth_provider.dart';

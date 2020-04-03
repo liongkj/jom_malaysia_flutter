@@ -23,10 +23,6 @@ class PlaceList extends StatefulWidget {
 
 class _PlaceListState extends State<PlaceList>
     with AutomaticKeepAliveClientMixin {
-  /// 是否正在加载数据
-  bool _isLoading = false;
-  int _page = 1;
-  final int _maxPage = 3;
   int _index = 0;
 
   ScrollController _controller;
@@ -119,35 +115,12 @@ class _PlaceListState extends State<PlaceList>
     );
   }
 
-  List _list = [];
-
   Future _onRefresh() async {
     var loc = Provider.of<LocationProvider>(context, listen: false)
         .selected
         ?.cityName;
     Provider.of<ListingProvider>(context, listen: false)
         .fetchAndInitPlaces(city: loc, refresh: true);
-  }
-
-  bool _hasMore() {
-    return _page < _maxPage;
-  }
-
-  Future _loadMore() async {
-    if (_isLoading) {
-      return;
-    }
-    if (!_hasMore()) {
-      return;
-    }
-    _isLoading = true;
-    await Future.delayed(Duration(seconds: 2), () {
-      setState(() {
-        _list.addAll(List.generate(10, (i) => 'newItem：$i'));
-        _page++;
-        _isLoading = false;
-      });
-    });
   }
 
   @override

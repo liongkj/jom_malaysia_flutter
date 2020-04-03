@@ -11,10 +11,12 @@ import 'package:jom_malaysia/widgets/state_layout.dart';
 
 class ListingProvider extends BaseChangeNotifier {
   HttpService _httpService;
+
   ListingProvider({@required HttpService httpService})
       : _httpService = httpService;
 
   List<ListingModel> _listing = [];
+
   List<ListingModel> get listing {
     return [..._listing];
   }
@@ -68,7 +70,7 @@ class ListingProvider extends BaseChangeNotifier {
         setStateType(StateType.network);
         return;
       }
-    } on Exception catch (e) {
+    } on Exception {
       setStateType(StateType.network);
     }
   }
