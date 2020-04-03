@@ -101,7 +101,7 @@ dependencies:
   firebase_analytics: ^5.0.11
   firebase_auth: ^0.15.5+3
   # https://pub.dev/packages/firebase_auth#-changelog-tab-
-  google_sign_in: ^4.3.0
+  google_sign_in: ^4.4.0
   # https://pub.dev/packages/google_sign_in#-changelog-tab-
   ###firebase end
   # # 用于日历功能 https://github.com/apptreesoftware/date_utils
@@ -110,12 +110,9 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-    # 集成测试
-  flutter_driver:
-    sdk: flutter
-  # 单元测试
   build_runner: ^1.8.1
   #  https://pub.dev/packages/build_runner#-changelog-tab-
+  test: any
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
