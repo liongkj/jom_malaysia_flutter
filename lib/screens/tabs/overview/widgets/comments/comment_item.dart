@@ -115,7 +115,6 @@ class _Username extends StatelessWidget {
         children: <Widget>[
           Expanded(
             child: Text(
-              //TODO
               comment.user?.getSocialName(),
               style: TextStyle(color: Colours.app_secondary),
             ),
@@ -226,7 +225,7 @@ class _ThumbnailItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 4),
       child: GalleryItemThumbnail(
         onTap: onTap,
         galleryItem: image,
