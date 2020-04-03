@@ -22,10 +22,6 @@ class AuthUser {
   Map<String, dynamic> toJson() => _$AuthUserToJson(this);
 
   String getSocialName() {
-    if (username != null || username != "") {
-      return username;
-    } else {
-      return email;
-    }
+    return username ?? email;
   }
 }
