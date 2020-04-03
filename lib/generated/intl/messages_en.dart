@@ -93,6 +93,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "labelNewCommentPageTitle" : MessageLookupByLibrary.simpleMessage("Add a title"),
     "labelNewCommentPageTitleErrorMessage" : MessageLookupByLibrary.simpleMessage("Please enter a interesting title"),
     "labelNoDetail" : MessageLookupByLibrary.simpleMessage("No more details"),
+    "labelNoRating" : MessageLookupByLibrary.simpleMessage("N/A"),
     "labelNone" : MessageLookupByLibrary.simpleMessage("None"),
     "labelOtpLogin" : MessageLookupByLibrary.simpleMessage("OTP Sign In"),
     "labelPageComment" : MessageLookupByLibrary.simpleMessage("Comment"),

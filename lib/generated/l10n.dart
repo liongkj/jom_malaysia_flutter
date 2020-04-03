@@ -1028,6 +1028,15 @@ class S {
     );
   }
 
+  String get labelNoRating {
+    return Intl.message(
+      'N/A',
+      name: 'labelNoRating',
+      desc: '',
+      args: [],
+    );
+  }
+
   String get msgUpdatePhotoSuccess {
     return Intl.message(
       'Updated your profile pic',

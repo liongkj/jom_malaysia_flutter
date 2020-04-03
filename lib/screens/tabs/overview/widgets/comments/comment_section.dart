@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/comments/comment_model.dart';
@@ -12,7 +10,9 @@ import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
 import 'package:jom_malaysia/widgets/my_button.dart';
 import 'package:jom_malaysia/widgets/my_card.dart';
+import 'package:jom_malaysia/widgets/shimmer_item.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 class CommentSection extends StatefulWidget {
   CommentSection({
@@ -40,20 +40,23 @@ class _CommentSectionState extends State<CommentSection> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: MyCard(
-        child: StreamBuilder(
-            stream: commentProvider.fetchCommentsAsStream(widget.listingId),
-            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-              if (snapshot.hasData) {
-                comments = snapshot.data.documents
-                    .map(
-                        (doc) => CommentModel.fromMap(doc.data, doc.documentID))
-                    .toList();
-                final hasMoreThanMax = comments.length > _MAXCOMMENTCOUNT;
-                final shouldLoad = comments?.isNotEmpty;
-                return Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16.0, vertical: 8.0),
-                  child: Column(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          child: StreamBuilder(
+              stream: commentProvider.fetchCommentsAsStream(widget.listingId),
+              builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.connectionState == ConnectionState.active) {
+                  var hasMoreThanMax = false;
+                  var shouldLoad = false;
+                  if (snapshot.hasData) {
+                    comments = snapshot.data.documents
+                        .map((doc) =>
+                            CommentModel.fromMap(doc.data, doc.documentID))
+                        .toList();
+                    hasMoreThanMax = comments.length > _MAXCOMMENTCOUNT;
+                    shouldLoad = comments?.isNotEmpty;
+                  }
+                  return Column(
                     children: <Widget>[
                       _CommentHeader(
                           comments: comments,
@@ -61,7 +64,7 @@ class _CommentSectionState extends State<CommentSection> {
                           widget: widget),
                       Gaps.vGap16,
                       Container(
-                        padding: EdgeInsets.symmetric(
+                        padding: const EdgeInsets.symmetric(
                           vertical: 10,
                         ),
                         child: ListView.builder(
@@ -83,21 +86,36 @@ class _CommentSectionState extends State<CommentSection> {
                         addNewReview: widget.addNewReview,
                       ),
                     ],
-                  ),
-                );
-              }
-              return SpinKitSquareCircle(
-                color: Theme.of(context).accentColor,
-              );
-            }),
+                  );
+                } else {
+                  return Column(
+                    children: <Widget>[
+                      _CommentHeader(
+                          comments: comments,
+                          shouldLoad: false,
+                          widget: widget),
+                      Gaps.vGap16,
+                      Shimmer.fromColors(
+                        baseColor: Colors.grey[300],
+                        highlightColor: Colors.grey[100],
+                        child: ListView(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            children: [
+                              ShimmerItem(),
+                              MyButton(
+                                onPressed: () {},
+                              ),
+                            ]),
+                      ),
+                    ],
+                  );
+                }
+              }),
+        ),
       ),
     );
   }
-
-  // Widget _buildComment(Stream<QuerySnapshot> stream) {
-
-  //   return ;
-  // }
 }
 
 class _CommentButton extends StatelessWidget {
@@ -116,7 +134,7 @@ class _CommentButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MyButton(
-      icon: Icon(Icons.rate_review),
+      icon: const Icon(Icons.rate_review),
       text: shouldLoad
           ? S.of(context).labelAskReview
           : S.of(context).labelAskFirstReview,
@@ -141,10 +159,10 @@ class _CommentHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
-      onTap: () {
-        NavigatorUtils.push(context,
-            '${OverviewRouter.commentPage}?&placeId=${widget.listingId}');
-      },
+      onTap: shouldLoad
+          ? () => NavigatorUtils.push(context,
+              '${OverviewRouter.commentPage}?&placeId=${widget.listingId}')
+          : null,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -153,7 +171,7 @@ class _CommentHeader extends StatelessWidget {
             style: Theme.of(context).textTheme.body1,
           ),
           if (shouldLoad)
-            Expanded(
+            const Expanded(
               child: Align(
                 alignment: Alignment.bottomRight,
                 child: LoadImage(

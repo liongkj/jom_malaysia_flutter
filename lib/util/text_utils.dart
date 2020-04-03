@@ -23,4 +23,13 @@ class TextUtils {
     } else
       return text;
   }
+
+  static String mask(String text) {
+//   https://regex101.com/r/qg72Rm/8
+
+    RegExp regExp = new RegExp(
+        r'(?<=..)[^@\n](?=[^@\n]*[^@\n]@)|(?:(?<=@.{0,3})|(?!^)\G(?=[^@]*$)).(?!$)');
+    var masked = text.replaceAll(regExp, '*');
+    return masked;
+  }
 }

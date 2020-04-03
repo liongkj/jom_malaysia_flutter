@@ -1,18 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:jom_malaysia/core/models/authuser_model.dart';
+import 'package:jom_malaysia/core/models/comment_user.dart';
 import 'package:jom_malaysia/util/date_utils.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 
 class CommentModel {
   CommentModel(
     this.id,
-    this.user, {
+    user, {
     this.title,
     this.commentText,
     this.rating = 3,
     this.costPax,
   })  : images = [],
         publishedTime = FieldValue.serverTimestamp(),
+        user = new CommentUser(
+            user.userId, user.username, user.profileImage, user.email),
         imageAssets = [];
   String id;
   var publishedTime;
