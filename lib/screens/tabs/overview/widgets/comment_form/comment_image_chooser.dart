@@ -44,7 +44,7 @@ class _CommentImageChooserState extends State<CommentImageChooser> {
           startInAllView: true,
         ),
       );
-    } on NoImagesSelectedException catch (e) {
+    } on NoImagesSelectedException {
       //if user did not choose image on 2nd time, add back current selected
       resultList.addAll(_images);
     }
@@ -57,6 +57,7 @@ class _CommentImageChooserState extends State<CommentImageChooser> {
 
   Asset _tempImage;
   int _tempIndex;
+
   void _deleteImage(int index) {
     _tempIndex = index;
     _tempImage = _images[index];

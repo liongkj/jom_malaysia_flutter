@@ -10,9 +10,11 @@ import 'package:jom_malaysia/widgets/state_layout.dart';
 
 class AdsProvider extends BaseChangeNotifier {
   HttpService _httpService;
+
   AdsProvider({@required HttpService httpService}) : _httpService = httpService;
 
   List<AdsModel> _adList = [];
+
   List<AdsModel> get adList {
     return [..._adList];
   }
@@ -47,7 +49,7 @@ class AdsProvider extends BaseChangeNotifier {
         setStateType(StateType.empty);
         return;
       }
-    } on Exception catch (e) {
+    } on Exception {
       setStateType(StateType.network);
     }
   }

@@ -10,15 +10,15 @@ import 'package:provider/provider.dart';
 
 class CommentList extends StatefulWidget {
   CommentList(this.placeId);
+
   final String placeId;
+
   @override
   _CommentListState createState() => _CommentListState();
 }
 
 class _CommentListState extends State<CommentList>
     with AutomaticKeepAliveClientMixin {
-  int _page = 1;
-  final int _maxPage = 3;
   List<CommentModel> commentList = [];
 
   @override
@@ -78,10 +78,6 @@ class _CommentListState extends State<CommentList>
         ),
       ),
     );
-  }
-
-  bool _hasMore() {
-    return _page < _maxPage;
   }
 
   Future _loadMore() async {}

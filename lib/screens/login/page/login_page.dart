@@ -126,7 +126,7 @@ class _LoginPageState extends State<LoginPage> {
             validator: (value) {
               try {
                 request.validateEmail(value);
-              } on FormatException catch (e) {
+              } on FormatException {
                 return S.of(context).errorMsgInvalidFormatEmail;
               }
               return null;

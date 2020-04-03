@@ -4,7 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
-import 'package:rxdart/rxdart.dart';
 
 import 'load_image.dart';
 
@@ -86,14 +85,8 @@ class _MyTextFieldState extends State<MyTextField> {
         s = second;
         _isClick = false;
       });
-      _subscription = Observable.periodic(Duration(seconds: 1), (i) => i)
-          .take(second)
-          .listen((i) {
-        setState(() {
-          s = second - i - 1;
-          _isClick = s < 1;
-        });
-      });
+      //TODO update second
+
     }
   }
 
@@ -105,7 +98,6 @@ class _MyTextFieldState extends State<MyTextField> {
       alignment: Alignment.centerRight,
       children: <Widget>[
         TextFormField(
-          
           onSaved: widget.onSaved,
           validator: widget.validator,
           focusNode: widget.focusNode,

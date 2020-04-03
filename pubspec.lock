@@ -766,13 +766,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.3.8"
-  rxdart:
-    dependency: "direct main"
-    description:
-      name: rxdart
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.22.6"
   share:
     dependency: "direct main"
     description:

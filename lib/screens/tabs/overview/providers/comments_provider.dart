@@ -9,6 +9,7 @@ import 'package:jom_malaysia/widgets/state_layout.dart';
 
 class CommentsProvider extends BaseChangeNotifier {
   FirestoreService _api;
+
   CommentsProvider({@required FirestoreService firebaseService})
       : _api = firebaseService;
   String _documentId;
@@ -21,8 +22,7 @@ class CommentsProvider extends BaseChangeNotifier {
   }
 
   Future<void> addComment(String listingId, CommentModel data) async {
-    var result =
-        await _api.addDocument(listingId, collectionName, data.toJson());
+    await _api.addDocument(listingId, collectionName, data.toJson());
     setStateType(StateType.empty); //end loading
   }
 

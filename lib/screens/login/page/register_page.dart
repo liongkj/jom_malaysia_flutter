@@ -24,13 +24,14 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
   AuthProvider _authService;
+
   //定义一个controller
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   final FocusNode _nodeText1 = FocusNode();
   final FocusNode _nodeText2 = FocusNode();
   AuthRequest request;
-  int _PASSWORD_LENGTH_POLICY = 8;
+  static const int _PASSWORD_LENGTH_POLICY = 8;
 
   @override
   void initState() {
@@ -106,7 +107,7 @@ class _RegisterPageState extends State<RegisterPage> {
             validator: (value) {
               try {
                 request.validateEmail(value);
-              } on FormatException catch (e) {
+              } on FormatException {
                 return S.of(context).errorMsgInvalidFormatEmail;
               }
               return null;
@@ -125,7 +126,7 @@ class _RegisterPageState extends State<RegisterPage> {
             validator: (value) {
               try {
                 request.validatePassword(value, _PASSWORD_LENGTH_POLICY);
-              } on FormatException catch (e) {
+              } on FormatException {
                 return S
                     .of(context)
                     .errorMsgPasswordPolicy(_PASSWORD_LENGTH_POLICY);

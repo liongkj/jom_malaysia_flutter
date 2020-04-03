@@ -182,7 +182,7 @@ class _ShopPageState extends State<AccountPage>
                                 radius: 28.0,
                                 backgroundColor: Colors.transparent,
                                 backgroundImage: ImageUtils.getImageProvider(
-                                    loggedUser?.profileImage,
+                                    _photoUrl,
                                     holderImg: 'account/dummy_profile_pic'))),
                       ],
                     ))),
@@ -209,7 +209,6 @@ class _AppSettings extends StatelessWidget {
   Widget build(BuildContext context) {
     var _menuTitle = [
       S.of(context).labelAppSettings,
-      // S.of(context).labelCreditManager
     ];
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -267,15 +266,11 @@ class _AppSettings extends StatelessWidget {
 }
 
 class _UserSettings extends StatelessWidget {
-  final _menuImage = [
-    'profile'
-    // 'credit'
-  ];
+  final _menuImage = ['profile'];
   @override
   Widget build(BuildContext context) {
     var _menuTitle = [
       S.of(context).labelProfileManager,
-      // S.of(context).labelCreditManager
     ];
     return Column(
       mainAxisSize: MainAxisSize.min,
