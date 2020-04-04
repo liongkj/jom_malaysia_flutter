@@ -25,8 +25,7 @@ class OverviewPageState extends State<OverviewPage>
   TabController _tabController;
   OverviewPageProvider provider = OverviewPageProvider();
   PageController _pageController = PageController(initialPage: 0);
-
-  TextEditingController searchController = TextEditingController();
+  ScrollController _scrollController;
 
   _onPageChange(int index) async {
     provider.setIndex(index);
@@ -37,12 +36,8 @@ class OverviewPageState extends State<OverviewPage>
   @override
   void initState() {
     super.initState();
+    _scrollController = ScrollController();
     _tabController = TabController(vsync: this, length: 5);
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
   }
 
   @override
@@ -51,7 +46,6 @@ class OverviewPageState extends State<OverviewPage>
     super.dispose();
   }
 
-  bool isDark = false;
   int _lastReportedPage = 0;
 
   @override

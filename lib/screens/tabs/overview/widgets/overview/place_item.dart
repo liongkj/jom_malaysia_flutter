@@ -88,6 +88,7 @@ class _Description extends StatelessWidget {
       children: <Widget>[
         Text(
           listing.listingName,
+          key: Key("header_listingName"),
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
         ),

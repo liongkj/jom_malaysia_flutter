@@ -14,27 +14,26 @@ class AdsSpace extends StatefulWidget {
 }
 
 class _AdsSpaceState extends State<AdsSpace> {
-  bool _isInit = true;
   SwiperController _controller;
   SwiperPagination _pagination;
 
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (_isInit) {}
-      _isInit = false;
-    });
-    _controller = SwiperController();
+    _controller = new SwiperController();
+    _controller.startAutoplay();
     _pagination = SwiperPagination();
     super.initState();
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+  void dispose() {
+    _controller.stopAutoplay();
+    _controller?.dispose();
+
+    super.dispose();
   }
 
-  List<AdsModel> _adList;
+  List<AdsModel> _adList = [AdsModel()];
 
   @override
   Widget build(BuildContext context) {
@@ -42,17 +41,17 @@ class _AdsSpaceState extends State<AdsSpace> {
       child: Container(
         height: MediaQuery.of(context).size.height * 0.35,
         child: FutureBuilder<List<AdsModel>>(
-          initialData: [],
+          initialData: _adList,
           future: Provider.of<AdsProvider>(context, listen: false)
               .fetchAndInitAds(),
           builder: (ctx, snap) {
-            _adList = Provider.of<AdsProvider>(context, listen: false).adList;
+            if (snap.hasData) _adList = snap.data;
             return Swiper(
               curve: Curves.easeOut,
               controller: _controller,
               itemBuilder: (context, index) {
                 return GestureDetector(
-                  key: Key("ads-$index"),
+                  key: Key("ads-item-$index"),
                   onTap: () => _adList[index].linkTo != ""
                       ? NavigatorUtils.goWebViewPage(
                           context,
@@ -63,12 +62,14 @@ class _AdsSpaceState extends State<AdsSpace> {
                   child: LoadImage(
                     _adList[index].imageUrl ?? "",
                     fit: BoxFit.fitWidth,
+                    key: Key("ads-item-image-$index"),
                   ),
                 );
               },
+              loop: false,
               pagination: _pagination,
               itemCount: _adList.length,
-              autoplay: _adList.isNotEmpty,
+              autoplay: snap.hasData,
               autoplayDelay: 10000,
             );
           },
