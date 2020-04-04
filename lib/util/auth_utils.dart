@@ -10,12 +10,13 @@ import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 
 class AuthUtils {
-  static Function getSignInFunction(
-      {@required AuthOperationEnum type,
-      @required Function(dynamic) errorHandler,
-      @required AuthProvider loginProvider,
-      @required BuildContext context,
-      AuthRequest request}) {
+  static Function getSignInFunction({
+    @required AuthOperationEnum type,
+    @required Function(dynamic) errorHandler,
+    @required AuthProvider loginProvider,
+    @required BuildContext context,
+    AuthRequest request,
+  }) {
     Function _type;
     switch (type) {
       case AuthOperationEnum.GOOGLE:

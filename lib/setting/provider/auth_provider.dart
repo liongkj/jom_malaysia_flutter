@@ -48,6 +48,6 @@ class AuthProvider extends ChangeNotifier {
   }
 
   Future<void> changePassword(AuthRequest request) async {
-    _service.changePassword(request);
+    await _service.changePassword(request);
   }
 }
