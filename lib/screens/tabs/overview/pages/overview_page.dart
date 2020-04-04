@@ -25,7 +25,6 @@ class OverviewPageState extends State<OverviewPage>
   TabController _tabController;
   OverviewPageProvider provider = OverviewPageProvider();
   PageController _pageController = PageController(initialPage: 0);
-  ScrollController _scrollController;
 
   _onPageChange(int index) async {
     provider.setIndex(index);
@@ -36,7 +35,6 @@ class OverviewPageState extends State<OverviewPage>
   @override
   void initState() {
     super.initState();
-    _scrollController = ScrollController();
     _tabController = TabController(vsync: this, length: 5);
   }
 

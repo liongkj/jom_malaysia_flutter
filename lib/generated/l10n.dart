@@ -56,7 +56,7 @@ class S {
 
   String get appBarTitleHome {
     return Intl.message(
-      'JomN9',
+      'Jomn9',
       name: 'appBarTitleHome',
       desc: '',
       args: [],
@@ -515,10 +515,10 @@ class S {
     );
   }
 
-  String get labelAveratePaxPrefix {
+  String get labelAveragePaxPrefix {
     return Intl.message(
       'RM ',
-      name: 'labelAveratePaxPrefix',
+      name: 'labelAveragePaxPrefix',
       desc: '',
       args: [],
     );
@@ -533,10 +533,10 @@ class S {
     );
   }
 
-  String get labelAveratePaxSuffix {
+  String get labelAveragePaxSuffix {
     return Intl.message(
       'PAX',
-      name: 'labelAveratePaxSuffix',
+      name: 'labelAveragePaxSuffix',
       desc: '',
       args: [],
     );
@@ -719,6 +719,51 @@ class S {
       name: 'cityPickerCurrentCity',
       desc: '',
       args: [selected],
+    );
+  }
+
+  String get labelAccountSetting {
+    return Intl.message(
+      'Account Setting',
+      name: 'labelAccountSetting',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get clickItemUpdatePassword {
+    return Intl.message(
+      'Update Password',
+      name: 'clickItemUpdatePassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String clickItemUpdatePasswordHint(Object email) {
+    return Intl.message(
+      'Email: $email',
+      name: 'clickItemUpdatePasswordHint',
+      desc: '',
+      args: [email],
+    );
+  }
+
+  String clickItemLinkToHint(Object provider) {
+    return Intl.message(
+      'Link to $provider',
+      name: 'clickItemLinkToHint',
+      desc: '',
+      args: [provider],
+    );
+  }
+
+  String get labelGoogle {
+    return Intl.message(
+      'Google',
+      name: 'labelGoogle',
+      desc: '',
+      args: [],
     );
   }
 

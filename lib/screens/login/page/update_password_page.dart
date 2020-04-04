@@ -4,10 +4,8 @@ import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/util/toast.dart';
 import 'package:jom_malaysia/widgets/app_bar.dart';
 import 'package:jom_malaysia/widgets/my_button.dart';
-
 import 'package:jom_malaysia/widgets/text_field.dart';
 
-/// design/1注册登录/index.html#artboard13
 class UpdatePasswordPage extends StatefulWidget {
   @override
   _UpdatePasswordPageState createState() => _UpdatePasswordPageState();
