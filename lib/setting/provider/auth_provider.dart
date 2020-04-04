@@ -1,9 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:jom_malaysia/core/constants/common.dart';
 import 'package:jom_malaysia/core/models/authuser_model.dart';
 import 'package:jom_malaysia/core/services/authentication/i_auth_service.dart';
 import 'package:jom_malaysia/core/services/authentication/requests/auth_request.dart';
 import 'package:jom_malaysia/core/services/gateway/exception/signin_cancelled_exception.dart';
+import 'package:jom_malaysia/screens/tabs/account/models/platform_provider_model.dart';
 
 class AuthProvider extends ChangeNotifier {
   final IAuthenticationService _service;
@@ -14,8 +16,20 @@ class AuthProvider extends ChangeNotifier {
 
   AuthUser get user => _user;
 
+  List<PlatformProviderModel> _providerList = [];
+
+  List<PlatformProviderModel> get providerList => [..._providerList];
+
   void setUser(FirebaseUser fUser) {
     if (fUser != null) {
+      List<PlatformProviderModel> pList = [];
+      fUser.providerData.forEach((p) {
+        if (p.providerId != "firebase") {
+          pList.add(PlatformProviderModel(p.providerId, p.email));
+        }
+      });
+
+      _providerList = pList;
       _user = new AuthUser(fUser.uid, fUser.displayName, fUser.photoUrl,
           fUser.email, fUser.isEmailVerified);
     } else {
@@ -49,5 +63,9 @@ class AuthProvider extends ChangeNotifier {
 
   Future<void> changePassword(AuthRequest request) async {
     await _service.changePassword(request);
+  }
+
+  Future<void> linkAccount(AuthOperationEnum type) async {
+    await _service.linkAccountWith(type);
   }
 }

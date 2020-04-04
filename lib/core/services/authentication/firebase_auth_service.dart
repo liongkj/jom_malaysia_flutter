@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:jom_malaysia/core/constants/common.dart';
 import 'package:jom_malaysia/core/models/authuser_model.dart';
 import 'package:jom_malaysia/core/services/authentication/i_auth_service.dart';
 import 'package:jom_malaysia/core/services/authentication/requests/auth_request.dart';
@@ -46,16 +47,8 @@ class FirebaseAuthService extends IAuthenticationService {
 
   Future<AuthUser> signInWithGoogle() async {
     try {
-      final GoogleSignInAccount googleSignInAccount =
-          await _googleSignIn.signIn();
-      final GoogleSignInAuthentication googleSignInAuthentication =
-          await googleSignInAccount.authentication;
-      final AuthCredential credential = GoogleAuthProvider.getCredential(
-        accessToken: googleSignInAuthentication.accessToken,
-        idToken: googleSignInAuthentication.idToken,
-      );
       final AuthResult authResult =
-          await _auth.signInWithCredential(credential);
+          await _auth.signInWithCredential(await _getGoogleAuth());
       final FirebaseUser result = authResult.user;
       AuthUser user = new AuthUser(result.uid, result.displayName,
           result.photoUrl, result.email, result.isEmailVerified);
@@ -64,6 +57,18 @@ class FirebaseAuthService extends IAuthenticationService {
       debugPrint(e.toString());
     }
     return null;
+  }
+
+  Future<AuthCredential> _getGoogleAuth() async {
+    final GoogleSignInAccount googleSignInAccount =
+        await _googleSignIn.signIn();
+    final GoogleSignInAuthentication googleSignInAuthentication =
+        await googleSignInAccount.authentication;
+    final AuthCredential credential = GoogleAuthProvider.getCredential(
+      accessToken: googleSignInAuthentication.accessToken,
+      idToken: googleSignInAuthentication.idToken,
+    );
+    return credential;
   }
 
   @override
@@ -127,26 +132,46 @@ class FirebaseAuthService extends IAuthenticationService {
       }
       return null;
     }
+  }
 
-    ///////not working
-    Future getOtp(
-      String phoneNumber, {
-      Function(String, [int]) onCodeSent,
-      @required Function onVerified,
-      @required Function onCodeRetrievalTimeout,
-    }) async {
-      try {
-        await _auth.verifyPhoneNumber(
-          phoneNumber: phoneNumber,
-          timeout: Duration(seconds: 30),
-          verificationCompleted: (cred) => _signIn,
-          verificationFailed: (auth) => _verificationFailed,
-          codeAutoRetrievalTimeout: onCodeRetrievalTimeout,
-          codeSent: (str, [code]) => onCodeSent,
-        );
-      } catch (e) {
-        throw e;
+  @override
+  Future linkAccountWith(AuthOperationEnum type) async {
+    try {
+      var user = await _auth.currentUser();
+      if (user == null) throw NotFoundException("user");
+      AuthCredential cred;
+      switch (type) {
+        case AuthOperationEnum.EMAIL:
+          cred = EmailAuthProvider.getCredentialWithLink();
+          break;
+        case AuthOperationEnum.GOOGLE:
+          cred = await _getGoogleAuth();
+          break;
+        default:
+          throw InvalidCredentialException("");
       }
+      user.linkWithCredential(cred);
+    } catch (error) {}
+  }
+
+  ///////not working
+  Future getOtp(
+    String phoneNumber, {
+    Function(String, [int]) onCodeSent,
+    @required Function onVerified,
+    @required Function onCodeRetrievalTimeout,
+  }) async {
+    try {
+      await _auth.verifyPhoneNumber(
+        phoneNumber: phoneNumber,
+        timeout: Duration(seconds: 30),
+        verificationCompleted: (cred) => _signIn,
+        verificationFailed: (auth) => _verificationFailed,
+        codeAutoRetrievalTimeout: onCodeRetrievalTimeout,
+        codeSent: (str, [code]) => onCodeSent,
+      );
+    } catch (e) {
+      throw e;
     }
   }
 
