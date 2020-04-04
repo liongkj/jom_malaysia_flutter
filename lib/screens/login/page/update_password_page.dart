@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:jom_malaysia/core/constants/common.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
-import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
+import 'package:jom_malaysia/core/services/authentication/requests/auth_request.dart';
+import 'package:jom_malaysia/generated/l10n.dart';
+import 'package:jom_malaysia/screens/login/widgets/my_email_field.dart';
+import 'package:jom_malaysia/setting/provider/auth_provider.dart';
+import 'package:jom_malaysia/util/auth_utils.dart';
 import 'package:jom_malaysia/util/toast.dart';
 import 'package:jom_malaysia/widgets/app_bar.dart';
 import 'package:jom_malaysia/widgets/my_button.dart';
-import 'package:jom_malaysia/widgets/text_field.dart';
+import 'package:provider/provider.dart';
 
 class UpdatePasswordPage extends StatefulWidget {
   @override
@@ -13,85 +18,93 @@ class UpdatePasswordPage extends StatefulWidget {
 
 class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
   //定义一个controller
-  TextEditingController _oldPwdController = TextEditingController();
-  TextEditingController _newPwdController = TextEditingController();
+  TextEditingController _emailController;
+  FocusNode _focusNode;
+
   bool _isClick = false;
+  final _formKey = GlobalKey<FormState>();
+  AuthProvider _authProvider;
+  AuthRequest _request;
 
   @override
   void initState() {
     super.initState();
     //监听输入改变
-    _oldPwdController.addListener(_verify);
-    _newPwdController.addListener(_verify);
+    _emailController = TextEditingController();
+    _focusNode = FocusNode();
+    _request = new AuthRequest();
+    _authProvider = Provider.of<AuthProvider>(context, listen: false);
   }
 
-  void _verify() {
-    String oldPwd = _oldPwdController.text;
-    String newPwd = _newPwdController.text;
-    bool isClick = true;
-    if (oldPwd.isEmpty || oldPwd.length < 6) {
-      isClick = false;
+  Future errorHandler(err) async {
+    String msg;
+    switch (err.runtimeType) {
+//      case InvalidCredentialException:
+//        msg = S.of(context).errorMsgEmailPasswordIncorrect;
+//        break;
+
+      default:
+        msg = S.of(context).errorMsgUnknownError;
     }
-    if (newPwd.isEmpty || newPwd.length < 6) {
-      isClick = false;
-    }
-    if (isClick != _isClick) {
-      setState(() {
-        _isClick = isClick;
-      });
-    }
+    Toast.show(msg);
   }
 
   void _confirm() {
-    Toast.show("修改成功！");
-    NavigatorUtils.goBack(context);
+    if (_formKey.currentState.validate()) {
+      _formKey.currentState.save();
+      var changePass = AuthUtils.getSignInFunction(
+          type: AuthOperationEnum.CHANGEPASS,
+          errorHandler: (err) => errorHandler(err),
+          loginProvider: _authProvider,
+          request: _request,
+          context: context);
+      changePass();
+      Toast.show("修改成功！");
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const MyAppBar(
-        title: "修改密码",
+      appBar: MyAppBar(
+        title: S.of(context).clickItemUpdatePassword,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              "重置登录密码",
-              style: TextStyles.textBold26,
-            ),
-            Gaps.vGap8,
-            Text(
-              "设置账号 15000000000",
-              style: Theme.of(context)
-                  .textTheme
-                  .subtitle
-                  .copyWith(fontSize: Dimens.font_sp12),
-            ),
-            Gaps.vGap16,
-            Gaps.vGap16,
-            MyTextField(
-              isInputPwd: true,
-              controller: _oldPwdController,
-              maxLength: 16,
-              hintText: "请确认旧密码",
-            ),
-            Gaps.vGap8,
-            MyTextField(
-              isInputPwd: true,
-              controller: _newPwdController,
-              maxLength: 16,
-              hintText: "请输入新密码",
-            ),
-            Gaps.vGap10,
-            Gaps.vGap15,
-            MyButton(
-              onPressed: _isClick ? _confirm : null,
-              text: "确认",
-            )
-          ],
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                S.of(context).labelResetLoginPassword,
+                style: TextStyles.textBold26,
+              ),
+              Gaps.vGap8,
+              Text(
+                S
+                    .of(context)
+                    .clickItemUpdatePasswordHint(_emailController.text),
+                style: Theme.of(context)
+                    .textTheme
+                    .subtitle
+                    .copyWith(fontSize: Dimens.font_sp12),
+              ),
+              Gaps.vGap16,
+              Gaps.vGap16,
+              MyEmailField(
+                request: _request,
+                focusNode: _focusNode,
+                emailController: _emailController,
+              ),
+              Gaps.vGap10,
+              Gaps.vGap15,
+              MyButton(
+                onPressed: _confirm,
+                text: "确认",
+              )
+            ],
+          ),
         ),
       ),
     );

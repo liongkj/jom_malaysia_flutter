@@ -7,15 +7,17 @@ import 'package:jom_malaysia/core/services/gateway/exception/signin_cancelled_ex
 
 class AuthProvider extends ChangeNotifier {
   final IAuthenticationService _service;
+
   AuthProvider({@required IAuthenticationService service}) : _service = service;
 
   AuthUser _user;
+
   AuthUser get user => _user;
 
   void setUser(FirebaseUser fUser) {
     if (fUser != null) {
-      _user = new AuthUser(
-          fUser.uid, fUser.displayName, fUser.photoUrl, fUser.email);
+      _user = new AuthUser(fUser.uid, fUser.displayName, fUser.photoUrl,
+          fUser.email, fUser.isEmailVerified);
     } else {
       _user = null;
     }
@@ -44,4 +46,6 @@ class AuthProvider extends ChangeNotifier {
     _user = await _service.changeDisplayName(dn);
     notifyListeners();
   }
+
+  Future<void> changePassword(AuthRequest request) async {}
 }

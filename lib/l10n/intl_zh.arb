@@ -113,6 +113,7 @@
   "clickItemUpdatePasswordHint": "电邮：{email}",
   "clickItemLinkToHint": "绑定{provider}",
   "labelGoogle": "谷歌",
+  "labelResetLoginPassword":"重置登录密码",
   "msgUpdatePhotoSuccess": "已更新您的个人资料图片",
   "msgUpdateUsernameSuccess": "{uname},很高兴认识你",
   "errorMsgEmailPasswordIncorrect": "电子邮件/密码不正确",

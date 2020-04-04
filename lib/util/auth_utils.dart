@@ -7,14 +7,14 @@ import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 
 class AuthUtils {
   static Function getSignInFunction(
-      {@required SignInTypeEnum type,
+      {@required AuthOperationEnum type,
       @required Function(dynamic) errorHandler,
       @required AuthProvider loginProvider,
       @required BuildContext context,
       AuthRequest request}) {
     Function _type;
     switch (type) {
-      case SignInTypeEnum.GOOGLE:
+      case AuthOperationEnum.GOOGLE:
         _type = () => loginProvider
             .signInWithGoogle()
             .then(
@@ -23,7 +23,7 @@ class AuthUtils {
             .catchError(errorHandler,
                 test: (e) => e is SignInCancelledException);
         break;
-      case SignInTypeEnum.SIGNUP:
+      case AuthOperationEnum.SIGNUP:
         _type = () => loginProvider
             .signUp(request)
             .then(
@@ -31,9 +31,17 @@ class AuthUtils {
             )
             .catchError(errorHandler);
         break;
-      case SignInTypeEnum.EMAIL:
+      case AuthOperationEnum.EMAIL:
         _type = () => loginProvider
             .signInWithEmailPassword(request)
+            .then(
+              (onValue) => NavigatorUtils.goBack(context),
+            )
+            .catchError(errorHandler);
+        break;
+      case AuthOperationEnum.CHANGEPASS:
+        _type = () => loginProvider
+            .changePassword(request)
             .then(
               (onValue) => NavigatorUtils.goBack(context),
             )

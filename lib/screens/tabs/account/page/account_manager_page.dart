@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
-import 'package:jom_malaysia/screens/login/login_router.dart';
 import 'package:jom_malaysia/setting/provider/auth_provider.dart';
-import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/widgets/app_bar.dart';
 import 'package:jom_malaysia/widgets/click_item.dart';
 import 'package:provider/provider.dart';
@@ -35,14 +33,7 @@ class _AccountManagerPageState extends State<AccountManagerPage> {
       body: Column(
         children: <Widget>[
           ClickItem(
-              title: S.of(context).clickItemUpdatePassword,
-              content: S
-                  .of(context)
-                  .clickItemUpdatePasswordHint(authProvider.user.email),
-              onTap: () =>
-                  NavigatorUtils.push(context, LoginRouter.updatePasswordPage)),
-          ClickItem(
-            title: S.of(context).clickItemLinkToHint(_accounts[0]),
+            title: S.of(context).clickItemLinkToHint("Google"),
             content: "Linked",
           ),
         ],

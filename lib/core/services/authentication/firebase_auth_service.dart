@@ -24,8 +24,8 @@ class FirebaseAuthService extends IAuthenticationService {
       FirebaseUser result = (await _auth.createUserWithEmailAndPassword(
               email: request.email, password: request.password))
           .user;
-      AuthUser user = new AuthUser(
-          result.uid, result.displayName, result.photoUrl, result.email);
+      AuthUser user = new AuthUser(result.uid, result.displayName,
+          result.photoUrl, result.email, result.isEmailVerified);
       return user;
     } catch (error) {
       switch (error.code) {
@@ -57,8 +57,8 @@ class FirebaseAuthService extends IAuthenticationService {
       final AuthResult authResult =
           await _auth.signInWithCredential(credential);
       final FirebaseUser result = authResult.user;
-      AuthUser user = new AuthUser(
-          result.uid, result.displayName, result.photoUrl, result.email);
+      AuthUser user = new AuthUser(result.uid, result.displayName,
+          result.photoUrl, result.email, result.isEmailVerified);
       return user;
     } catch (e) {
       debugPrint(e.toString());
@@ -72,8 +72,8 @@ class FirebaseAuthService extends IAuthenticationService {
       FirebaseUser result = (await _auth.signInWithEmailAndPassword(
               email: request.email, password: request.password))
           .user;
-      AuthUser user = new AuthUser(
-          result.uid, result.displayName, result.photoUrl, result.email);
+      AuthUser user = new AuthUser(result.uid, result.displayName,
+          result.photoUrl, result.email, result.isEmailVerified);
       return user;
     } catch (error) {
       switch (error.code) {
@@ -108,9 +108,17 @@ class FirebaseAuthService extends IAuthenticationService {
           break;
       }
     }
-    return new AuthUser(user.uid, user.displayName, user.photoUrl, user.email);
+    return new AuthUser(user.uid, user.displayName, user.photoUrl, user.email,
+        user.isEmailVerified);
   }
 
+  @override
+  Future<void> changePassword(AuthRequest request) {
+    _auth.sendPasswordResetEmail(email: request.email);
+    return null;
+  }
+
+  ///////not working
   Future getOtp(
     String phoneNumber, {
     Function(String, [int]) onCodeSent,

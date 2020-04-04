@@ -23,7 +23,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m1(provider) => "Link to ${provider}";
 
-  static m2(email) => "Email: ${email}";
+  static m2(email) => "A password reset email will be sent to ${email}";
 
   static m3(len) => "Password must be at least ${len} characters";
 
@@ -52,7 +52,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "clickItemSettingFeedbackTitle" : MessageLookupByLibrary.simpleMessage("Feedback"),
     "clickItemSettingRecommendPlaceTitle" : MessageLookupByLibrary.simpleMessage("Add a missing place"),
     "clickItemSettingShareTitle" : MessageLookupByLibrary.simpleMessage("Tell a friend"),
-    "clickItemUpdatePassword" : MessageLookupByLibrary.simpleMessage("Update Password"),
+    "clickItemUpdatePassword" : MessageLookupByLibrary.simpleMessage("Reset Password"),
     "clickItemUpdatePasswordHint" : m2,
     "errorMessageNetworkFailure" : MessageLookupByLibrary.simpleMessage("Unknown error, Please check your network!"),
     "errorMsgAccountExist" : MessageLookupByLibrary.simpleMessage("Email Address is Already Registered"),
@@ -116,6 +116,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "labelRegister" : MessageLookupByLibrary.simpleMessage("Register"),
     "labelRegisterYourAccount" : MessageLookupByLibrary.simpleMessage("Start your jomn9 journey"),
     "labelRememberMe" : MessageLookupByLibrary.simpleMessage("Remember me"),
+    "labelResetLoginPassword" : MessageLookupByLibrary.simpleMessage("Change password"),
     "labelReview" : MessageLookupByLibrary.simpleMessage("Review"),
     "labelSearch" : MessageLookupByLibrary.simpleMessage("Search"),
     "labelSearchHint" : MessageLookupByLibrary.simpleMessage("Search for a name or keyword"),

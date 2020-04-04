@@ -733,7 +733,7 @@ class S {
 
   String get clickItemUpdatePassword {
     return Intl.message(
-      'Update Password',
+      'Reset Password',
       name: 'clickItemUpdatePassword',
       desc: '',
       args: [],
@@ -742,7 +742,7 @@ class S {
 
   String clickItemUpdatePasswordHint(Object email) {
     return Intl.message(
-      'Email: $email',
+      'A password reset email will be sent to $email',
       name: 'clickItemUpdatePasswordHint',
       desc: '',
       args: [email],
@@ -755,6 +755,15 @@ class S {
       name: 'clickItemLinkToHint',
       desc: '',
       args: [provider],
+    );
+  }
+
+  String get labelResetLoginPassword {
+    return Intl.message(
+      'Change password',
+      name: 'labelResetLoginPassword',
+      desc: '',
+      args: [],
     );
   }
 

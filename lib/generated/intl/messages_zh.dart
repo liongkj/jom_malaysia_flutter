@@ -114,6 +114,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "labelRegister" : MessageLookupByLibrary.simpleMessage("还没有帐号？快去注册"),
     "labelRegisterYourAccount" : MessageLookupByLibrary.simpleMessage("开始您的jomn9之旅"),
     "labelRememberMe" : MessageLookupByLibrary.simpleMessage("记住我"),
+    "labelResetLoginPassword" : MessageLookupByLibrary.simpleMessage("重置登录密码"),
     "labelReview" : MessageLookupByLibrary.simpleMessage("评论"),
     "labelSearch" : MessageLookupByLibrary.simpleMessage("搜索"),
     "labelSearchHint" : MessageLookupByLibrary.simpleMessage("请输入关键词查询"),
