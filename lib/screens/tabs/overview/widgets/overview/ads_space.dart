@@ -21,9 +21,7 @@ class _AdsSpaceState extends State<AdsSpace> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (_isInit) {
-        Provider.of<AdsProvider>(context, listen: false).fetchAndInitAds();
-      }
+      if (_isInit) {}
       _isInit = false;
     });
     _controller = SwiperController();
@@ -43,34 +41,38 @@ class _AdsSpaceState extends State<AdsSpace> {
     return Card(
       child: Container(
         height: MediaQuery.of(context).size.height * 0.35,
-        child: Consumer<AdsProvider>(builder: (_, provider, __) {
-          _adList = Provider.of<AdsProvider>(context, listen: false).adList;
-          return Swiper(
-            curve: Curves.easeOut,
-            controller: _controller,
-            itemBuilder: (context, index) {
-              return GestureDetector(
-                onTap: () => _adList[index].linkTo != ""
-                    ? NavigatorUtils.goWebViewPage(
-                        context,
-                        _adList[index].title,
-                        _adList[index].linkTo,
-                      )
-                    : showToast(S.of(context).labelNoDetail),
-                child: LoadImage(
-                  _adList[index].imageUrl.isNotEmpty
-                      ? _adList[index].imageUrl
-                      : "",
-                  fit: BoxFit.fitWidth,
-                ),
-              );
-            },
-            pagination: _pagination,
-            itemCount: _adList.length,
-            autoplay: _adList.isNotEmpty,
-            autoplayDelay: 10000,
-          );
-        }),
+        child: FutureBuilder<List<AdsModel>>(
+          initialData: [],
+          future: Provider.of<AdsProvider>(context, listen: false)
+              .fetchAndInitAds(),
+          builder: (ctx, snap) {
+            _adList = Provider.of<AdsProvider>(context, listen: false).adList;
+            return Swiper(
+              curve: Curves.easeOut,
+              controller: _controller,
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                  key: Key("ads-$index"),
+                  onTap: () => _adList[index].linkTo != ""
+                      ? NavigatorUtils.goWebViewPage(
+                          context,
+                          _adList[index].title,
+                          _adList[index].linkTo,
+                        )
+                      : showToast(S.of(context).labelNoDetail),
+                  child: LoadImage(
+                    _adList[index].imageUrl ?? "",
+                    fit: BoxFit.fitWidth,
+                  ),
+                );
+              },
+              pagination: _pagination,
+              itemCount: _adList.length,
+              autoplay: _adList.isNotEmpty,
+              autoplayDelay: 10000,
+            );
+          },
+        ),
       ),
     );
   }

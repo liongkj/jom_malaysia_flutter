@@ -64,10 +64,11 @@ class PlaceDetailPageState extends State<PlaceDetailPage>
       controller: _scrollController,
       floatingActionButton: Builder(
         builder: (ctx) => FloatingActionButton.extended(
+          key: Key("FAB"),
           heroTag: "btn_open_form",
           tooltip: S.of(context).labelRatePlace,
           onPressed: () => _addNewReview(),
-          icon: Icon(Icons.star),
+          icon: const Icon(Icons.star),
           label: Text(S.of(context).labelRatePlace),
         ),
       ),

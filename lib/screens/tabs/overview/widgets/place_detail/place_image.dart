@@ -21,6 +21,7 @@ class PlaceImage extends StatelessWidget {
             shrinkWrap: true,
             itemBuilder: (BuildContext context, int index) {
               return GestureDetector(
+                key: Key("place_image_$index"),
                 onTap: () => Navigator.push(
                   context,
                   MaterialPageRoute(

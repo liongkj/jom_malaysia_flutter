@@ -25,6 +25,7 @@ class SinglePhotoView extends StatelessWidget {
         height: MediaQuery.of(context).size.height,
       ),
       child: PhotoView(
+        key: Key(tagId),
         imageProvider: imageProvider,
         loadingBuilder: loadingBuilder,
         backgroundDecoration: backgroundDecoration,

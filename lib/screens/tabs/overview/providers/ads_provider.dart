@@ -19,38 +19,23 @@ class AdsProvider extends BaseChangeNotifier {
     return [..._adList];
   }
 
-  Future<void> fetchAndInitAds({
+  Future<List<AdsModel>> fetchAndInitAds({
     bool refresh = true,
   }) async {
+    List<AdsModel> data;
     final Options options = buildCacheOptions(Duration(days: 7),
         forceRefresh: refresh,
         options: new RequestOptions(baseUrl: APIEndpoint.getAdsRequest));
-    //change base url by adding new request option
-    Map<String, dynamic> queries = Map<String, dynamic>();
     try {
-      var data =
-          await _httpService.asyncRequestNetwork<List<AdsModel>, AdsModel>(
+      data = await _httpService.asyncRequestNetwork<List<AdsModel>, AdsModel>(
         Method.get,
         url: "",
         options: options,
-        queryParameters: queries,
         isShow: false,
       );
-      if (data != null) {
-        if (data.length > 0) {
-          _adList = data;
-          notifyListeners();
-          return;
-        } else {
-          setStateType(StateType.empty);
-          return;
-        }
-      } else {
-        setStateType(StateType.empty);
-        return;
-      }
     } on Exception {
       setStateType(StateType.network);
     }
+    return data;
   }
 }
