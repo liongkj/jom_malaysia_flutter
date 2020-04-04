@@ -47,5 +47,7 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> changePassword(AuthRequest request) async {}
+  Future<void> changePassword(AuthRequest request) async {
+    _service.changePassword(request);
+  }
 }

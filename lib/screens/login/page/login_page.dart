@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flustars/flustars.dart' as sp;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -35,6 +37,7 @@ class _LoginPageState extends State<LoginPage> {
   final FocusNode _nodeText2 = FocusNode();
   AuthRequest request;
   final _formKey = GlobalKey<FormState>();
+
   var _autovalidate = false;
   AuthProvider _loginProvider;
 
@@ -45,6 +48,7 @@ class _LoginPageState extends State<LoginPage> {
     _nameController.text = sp.SpUtil.getString(Constant.email);
     request = new AuthRequest();
     _loginProvider = Provider.of<AuthProvider>(context, listen: false);
+    const oneSec = const Duration(seconds: 1);
   }
 
   Future errorHandler(err) async {

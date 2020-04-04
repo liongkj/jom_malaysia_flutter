@@ -113,29 +113,40 @@ class FirebaseAuthService extends IAuthenticationService {
   }
 
   @override
-  Future<void> changePassword(AuthRequest request) {
-    _auth.sendPasswordResetEmail(email: request.email);
-    return null;
-  }
-
-  ///////not working
-  Future getOtp(
-    String phoneNumber, {
-    Function(String, [int]) onCodeSent,
-    @required Function onVerified,
-    @required Function onCodeRetrievalTimeout,
-  }) async {
+  Future changePassword(AuthRequest request) async {
     try {
-      await _auth.verifyPhoneNumber(
-        phoneNumber: phoneNumber,
-        timeout: Duration(seconds: 30),
-        verificationCompleted: (cred) => _signIn,
-        verificationFailed: (auth) => _verificationFailed,
-        codeAutoRetrievalTimeout: onCodeRetrievalTimeout,
-        codeSent: (str, [code]) => onCodeSent,
-      );
-    } catch (e) {
-      throw e;
+      await _auth.sendPasswordResetEmail(email: request.email);
+    } catch (error) {
+      switch (error.code) {
+        case "ERROR_INVALID_EMAIL":
+          throw InvalidEmailException("user");
+          break;
+        case "ERROR_USER_NOT_FOUND":
+          throw NotFoundException("user");
+          break;
+      }
+      return null;
+    }
+
+    ///////not working
+    Future getOtp(
+      String phoneNumber, {
+      Function(String, [int]) onCodeSent,
+      @required Function onVerified,
+      @required Function onCodeRetrievalTimeout,
+    }) async {
+      try {
+        await _auth.verifyPhoneNumber(
+          phoneNumber: phoneNumber,
+          timeout: Duration(seconds: 30),
+          verificationCompleted: (cred) => _signIn,
+          verificationFailed: (auth) => _verificationFailed,
+          codeAutoRetrievalTimeout: onCodeRetrievalTimeout,
+          codeSent: (str, [code]) => onCodeSent,
+        );
+      } catch (e) {
+        throw e;
+      }
     }
   }
 

@@ -1100,6 +1100,33 @@ class S {
     );
   }
 
+  String msgEmailSent(Object email) {
+    return Intl.message(
+      'An Email is sent to $email. Please follow the instructions.',
+      name: 'msgEmailSent',
+      desc: '',
+      args: [email],
+    );
+  }
+
+  String get labelSendEmail {
+    return Intl.message(
+      'Send',
+      name: 'labelSendEmail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String labelResendEmail(Object timer) {
+    return Intl.message(
+      'Resend ($timer)',
+      name: 'labelResendEmail',
+      desc: '',
+      args: [timer],
+    );
+  }
+
   String msgUpdateUsernameSuccess(Object uname) {
     return Intl.message(
       'Nice to meet you $uname',
