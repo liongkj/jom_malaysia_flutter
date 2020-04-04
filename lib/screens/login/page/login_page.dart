@@ -148,8 +148,8 @@ class _LoginPageState extends State<LoginPage> {
                 S.of(context).labelForgetPassword,
                 style: Theme.of(context).textTheme.subtitle,
               ),
-              onTap: () =>
-                  NavigatorUtils.push(context, LoginRouter.resetPasswordPage),
+              onTap: () => NavigatorUtils.push(
+                  context, LoginRouter.resetPasswordViaEmailPage),
             ),
           ),
           Gaps.vGap16,

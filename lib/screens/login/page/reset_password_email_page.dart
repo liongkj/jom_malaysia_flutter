@@ -11,12 +11,13 @@ import 'package:jom_malaysia/widgets/app_bar.dart';
 import 'package:jom_malaysia/widgets/my_button.dart';
 import 'package:provider/provider.dart';
 
-class UpdatePasswordPage extends StatefulWidget {
+class ResetPasswordViaEmailPage extends StatefulWidget {
   @override
-  _UpdatePasswordPageState createState() => _UpdatePasswordPageState();
+  _ResetPasswordViaEmailPageState createState() =>
+      _ResetPasswordViaEmailPageState();
 }
 
-class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
+class _ResetPasswordViaEmailPageState extends State<ResetPasswordViaEmailPage> {
   //定义一个controller
   TextEditingController _emailController;
   FocusNode _focusNode;
@@ -25,12 +26,13 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
   final _formKey = GlobalKey<FormState>();
   AuthProvider _authProvider;
   AuthRequest _request;
+  String _emailText;
 
   @override
   void initState() {
     super.initState();
     //监听输入改变
-    _emailController = TextEditingController();
+    _emailController = TextEditingController()..addListener(_updateEmail);
     _focusNode = FocusNode();
     _request = new AuthRequest();
     _authProvider = Provider.of<AuthProvider>(context, listen: false);
@@ -47,6 +49,12 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
         msg = S.of(context).errorMsgUnknownError;
     }
     Toast.show(msg);
+  }
+
+  void _updateEmail() {
+    setState(() {
+      _emailText = _emailController.text;
+    });
   }
 
   void _confirm() {
@@ -82,9 +90,9 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
               ),
               Gaps.vGap8,
               Text(
-                S
-                    .of(context)
-                    .clickItemUpdatePasswordHint(_emailController.text),
+                S.of(context).clickItemUpdatePasswordHint(_emailText),
+                textAlign: TextAlign.center,
+                key: Key("email-help-text"),
                 style: Theme.of(context)
                     .textTheme
                     .subtitle
@@ -93,6 +101,9 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
               Gaps.vGap16,
               Gaps.vGap16,
               MyEmailField(
+                onChanged: (value) {
+                  _emailText = value;
+                },
                 request: _request,
                 focusNode: _focusNode,
                 emailController: _emailController,

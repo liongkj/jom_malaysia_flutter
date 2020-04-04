@@ -3,16 +3,16 @@ import 'package:jom_malaysia/setting/routers/router_init.dart';
 
 import 'page/login_page.dart';
 import 'page/register_page.dart';
-import 'page/reset_password_page.dart';
+import 'page/reset_password_email_page.dart';
+import 'page/reset_password_otp_page.dart';
 import 'page/sms_login_page.dart';
-import 'page/update_password_page.dart';
 
 class LoginRouter implements IRouterProvider {
   static String loginPage = "/login";
   static String registerPage = "/login/register";
   static String smsLoginPage = "/login/smsLogin";
-  static String resetPasswordPage = "/login/resetPassword";
-  static String updatePasswordPage = "/login/updatePassword";
+  static String resetPasswordViaOtpPage = "/login/otp/resetPassword";
+  static String resetPasswordViaEmailPage = "/login/email/updatePassword";
 
   @override
   void initRouter(Router router) {
@@ -22,9 +22,11 @@ class LoginRouter implements IRouterProvider {
         handler: Handler(handlerFunc: (_, params) => RegisterPage()));
     router.define(smsLoginPage,
         handler: Handler(handlerFunc: (_, params) => SMSLoginPage()));
-    router.define(resetPasswordPage,
-        handler: Handler(handlerFunc: (_, params) => ResetPasswordPage()));
-    router.define(updatePasswordPage,
-        handler: Handler(handlerFunc: (_, params) => UpdatePasswordPage()));
+    router.define(resetPasswordViaOtpPage,
+        handler:
+            Handler(handlerFunc: (_, params) => ResetPasswordViaOtpPage()));
+    router.define(resetPasswordViaEmailPage,
+        handler:
+            Handler(handlerFunc: (_, params) => ResetPasswordViaEmailPage()));
   }
 }
