@@ -52,3 +52,5 @@ class Constant {
 }
 
 enum AuthOperationEnum { EMAIL, PHONE, GOOGLE, SIGNUP, CHANGEPASS }
+
+enum AuthProviderEnum { GOOGLE, PASSWORD, FACEBOOK }

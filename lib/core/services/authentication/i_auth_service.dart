@@ -11,7 +11,7 @@ abstract class IAuthenticationService {
 
   Future<void> logout();
 
-  Future linkAccountWith(AuthOperationEnum type);
+  Future linkAccountWith(AuthProviderEnum type);
 
   Future<AuthUser> changeDisplayName(String displayName);
 

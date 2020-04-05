@@ -769,8 +769,35 @@ class S {
 
   String get labelGoogle {
     return Intl.message(
-      'Google',
+      'Google Account',
       name: 'labelGoogle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelPassword {
+    return Intl.message(
+      'Email/Password',
+      name: 'labelPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelAccountConnected {
+    return Intl.message(
+      'Connected',
+      name: 'labelAccountConnected',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelAccountLinkNow {
+    return Intl.message(
+      'Link Now',
+      name: 'labelAccountLinkNow',
       desc: '',
       args: [],
     );

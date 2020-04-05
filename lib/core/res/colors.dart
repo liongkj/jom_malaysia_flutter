@@ -7,6 +7,9 @@ class Colours {
   static const Color app_secondary = Color(0xFF05A19C);
   static const Color dark_app_secondary = Color(0xFFFFC000);
 
+  static const Color show_connected = Color(0xFF00897b);
+  static const Color show_disconnected = Color(0xFFe64a19);
+
   static const Color bg_color = Color(0xFFF2F2F2);
   static const Color dark_bg_color = Color(0xFF18191A);
 

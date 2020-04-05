@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:jom_malaysia/core/res/resources.dart';
 
 class ClickItem extends StatelessWidget {
@@ -9,6 +8,7 @@ class ClickItem extends StatelessWidget {
       @required this.title,
       this.content: "",
       this.textAlign: TextAlign.start,
+      this.trailing,
       this.maxLines: 1})
       : super(key: key);
 
@@ -17,6 +17,7 @@ class ClickItem extends StatelessWidget {
   final String content;
   final TextAlign textAlign;
   final int maxLines;
+  final Widget trailing;
 
   @override
   Widget build(BuildContext context) {
@@ -42,20 +43,28 @@ class ClickItem extends StatelessWidget {
               title,
             ),
             const Spacer(),
-            Expanded(
-              flex: 4,
-              child: Padding(
-                padding: const EdgeInsets.only(right: 8.0, left: 16.0),
-                child: Text(content,
-                    maxLines: maxLines,
-                    textAlign: maxLines == 1 ? TextAlign.right : textAlign,
-                    overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context)
-                        .textTheme
-                        .subtitle
-                        .copyWith(fontSize: Dimens.font_sp14)),
+            if (content != "")
+              Expanded(
+                flex: 4,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 8.0, left: 16.0),
+                  child: Text(content,
+                      maxLines: maxLines,
+                      textAlign: maxLines == 1 ? TextAlign.right : textAlign,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context)
+                          .textTheme
+                          .subtitle
+                          .copyWith(fontSize: Dimens.font_sp14)),
+                ),
               ),
-            ),
+            if (trailing != null)
+              Expanded(
+                flex: 4,
+                child: Padding(
+                    padding: const EdgeInsets.only(right: 8.0, left: 16.0),
+                    child: trailing),
+              ),
             Opacity(
               // 无点击事件时，隐藏箭头图标
               opacity: onTap == null ? 0 : 1,

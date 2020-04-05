@@ -135,16 +135,16 @@ class FirebaseAuthService extends IAuthenticationService {
   }
 
   @override
-  Future linkAccountWith(AuthOperationEnum type) async {
+  Future linkAccountWith(AuthProviderEnum type) async {
     try {
       var user = await _auth.currentUser();
       if (user == null) throw NotFoundException("user");
       AuthCredential cred;
       switch (type) {
-        case AuthOperationEnum.EMAIL:
+        case AuthProviderEnum.PASSWORD:
           cred = EmailAuthProvider.getCredentialWithLink();
           break;
-        case AuthOperationEnum.GOOGLE:
+        case AuthProviderEnum.GOOGLE:
           cred = await _getGoogleAuth();
           break;
         default:
