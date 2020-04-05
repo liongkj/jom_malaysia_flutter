@@ -7,6 +7,8 @@ import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/core/services/gateway/exception/operation_cancel_exception.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/tabs/account/models/platform_provider_model.dart';
+import 'package:jom_malaysia/screens/tabs/account/widgets/bottom_nav_button.dart';
+import 'package:jom_malaysia/screens/tabs/account/widgets/destroy_acc_dialog.dart';
 import 'package:jom_malaysia/setting/provider/auth_provider.dart';
 import 'package:jom_malaysia/util/auth_utils.dart';
 import 'package:jom_malaysia/widgets/app_bar.dart';
@@ -53,6 +55,11 @@ class _AccountSettingPageState extends State<AccountSettingPage> {
       appBar: MyAppBar(
         centerTitle: S.of(context).labelAccountSetting,
       ),
+      bottomNavigationBar: BottomNavButton(
+        danger: true,
+        title: "Destroy Account",
+        logOut: _showDeleteAccount,
+      ),
       body: Column(
         children: <Widget>[
           ListView.builder(
@@ -97,8 +104,9 @@ class _AccountSettingPageState extends State<AccountSettingPage> {
                     ),
               onTap: () => _linkedAccounts[index].linked
                   ? _showDisconnectDialog(_linkedAccounts[index].provider)
-                  : _showConnectDialog(_linkedAccounts[index].provider,
-                      _providerLabels[_linkedAccounts[index].provider]),
+                  : _showConnectDialog(
+                      _linkedAccounts[index].provider,
+                    ),
             ),
           ),
         ],
@@ -107,10 +115,29 @@ class _AccountSettingPageState extends State<AccountSettingPage> {
   }
 
   _showDisconnectDialog(AuthProviderEnum provider) {
-    //TODO must exist at least one
+    String providerLabel = _providerLabels[provider];
+    var link = AuthUtils.getUnlinkFunction(
+        type: provider,
+        errorHandler: (err) => errorHandler(err, providerLabel),
+        loginProvider: Provider.of<AuthProvider>(context, listen: false),
+        context: context);
+    showDialog(
+        context: context,
+        builder: (_) => BaseDialog(
+              showCancel: true,
+              title: "Unlink Account",
+              onPressed: () => link(),
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                child: Text("Connect with $providerLabel?",
+                    style: TextStyles.textSize16),
+              ),
+            ));
   }
 
-  _showConnectDialog(AuthProviderEnum provider, String providerLabel) {
+  _showConnectDialog(AuthProviderEnum provider) {
+    String providerLabel = _providerLabels[provider];
     var link = AuthUtils.getLinkFunction(
         type: provider,
         errorHandler: (err) => errorHandler(err, providerLabel),
@@ -143,5 +170,9 @@ class _AccountSettingPageState extends State<AccountSettingPage> {
         msg = S.of(context).errorMsgUnknownError;
     }
     showToast(msg);
+  }
+
+  void _showDeleteAccount() {
+    showDialog(context: context, builder: (_) => DestroyAccountDialog());
   }
 }

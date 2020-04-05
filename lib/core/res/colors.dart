@@ -49,4 +49,7 @@ class Colours {
 
   static const Color bg_gray_ = Color(0xFFF2F2F2);
   static const Color dark_bg_gray_ = Color(0xFF242526);
+
+  static const Color danger_color = Color(0xffd9534f);
+  static const Color disabled_danger_color = Color(0xffd9534f);
 }

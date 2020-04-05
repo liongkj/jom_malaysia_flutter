@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/setting/provider/auth_provider.dart';
 import 'package:jom_malaysia/widgets/my_button.dart';
 import 'package:provider/provider.dart';
 
-class LogOutButton extends StatelessWidget {
-  LogOutButton({this.logOut});
+class BottomNavButton extends StatelessWidget {
+  BottomNavButton({
+    @required this.logOut,
+    @required this.title,
+    this.danger = false,
+  });
 
   final Function logOut;
+  final String title;
+  final bool danger;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +23,8 @@ class LogOutButton extends StatelessWidget {
         padding: EdgeInsets.symmetric(vertical: 32.0, horizontal: 48),
         child: MyButton(
           onPressed: logOut,
-          text: S.of(context).labelLogout,
+          text: title,
+          isDanger: danger,
         ),
       );
     else

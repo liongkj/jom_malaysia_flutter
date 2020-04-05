@@ -72,6 +72,9 @@ class AuthProvider extends ChangeNotifier {
   }
 
   Future<void> unlinkAccount(AuthProviderEnum type) async {
-    await _service.unlinkAccountWith(type);
+    var user = await _service.unlinkAccountWith(type);
+    setUser(user);
   }
+
+  destroy() {}
 }
