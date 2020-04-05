@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:jom_malaysia/core/constants/common.dart';
 import 'package:jom_malaysia/core/models/authuser_model.dart';
 import 'package:jom_malaysia/core/services/authentication/requests/auth_request.dart';
@@ -11,7 +12,7 @@ abstract class IAuthenticationService {
 
   Future<void> logout();
 
-  Future linkAccountWith(AuthProviderEnum type);
+  Future<FirebaseUser> linkAccountWith(AuthProviderEnum type);
 
   Future<AuthUser> changeDisplayName(String displayName);
 

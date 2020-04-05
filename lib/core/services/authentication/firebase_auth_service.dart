@@ -143,7 +143,7 @@ class FirebaseAuthService extends IAuthenticationService {
   }
 
   @override
-  Future linkAccountWith(AuthProviderEnum type) async {
+  Future<FirebaseUser> linkAccountWith(AuthProviderEnum type) async {
     try {
       var user = await _auth.currentUser();
       if (user == null) throw NotFoundException("user");
@@ -158,7 +158,9 @@ class FirebaseAuthService extends IAuthenticationService {
         default:
           throw InvalidCredentialException("");
       }
-      user.linkWithCredential(cred);
+      final AuthResult authResult = await user.linkWithCredential(cred);
+
+      return authResult.user;
     } catch (error) {
       switch (error.code) {
         default:

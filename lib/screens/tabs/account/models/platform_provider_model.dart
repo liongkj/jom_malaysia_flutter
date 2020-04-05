@@ -9,9 +9,17 @@ class PlatformProviderModel {
       {bool linked = true}) {
     this.email = email;
     this.linked = linked;
-    this.provider = AuthProviderEnum.values.firstWhere(
-        (f) => f.toString().toLowerCase().contains(providerId),
-        orElse: () => null);
+
+    switch (providerId) {
+      case 'google.com':
+        this.provider = AuthProviderEnum.GOOGLE;
+        break;
+      case 'password':
+        this.provider = AuthProviderEnum.PASSWORD;
+        break;
+      default:
+        throw FormatException("Enum not found");
+    }
   }
 
   PlatformProviderModel(this.provider, this.email, {this.linked = true});

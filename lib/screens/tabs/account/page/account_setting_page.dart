@@ -45,10 +45,10 @@ class _AccountSettingPageState extends State<AccountSettingPage> {
       if (s >= 0) _linkedAccounts.removeAt(s);
     }
     _linkedAccounts.insertAll(0, authProvider.providerList);
-    _providerLabels.addAll({
+    _providerLabels = {
       AuthProviderEnum.GOOGLE: S.of(context).labelGoogle,
       AuthProviderEnum.PASSWORD: S.of(context).labelPassword
-    });
+    };
     return Scaffold(
       appBar: MyAppBar(
         centerTitle: S.of(context).labelAccountSetting,

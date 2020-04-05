@@ -25,10 +25,8 @@ class AuthProvider extends ChangeNotifier {
       List<PlatformProviderModel> pList = [];
       fUser.providerData?.forEach((p) {
         if (p.providerId != "firebase") {
-          pList.add(PlatformProviderModel.createModel(
-            p.providerId,
-            p.email,
-          ));
+          debugPrint(p.providerId);
+          pList.add(PlatformProviderModel.createModel(p.providerId, p.email));
         }
       });
 
@@ -69,10 +67,7 @@ class AuthProvider extends ChangeNotifier {
   }
 
   Future<void> linkAccount(AuthProviderEnum type) async {
-    try {
-      await _service.linkAccountWith(type);
-    } catch (e) {
-      throw e;
-    }
+    var user = await _service.linkAccountWith(type);
+    setUser(user);
   }
 }
