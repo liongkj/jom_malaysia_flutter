@@ -196,4 +196,10 @@ class FirebaseAuthService extends IAuthenticationService {
       }
     }
   }
+
+  @override
+  Future<void> deleteAccount() {
+    // TODO: implement deleteAccount
+    return null;
+  }
 }
