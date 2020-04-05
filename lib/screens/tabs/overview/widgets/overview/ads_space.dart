@@ -19,7 +19,7 @@ class _AdsSpaceState extends State<AdsSpace> {
 
   @override
   void initState() {
-    _controller = new SwiperController();
+    _controller = SwiperController();
     _controller.startAutoplay();
     _pagination = SwiperPagination();
     super.initState();
