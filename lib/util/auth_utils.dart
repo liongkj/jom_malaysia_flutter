@@ -10,6 +10,20 @@ import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 
 class AuthUtils {
+  static Function getLinkFunction({
+    @required AuthProviderEnum type,
+    @required Function(dynamic) errorHandler,
+    @required AuthProvider loginProvider,
+    @required BuildContext context,
+  }) {
+    return () => loginProvider
+        .linkAccount(type)
+        .then(
+          (onValue) => NavigatorUtils.goBack(context),
+        )
+        .catchError(errorHandler);
+  }
+
   static Function getSignInFunction({
     @required AuthOperationEnum type,
     @required Function(dynamic) errorHandler,

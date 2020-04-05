@@ -129,6 +129,7 @@
   "errorMsgEmailPasswordIncorrect": "Email / Password is incorrect",
   "errorMsgUserNotRegistered": "User not registered",
   "errorMsgUnknownError": "Unknown error try again later",
+  "errorMsgLinkOperationCancelled": "Link {operationName} operation cancelled.",
   "labelOtpLogin": "OTP Sign In",
   "labelEmailSignIn": "Email Sign In",
   "labelInputFieldEmail": "Please enter your email",

@@ -3,12 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/constants/common.dart';
 import 'package:jom_malaysia/core/res/colors.dart';
 import 'package:jom_malaysia/core/res/gaps.dart';
+import 'package:jom_malaysia/core/res/resources.dart';
+import 'package:jom_malaysia/core/services/gateway/exception/operation_cancel_exception.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/tabs/account/models/platform_provider_model.dart';
 import 'package:jom_malaysia/setting/provider/auth_provider.dart';
+import 'package:jom_malaysia/util/auth_utils.dart';
 import 'package:jom_malaysia/widgets/app_bar.dart';
 import 'package:jom_malaysia/widgets/base_dialog.dart';
 import 'package:jom_malaysia/widgets/click_item.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 
 class AccountSettingPage extends StatefulWidget {
@@ -92,8 +96,9 @@ class _AccountSettingPageState extends State<AccountSettingPage> {
                       ],
                     ),
               onTap: () => _linkedAccounts[index].linked
-                  ? _showConnectDialog(_linkedAccounts[index].provider)
-                  : _showDisconnectDialog(_linkedAccounts[index].provider),
+                  ? _showDisconnectDialog(_linkedAccounts[index].provider)
+                  : _showConnectDialog(_linkedAccounts[index].provider,
+                      _providerLabels[_linkedAccounts[index].provider]),
             ),
           ),
         ],
@@ -101,28 +106,42 @@ class _AccountSettingPageState extends State<AccountSettingPage> {
     );
   }
 
-  _showDisconnectDialog(AuthProviderEnum provider) {}
+  _showDisconnectDialog(AuthProviderEnum provider) {
+    //TODO must exist at least one
+  }
 
-  _showConnectDialog(AuthProviderEnum provider) {
+  _showConnectDialog(AuthProviderEnum provider, String providerLabel) {
+    var link = AuthUtils.getLinkFunction(
+        type: provider,
+        errorHandler: (err) => errorHandler(err, providerLabel),
+        loginProvider: Provider.of<AuthProvider>(context, listen: false),
+        context: context);
     showDialog(
         context: context,
         builder: (_) => BaseDialog(
               showCancel: true,
-              title: "Connect your google account?",
-              onPressed: () =>
-                  Provider.of<AuthProvider>(context).linkAccount(provider),
+              title: "Link Account",
+              onPressed: () => link(),
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                child: Text("Connect with $providerLabel?",
+                    style: TextStyles.textSize16),
+              ),
             ));
-    switch (provider) {
-      case AuthProviderEnum.GOOGLE:
-        // TODO: Handle this case.
+  }
 
+  Future errorHandler(err, String providerLabel) async {
+    String msg;
+    debugPrint(msg);
+    switch (err.runtimeType) {
+      case OperationCancelledException:
+        msg = S.of(context).errorMsgLinkOperationCancelled(providerLabel);
         break;
-      case AuthProviderEnum.PASSWORD:
-        // TODO: Handle this case.
-        break;
-      case AuthProviderEnum.FACEBOOK:
-        // TODO: Handle this case.
-        break;
+
+      default:
+        msg = S.of(context).errorMsgUnknownError;
     }
+    showToast(msg);
   }
 }

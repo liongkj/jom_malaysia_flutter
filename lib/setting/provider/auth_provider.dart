@@ -69,6 +69,10 @@ class AuthProvider extends ChangeNotifier {
   }
 
   Future<void> linkAccount(AuthProviderEnum type) async {
-    await _service.linkAccountWith(type);
+    try {
+      await _service.linkAccountWith(type);
+    } catch (e) {
+      throw e;
+    }
   }
 }

@@ -12,6 +12,7 @@ import 'package:jom_malaysia/core/services/gateway/exception/invalid_credential_
 import 'package:jom_malaysia/core/services/gateway/exception/invalid_email_exception.dart';
 import 'package:jom_malaysia/core/services/gateway/exception/network_exception.dart';
 import 'package:jom_malaysia/core/services/gateway/exception/not_found_exception.dart';
+import 'package:jom_malaysia/core/services/gateway/exception/operation_cancel_exception.dart';
 import 'package:jom_malaysia/core/services/gateway/exception/unknown_error_exception.dart';
 import 'package:jom_malaysia/util/text_utils.dart';
 
@@ -62,6 +63,9 @@ class FirebaseAuthService extends IAuthenticationService {
   Future<AuthCredential> _getGoogleAuth() async {
     final GoogleSignInAccount googleSignInAccount =
         await _googleSignIn.signIn();
+    if (googleSignInAccount == null) {
+      throw OperationCancelledException("sign_in_cancelled");
+    }
     final GoogleSignInAuthentication googleSignInAuthentication =
         await googleSignInAccount.authentication;
     final AuthCredential credential = GoogleAuthProvider.getCredential(
@@ -69,6 +73,8 @@ class FirebaseAuthService extends IAuthenticationService {
       idToken: googleSignInAuthentication.idToken,
     );
     return credential;
+    //cannot catch cancel exception
+    //github issue: https://github.com/flutter/flutter/issues/26705
   }
 
   @override
@@ -88,9 +94,11 @@ class FirebaseAuthService extends IAuthenticationService {
         case "ERROR_USER_NOT_FOUND":
           throw NotFoundException("user");
           break;
+
+        default:
+          throw error;
       }
     }
-    return null;
   }
 
   @override
@@ -151,7 +159,12 @@ class FirebaseAuthService extends IAuthenticationService {
           throw InvalidCredentialException("");
       }
       user.linkWithCredential(cred);
-    } catch (error) {}
+    } catch (error) {
+      switch (error.code) {
+        default:
+          throw error;
+      }
+    }
   }
 
   ///////not working

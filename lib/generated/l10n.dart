@@ -1190,6 +1190,15 @@ class S {
     );
   }
 
+  String errorMsgLinkOperationCancelled(Object operationName) {
+    return Intl.message(
+      'Link $operationName operation cancelled.',
+      name: 'errorMsgLinkOperationCancelled',
+      desc: '',
+      args: [operationName],
+    );
+  }
+
   String get labelOtpLogin {
     return Intl.message(
       'OTP Sign In',

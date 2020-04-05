@@ -48,7 +48,6 @@ class _LoginPageState extends State<LoginPage> {
     _nameController.text = sp.SpUtil.getString(Constant.email);
     request = new AuthRequest();
     _loginProvider = Provider.of<AuthProvider>(context, listen: false);
-    const oneSec = const Duration(seconds: 1);
   }
 
   Future errorHandler(err) async {
