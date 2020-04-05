@@ -1,4 +1,5 @@
 import 'package:jom_malaysia/core/constants/common.dart';
+import 'package:jom_malaysia/core/services/authentication/firebase_auth_service.dart';
 
 class PlatformProviderModel {
   AuthProviderEnum provider;
@@ -9,17 +10,9 @@ class PlatformProviderModel {
       {bool linked = true}) {
     this.email = email;
     this.linked = linked;
-
-    switch (providerId) {
-      case 'google.com':
-        this.provider = AuthProviderEnum.GOOGLE;
-        break;
-      case 'password':
-        this.provider = AuthProviderEnum.PASSWORD;
-        break;
-      default:
-        throw FormatException("Enum not found");
-    }
+    this.provider = FirebaseAuthService.providerMap.keys.firstWhere(
+        (k) => FirebaseAuthService.providerMap[k] == providerId,
+        orElse: () => throw FormatException("Enum not found"));
   }
 
   PlatformProviderModel(this.provider, this.email, {this.linked = true});

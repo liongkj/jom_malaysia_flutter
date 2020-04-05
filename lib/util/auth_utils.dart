@@ -10,6 +10,20 @@ import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 
 class AuthUtils {
+  static Function getUnlinkFunction({
+    @required AuthProviderEnum type,
+    @required Function(dynamic) errorHandler,
+    @required AuthProvider loginProvider,
+    @required BuildContext context,
+  }) {
+    return () => loginProvider
+        .unlinkAccount(type)
+        .then(
+          (onValue) => NavigatorUtils.goBack(context),
+        )
+        .catchError(errorHandler);
+  }
+
   static Function getLinkFunction({
     @required AuthProviderEnum type,
     @required Function(dynamic) errorHandler,

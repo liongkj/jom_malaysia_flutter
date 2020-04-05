@@ -14,6 +14,8 @@ abstract class IAuthenticationService {
 
   Future<FirebaseUser> linkAccountWith(AuthProviderEnum type);
 
+  Future<FirebaseUser> unlinkAccountWith(AuthProviderEnum type);
+
   Future<AuthUser> changeDisplayName(String displayName);
 
   Future<void> changePassword(AuthRequest request);
