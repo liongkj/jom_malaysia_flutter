@@ -33,6 +33,7 @@ class _PlaceListState extends State<PlaceList>
     _index = widget.index;
     _controller = ScrollController();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
+      Provider.of<LocationProvider>(context, listen: false).init();
       _onRefresh();
     });
   }
