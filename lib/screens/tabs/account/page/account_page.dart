@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/core/services/gateway/exception/not_found_exception.dart';
@@ -178,13 +179,17 @@ class _ShopPageState extends State<AccountPage>
                             ],
                           ),
                         Positioned(
-                            right: 0.0,
-                            child: CircleAvatar(
-                                radius: 28.0,
-                                backgroundColor: Colors.transparent,
-                                backgroundImage: ImageUtils.getImageProvider(
-                                    _photoUrl,
-                                    holderImg: 'account/dummy_profile_pic'))),
+                          right: 0.0,
+                          child: CircleAvatar(
+                            radius: 28.0,
+                            backgroundColor: Colors.transparent,
+                            backgroundImage: CachedNetworkImageProvider(
+                                _photoUrl,
+                                errorListener: () =>
+                                    ImageUtils.getImageProvider(
+                                        'account/dummy_profile_pic')),
+                          ),
+                        ),
                       ],
                     ))),
                 if (loggedUser != null) _UserSettings(),
@@ -206,6 +211,7 @@ class _AppSettings extends StatelessWidget {
     'setting'
     // 'credit'
   ];
+
   @override
   Widget build(BuildContext context) {
     var _menuTitle = [
@@ -268,6 +274,7 @@ class _AppSettings extends StatelessWidget {
 
 class _UserSettings extends StatelessWidget {
   final _menuImage = ['profile'];
+
   @override
   Widget build(BuildContext context) {
     var _menuTitle = [
