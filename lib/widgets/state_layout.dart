@@ -55,6 +55,7 @@ class _StateLayoutState extends State<StateLayout> {
     }
     return Center(
       child: SingleChildScrollView(
+        physics: NeverScrollableScrollPhysics(),
         padding: EdgeInsets.only(top: 16),
         child: Container(
           width: double.infinity,

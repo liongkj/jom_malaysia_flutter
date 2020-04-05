@@ -9,8 +9,10 @@ class AuthUser {
     this.username,
     this.profileImage,
     this.email,
+    this.verified,
   );
 
+  bool verified;
   String email;
   String userId;
   String username;

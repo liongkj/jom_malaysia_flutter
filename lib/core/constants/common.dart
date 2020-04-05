@@ -51,4 +51,6 @@ class Constant {
   ];
 }
 
-enum SignInTypeEnum { EMAIL, PHONE, GOOGLE, SIGNUP }
+enum AuthOperationEnum { EMAIL, PHONE, GOOGLE, SIGNUP, CHANGEPASS }
+
+enum AuthProviderEnum { GOOGLE, PASSWORD, FACEBOOK }

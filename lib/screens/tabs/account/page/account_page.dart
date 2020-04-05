@@ -6,8 +6,8 @@ import 'package:jom_malaysia/core/services/gateway/exception/not_found_exception
 import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/login/login_router.dart';
 import 'package:jom_malaysia/screens/tabs/account/account_router.dart';
+import 'package:jom_malaysia/screens/tabs/account/widgets/bottom_nav_button.dart';
 import 'package:jom_malaysia/screens/tabs/account/widgets/exit_dialog.dart';
-import 'package:jom_malaysia/screens/tabs/account/widgets/logout_button.dart';
 import 'package:jom_malaysia/screens/tabs/account/widgets/text_input_dialog.dart';
 import 'package:jom_malaysia/setting/provider/auth_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
@@ -97,7 +97,8 @@ class _ShopPageState extends State<AccountPage>
     Color _backgroundColor = ThemeUtils.getBackgroundColor(context);
     final Color _iconColor = ThemeUtils.getIconColor(context);
     return Scaffold(
-      bottomNavigationBar: LogOutButton(
+      bottomNavigationBar: BottomNavButton(
+        title: S.of(context).labelLogout,
         logOut: _showExitDialog,
       ),
       appBar: AppBar(

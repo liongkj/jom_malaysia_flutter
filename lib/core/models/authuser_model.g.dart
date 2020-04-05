@@ -12,10 +12,12 @@ AuthUser _$AuthUserFromJson(Map<String, dynamic> json) {
     json['username'] as String,
     json['profileImage'] as String,
     json['email'] as String,
+    json['verified'] as bool,
   );
 }
 
 Map<String, dynamic> _$AuthUserToJson(AuthUser instance) => <String, dynamic>{
+      'verified': instance.verified,
       'email': instance.email,
       'userId': instance.userId,
       'username': instance.username,

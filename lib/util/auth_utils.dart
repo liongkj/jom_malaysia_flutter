@@ -1,20 +1,59 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/constants/common.dart';
 import 'package:jom_malaysia/core/services/authentication/requests/auth_request.dart';
 import 'package:jom_malaysia/core/services/gateway/exception/signin_cancelled_exception.dart';
+import 'package:jom_malaysia/generated/l10n.dart';
+import 'package:jom_malaysia/screens/login/providers/timer_provider.dart';
 import 'package:jom_malaysia/setting/provider/auth_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
+import 'package:oktoast/oktoast.dart';
+import 'package:provider/provider.dart';
 
 class AuthUtils {
-  static Function getSignInFunction(
-      {@required SignInTypeEnum type,
-      @required Function(dynamic) errorHandler,
-      @required AuthProvider loginProvider,
-      @required BuildContext context,
-      AuthRequest request}) {
+  static Function getUnlinkFunction({
+    @required AuthProviderEnum type,
+    @required Function(dynamic) errorHandler,
+    @required AuthProvider loginProvider,
+    @required BuildContext context,
+  }) {
+    return () => loginProvider
+        .unlinkAccount(type)
+        .then(
+          (onValue) => showToast(
+            S.of(context).msgEmailSent(""),
+            //todo translate
+          ),
+        )
+        .catchError(errorHandler);
+  }
+
+  static Function getLinkFunction({
+    @required AuthProviderEnum type,
+    @required Function(dynamic) errorHandler,
+    @required AuthProvider loginProvider,
+    @required BuildContext context,
+  }) {
+    return () => loginProvider
+        .linkAccount(type)
+        .then(
+          (onValue) => showToast(
+            S.of(context).msgEmailSent(""),
+            //todo translate
+          ),
+        )
+        .catchError(errorHandler);
+  }
+
+  static Function getSignInFunction({
+    @required AuthOperationEnum type,
+    @required Function(dynamic) errorHandler,
+    @required AuthProvider loginProvider,
+    @required BuildContext context,
+    AuthRequest request,
+  }) {
     Function _type;
     switch (type) {
-      case SignInTypeEnum.GOOGLE:
+      case AuthOperationEnum.GOOGLE:
         _type = () => loginProvider
             .signInWithGoogle()
             .then(
@@ -23,7 +62,7 @@ class AuthUtils {
             .catchError(errorHandler,
                 test: (e) => e is SignInCancelledException);
         break;
-      case SignInTypeEnum.SIGNUP:
+      case AuthOperationEnum.SIGNUP:
         _type = () => loginProvider
             .signUp(request)
             .then(
@@ -31,13 +70,21 @@ class AuthUtils {
             )
             .catchError(errorHandler);
         break;
-      case SignInTypeEnum.EMAIL:
+      case AuthOperationEnum.EMAIL:
         _type = () => loginProvider
             .signInWithEmailPassword(request)
             .then(
               (onValue) => NavigatorUtils.goBack(context),
             )
             .catchError(errorHandler);
+        break;
+      case AuthOperationEnum.CHANGEPASS:
+        _type = () => loginProvider.changePassword(request).then((onValue) {
+              Provider.of<TimerProvider>(context, listen: false).startTimer();
+              showToast(
+                S.of(context).msgEmailSent(request.email),
+              );
+            }).catchError(errorHandler);
         break;
       default:
     }

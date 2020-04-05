@@ -8,10 +8,12 @@ class MyButton extends StatelessWidget {
     this.text: "",
     this.icon,
     @required this.onPressed,
+    this.isDanger,
   }) : super(key: key);
   final Icon icon;
   final String text;
   final VoidCallback onPressed;
+  final bool isDanger;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,9 @@ class MyButton extends StatelessWidget {
       ),
       onPressed: onPressed,
       textColor: isDark ? Colours.dark_button_text : Colors.white,
-      color: isDark ? Colours.dark_app_main : Colours.app_main,
+      color: isDanger
+          ? Colours.danger_color
+          : isDark ? Colours.dark_app_main : Colours.app_main,
       disabledTextColor:
           isDark ? Colours.dark_text_disabled : Colours.text_disabled,
       disabledColor:

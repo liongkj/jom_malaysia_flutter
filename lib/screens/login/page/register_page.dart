@@ -7,6 +7,7 @@ import 'package:jom_malaysia/core/services/authentication/requests/auth_request.
 import 'package:jom_malaysia/core/services/gateway/exception/duplicate_exception.dart';
 import 'package:jom_malaysia/core/services/gateway/exception/invalid_credential_exception.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
+import 'package:jom_malaysia/screens/login/widgets/my_password_field.dart';
 import 'package:jom_malaysia/setting/provider/auth_provider.dart';
 import 'package:jom_malaysia/util/auth_utils.dart';
 import 'package:jom_malaysia/util/toast.dart';
@@ -31,7 +32,6 @@ class _RegisterPageState extends State<RegisterPage> {
   final FocusNode _nodeText1 = FocusNode();
   final FocusNode _nodeText2 = FocusNode();
   AuthRequest request;
-  static const int _PASSWORD_LENGTH_POLICY = 8;
 
   @override
   void initState() {
@@ -59,7 +59,7 @@ class _RegisterPageState extends State<RegisterPage> {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
       var reg = AuthUtils.getSignInFunction(
-          type: SignInTypeEnum.SIGNUP,
+          type: AuthOperationEnum.SIGNUP,
           errorHandler: (err) => errorHandler(err),
           loginProvider: _authService,
           request: request,
@@ -115,25 +115,10 @@ class _RegisterPageState extends State<RegisterPage> {
             onSaved: (value) => request.setEmail(value),
           ),
           Gaps.vGap8,
-          MyTextField(
-            key: const Key('password'),
-            keyName: 'password',
+          MyPasswordField(
             focusNode: _nodeText2,
-            isInputPwd: true,
-            controller: _passwordController,
-            maxLength: 16,
-            hintText: S.of(context).labelInputFieldPassword,
-            validator: (value) {
-              try {
-                request.validatePassword(value, _PASSWORD_LENGTH_POLICY);
-              } on FormatException {
-                return S
-                    .of(context)
-                    .errorMsgPasswordPolicy(_PASSWORD_LENGTH_POLICY);
-              }
-              return null;
-            },
-            onSaved: (value) => request.setPassword(value),
+            passwordController: _passwordController,
+            request: request,
           ),
           Gaps.vGap10,
           Gaps.vGap15,

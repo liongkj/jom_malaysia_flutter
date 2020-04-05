@@ -1,10 +1,12 @@
 class AuthRequest {
   String _phoneNumber;
+
   String get phoneNumber => _phoneNumber.toString();
   String otpCode;
   String verificationId;
   String email;
   String password;
+  String newPassword;
   bool rememberMe = true;
 
   void setPhone(String phone) {
@@ -31,6 +33,12 @@ class AuthRequest {
   void setPassword(String value) {
     if (value != null) {
       password = value;
+    }
+  }
+
+  void setNewPassword(String value) {
+    if (value != null) {
+      newPassword = value;
     }
   }
 

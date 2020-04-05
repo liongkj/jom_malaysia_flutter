@@ -56,7 +56,7 @@ class S {
 
   String get appBarTitleHome {
     return Intl.message(
-      'JomN9',
+      'Jomn9',
       name: 'appBarTitleHome',
       desc: '',
       args: [],
@@ -515,10 +515,10 @@ class S {
     );
   }
 
-  String get labelAveratePaxPrefix {
+  String get labelAveragePaxPrefix {
     return Intl.message(
       'RM ',
-      name: 'labelAveratePaxPrefix',
+      name: 'labelAveragePaxPrefix',
       desc: '',
       args: [],
     );
@@ -533,10 +533,10 @@ class S {
     );
   }
 
-  String get labelAveratePaxSuffix {
+  String get labelAveragePaxSuffix {
     return Intl.message(
       'PAX',
-      name: 'labelAveratePaxSuffix',
+      name: 'labelAveragePaxSuffix',
       desc: '',
       args: [],
     );
@@ -719,6 +719,87 @@ class S {
       name: 'cityPickerCurrentCity',
       desc: '',
       args: [selected],
+    );
+  }
+
+  String get labelAccountSetting {
+    return Intl.message(
+      'Account Setting',
+      name: 'labelAccountSetting',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get clickItemUpdatePassword {
+    return Intl.message(
+      'Reset Password',
+      name: 'clickItemUpdatePassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String clickItemUpdatePasswordHint(Object email) {
+    return Intl.message(
+      'A password reset email will be sent to $email',
+      name: 'clickItemUpdatePasswordHint',
+      desc: '',
+      args: [email],
+    );
+  }
+
+  String clickItemLinkToHint(Object provider) {
+    return Intl.message(
+      'Link to $provider',
+      name: 'clickItemLinkToHint',
+      desc: '',
+      args: [provider],
+    );
+  }
+
+  String get labelResetLoginPassword {
+    return Intl.message(
+      'Change password',
+      name: 'labelResetLoginPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelGoogle {
+    return Intl.message(
+      'Google Account',
+      name: 'labelGoogle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelPassword {
+    return Intl.message(
+      'Email/Password',
+      name: 'labelPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelAccountConnected {
+    return Intl.message(
+      'Connected',
+      name: 'labelAccountConnected',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelAccountLinkNow {
+    return Intl.message(
+      'Link Now',
+      name: 'labelAccountLinkNow',
+      desc: '',
+      args: [],
     );
   }
 
@@ -1046,6 +1127,33 @@ class S {
     );
   }
 
+  String msgEmailSent(Object email) {
+    return Intl.message(
+      'An Email is sent to $email. Please follow the instructions.',
+      name: 'msgEmailSent',
+      desc: '',
+      args: [email],
+    );
+  }
+
+  String get labelSendEmail {
+    return Intl.message(
+      'Send',
+      name: 'labelSendEmail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String labelResendEmail(Object timer) {
+    return Intl.message(
+      'Resend ($timer)',
+      name: 'labelResendEmail',
+      desc: '',
+      args: [timer],
+    );
+  }
+
   String msgUpdateUsernameSuccess(Object uname) {
     return Intl.message(
       'Nice to meet you $uname',
@@ -1079,6 +1187,15 @@ class S {
       name: 'errorMsgUnknownError',
       desc: '',
       args: [],
+    );
+  }
+
+  String errorMsgLinkOperationCancelled(Object operationName) {
+    return Intl.message(
+      'Link $operationName operation cancelled.',
+      name: 'errorMsgLinkOperationCancelled',
+      desc: '',
+      args: [operationName],
     );
   }
 

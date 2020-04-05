@@ -173,8 +173,8 @@ class __AverageCostState extends State<_AverageCost> {
           Expanded(
             child: TextFieldItem(
                 hintText: S.of(context).labelInputCostAmount,
-                prefixIcon: Text(S.of(context).labelAveratePaxPrefix),
-                suffixIcon: Text(S.of(context).labelAveratePaxSuffix),
+                prefixIcon: Text(S.of(context).labelAveragePaxPrefix),
+                suffixIcon: Text(S.of(context).labelAveragePaxSuffix),
                 controller: widget.controller,
                 keyboardType: TextInputType.numberWithOptions(),
                 title: S.of(context).labelAveragePaxTitle),

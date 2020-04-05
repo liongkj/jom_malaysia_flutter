@@ -21,15 +21,19 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m0(selected) => "当前城市: ${selected}";
 
-  static m1(len) => "密码必须至少为${len}个字符";
+  static m1(provider) => "绑定${provider}";
 
-  static m2(item) => "输入您的${item}";
+  static m2(email) => "电邮：${email}";
 
-  static m3(item) => "正火速上传您的${item}";
+  static m4(len) => "密码必须至少为${len}个字符";
 
-  static m4(uname) => "${uname},很高兴认识你";
+  static m5(item) => "输入您的${item}";
 
-  static m5(commentCount) => "点评 (${commentCount})";
+  static m7(item) => "正火速上传您的${item}";
+
+  static m9(uname) => "${uname},很高兴认识你";
+
+  static m10(commentCount) => "点评 (${commentCount})";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
@@ -41,28 +45,32 @@ class MessageLookup extends MessageLookupByLibrary {
     "appBarTitleSettingLanguage" : MessageLookupByLibrary.simpleMessage("语言"),
     "appTitle" : MessageLookupByLibrary.simpleMessage("走森州"),
     "cityPickerCurrentCity" : m0,
+    "clickItemLinkToHint" : m1,
     "clickItemSettingAboutTitle" : MessageLookupByLibrary.simpleMessage("关于我们"),
     "clickItemSettingAddAPlace" : MessageLookupByLibrary.simpleMessage("推荐景点/美食"),
     "clickItemSettingFeedbackDescription" : MessageLookupByLibrary.simpleMessage("让我们更好"),
     "clickItemSettingFeedbackTitle" : MessageLookupByLibrary.simpleMessage("意见反馈"),
     "clickItemSettingRecommendPlaceTitle" : MessageLookupByLibrary.simpleMessage("添加商户"),
     "clickItemSettingShareTitle" : MessageLookupByLibrary.simpleMessage("告诉朋友"),
+    "clickItemUpdatePassword" : MessageLookupByLibrary.simpleMessage("修改密码"),
+    "clickItemUpdatePasswordHint" : m2,
     "errorMessageNetworkFailure" : MessageLookupByLibrary.simpleMessage("网络异常，请检查你的网络！"),
     "errorMsgAccountExist" : MessageLookupByLibrary.simpleMessage("电子邮件地址已经注册"),
     "errorMsgEmailPasswordIncorrect" : MessageLookupByLibrary.simpleMessage("电子邮件/密码不正确"),
     "errorMsgInvalidFormatEmail" : MessageLookupByLibrary.simpleMessage("电子邮件格式错误"),
-    "errorMsgPasswordPolicy" : m1,
+    "errorMsgPasswordPolicy" : m4,
     "errorMsgPasswordTooWeak" : MessageLookupByLibrary.simpleMessage("密码强度太弱"),
     "errorMsgUnknownError" : MessageLookupByLibrary.simpleMessage("未知错误,请稍后再试"),
     "errorMsgUserNotRegistered" : MessageLookupByLibrary.simpleMessage("用户未注册"),
     "labelAccount" : MessageLookupByLibrary.simpleMessage("帐户"),
+    "labelAccountSetting" : MessageLookupByLibrary.simpleMessage("账号管理"),
     "labelAppSettings" : MessageLookupByLibrary.simpleMessage("系统设置"),
     "labelAskFirstReview" : MessageLookupByLibrary.simpleMessage("快来做第一个点评吧"),
     "labelAskReview" : MessageLookupByLibrary.simpleMessage("说点什么"),
+    "labelAveragePaxPrefix" : MessageLookupByLibrary.simpleMessage(""),
+    "labelAveragePaxSuffix" : MessageLookupByLibrary.simpleMessage(" 令吉"),
     "labelAveragePaxTitle" : MessageLookupByLibrary.simpleMessage("人均"),
-    "labelAveratePaxPrefix" : MessageLookupByLibrary.simpleMessage(""),
-    "labelAveratePaxSuffix" : MessageLookupByLibrary.simpleMessage(" 令吉"),
-    "labelChangeHintText" : m2,
+    "labelChangeHintText" : m5,
     "labelCityNotInServiceArea" : MessageLookupByLibrary.simpleMessage("您所在城市不在服务区域"),
     "labelClickToAddImage" : MessageLookupByLibrary.simpleMessage("点击添加商品图片"),
     "labelConfirmLogoutMsg" : MessageLookupByLibrary.simpleMessage("确认退出？"),
@@ -80,6 +88,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "labelEdit" : MessageLookupByLibrary.simpleMessage("编辑"),
     "labelEmailSignIn" : MessageLookupByLibrary.simpleMessage("电子邮件登录"),
     "labelForgetPassword" : MessageLookupByLibrary.simpleMessage("忘记密码"),
+    "labelGoogle" : MessageLookupByLibrary.simpleMessage("谷歌帐号"),
     "labelImageRemoved" : MessageLookupByLibrary.simpleMessage("成功删除"),
     "labelInputCostAmount" : MessageLookupByLibrary.simpleMessage("请输入消费金额"),
     "labelInputFieldEmail" : MessageLookupByLibrary.simpleMessage("请输入您的电子邮件"),
@@ -95,6 +104,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "labelNone" : MessageLookupByLibrary.simpleMessage("无"),
     "labelOtpLogin" : MessageLookupByLibrary.simpleMessage(" OTP登录"),
     "labelPageComment" : MessageLookupByLibrary.simpleMessage("全部点评"),
+    "labelPassword" : MessageLookupByLibrary.simpleMessage("电邮/密码"),
     "labelProfileManager" : MessageLookupByLibrary.simpleMessage("账户管理"),
     "labelRatePlace" : MessageLookupByLibrary.simpleMessage("打分"),
     "labelRatingStatus1" : MessageLookupByLibrary.simpleMessage("垃圾"),
@@ -105,11 +115,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "labelRegister" : MessageLookupByLibrary.simpleMessage("还没有帐号？快去注册"),
     "labelRegisterYourAccount" : MessageLookupByLibrary.simpleMessage("开始您的jomn9之旅"),
     "labelRememberMe" : MessageLookupByLibrary.simpleMessage("记住我"),
+    "labelResetLoginPassword" : MessageLookupByLibrary.simpleMessage("重置登录密码"),
     "labelReview" : MessageLookupByLibrary.simpleMessage("评论"),
     "labelSearch" : MessageLookupByLibrary.simpleMessage("搜索"),
     "labelSearchHint" : MessageLookupByLibrary.simpleMessage("请输入关键词查询"),
     "labelSearchHintNotEmpty" : MessageLookupByLibrary.simpleMessage("搜索关键词不能为空！"),
-    "labelStatusPublish" : m3,
+    "labelStatusPublish" : m7,
     "labelStranger" : MessageLookupByLibrary.simpleMessage("陌生人"),
     "labelSubmitReview" : MessageLookupByLibrary.simpleMessage("发布"),
     "labelTagMustTry" : MessageLookupByLibrary.simpleMessage("必打卡"),
@@ -126,7 +137,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "msgPleaseFillRequiredField" : MessageLookupByLibrary.simpleMessage("栏位不能为空"),
     "msgRegistrationSuccess" : MessageLookupByLibrary.simpleMessage("完成注册。正在登录..."),
     "msgUpdatePhotoSuccess" : MessageLookupByLibrary.simpleMessage("已更新您的个人资料图片"),
-    "msgUpdateUsernameSuccess" : m4,
+    "msgUpdateUsernameSuccess" : m9,
     "overviewSection1Para1" : MessageLookupByLibrary.simpleMessage("森美兰州是马来半岛西南海岸的马来西亚州，以其海滩，自然公园和宫殿而闻名。在西部，马六甲海峡，波德申港附近的地区有海滨度假胜地，万隆华人圣殿和哥打卢库特山顶堡垒。在沿海南部，在邻近的马六甲州，是拉查多角（Tanjung Tuan），这是一座带有灯塔的自然保护区。"),
     "overviewSection1Para2" : MessageLookupByLibrary.simpleMessage("芙蓉市首府东北部的迪克森港以其殖民时期的建筑，湖花园公园和Minangkabau人的木宫殿而闻名，Minangkabau人是印尼裔。他们的影响力也可见于东部的Seri Menanti，以前的宫殿现在是Sri Menanti皇家博物馆，附近的瓜拉皮拉镇（Kuala Pilah）是San Sheng Gong Chinese Temple和五颜六色的印度教寺庙Kuil Sri Kanthasamy的所在地，向西是Ulu Bendul Recreational公园包括丛林，瀑布和Gunung Angsi山。"),
     "overviewSection2Para1" : MessageLookupByLibrary.simpleMessage("该名称被认为是由Minangkabau居住的Minangkabau语言（现在称为luak）中的9个（森比亚人）村庄或nagari所居住的，Minangkabau是最初来自西苏门答腊（现今印度尼西亚）的人。Minangkabau如今，在传统建筑和马来语方言中，功能仍然很明显。"),
@@ -137,7 +148,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "overviewSection4Title" : MessageLookupByLibrary.simpleMessage("首都（芙蓉市）"),
     "overviewSection5Para1" : MessageLookupByLibrary.simpleMessage("截至2015年，森美兰州的总人口为1,098,500；族裔构成为马来人622,000（56.6％）（主要是Minangkabau血统），其他土著20,700（1.9％），华裔234,300（21.3％），印度是154,000（14％），其他4,200（0.4％）和非公民63,300（5.8％）。与马来西亚其他州相比，该州的印度人比例最高。"),
     "overviewSection5Title" : MessageLookupByLibrary.simpleMessage("人口统计"),
-    "placeDetailCommentCountLabel" : m5,
+    "placeDetailCommentCountLabel" : m10,
     "placeDetailInfoLabel" : MessageLookupByLibrary.simpleMessage("产品详情"),
     "placeDetailMerchantInfoLabel" : MessageLookupByLibrary.simpleMessage("商家信息"),
     "placeDetailMerchantRegistrationNameLabel" : MessageLookupByLibrary.simpleMessage("注册名字"),

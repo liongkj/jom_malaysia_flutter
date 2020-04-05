@@ -26,8 +26,6 @@ class OverviewPageState extends State<OverviewPage>
   OverviewPageProvider provider = OverviewPageProvider();
   PageController _pageController = PageController(initialPage: 0);
 
-  TextEditingController searchController = TextEditingController();
-
   _onPageChange(int index) async {
     provider.setIndex(index);
 
@@ -41,18 +39,13 @@ class OverviewPageState extends State<OverviewPage>
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-  }
-
-  @override
   void dispose() {
     _tabController?.dispose();
     super.dispose();
   }
 
-  bool isDark = false;
   int _lastReportedPage = 0;
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -124,7 +117,7 @@ class OverviewPageState extends State<OverviewPage>
         locale: Provider.of<LanguageProvider>(context).locale ??
             Localizations.localeOf(context),
       ),
-      AdsSpace(),
+      SliverToBoxAdapter(child: AdsSpace()),
       SliverOverlapAbsorber(
         handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
         child: ListingTypeTabs(

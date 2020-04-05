@@ -28,11 +28,13 @@ class MerchantInfo extends StatelessWidget {
               ),
               Gaps.vGap12,
               _MerchantInfoItem(
+                key: Key("merchant_reg_name"),
                 title: S.of(context).placeDetailMerchantRegistrationNameLabel,
                 data: merchant.registrationName,
               ),
               Gaps.vGap12,
               _MerchantInfoItem(
+                key: Key("merchant_ssmid"),
                 title: S.of(context).placeDetailMerchantSSMLabel,
                 data: merchant.ssmId,
               )
@@ -62,6 +64,7 @@ class _MerchantInfoItem extends StatelessWidget {
           flex: 4,
           child: Text(
             title,
+            key: Key("title"),
             style: textTextStyle,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
@@ -72,6 +75,7 @@ class _MerchantInfoItem extends StatelessWidget {
           flex: 5,
           child: Text(
             data,
+            key: Key("data"),
             style: Theme.of(context).textTheme.subtitle,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,

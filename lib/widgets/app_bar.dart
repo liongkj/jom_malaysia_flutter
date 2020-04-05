@@ -21,6 +21,8 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String centerTitle;
   final String backImg;
   final String actionName;
+
+  ///for actions
   final VoidCallback onPressed;
   final bool isBack;
 

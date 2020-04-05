@@ -38,10 +38,10 @@ class _AppBarWithSwiperState extends State<AppBarWithSwiper> {
   }
 
   void _isShowTitle() {
-    setState(() => {
-          _showTitle = (widget.scrollController.hasClients &&
-              widget.scrollController.offset > kExpandedHeight - kToolbarHeight)
-        });
+    var change = (widget.scrollController.hasClients &&
+        widget.scrollController.offset > kExpandedHeight - kToolbarHeight);
+    //reduce rebuild
+    if (change != _showTitle) setState(() => _showTitle = change);
   }
 
   @override
@@ -55,7 +55,7 @@ class _AppBarWithSwiperState extends State<AppBarWithSwiper> {
         color: Colors.transparent,
         elevation: _showTitle ? 0 : 1,
         child: IconButton(
-          icon: Icon(Icons.arrow_back_ios),
+          icon: const Icon(Icons.arrow_back_ios),
           color: _showTitle ? Colours.text : ThemeUtils.getIconColor(context),
           onPressed: () => NavigatorUtils.goBack(context),
         ),
@@ -71,8 +71,10 @@ class _AppBarWithSwiperState extends State<AppBarWithSwiper> {
             )
           : null,
       expandedHeight: kExpandedHeight,
-      floating: false, // 不随着滑动隐藏标题
-      pinned: true, // 固定在顶部
+      floating: false,
+      // 不随着滑动隐藏标题
+      pinned: true,
+      // 固定在顶部
 
       actions: <Widget>[
         if (Constant.enableFeedback)
@@ -113,7 +115,9 @@ class _AppBarWithSwiperState extends State<AppBarWithSwiper> {
 
 class _CoverPhotos extends StatelessWidget {
   _CoverPhotos(this.place);
+
   final ListingModel place;
+
   @override
   Widget build(BuildContext context) {
     List<String> swiper = place.listingImages.getCarousel;

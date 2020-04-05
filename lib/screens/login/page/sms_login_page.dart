@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
+import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/util/toast.dart';
 import 'package:jom_malaysia/widgets/app_bar.dart';
 import 'package:jom_malaysia/widgets/my_button.dart';
@@ -125,8 +125,8 @@ class _SMSLoginPageState extends State<SMSLoginPage> {
                 '忘记密码',
                 style: Theme.of(context).textTheme.subtitle,
               ),
-              onTap: () =>
-                  NavigatorUtils.push(context, LoginRouter.resetPasswordPage),
+              onTap: () => NavigatorUtils.push(
+                  context, LoginRouter.resetPasswordViaOtpPage),
             ),
           )
         ],

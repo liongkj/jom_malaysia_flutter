@@ -85,6 +85,7 @@ class _GalleryPhotoViewState extends State<GalleryPhotoView> {
   PhotoViewGalleryPageOptions _buildItem(BuildContext context, int index) {
     final GalleryImageItem item = widget.galleryItems[index];
     return PhotoViewGalleryPageOptions(
+      key: Key("image-${item.tagId}"),
       imageProvider: NetworkImage(item.url),
       initialScale: PhotoViewComputedScale.contained,
       minScale: PhotoViewComputedScale.contained * (0.5 + index / 10),

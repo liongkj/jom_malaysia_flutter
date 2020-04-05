@@ -21,6 +21,7 @@ class MyTextField extends StatefulWidget {
       this.getVCode,
       this.validator,
       this.onSaved,
+      this.onChanged,
       this.keyName})
       : super(key: key);
 
@@ -34,6 +35,7 @@ class MyTextField extends StatefulWidget {
   final Future<bool> Function() getVCode;
   final Function(String) validator;
   final Function(String) onSaved;
+  final Function(String) onChanged;
 
   /// 用于集成测试寻找widget
   final String keyName;
@@ -99,6 +101,7 @@ class _MyTextFieldState extends State<MyTextField> {
       children: <Widget>[
         TextFormField(
           onSaved: widget.onSaved,
+          onChanged: widget.onChanged,
           validator: widget.validator,
           focusNode: widget.focusNode,
           maxLength: widget.maxLength,

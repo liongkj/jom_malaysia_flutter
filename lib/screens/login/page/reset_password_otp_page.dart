@@ -7,12 +7,13 @@ import 'package:jom_malaysia/widgets/my_button.dart';
 import 'package:jom_malaysia/widgets/text_field.dart';
 
 /// design/1注册登录/index.html#artboard9
-class ResetPasswordPage extends StatefulWidget {
+class ResetPasswordViaOtpPage extends StatefulWidget {
   @override
-  _ResetPasswordPageState createState() => _ResetPasswordPageState();
+  _ResetPasswordViaOtpPageState createState() =>
+      _ResetPasswordViaOtpPageState();
 }
 
-class _ResetPasswordPageState extends State<ResetPasswordPage> {
+class _ResetPasswordViaOtpPageState extends State<ResetPasswordViaOtpPage> {
   //定义一个controller
   TextEditingController _nameController = TextEditingController();
   TextEditingController _vCodeController = TextEditingController();
