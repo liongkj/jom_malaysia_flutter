@@ -19,4 +19,6 @@ abstract class IAuthenticationService {
   Future<AuthUser> changeDisplayName(String displayName);
 
   Future<void> changePassword(AuthRequest request);
+
+  Future<void> deleteAccount();
 }

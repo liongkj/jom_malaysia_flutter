@@ -19,7 +19,10 @@ class AuthUtils {
     return () => loginProvider
         .unlinkAccount(type)
         .then(
-          (onValue) => NavigatorUtils.goBack(context),
+          (onValue) => showToast(
+            S.of(context).msgEmailSent(""),
+            //todo translate
+          ),
         )
         .catchError(errorHandler);
   }
@@ -33,7 +36,10 @@ class AuthUtils {
     return () => loginProvider
         .linkAccount(type)
         .then(
-          (onValue) => NavigatorUtils.goBack(context),
+          (onValue) => showToast(
+            S.of(context).msgEmailSent(""),
+            //todo translate
+          ),
         )
         .catchError(errorHandler);
   }
