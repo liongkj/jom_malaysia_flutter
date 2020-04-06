@@ -7,7 +7,6 @@ import 'package:jom_malaysia/core/services/image/cloudinary/cloudinary_image_ser
 import 'package:jom_malaysia/core/services/search/algolia_search.dart';
 import 'package:jom_malaysia/screens/login/providers/timer_provider.dart';
 import 'package:jom_malaysia/screens/tabs/explore/providers/featured_place_provider.dart';
-import 'package:jom_malaysia/screens/tabs/overview/providers/ads_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/comments_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/listing_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/location_provider.dart';
@@ -41,9 +40,9 @@ List<SingleChildWidget> independentServices = [
   ChangeNotifierProvider<UserCurrentLocationProvider>(
     create: (_) => UserCurrentLocationProvider(),
   ),
-  ChangeNotifierProvider<LanguageProvider>(
-    create: (_) => LanguageProvider(),
-  ),
+  ChangeNotifierProvider<LanguageProvider>(create: (_) {
+    return LanguageProvider();
+  }),
   ChangeNotifierProvider<ThemeProvider>(
     create: (_) => ThemeProvider(),
   ),
@@ -65,22 +64,13 @@ List<SingleChildWidget> dependentServices = [
     update: (context, value, previous) => previous..setUser(value),
   ),
   InheritedProvider(
-    create: (context) => AdsService(
-      httpService: Provider.of<HttpService>(context, listen: false),
-    ),
-  ),
-  InheritedProvider(
       create: (context) => CloudinaryImageService(
             httpService: Provider.of<HttpService>(context, listen: false),
           )),
   ChangeNotifierProxyProvider<LocationProvider, ListingProvider>(
-    update: (ctx, location, listingProvider) {
-      debugPrint("updating");
-      return listingProvider
-        ..fetchAndInitPlaces(city: location.selected?.cityName, refresh: true);
-    },
+    update: (ctx, location, listingProvider) => listingProvider
+      ..fetchAndInitPlaces(city: location.selected?.cityName, refresh: true),
     create: (BuildContext context) {
-      debugPrint("creating provider");
       return ListingProvider(
         httpService: Provider.of<HttpService>(context, listen: false),
       );

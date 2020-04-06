@@ -14,7 +14,6 @@ class CityModel extends ISuspensionBean {
       this.firstCharZh,
       this.tagIndex,
       this.coordinates});
-
   String cityName;
   String cityNameZh;
   String firstChar;
@@ -24,10 +23,10 @@ class CityModel extends ISuspensionBean {
   CoordinatesModel coordinates;
 
   CityModel.fromJsonMap(Map<String, dynamic> map)
-      : cityName = map['cityName'] ?? "",
-        cityNameZh = map['cityNameZh'] ?? "",
-        isHot = map['isHot'] ?? false,
-        firstCharZh = map['firstCharZh'] ?? '',
+      : cityName = map['cityName'],
+        cityNameZh = map['cityNameZh'],
+        isHot = map['isHot'],
+        firstCharZh = map['firstCharZh'],
         coordinates = map['coordinates'] == null
             ? null
             : CoordinatesModel.fromJson(

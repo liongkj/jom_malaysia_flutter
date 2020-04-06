@@ -42,6 +42,9 @@ class HttpService {
   Future<T> asyncRequestNetwork<T, K>(
     Method method, {
     @required String url,
+    bool isShow: true,
+    bool isClose: true,
+    Function(T t) onSuccess,
     dynamic params,
     Map<String, dynamic> queryParameters,
     CancelToken cancelToken,
@@ -54,6 +57,12 @@ class HttpService {
       queryParameters: queryParameters,
       options: options,
       cancelToken: cancelToken ?? _cancelToken,
+      // onSuccess: (data) {
+      //   // if (isClose) view.closeProgress();
+      //   if (onSuccess != null) {
+      //     onSuccess(data);
+      //   }
+      // },
     );
   }
 }

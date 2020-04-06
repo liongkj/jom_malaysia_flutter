@@ -1,22 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:jom_malaysia/core/models/coordinates_model.dart';
-
-enum LocationState {
-  init,
-
-  ///found location
-  found,
-
-  ///show rejected state
-  noPermit,
-
-  ///  loading state
-  loading,
-
-  ///  loading empty state
-  granted,
-}
+import 'package:jom_malaysia/widgets/state_layout.dart';
 
 class UserCurrentLocationProvider extends ChangeNotifier {
   String get currentLocation => _currentLocation;
