@@ -4,7 +4,6 @@ import 'package:dio/dio.dart';
 import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:jom_malaysia/core/constants/common.dart';
 import 'package:jom_malaysia/core/services/gateway/exception/api_exception.dart';
-import 'package:jom_malaysia/core/services/gateway/exception/parse_error_exception.dart';
 import 'package:jom_malaysia/core/services/gateway/json_parser.dart';
 
 import 'intercept.dart';
@@ -72,6 +71,7 @@ class DioUtils {
           queryParameters: queryParameters,
           options: _checkOptions(m, options),
           cancelToken: cancelToken);
+
       return JsonParser.fromJson<T, K>(response.data);
     } on SocketException catch (e) {
       throw SocketException(e.message);
@@ -80,8 +80,6 @@ class DioUtils {
         throw ApiException(e.response.statusCode, e.response.statusMessage);
       }
       throw SocketException(e.message);
-    } on ParseErrorException {
-      throw ParseErrorException();
     } on Exception {
       throw SocketException("unkown exception");
     }

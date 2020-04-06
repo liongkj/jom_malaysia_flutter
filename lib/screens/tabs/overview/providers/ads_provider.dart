@@ -5,11 +5,19 @@ import 'package:jom_malaysia/core/models/ads_model.dart';
 import 'package:jom_malaysia/core/services/gateway/dio_utils.dart';
 import 'package:jom_malaysia/core/services/gateway/http_service.dart';
 import 'package:jom_malaysia/core/services/gateway/net.dart';
+import 'package:jom_malaysia/setting/provider/base_change_notifier.dart';
+import 'package:jom_malaysia/widgets/state_layout.dart';
 
-class AdsService {
+class AdsProvider extends BaseChangeNotifier {
   HttpService _httpService;
 
-  AdsService({@required HttpService httpService}) : _httpService = httpService;
+  AdsProvider({@required HttpService httpService}) : _httpService = httpService;
+
+  List<AdsModel> _adList = [];
+
+  List<AdsModel> get adList {
+    return [..._adList];
+  }
 
   Future<List<AdsModel>> fetchAndInitAds({
     bool refresh = true,
@@ -23,9 +31,10 @@ class AdsService {
         Method.get,
         url: "",
         options: options,
+        isShow: false,
       );
     } on Exception {
-      return null;
+      setStateType(StateType.network);
     }
     return data;
   }

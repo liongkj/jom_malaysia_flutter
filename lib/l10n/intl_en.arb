@@ -37,7 +37,6 @@
   "labelNone": "None",
   "labelImageChosen": "Image Chosen",
   "labelNoDetail": "No more details",
-  "msgNoResultFor": "Awww... No result found for '{text}'",
   "labelSearchHint": "Search for a name or keyword",
   "labelSearchHintNotEmpty": "Keyword cannot be blank",
   "labelImageRemoved": "Image Removed",

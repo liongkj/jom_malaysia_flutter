@@ -15,7 +15,6 @@ import 'package:jom_malaysia/screens/tabs/overview/widgets/place_detail/place_op
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/widgets/my_section_divider.dart';
 import 'package:jom_malaysia/widgets/sliver_appbar_delegate.dart';
-import 'package:jom_malaysia/widgets/state_layout.dart';
 import 'package:provider/provider.dart';
 
 class PlaceDetailPage extends StatefulWidget {
@@ -29,14 +28,19 @@ class PlaceDetailPage extends StatefulWidget {
 
 class PlaceDetailPageState extends State<PlaceDetailPage>
     with AutomaticKeepAliveClientMixin {
+  var place;
   ScrollController _scrollController;
-  Future<ListingModel> fetchListing;
 
   @override
   void initState() {
     _scrollController = new ScrollController();
-    fetchListing = Provider.of<ListingProvider>(context, listen: false)
+
+    place = Provider.of<ListingProvider>(context, listen: false)
         .findById(widget.placeId);
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      place.listingImages.ads.forEach(
+          (f) async => await precacheImage(NetworkImage(f.url), context));
+    });
     super.initState();
   }
 
@@ -49,46 +53,29 @@ class PlaceDetailPageState extends State<PlaceDetailPage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return FutureBuilder<ListingModel>(
-        future: fetchListing,
-        builder: (ctx, snap) {
-          if (snap.hasData && snap.data.listingId != null) {
-            return HideFabOnScrollScaffold(
-              body: SafeArea(
-                child: CustomScrollView(
-                  controller: _scrollController,
-                  key: const Key('place_detail'),
-                  slivers: _sliverBuilder(snap.data),
-                ),
-              ),
-              floatingActionButton: Builder(
-                builder: (ctx) => FloatingActionButton.extended(
-                  key: Key("FAB"),
-                  heroTag: "btn_open_form",
-                  tooltip: S.of(context).labelRatePlace,
-                  onPressed: () => _addNewReview(snap.data),
-                  icon: const Icon(Icons.star),
-                  label: Text(S.of(context).labelRatePlace),
-                ),
-              ),
-            );
-          } else if (snap.connectionState == ConnectionState.waiting) {
-            return Scaffold(
-              body: StateLayout(
-                type: StateType.loading,
-              ),
-            );
-          }
-          return Scaffold(
-            body: StateLayout(
-              type: Provider.of<ListingProvider>(context, listen: false)
-                  .stateType,
-            ),
-          );
-        });
+    return HideFabOnScrollScaffold(
+      body: SafeArea(
+        child: CustomScrollView(
+          controller: _scrollController,
+          key: const Key('place_detail'),
+          slivers: _sliverBuilder(place),
+        ),
+      ),
+      controller: _scrollController,
+      floatingActionButton: Builder(
+        builder: (ctx) => FloatingActionButton.extended(
+          key: Key("FAB"),
+          heroTag: "btn_open_form",
+          tooltip: S.of(context).labelRatePlace,
+          onPressed: () => _addNewReview(),
+          icon: const Icon(Icons.star),
+          label: Text(S.of(context).labelRatePlace),
+        ),
+      ),
+    );
   }
 
-  _addNewReview(ListingModel place) {
+  _addNewReview() {
     NavigatorUtils.tryAuthResult(
       context,
       '${OverviewRouter.reviewPage}?title=${place.listingName}&placeId=${place.listingId}',
@@ -139,12 +126,12 @@ class PlaceDetailPageState extends State<PlaceDetailPage>
           delegate: SliverChildListDelegate([
         Gaps.vGap16,
         PlaceImage(
-          images: place.listingImages?.ads,
+          images: place.listingImages.ads,
         ),
         CommentSection(
           listingName: place.listingName,
           listingId: place.listingId,
-          addNewReview: () => _addNewReview(place),
+          addNewReview: () => _addNewReview(),
         ),
         MerchantInfo(merchant: place.merchant),
       ]))

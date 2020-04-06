@@ -9,12 +9,10 @@ import 'package:jom_malaysia/widgets/state_layout.dart';
 
 class FeaturedPlaceProvider extends BaseChangeNotifier {
   HttpService _httpService;
-
   FeaturedPlaceProvider({@required HttpService httpService})
       : _httpService = httpService;
 
   List<FeaturedPlaceModel> _featured = [];
-
   List<FeaturedPlaceModel> get featured {
     return [..._featured];
   }
@@ -29,30 +27,29 @@ class FeaturedPlaceProvider extends BaseChangeNotifier {
     queries[QueryParam.featured] = true;
     _featured.clear();
     // setStateType(StateType.loading);
-    try {
-      var result = await _httpService
-          .asyncRequestNetwork<List<FeaturedPlaceModel>, FeaturedPlaceModel>(
-        Method.get,
-        url: APIEndpoint.listingQuery,
-        options: options,
-        queryParameters: queries,
-      );
-      if (result != null) {
-        if (result.length > 0) {
-          _featured = result;
-          setStateTypeWithoutNotify(StateType.places);
-          notifyListeners();
-          return;
+    _httpService
+        .asyncRequestNetwork<List<FeaturedPlaceModel>, FeaturedPlaceModel>(
+      Method.get,
+      url: APIEndpoint.listingQuery,
+      options: options,
+      queryParameters: queries,
+      isShow: false,
+      onSuccess: (data) {
+        if (data != null) {
+          if (data.length > 0) {
+            _featured.addAll(data);
+            setStateTypeWithoutNotify(StateType.places);
+            notifyListeners();
+            return;
+          } else {
+            setStateType(StateType.places);
+            return;
+          }
         } else {
-          setStateType(StateType.places);
+          setStateType(StateType.network);
           return;
         }
-      } else {
-        setStateType(StateType.network);
-        return;
-      }
-    } on Exception {
-      setStateType(StateType.network);
-    }
+      },
+    );
   }
 }

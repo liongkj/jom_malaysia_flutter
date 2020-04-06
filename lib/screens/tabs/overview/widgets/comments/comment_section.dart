@@ -29,43 +29,33 @@ class CommentSection extends StatefulWidget {
   _CommentSectionState createState() => _CommentSectionState();
 }
 
-class _CommentSectionState extends State<CommentSection>
-    with AutomaticKeepAliveClientMixin<CommentSection> {
+class _CommentSectionState extends State<CommentSection> {
   List<CommentModel> comments = [];
-  Stream<QuerySnapshot> stream;
-  static const int _MAXCOMMENTCOUNT = 3;
-
-  @override
-  void initState() {
-    final commentProvider =
-        Provider.of<CommentsProvider>(context, listen: false);
-    stream = commentProvider.fetchCommentsAsStream(widget.listingId);
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
-
+    final commentProvider =
+        Provider.of<CommentsProvider>(context, listen: false);
+    const int _MAXCOMMENTCOUNT = 3;
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: MyCard(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
           child: StreamBuilder(
-              stream: stream,
+              stream: commentProvider.fetchCommentsAsStream(widget.listingId),
               builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (snapshot.hasData) {
+                if (snapshot.connectionState == ConnectionState.active) {
                   var hasMoreThanMax = false;
                   var shouldLoad = false;
-
-                  comments = snapshot.data.documents
-                      .map((doc) =>
-                          CommentModel.fromMap(doc.data, doc.documentID))
-                      .toList();
-                  hasMoreThanMax = comments.length > _MAXCOMMENTCOUNT;
-                  shouldLoad = comments?.isNotEmpty;
-
+                  if (snapshot.hasData) {
+                    comments = snapshot.data.documents
+                        .map((doc) =>
+                            CommentModel.fromMap(doc.data, doc.documentID))
+                        .toList();
+                    hasMoreThanMax = comments.length > _MAXCOMMENTCOUNT;
+                    shouldLoad = comments?.isNotEmpty;
+                  }
                   return Column(
                     children: <Widget>[
                       _CommentHeader(
@@ -126,9 +116,6 @@ class _CommentSectionState extends State<CommentSection>
       ),
     );
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }
 
 class _CommentButton extends StatelessWidget {

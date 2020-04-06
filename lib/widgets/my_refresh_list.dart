@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
-import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
 import 'package:jom_malaysia/widgets/state_layout.dart';
 
@@ -17,7 +16,6 @@ class DeerListView extends StatefulWidget {
     this.pageSize: 10,
     this.padding,
     this.itemExtent,
-    this.searchText,
   }) : super(key: key);
 
   final LoadMoreCallback loadMore;
@@ -25,7 +23,6 @@ class DeerListView extends StatefulWidget {
   final bool hasMore;
   final IndexedWidgetBuilder itemBuilder;
   final StateType stateType;
-  final String searchText;
 
   /// 一页的数量，默认为10
   final int pageSize;
@@ -56,13 +53,7 @@ class _DeerListViewState extends State<DeerListView> {
             return true;
           },
           child: widget.itemCount == 0
-              ? StateLayout(
-                  type: widget.stateType,
-                  hintText: widget.stateType == StateType.result &&
-                          widget.searchText != ""
-                      ? S.of(context).msgNoResultFor(widget.searchText)
-                      : null,
-                )
+              ? StateLayout(type: widget.stateType)
               : ListView.builder(
                   itemCount: widget.loadMore == null
                       ? widget.itemCount

@@ -5,6 +5,7 @@ import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/city_model.dart';
 import 'package:jom_malaysia/screens/tabs/overview/models/listing_model.dart';
 import 'package:jom_malaysia/setting/provider/user_current_location_provider.dart';
+import 'package:jom_malaysia/widgets/state_layout.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 
