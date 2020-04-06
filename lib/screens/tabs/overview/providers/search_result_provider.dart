@@ -13,7 +13,7 @@ class SearchResultProvider extends BaseChangeNotifier {
 
   static const int _HISTORYMAXCOUNT = 5;
 
-  ResultType resultType;
+  ResultType resultType = ResultType.history;
 
   SearchResultProvider({@required ISearchService service}) : _service = service;
 
@@ -25,30 +25,31 @@ class SearchResultProvider extends BaseChangeNotifier {
 
   List<PlaceSearchResult> get suggestions => [..._suggestions];
 
-  List<String> _history = [];
-
-  List<String> get history => [..._history];
-
   Future search(String text, int page, {Locale locale}) async {
+    _result.clear();
+    setStateType(StateType.loading);
     _saveHistory(text);
     var data = await _service.search(text, page: page);
     if (data != null) {
       _result = data;
       resultType = ResultType.search;
     }
-    setStateType(StateType.goods);
+    setStateType(StateType.result);
   }
 
   Future getSuggestions(String value) async {
-    debugPrint("called");
     _service
         .search(value, page: 1)
         .then((value) => _suggestions = value)
         .whenComplete(() {
       resultType = ResultType.suggestion;
-      setStateType(StateType.goods);
+      setStateType(StateType.result);
     });
   }
+
+  List<String> _history = [];
+
+  List<String> get history => [..._history];
 
   void _saveHistory(String text) {
     if (!_history.contains(text)) {
@@ -65,8 +66,9 @@ class SearchResultProvider extends BaseChangeNotifier {
   void clearOldResult() {
     _result.clear();
     resultType = ResultType.history;
+
     _loadHistory();
-    notifyListeners();
+    setStateType(StateType.result);
   }
 
   void removeHistoryAt(int index) {

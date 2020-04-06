@@ -22,12 +22,12 @@ class HideFabOnScrollScaffoldState extends State<HideFabOnScrollScaffold> {
   @override
   void initState() {
     super.initState();
-    widget.controller.addListener(_updateFabVisible);
+    widget.controller?.addListener(_updateFabVisible);
   }
 
   @override
   void dispose() {
-    widget.controller.removeListener(_updateFabVisible);
+    widget.controller?.removeListener(_updateFabVisible);
     super.dispose();
   }
 

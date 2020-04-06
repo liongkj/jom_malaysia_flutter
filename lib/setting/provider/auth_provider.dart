@@ -33,11 +33,13 @@ class AuthProvider extends ChangeNotifier {
       _providerList = pList;
       _user = new AuthUser(fUser.uid, fUser.displayName, fUser.photoUrl,
           fUser.email, fUser.isEmailVerified);
+      notifyListeners();
     } else {
-      _user = null;
+      if (_user != null) {
+        _user = null;
+        notifyListeners();
+      }
     }
-
-    notifyListeners();
   }
 
   Future<void> signUp(AuthRequest request) async {

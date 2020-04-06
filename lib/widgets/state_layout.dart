@@ -28,7 +28,7 @@ class _StateLayoutState extends State<StateLayout> {
         _img = "coming_soon";
         _hintText = S.of(context).stateTypePlace;
         break;
-      case StateType.goods:
+      case StateType.result:
         _img = "not_found";
         _hintText = S.of(context).stateTypeNotFound;
         break;
@@ -103,27 +103,12 @@ class _StateLayoutState extends State<StateLayout> {
   }
 }
 
-enum LocationState {
-  init,
-
-  ///found location
-  found,
-
-  ///show rejected state
-  noPermit,
-
-  ///  loading state
-  loading,
-
-  ///  loading empty state
-  granted,
-}
 enum StateType {
   /// show no place found state
   places,
 
-  ///  show no goods found state
-  goods,
+  ///  show no result found state
+  result,
 
   ///  show network error state
   network,
