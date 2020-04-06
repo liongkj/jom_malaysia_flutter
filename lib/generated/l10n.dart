@@ -362,6 +362,15 @@ class S {
     );
   }
 
+  String msgNoResultFor(Object text) {
+    return Intl.message(
+      'Awww... No result found for \'$text\'',
+      name: 'msgNoResultFor',
+      desc: '',
+      args: [text],
+    );
+  }
+
   String get labelSearchHint {
     return Intl.message(
       'Search for a name or keyword',

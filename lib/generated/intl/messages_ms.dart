@@ -27,9 +27,9 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m7(item) => "Muat naik ${item} anda";
 
-  static m9(uname) => "Baik untuk bertemu dengan anda ${uname}";
+  static m10(uname) => "Baik untuk bertemu dengan anda ${uname}";
 
-  static m10(commentCount) => "Komen (${commentCount})";
+  static m11(commentCount) => "Komen (${commentCount})";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
@@ -126,7 +126,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "msgPleaseFillRequiredField" : MessageLookupByLibrary.simpleMessage("Field tidak boleh kosong"),
     "msgRegistrationSuccess" : MessageLookupByLibrary.simpleMessage("Pendaftaran selesai. Log masuk ..."),
     "msgUpdatePhotoSuccess" : MessageLookupByLibrary.simpleMessage("Mengedit foto profil anda"),
-    "msgUpdateUsernameSuccess" : m9,
+    "msgUpdateUsernameSuccess" : m10,
     "overviewSection1Para1" : MessageLookupByLibrary.simpleMessage("Negeri Sembilan adalah negeri Malaysia di pantai barat daya Semenanjung Malaysia yang terkenal dengan pantai, taman semula jadi dan istana. Di barat, Selat Melaka dan kawasan berhampiran Port Dickson mempunyai tempat peranginan pantai, Bandung Chinese St Kuil Kota dan Benteng Kota Lukut Bukit Di pantai selatan, di negeri jiran Melaka, ialah Tanjung Tuan, sebuah rizab alam semula jadi dengan sebuah rumah api. "),
     "overviewSection1Para2" : MessageLookupByLibrary.simpleMessage("Dixon Harbour, timur laut ibukota Seremban, terkenal dengan bangunan penjajahnya, Taman Taman Tasik dan istana kayu rakyat Minangkabau, yang berasal dari Indonesia. Pengaruh mereka juga boleh didapati di Seri Menanti di timur Bekas istana kini adalah Muzium Diraja Sri Menanti, dan bandaraya Kuala Pilah yang terletak berhampiran dengan Kuil Cina San Sheng Gong dan Kuil Sri Kanthasamy kuil Hindu berwarna-warni. Di barat adalah Taman Rekreasi Ulu Bendul termasuk hutan, air terjun dan Gunung Gunung Angsi. "),
     "overviewSection2Para1" : MessageLookupByLibrary.simpleMessage("Nama ini dianggap dihuni oleh 9 (Sumbian) desa atau nagari dalam bahasa Minangkabau (sekarang disebut luak) yang didiami oleh Minangkabau, yang berasal dari Sumatra Barat (sekarang Indonesia) Rakyat Minangkabau masih sangat jelas dalam seni bina tradisional dan dialek Melayu. "),
@@ -137,7 +137,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "overviewSection4Title" : MessageLookupByLibrary.simpleMessage("Modal (Furong)"),
     "overviewSection5Para1" : MessageLookupByLibrary.simpleMessage("Pada tahun 2015, jumlah penduduk Negeri Sembilan adalah 1,098,500; komposisi etnik adalah Melayu 622,000 (56.6%) (terutamanya berasal dari Minangkabau), 20,700 orang asli (1.9%), Cina 234.300 (21.3% India adalah 154,000 (14%), 4,200 yang lain (0.4%) dan bukan rakyat 63,300 (5.8%) berbanding negeri-negeri lain di Malaysia."),
     "overviewSection5Title" : MessageLookupByLibrary.simpleMessage("Demografi"),
-    "placeDetailCommentCountLabel" : m10,
+    "placeDetailCommentCountLabel" : m11,
     "placeDetailInfoLabel" : MessageLookupByLibrary.simpleMessage("Butiran Tempat"),
     "placeDetailMerchantInfoLabel" : MessageLookupByLibrary.simpleMessage("Maklumat Pedagang"),
     "placeDetailMerchantRegistrationNameLabel" : MessageLookupByLibrary.simpleMessage("Nama Pendaftaran"),
