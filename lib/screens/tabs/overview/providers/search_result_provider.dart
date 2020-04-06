@@ -38,7 +38,6 @@ class SearchResultProvider extends BaseChangeNotifier {
   }
 
   Future getSuggestions(String value) async {
-    debugPrint("suggestion for " + value);
     _service
         .search(value, page: 1)
         .then((value) => _suggestions = value)
@@ -55,7 +54,6 @@ class SearchResultProvider extends BaseChangeNotifier {
   void _saveHistory(String text) {
     if (!_history.contains(text)) {
       _history.insert(0, text);
-      debugPrint("saved" + text);
       if (_history.length > _HISTORYMAXCOUNT) _history.removeLast();
       SpUtil.putStringList(Constant.historySearch, _history);
     }
@@ -63,7 +61,6 @@ class SearchResultProvider extends BaseChangeNotifier {
 
   void _loadHistory() {
     _history = SpUtil.getStringList(Constant.historySearch);
-    debugPrint(_history.length.toString());
   }
 
   void clearOldResult() {

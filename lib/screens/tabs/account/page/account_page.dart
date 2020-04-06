@@ -126,7 +126,6 @@ class _ShopPageState extends State<AccountPage>
           var loggedUser = authProvider.user;
           _displayName = loggedUser?.username;
           _photoUrl = loggedUser?.profileImage;
-          debugPrint(_photoUrl);
           return SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

@@ -44,6 +44,7 @@ class OverviewPageState extends State<OverviewPage>
         Provider.of<AdsService>(context, listen: false).fetchAndInitAds();
     _adsController = SwiperController();
     _tabController = TabController(vsync: this, length: 5);
+    debugPrint("init");
   }
 
   @override
@@ -61,19 +62,15 @@ class OverviewPageState extends State<OverviewPage>
     var loc = Provider.of<LocationProvider>(context, listen: false)
         .selected
         ?.cityName;
-    Provider.of<ListingProvider>(context, listen: false)
+    await Provider.of<ListingProvider>(context, listen: false)
         .fetchAndInitPlaces(city: loc, refresh: true);
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return MultiProvider(
-        providers: [
-          ChangeNotifierProvider<OverviewPageProvider>.value(
-            value: provider,
-          ),
-        ],
+    return ChangeNotifierProvider<OverviewPageProvider>.value(
+        value: provider,
         child: Scaffold(
           body: Stack(
             children: <Widget>[

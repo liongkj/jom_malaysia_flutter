@@ -20,15 +20,17 @@ class LocationProvider extends ChangeNotifier {
       _selected = null;
   }
 
-  clear() {
+  void clear() {
     SpUtil.remove(Constant.prefLocation);
 
-    notifyListeners();
+//    notifyListeners();
   }
 
-  selectPlace(CityModel city) {
-    SpUtil.putObject(Constant.prefLocation, city);
-    _selected = city;
-    notifyListeners();
+  void selectPlace(CityModel city) {
+    if (_selected != city) {
+      SpUtil.putObject(Constant.prefLocation, city);
+      _selected = city;
+      notifyListeners();
+    }
   }
 }

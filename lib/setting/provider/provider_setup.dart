@@ -74,9 +74,13 @@ List<SingleChildWidget> dependentServices = [
             httpService: Provider.of<HttpService>(context, listen: false),
           )),
   ChangeNotifierProxyProvider<LocationProvider, ListingProvider>(
-    update: (ctx, location, listingProvider) => listingProvider
-      ..fetchAndInitPlaces(city: location.selected?.cityName, refresh: true),
+    update: (ctx, location, listingProvider) {
+      debugPrint("updating");
+      return listingProvider
+        ..fetchAndInitPlaces(city: location.selected?.cityName, refresh: true);
+    },
     create: (BuildContext context) {
+      debugPrint("creating provider");
       return ListingProvider(
         httpService: Provider.of<HttpService>(context, listen: false),
       );

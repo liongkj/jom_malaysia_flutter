@@ -82,83 +82,87 @@ class _PlaceSearchPageState extends State<PlaceSearchPage> {
             },
             focusNode: _focusNode,
           ),
-          body: Consumer<SearchResultProvider>(builder: (_, provider, __) {
-            debugPrint(provider.resultType.toString());
-            debugPrint(provider.stateType.toString());
-            var list;
-            switch (provider.resultType) {
-              case ResultType.search:
-                list = DeerListView(
-                    key: Key('place_search_list'),
+          body: Consumer<SearchResultProvider>(
+            builder: (_, provider, __) {
+              debugPrint("rebuild");
+              var list;
+              switch (provider.resultType) {
+                case ResultType.search:
+                  list = DeerListView(
+                      key: Key('place_search_list'),
+                      searchText: _controller.text,
+                      itemCount: provider.result.length,
+                      stateType: provider.stateType,
+                      loadMore: _loadMore,
+                      itemExtent: 90.0,
+                      hasMore: false,
+                      itemBuilder: (_, index) {
+                        return Padding(
+                            padding: const EdgeInsets.only(bottom: 8.0),
+                            child: SearchResultItem(
+                              key: Key("result-$index"),
+                              result: provider.result[index],
+                              onTap: () {
+                                NavigatorUtils.push(context,
+                                    '${OverviewRouter.placeDetailPage}/${provider.result[index].objectId}');
+                              },
+                            ));
+                      });
+                  break;
+                case ResultType.suggestion:
+                  list = DeerListView(
+                    key: Key('place_search_suggestion'),
                     searchText: _controller.text,
-                    itemCount: provider.result.length,
+                    itemCount: provider.suggestions.length,
                     stateType: provider.stateType,
                     loadMore: _loadMore,
                     itemExtent: 90.0,
                     hasMore: false,
                     itemBuilder: (_, index) {
                       return Padding(
-                          padding: const EdgeInsets.only(bottom: 8.0),
-                          child: SearchResultItem(
-                            key: Key("result-$index"),
-                            result: provider.result[index],
-                            onTap: () {
-                              NavigatorUtils.push(context,
-                                  '${OverviewRouter.placeDetailPage}/${provider.result[index].objectId}');
-                            },
-                          ));
-                    });
-                break;
-              case ResultType.suggestion:
-                list = DeerListView(
-                  key: Key('place_search_suggestion'),
-                  searchText: _controller.text,
-                  itemCount: provider.suggestions.length,
-                  stateType: provider.stateType,
-                  loadMore: _loadMore,
-                  itemExtent: 90.0,
-                  hasMore: false,
-                  itemBuilder: (_, index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 8.0),
-                      child: SearchResultItem(
-                        key: Key("suggestion-$index"),
-                        result: provider.suggestions[index],
-                        onTap: () {
-                          NavigatorUtils.push(context,
-                              '${OverviewRouter.placeDetailPage}/${provider.suggestions[index].objectId}');
-                        },
-                      ),
-                    );
-                  },
-                );
-                break;
-              case ResultType.history:
-                list = DeerListView(
-                    searchText: _controller.text,
-                    key: Key('place_search_history'),
-                    itemCount: provider.history.length,
-                    stateType: provider.stateType,
-                    loadMore: _loadMore,
-                    itemExtent: 40.0,
-                    hasMore: false,
-                    itemBuilder: (_, index) {
-                      return HistoryResultItem(
-                        title: provider.history[index],
-                        delete: () => provider.removeHistoryAt(index),
-                        onTap: () {
-                          SchedulerBinding.instance.addPostFrameCallback((_) {
-                            FocusScope.of(context).unfocus();
-                            provider.search(provider.history[index], 1);
-                            _controller.text = provider.history[index];
-                          });
-                        },
+                        padding: const EdgeInsets.only(bottom: 8.0),
+                        child: SearchResultItem(
+                          key: Key("suggestion-$index"),
+                          result: provider.suggestions[index],
+                          onTap: () {
+                            NavigatorUtils.push(context,
+                                '${OverviewRouter.placeDetailPage}/${provider.suggestions[index].objectId}');
+                          },
+                        ),
                       );
-                    });
-                break;
-            }
-            return list;
-          })),
+                    },
+                  );
+                  break;
+                case ResultType.history:
+                  list = DeerListView(
+                      searchText: _controller.text,
+                      key: Key('place_search_history'),
+                      itemCount: provider.history.length,
+                      stateType: provider.stateType,
+                      loadMore: _loadMore,
+                      itemExtent: 40.0,
+                      hasMore: false,
+                      itemBuilder: (_, index) {
+                        return HistoryResultItem(
+                          title: provider.history[index],
+                          delete: () => provider.removeHistoryAt(index),
+                          onTap: () {
+                            SchedulerBinding.instance
+                                .addPostFrameCallback((_) async {
+                              FocusScope.of(context).unfocus();
+
+                              _controller.text = provider.history[index];
+                              _timer.cancel();
+                              await provider.search(provider.history[index], 1);
+                            });
+                          },
+                        );
+                      });
+                  break;
+              }
+              return list;
+            },
+          )),
     );
   }
 

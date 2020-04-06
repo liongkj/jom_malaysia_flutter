@@ -23,7 +23,6 @@ class AdsService {
         Method.get,
         url: "",
         options: options,
-        isShow: false,
       );
     } on Exception {
       return null;
