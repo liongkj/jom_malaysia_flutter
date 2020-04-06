@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/core/services/gateway/exception/not_found_exception.dart';
@@ -11,7 +12,6 @@ import 'package:jom_malaysia/screens/tabs/account/widgets/exit_dialog.dart';
 import 'package:jom_malaysia/screens/tabs/account/widgets/text_input_dialog.dart';
 import 'package:jom_malaysia/setting/provider/auth_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
-import 'package:jom_malaysia/util/image_utils.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
 import 'package:oktoast/oktoast.dart';
@@ -178,13 +178,20 @@ class _ShopPageState extends State<AccountPage>
                             ],
                           ),
                         Positioned(
-                            right: 0.0,
-                            child: CircleAvatar(
-                                radius: 28.0,
-                                backgroundColor: Colors.transparent,
-                                backgroundImage: ImageUtils.getImageProvider(
+                          right: 0.0,
+                          child: CircleAvatar(
+                            radius: 28.0,
+                            backgroundColor: Colors.transparent,
+                            backgroundImage: _photoUrl == null
+                                ? AssetImage(
+                                    'assets/images/account/dummy_profile_pic.png')
+                                : CachedNetworkImageProvider(
                                     _photoUrl,
-                                    holderImg: 'account/dummy_profile_pic'))),
+                                    errorListener: () => AssetImage(
+                                        'assets/images/account/dummy_profile_pic.png'),
+                                  ),
+                          ),
+                        ),
                       ],
                     ))),
                 if (loggedUser != null) _UserSettings(),
@@ -206,6 +213,7 @@ class _AppSettings extends StatelessWidget {
     'setting'
     // 'credit'
   ];
+
   @override
   Widget build(BuildContext context) {
     var _menuTitle = [
@@ -268,6 +276,7 @@ class _AppSettings extends StatelessWidget {
 
 class _UserSettings extends StatelessWidget {
   final _menuImage = ['profile'];
+
   @override
   Widget build(BuildContext context) {
     var _menuTitle = [

@@ -8,7 +8,7 @@ class MyButton extends StatelessWidget {
     this.text: "",
     this.icon,
     @required this.onPressed,
-    this.isDanger,
+    this.isDanger = false,
   }) : super(key: key);
   final Icon icon;
   final String text;
