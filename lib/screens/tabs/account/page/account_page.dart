@@ -12,7 +12,6 @@ import 'package:jom_malaysia/screens/tabs/account/widgets/exit_dialog.dart';
 import 'package:jom_malaysia/screens/tabs/account/widgets/text_input_dialog.dart';
 import 'package:jom_malaysia/setting/provider/auth_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
-import 'package:jom_malaysia/util/image_utils.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
 import 'package:oktoast/oktoast.dart';
@@ -127,6 +126,7 @@ class _ShopPageState extends State<AccountPage>
           var loggedUser = authProvider.user;
           _displayName = loggedUser?.username;
           _photoUrl = loggedUser?.profileImage;
+          debugPrint(_photoUrl);
           return SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -183,11 +183,14 @@ class _ShopPageState extends State<AccountPage>
                           child: CircleAvatar(
                             radius: 28.0,
                             backgroundColor: Colors.transparent,
-                            backgroundImage: CachedNetworkImageProvider(
-                                _photoUrl,
-                                errorListener: () =>
-                                    ImageUtils.getImageProvider(
-                                        'account/dummy_profile_pic')),
+                            backgroundImage: _photoUrl == null
+                                ? AssetImage(
+                                    'assets/images/account/dummy_profile_pic.png')
+                                : CachedNetworkImageProvider(
+                                    _photoUrl,
+                                    errorListener: () => AssetImage(
+                                        'assets/images/account/dummy_profile_pic.png'),
+                                  ),
                           ),
                         ),
                       ],

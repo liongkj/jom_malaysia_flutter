@@ -52,7 +52,7 @@ class PlaceDetailPageState extends State<PlaceDetailPage>
     return FutureBuilder<ListingModel>(
         future: fetchListing,
         builder: (ctx, snap) {
-          if (snap.hasData) {
+          if (snap.hasData && snap.data.listingId != null) {
             return HideFabOnScrollScaffold(
               body: SafeArea(
                 child: CustomScrollView(

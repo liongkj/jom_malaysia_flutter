@@ -80,15 +80,13 @@ class ListingProvider extends BaseChangeNotifier {
         buildCacheOptions(Duration(days: 7), forceRefresh: true);
 
     try {
-      var result = await _httpService
-          .asyncRequestNetwork<List<ListingModel>, ListingModel>(
+      var result = await _httpService.asyncRequestNetwork<ListingModel, Null>(
         Method.get,
-        url: "${APIEndpoint.listings}/$placeId/",
+        url: "${APIEndpoint.listings}/$placeId",
         options: options,
-        isShow: false,
       );
-      _listing.add(result?.first);
-      return result?.first;
+      _listing.add(result);
+      return result;
     } on Exception catch (e) {
       debugPrint(e.toString());
       setStateType(StateType.network);
@@ -105,6 +103,10 @@ class ListingProvider extends BaseChangeNotifier {
       return result;
     }
     debugPrint("fetching from api");
-    return await _searchById(placeId);
+    try {
+      return _searchById(placeId);
+    } on Exception catch (e) {
+      throw e;
+    }
   }
 }

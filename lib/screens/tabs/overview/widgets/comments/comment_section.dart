@@ -32,20 +32,28 @@ class CommentSection extends StatefulWidget {
 class _CommentSectionState extends State<CommentSection>
     with AutomaticKeepAliveClientMixin<CommentSection> {
   List<CommentModel> comments = [];
+  Stream<QuerySnapshot> stream;
+  static const int _MAXCOMMENTCOUNT = 3;
+
+  @override
+  void initState() {
+    final commentProvider =
+        Provider.of<CommentsProvider>(context, listen: false);
+    stream = commentProvider.fetchCommentsAsStream(widget.listingId);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    final commentProvider =
-        Provider.of<CommentsProvider>(context, listen: false);
-    const int _MAXCOMMENTCOUNT = 3;
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: MyCard(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
           child: StreamBuilder(
-              stream: commentProvider.fetchCommentsAsStream(widget.listingId),
+              stream: stream,
               builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.hasData) {
                   var hasMoreThanMax = false;
