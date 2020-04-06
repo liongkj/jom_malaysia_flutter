@@ -80,15 +80,17 @@ class ListingProvider extends BaseChangeNotifier {
         buildCacheOptions(Duration(days: 7), forceRefresh: true);
 
     try {
-      var result = await _httpService.asyncRequestNetwork<ListingModel, Null>(
+      var result = await _httpService
+          .asyncRequestNetwork<List<ListingModel>, ListingModel>(
         Method.get,
-        url: "${APIEndpoint.listings}/$placeId",
+        url: "${APIEndpoint.listings}/$placeId/",
         options: options,
         isShow: false,
       );
-      _listing.add(result);
-      return result;
-    } on Exception {
+      _listing.add(result?.first);
+      return result?.first;
+    } on Exception catch (e) {
+      debugPrint(e.toString());
       setStateType(StateType.network);
       return null;
     }
