@@ -8,13 +8,16 @@ class LocationProvider extends ChangeNotifier {
 
   CityModel get selected => _selected;
 
+  LocationProvider() {
+    init();
+  }
+
   void init() {
     Map<String, dynamic> sp = SpUtil.getObject(Constant.prefLocation);
     if (sp != null) {
       _selected = CityModel.fromJsonMap(sp);
     } else
       _selected = null;
-    notifyListeners();
   }
 
   clear() {

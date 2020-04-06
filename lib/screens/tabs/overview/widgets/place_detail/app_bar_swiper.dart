@@ -120,7 +120,7 @@ class _CoverPhotos extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<String> swiper = place.listingImages.getCarousel;
+    List<String> swiper = place.listingImages?.getCarousel;
 
     return Swiper(
       itemBuilder: (BuildContext context, int index) {

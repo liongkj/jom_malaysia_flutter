@@ -2,17 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/enums/category_type_enum.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/core/services/search/place_search_result_model.dart';
-import 'package:jom_malaysia/screens/tabs/overview/overview_router.dart';
 import 'package:jom_malaysia/setting/provider/language_provider.dart';
-import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
 import 'package:jom_malaysia/widgets/my_card.dart';
 import 'package:jom_malaysia/widgets/my_rating_bar.dart';
 import 'package:provider/provider.dart';
 
 class SearchResultItem extends StatelessWidget {
-  SearchResultItem(this.result);
+  SearchResultItem({
+    Key key,
+    @required this.result,
+    @required this.onTap,
+  }) : super(key: key);
+
   final PlaceSearchResult result;
+  final Function onTap;
+
   @override
   Widget build(BuildContext context) {
     return MyCard(
@@ -40,12 +45,9 @@ class SearchResultItem extends StatelessWidget {
                   fontWeight: FontWeight.w700,
                 ),
           ),
-
           subtitle: _BuildSubtitle(result),
           isThreeLine: false,
-          // trailing: Container(),
-          onTap: () => NavigatorUtils.push(
-              context, '${OverviewRouter.placeDetailPage}/${result.objectId}'),
+          onTap: onTap,
         ),
       ),
     );
@@ -81,7 +83,9 @@ class SearchResultItem extends StatelessWidget {
 
 class _BuildSubtitle extends StatelessWidget {
   _BuildSubtitle(this.place);
+
   final PlaceSearchResult place;
+
   @override
   Widget build(BuildContext context) {
     final locale = Provider.of<LanguageProvider>(context, listen: false).locale;

@@ -7,6 +7,7 @@ import 'package:jom_malaysia/core/services/image/cloudinary/cloudinary_image_ser
 import 'package:jom_malaysia/core/services/search/algolia_search.dart';
 import 'package:jom_malaysia/screens/login/providers/timer_provider.dart';
 import 'package:jom_malaysia/screens/tabs/explore/providers/featured_place_provider.dart';
+import 'package:jom_malaysia/screens/tabs/overview/providers/ads_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/comments_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/listing_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/location_provider.dart';
@@ -62,6 +63,11 @@ List<SingleChildWidget> dependentServices = [
       service: Provider.of<FirebaseAuthService>(context, listen: false),
     ),
     update: (context, value, previous) => previous..setUser(value),
+  ),
+  InheritedProvider(
+    create: (context) => AdsService(
+      httpService: Provider.of<HttpService>(context, listen: false),
+    ),
   ),
   InheritedProvider(
       create: (context) => CloudinaryImageService(

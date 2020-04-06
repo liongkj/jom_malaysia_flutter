@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/listing_provider.dart';
-import 'package:jom_malaysia/screens/tabs/overview/providers/location_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/overview_page_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/overview/place_item.dart';
 import 'package:jom_malaysia/widgets/shimmer_item.dart';
@@ -12,10 +11,12 @@ import 'package:shimmer/shimmer.dart';
 class PlaceList extends StatefulWidget {
   const PlaceList({
     Key key,
+    @required this.onRefresh,
     @required this.index,
   }) : super(key: key);
 
   final int index;
+  final Function onRefresh;
 
   @override
   _PlaceListState createState() => _PlaceListState();
@@ -32,10 +33,6 @@ class _PlaceListState extends State<PlaceList>
     super.initState();
     _index = widget.index;
     _controller = ScrollController();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      Provider.of<LocationProvider>(context, listen: false).init();
-      _onRefresh();
-    });
   }
 
   @override
@@ -52,7 +49,7 @@ class _PlaceListState extends State<PlaceList>
         return true;
       },
       child: RefreshIndicator(
-        onRefresh: _onRefresh,
+        onRefresh: widget.onRefresh,
         displacement: height, //40 + 120(header)
         child: Consumer<OverviewPageProvider>(
           builder: (_, provider, placeListChild) {
@@ -114,14 +111,6 @@ class _PlaceListState extends State<PlaceList>
         ),
       ),
     );
-  }
-
-  Future _onRefresh() async {
-    var loc = Provider.of<LocationProvider>(context, listen: false)
-        .selected
-        ?.cityName;
-    Provider.of<ListingProvider>(context, listen: false)
-        .fetchAndInitPlaces(city: loc, refresh: true);
   }
 
   @override

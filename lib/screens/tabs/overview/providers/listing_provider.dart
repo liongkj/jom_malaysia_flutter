@@ -75,7 +75,34 @@ class ListingProvider extends BaseChangeNotifier {
     }
   }
 
-  ListingModel findById(String placeId) {
-    return _listing.firstWhere((x) => x.listingId == placeId) ?? null;
+  Future<ListingModel> _searchById(String placeId) async {
+    final Options options =
+        buildCacheOptions(Duration(days: 7), forceRefresh: true);
+
+    try {
+      var result = await _httpService.asyncRequestNetwork<ListingModel, Null>(
+        Method.get,
+        url: "${APIEndpoint.listings}/$placeId",
+        options: options,
+        isShow: false,
+      );
+      _listing.add(result);
+      return result;
+    } on Exception {
+      setStateType(StateType.network);
+      return null;
+    }
+  }
+
+  ///return listingModel if exist
+  Future<ListingModel> findById(String placeId) async {
+    var result =
+        _listing.firstWhere((x) => x.listingId == placeId, orElse: () => null);
+    if (result != null) {
+      debugPrint("listing found, returning");
+      return result;
+    }
+    debugPrint("fetching from api");
+    return await _searchById(placeId);
   }
 }
