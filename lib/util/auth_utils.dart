@@ -54,29 +54,28 @@ class AuthUtils {
     Function _type;
     switch (type) {
       case AuthOperationEnum.GOOGLE:
-        _type = () => loginProvider
-            .signInWithGoogle()
-            .then(
-              (onValue) => NavigatorUtils.goBack(context),
-            )
-            .catchError(errorHandler,
+        _type = () => loginProvider.signInWithGoogle().then((onValue) {
+              showToast(
+                  S.of(context).labelLoggedInWith(S.of(context).labelGoogle));
+              NavigatorUtils.goBack(context);
+            }).catchError(errorHandler,
                 test: (e) => e is SignInCancelledException);
         break;
       case AuthOperationEnum.SIGNUP:
-        _type = () => loginProvider
-            .signUp(request)
-            .then(
-              (onValue) => NavigatorUtils.goBack(context),
-            )
-            .catchError(errorHandler);
+        _type = () => loginProvider.signUp(request).then(
+              (onValue) {
+                showToast(S.of(context).labelSignUpSuccess);
+                NavigatorUtils.goBack(context);
+              },
+            ).catchError(errorHandler);
         break;
       case AuthOperationEnum.EMAIL:
-        _type = () => loginProvider
-            .signInWithEmailPassword(request)
-            .then(
-              (onValue) => NavigatorUtils.goBack(context),
-            )
-            .catchError(errorHandler);
+        _type = () =>
+            loginProvider.signInWithEmailPassword(request).then((onValue) {
+              NavigatorUtils.goBack(context);
+              showToast(
+                  S.of(context).labelLoggedInWith(S.of(context).labelPassword));
+            }).catchError(errorHandler);
         break;
       case AuthOperationEnum.CHANGEPASS:
         _type = () => loginProvider.changePassword(request).then((onValue) {

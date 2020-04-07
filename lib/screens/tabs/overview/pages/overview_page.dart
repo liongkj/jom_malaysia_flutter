@@ -44,7 +44,6 @@ class OverviewPageState extends State<OverviewPage>
         Provider.of<AdsService>(context, listen: false).fetchAndInitAds();
     _adsController = SwiperController();
     _tabController = TabController(vsync: this, length: 5);
-    debugPrint("init");
   }
 
   @override

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/constants/common.dart';
+import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/login/widgets/sign_in_icon.dart';
 import 'package:jom_malaysia/setting/provider/auth_provider.dart';
 import 'package:jom_malaysia/util/auth_utils.dart';
@@ -16,7 +17,7 @@ class ThirdPartyProviders extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Text("Sign in with"),
+          Text(S.of(context).labelThirdPartyLogin),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,

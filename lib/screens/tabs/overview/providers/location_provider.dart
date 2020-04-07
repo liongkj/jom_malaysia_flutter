@@ -19,6 +19,7 @@ class LocationProvider extends ChangeNotifier {
       _selected = CityModel.fromJsonMap(sp);
     } else
       _selected = null;
+    notifyListeners();
   }
 
   void clear() {

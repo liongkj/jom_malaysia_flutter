@@ -776,6 +776,15 @@ class S {
     );
   }
 
+  String get labelThirdPartyLogin {
+    return Intl.message(
+      'Third party login',
+      name: 'labelThirdPartyLogin',
+      desc: '',
+      args: [],
+    );
+  }
+
   String get labelGoogle {
     return Intl.message(
       'Google Account',
@@ -789,6 +798,15 @@ class S {
     return Intl.message(
       'Email/Password',
       name: 'labelPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelSignUpSuccess {
+    return Intl.message(
+      'Sign up success! Loggin in now..',
+      name: 'labelSignUpSuccess',
       desc: '',
       args: [],
     );
@@ -809,6 +827,15 @@ class S {
       name: 'labelAccountLinkNow',
       desc: '',
       args: [],
+    );
+  }
+
+  String labelLoggedInWith(Object provider) {
+    return Intl.message(
+      'Success! Logged in to $provider account',
+      name: 'labelLoggedInWith',
+      desc: '',
+      args: [provider],
     );
   }
 
