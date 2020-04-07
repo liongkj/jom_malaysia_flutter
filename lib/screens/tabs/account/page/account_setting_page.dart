@@ -122,10 +122,12 @@ class _AccountSettingPageState extends State<AccountSettingPage> {
   _showDisconnectDialog(AuthProviderEnum provider) {
     String providerLabel = _providerLabels[provider];
     var unlink = AuthUtils.getUnlinkFunction(
-        type: provider,
-        errorHandler: (err) => errorHandler(err, providerLabel),
-        provider: platformProvider,
-        context: context);
+      type: provider,
+      errorHandler: (err) => errorHandler(err, providerLabel),
+      provider: platformProvider,
+      label: providerLabel,
+      context: context,
+    );
     showDialog(
         context: context,
         builder: (_) => BaseDialog(

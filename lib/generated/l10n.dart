@@ -830,10 +830,19 @@ class S {
     );
   }
 
-  String labelLinkedInWith(Object provider) {
+  String labelLinkedWith(Object provider) {
     return Intl.message(
       'Success! Linked with your $provider account',
-      name: 'labelLinkedInWith',
+      name: 'labelLinkedWith',
+      desc: '',
+      args: [provider],
+    );
+  }
+
+  String labelUnlinkedYour(Object provider) {
+    return Intl.message(
+      'Success! Your $provider account is removed',
+      name: 'labelUnlinkedYour',
       desc: '',
       args: [provider],
     );

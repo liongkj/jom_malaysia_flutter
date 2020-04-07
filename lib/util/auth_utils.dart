@@ -16,16 +16,12 @@ class AuthUtils {
     @required Function(dynamic) errorHandler,
     @required PlatformProvider provider,
     @required BuildContext context,
+    @required String label,
   }) {
-    return () => provider
-        .unlinkAccount(type)
-        .then(
-          (onValue) => showToast(
-            S.of(context).msgEmailSent(""),
-            //todo translate
-          ),
-        )
-        .catchError(errorHandler);
+    return () => provider.unlinkAccount(type).then((onValue) {
+          showToast(S.of(context).labelUnlinkedYour(label));
+          NavigatorUtils.goBack(context);
+        }).catchError(errorHandler);
   }
 
   static Function getLinkFunction({
@@ -36,7 +32,7 @@ class AuthUtils {
     @required String label,
   }) {
     return () => provider.linkAccount(type).then((onValue) {
-          showToast(S.of(context).labelLinkedInWith(label));
+          showToast(S.of(context).labelLinkedWith(label));
           NavigatorUtils.goBack(context);
         }).catchError(errorHandler);
   }

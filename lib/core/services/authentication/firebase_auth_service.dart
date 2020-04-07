@@ -109,7 +109,7 @@ class FirebaseAuthService extends IAuthenticationService {
 
   @override
   Future<void> logout() async {
-    await _googleSignIn.disconnect();
+    if (await _googleSignIn.isSignedIn()) await _googleSignIn.disconnect();
     await _auth.signOut();
   }
 

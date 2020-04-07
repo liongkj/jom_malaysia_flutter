@@ -33,9 +33,9 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m9(item) => "正火速上传您的${item}";
 
-  static m12(uname) => "${uname},很高兴认识你";
+  static m13(uname) => "${uname},很高兴认识你";
 
-  static m13(commentCount) => "点评 (${commentCount})";
+  static m14(commentCount) => "点评 (${commentCount})";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
@@ -143,7 +143,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "msgPleaseFillRequiredField" : MessageLookupByLibrary.simpleMessage("栏位不能为空"),
     "msgRegistrationSuccess" : MessageLookupByLibrary.simpleMessage("完成注册。正在登录..."),
     "msgUpdatePhotoSuccess" : MessageLookupByLibrary.simpleMessage("已更新您的个人资料图片"),
-    "msgUpdateUsernameSuccess" : m12,
+    "msgUpdateUsernameSuccess" : m13,
     "overviewSection1Para1" : MessageLookupByLibrary.simpleMessage("森美兰州是马来半岛西南海岸的马来西亚州，以其海滩，自然公园和宫殿而闻名。在西部，马六甲海峡，波德申港附近的地区有海滨度假胜地，万隆华人圣殿和哥打卢库特山顶堡垒。在沿海南部，在邻近的马六甲州，是拉查多角（Tanjung Tuan），这是一座带有灯塔的自然保护区。"),
     "overviewSection1Para2" : MessageLookupByLibrary.simpleMessage("芙蓉市首府东北部的迪克森港以其殖民时期的建筑，湖花园公园和Minangkabau人的木宫殿而闻名，Minangkabau人是印尼裔。他们的影响力也可见于东部的Seri Menanti，以前的宫殿现在是Sri Menanti皇家博物馆，附近的瓜拉皮拉镇（Kuala Pilah）是San Sheng Gong Chinese Temple和五颜六色的印度教寺庙Kuil Sri Kanthasamy的所在地，向西是Ulu Bendul Recreational公园包括丛林，瀑布和Gunung Angsi山。"),
     "overviewSection2Para1" : MessageLookupByLibrary.simpleMessage("该名称被认为是由Minangkabau居住的Minangkabau语言（现在称为luak）中的9个（森比亚人）村庄或nagari所居住的，Minangkabau是最初来自西苏门答腊（现今印度尼西亚）的人。Minangkabau如今，在传统建筑和马来语方言中，功能仍然很明显。"),
@@ -154,7 +154,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "overviewSection4Title" : MessageLookupByLibrary.simpleMessage("首都（芙蓉市）"),
     "overviewSection5Para1" : MessageLookupByLibrary.simpleMessage("截至2015年，森美兰州的总人口为1,098,500；族裔构成为马来人622,000（56.6％）（主要是Minangkabau血统），其他土著20,700（1.9％），华裔234,300（21.3％），印度是154,000（14％），其他4,200（0.4％）和非公民63,300（5.8％）。与马来西亚其他州相比，该州的印度人比例最高。"),
     "overviewSection5Title" : MessageLookupByLibrary.simpleMessage("人口统计"),
-    "placeDetailCommentCountLabel" : m13,
+    "placeDetailCommentCountLabel" : m14,
     "placeDetailInfoLabel" : MessageLookupByLibrary.simpleMessage("产品详情"),
     "placeDetailMerchantInfoLabel" : MessageLookupByLibrary.simpleMessage("商家信息"),
     "placeDetailMerchantRegistrationNameLabel" : MessageLookupByLibrary.simpleMessage("注册名字"),
