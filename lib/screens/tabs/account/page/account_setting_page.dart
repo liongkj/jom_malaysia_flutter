@@ -64,55 +64,59 @@ class _AccountSettingPageState extends State<AccountSettingPage> {
               int s = _linkedAccounts.indexWhere(
                   (f) => f.provider.toString() == acc.provider.toString());
               if (s >= 0) _linkedAccounts.removeAt(s);
-              _linkedAccounts.add(acc);
+              _linkedAccounts.insert(s, acc);
             }
             return ListView.builder(
-              shrinkWrap: true,
-              itemCount: _linkedAccounts.length,
-              itemBuilder: (ctx, index) => ClickItem(
-                title: _providerLabels[_linkedAccounts[index].provider] ?? "",
-                trailing: _linkedAccounts[index].linked
-                    ? Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[
-                          Text(
-                            S.of(context).labelAccountConnected,
-                            style: Theme.of(context)
-                                .textTheme
-                                .subtitle
-                                .copyWith(color: Colours.show_connected),
-                          ),
-                          Gaps.hGap4,
-                          const Icon(
-                            Icons.link,
-                            color: Colours.show_connected,
+                shrinkWrap: true,
+                itemCount: _linkedAccounts.length,
+                itemBuilder: (ctx, index) {
+                  bool isConnected = _linkedAccounts[index].linked;
+                  return ClickItem(
+                    nextLineContent: _linkedAccounts[index]?.email ?? "",
+                    title:
+                        _providerLabels[_linkedAccounts[index].provider] ?? "",
+                    trailing: isConnected
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: <Widget>[
+                              Text(
+                                S.of(context).labelAccountConnected,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .subtitle
+                                    .copyWith(color: Colours.show_connected),
+                              ),
+                              Gaps.hGap4,
+                              const Icon(
+                                Icons.link,
+                                color: Colours.show_connected,
+                              )
+                            ],
                           )
-                        ],
-                      )
-                    : Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[
-                          Text(
-                            S.of(context).labelAccountLinkNow,
-                            style: Theme.of(context)
-                                .textTheme
-                                .subtitle
-                                .copyWith(color: Colours.show_disconnected),
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: <Widget>[
+                              Text(
+                                S.of(context).labelAccountLinkNow,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .subtitle
+                                    .copyWith(color: Colours.show_disconnected),
+                              ),
+                              Gaps.hGap4,
+                              const Icon(
+                                Icons.link_off,
+                                color: Colours.show_disconnected,
+                              )
+                            ],
                           ),
-                          Gaps.hGap4,
-                          const Icon(
-                            Icons.link_off,
-                            color: Colours.show_disconnected,
-                          )
-                        ],
-                      ),
-                onTap: () => _linkedAccounts[index].linked
-                    ? _showDisconnectDialog(_linkedAccounts[index].provider)
-                    : _showConnectDialog(
-                        _linkedAccounts[index].provider,
-                      ),
-              ),
-            );
+                    onTap: () => isConnected
+                        ? _showDisconnectDialog(_linkedAccounts[index].provider)
+                        : _showConnectDialog(
+                            _linkedAccounts[index].provider,
+                          ),
+                  );
+                });
           }),
         ],
       ),
