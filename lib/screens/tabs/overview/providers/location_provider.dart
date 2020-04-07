@@ -12,7 +12,8 @@ class LocationProvider extends ChangeNotifier {
     init();
   }
 
-  void init() {
+  void init() async {
+    await SpUtil.getInstance();
     Map<String, dynamic> sp = SpUtil.getObject(Constant.prefLocation);
     if (sp != null) {
       _selected = CityModel.fromJsonMap(sp);

@@ -1,3 +1,5 @@
+import 'package:flustars/flustars.dart';
+
 class AuthRequest {
   String _phoneNumber;
 
@@ -55,9 +57,7 @@ class AuthRequest {
   }
 
   bool _hasValidEmail(String value) {
-    return RegExp(
-            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-        .hasMatch(value);
+    return RegexUtil.isEmail(value);
   }
 
   bool _hasValidLength(String value, int length) {

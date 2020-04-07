@@ -27,12 +27,6 @@ class _HomeState extends State<Home> {
 
   List<BottomNavigationBarItem> _list;
 
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {});
-  }
-
   final double iconSize = 24;
 
   List<BottomNavigationBarItem> _buildBottomNavigationBarItem(
