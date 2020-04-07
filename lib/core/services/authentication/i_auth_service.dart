@@ -18,7 +18,9 @@ abstract class IAuthenticationService {
 
   Future<AuthUser> changeDisplayName(String displayName);
 
-  Future<void> changePassword(AuthRequest request);
+  Future<void> changePassword(AuthRequest request, {String locale = 'en'});
 
   Future<void> deleteAccount();
+
+  Future<void> sendSignInWithEmailLink(String email);
 }

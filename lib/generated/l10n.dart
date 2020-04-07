@@ -733,8 +733,17 @@ class S {
 
   String get labelAccountSetting {
     return Intl.message(
-      'Account Setting',
+      'Connected Accounts',
       name: 'labelAccountSetting',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get msgMustHaveAtLeastOneAccount {
+    return Intl.message(
+      'You will always need to have at least one account connected',
+      name: 'msgMustHaveAtLeastOneAccount',
       desc: '',
       args: [],
     );

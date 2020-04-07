@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/constants/common.dart';
 import 'package:jom_malaysia/core/services/authentication/i_auth_service.dart';
+import 'package:jom_malaysia/core/services/authentication/requests/auth_request.dart';
 import 'package:jom_malaysia/screens/tabs/account/models/platform_provider_model.dart';
 
 class PlatformProvider extends ChangeNotifier {
@@ -22,6 +23,10 @@ class PlatformProvider extends ChangeNotifier {
   Future<void> unlinkAccount(AuthProviderEnum type) async {
     var user = await _service.unlinkAccountWith(type);
     setProviders(user);
+  }
+
+  Future<void> sendSignInWithEmailLink(AuthRequest req) async {
+    await _service.sendSignInWithEmailLink(req.email);
   }
 
   setProviders(FirebaseUser fUser) {

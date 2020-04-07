@@ -4,6 +4,7 @@ import 'package:jom_malaysia/core/constants/common.dart';
 import 'package:jom_malaysia/core/res/colors.dart';
 import 'package:jom_malaysia/core/res/gaps.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
+import 'package:jom_malaysia/core/services/authentication/requests/auth_request.dart';
 import 'package:jom_malaysia/core/services/gateway/exception/account_in_use_exception.dart';
 import 'package:jom_malaysia/core/services/gateway/exception/operation_cancel_exception.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
@@ -36,10 +37,11 @@ class _AccountSettingPageState extends State<AccountSettingPage> {
   void initState() {
     super.initState();
     platformProvider = Provider.of<PlatformProvider>(context, listen: false);
-    WidgetsBinding.instance.addPostFrameCallback((_) {});
+    _connectedAccount = 0;
   }
 
   PlatformProvider platformProvider;
+  int _connectedAccount;
 
   @override
   Widget build(BuildContext context) {
@@ -63,8 +65,11 @@ class _AccountSettingPageState extends State<AccountSettingPage> {
             for (PlatformProviderModel acc in platformProvider.list) {
               int s = _linkedAccounts.indexWhere(
                   (f) => f.provider.toString() == acc.provider.toString());
-              if (s >= 0) _linkedAccounts.removeAt(s);
-              _linkedAccounts.insert(s, acc);
+              if (s >= 0) {
+                _linkedAccounts.removeAt(s);
+                _linkedAccounts.insert(s, acc);
+                _connectedAccount += 1;
+              }
             }
             return ListView.builder(
                 shrinkWrap: true,
@@ -124,51 +129,64 @@ class _AccountSettingPageState extends State<AccountSettingPage> {
   }
 
   _showDisconnectDialog(AuthProviderEnum provider) {
-    String providerLabel = _providerLabels[provider];
-    var unlink = AuthUtils.getUnlinkFunction(
-      type: provider,
-      errorHandler: (err) => errorHandler(err, providerLabel),
-      provider: platformProvider,
-      label: providerLabel,
-      context: context,
-    );
-    showDialog(
+    if (platformProvider.list.length > 1) {
+      String providerLabel = _providerLabels[provider];
+      var unlink = AuthUtils.getUnlinkFunction(
+        type: provider,
+        errorHandler: (err) => errorHandler(err, providerLabel),
+        provider: platformProvider,
+        label: providerLabel,
         context: context,
-        builder: (_) => BaseDialog(
-              showCancel: true,
-              title: "Unlink Account",
-              onPressed: () => unlink(),
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                child: Text("Disconnect $providerLabel from your account?",
-                    style: TextStyles.textSize16),
-              ),
-            ));
+      );
+      showDialog(
+          context: context,
+          builder: (_) => BaseDialog(
+                showCancel: true,
+                title: "Unlink Account",
+                onPressed: () => unlink(),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0, vertical: 8.0),
+                  child: Text("Disconnect $providerLabel from your account?",
+                      style: TextStyles.textSize16),
+                ),
+              ));
+    } else {
+      showToast(
+        S.of(context).msgMustHaveAtLeastOneAccount,
+      );
+    }
   }
 
   _showConnectDialog(AuthProviderEnum provider) {
     String providerLabel = _providerLabels[provider];
-    var link = AuthUtils.getLinkFunction(
-      type: provider,
-      errorHandler: (err) => errorHandler(err, providerLabel),
-      provider: platformProvider,
-      context: context,
-      label: providerLabel,
-    );
-    showDialog(
+    if (provider != AuthProviderEnum.PASSWORD) {
+      var link = AuthUtils.getLinkFunction(
+        type: provider,
+        errorHandler: (err) => errorHandler(err, providerLabel),
+        provider: platformProvider,
         context: context,
-        builder: (_) => BaseDialog(
-              showCancel: true,
-              title: "Link Account",
-              onPressed: () => link(),
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                child: Text("Connect with $providerLabel?",
-                    style: TextStyles.textSize16),
-              ),
-            ));
+        label: providerLabel,
+      );
+      showDialog(
+          context: context,
+          builder: (_) => BaseDialog(
+                showCancel: true,
+                title: "Link Account",
+                onPressed: () => link(),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0, vertical: 8.0),
+                  child: Text("Connect with $providerLabel?",
+                      style: TextStyles.textSize16),
+                ),
+              ));
+    } else {
+      debugPrint("");
+      AuthRequest req = AuthRequest();
+      req.email = "khaijiet@hotmail.com";
+      platformProvider.sendSignInWithEmailLink(req);
+    }
   }
 
   Future errorHandler(err, String providerLabel) async {

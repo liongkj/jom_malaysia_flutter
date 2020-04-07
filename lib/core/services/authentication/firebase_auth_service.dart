@@ -15,6 +15,7 @@ import 'package:jom_malaysia/core/services/gateway/exception/not_found_exception
 import 'package:jom_malaysia/core/services/gateway/exception/operation_cancel_exception.dart';
 import 'package:jom_malaysia/core/services/gateway/exception/require_reauth_exception.dart';
 import 'package:jom_malaysia/core/services/gateway/exception/unknown_error_exception.dart';
+import 'package:jom_malaysia/core/services/gateway/net.dart';
 import 'package:jom_malaysia/util/text_utils.dart';
 
 class FirebaseAuthService extends IAuthenticationService {
@@ -133,8 +134,9 @@ class FirebaseAuthService extends IAuthenticationService {
   }
 
   @override
-  Future changePassword(AuthRequest request) async {
+  Future changePassword(AuthRequest request, {String locale = 'en'}) async {
     try {
+      await _auth.setLanguageCode(locale);
       await _auth.sendPasswordResetEmail(email: request.email);
     } catch (error) {
       switch (error.code) {
@@ -178,6 +180,21 @@ class FirebaseAuthService extends IAuthenticationService {
           throw error;
       }
     }
+  }
+
+  Future<void> sendSignInWithEmailLink(String email) async {
+    return _auth.sendSignInWithEmailLink(
+        email: email,
+        url: FirebaseConst.firebaseDynamicUrl,
+        androidInstallIfNotAvailable: true,
+        androidMinimumVersion: '21',
+        androidPackageName: 'com.jomjommalaysia.jomn9',
+        handleCodeInApp: true,
+        iOSBundleID: "");
+  }
+
+  Future<AuthResult> signInWithEmailLink(String email, String link) async {
+    return _auth.signInWithEmailAndLink(email: email, link: link);
   }
 
   @override

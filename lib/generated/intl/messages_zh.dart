@@ -29,11 +29,11 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m5(item) => "输入您的${item}";
 
-  static m7(provider) => "成功登入你的${provider}帐号";
+  static m7(provider) => "成功登入您的${provider}帐号";
 
   static m9(item) => "正火速上传您的${item}";
 
-  static m13(uname) => "${uname},很高兴认识你";
+  static m13(uname) => "${uname},很高兴认识您";
 
   static m14(commentCount) => "点评 (${commentCount})";
 
@@ -56,7 +56,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "clickItemSettingShareTitle" : MessageLookupByLibrary.simpleMessage("告诉朋友"),
     "clickItemUpdatePassword" : MessageLookupByLibrary.simpleMessage("修改密码"),
     "clickItemUpdatePasswordHint" : m2,
-    "errorMessageNetworkFailure" : MessageLookupByLibrary.simpleMessage("网络异常，请检查你的网络！"),
+    "errorMessageNetworkFailure" : MessageLookupByLibrary.simpleMessage("网络异常，请检查您的网络！"),
     "errorMsgAccountExist" : MessageLookupByLibrary.simpleMessage("电子邮件地址已经注册"),
     "errorMsgEmailPasswordIncorrect" : MessageLookupByLibrary.simpleMessage("电子邮件/密码不正确"),
     "errorMsgInvalidFormatEmail" : MessageLookupByLibrary.simpleMessage("电子邮件格式错误"),
@@ -66,7 +66,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "errorMsgUnknownError" : MessageLookupByLibrary.simpleMessage("未知错误,请稍后再试"),
     "errorMsgUserNotRegistered" : MessageLookupByLibrary.simpleMessage("用户未注册"),
     "labelAccount" : MessageLookupByLibrary.simpleMessage("帐户"),
-    "labelAccountSetting" : MessageLookupByLibrary.simpleMessage("账号管理"),
+    "labelAccountSetting" : MessageLookupByLibrary.simpleMessage("连接现有账号"),
     "labelAppSettings" : MessageLookupByLibrary.simpleMessage("系统设置"),
     "labelAskFirstReview" : MessageLookupByLibrary.simpleMessage("快来做第一个点评吧"),
     "labelAskReview" : MessageLookupByLibrary.simpleMessage("说点什么"),
@@ -100,7 +100,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "labelLoggedInWith" : m7,
     "labelLogout" : MessageLookupByLibrary.simpleMessage("退出登出"),
     "labelMapChooser" : MessageLookupByLibrary.simpleMessage("选择地图"),
-    "labelNewCommentPageComment" : MessageLookupByLibrary.simpleMessage("你有什么要说?"),
+    "labelNewCommentPageComment" : MessageLookupByLibrary.simpleMessage("您有什么要说?"),
     "labelNewCommentPageCommentErrorMessage" : MessageLookupByLibrary.simpleMessage("点评不可为空"),
     "labelNewCommentPageTitle" : MessageLookupByLibrary.simpleMessage("标题"),
     "labelNewCommentPageTitleErrorMessage" : MessageLookupByLibrary.simpleMessage("标题不可为空"),
@@ -140,6 +140,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "locationServicePromptEnableGps" : MessageLookupByLibrary.simpleMessage("请在设置中提供位置服务权限"),
     "locationServicePromptPermission" : MessageLookupByLibrary.simpleMessage("手机定位服务未开启"),
     "locationServiceRetryOperation" : MessageLookupByLibrary.simpleMessage("重试"),
+    "msgMustHaveAtLeastOneAccount" : MessageLookupByLibrary.simpleMessage("您始终需要至少连接一个帐户"),
     "msgPleaseFillRequiredField" : MessageLookupByLibrary.simpleMessage("栏位不能为空"),
     "msgRegistrationSuccess" : MessageLookupByLibrary.simpleMessage("完成注册。正在登录..."),
     "msgUpdatePhotoSuccess" : MessageLookupByLibrary.simpleMessage("已更新您的个人资料图片"),

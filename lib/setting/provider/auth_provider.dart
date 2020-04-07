@@ -54,8 +54,8 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> changePassword(AuthRequest request) async {
-    await _service.changePassword(request);
+  Future<void> changePassword(AuthRequest request, String locale) async {
+    await _service.changePassword(request, locale: locale);
   }
 
   Future<void> destroy() async {

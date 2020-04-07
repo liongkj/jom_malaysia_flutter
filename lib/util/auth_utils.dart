@@ -6,6 +6,7 @@ import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/login/providers/timer_provider.dart';
 import 'package:jom_malaysia/screens/tabs/account/providers/platform_provider.dart';
 import 'package:jom_malaysia/setting/provider/auth_provider.dart';
+import 'package:jom_malaysia/setting/provider/language_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
@@ -31,10 +32,12 @@ class AuthUtils {
     @required BuildContext context,
     @required String label,
   }) {
-    return () => provider.linkAccount(type).then((onValue) {
-          showToast(S.of(context).labelLinkedWith(label));
-          NavigatorUtils.goBack(context);
-        }).catchError(errorHandler);
+    return () => provider.linkAccount(type).then(
+          (onValue) {
+            showToast(S.of(context).labelLinkedWith(label));
+            NavigatorUtils.goBack(context);
+          },
+        ).catchError(errorHandler);
   }
 
   static Function getSignInFunction({
@@ -71,7 +74,13 @@ class AuthUtils {
             }).catchError(errorHandler);
         break;
       case AuthOperationEnum.CHANGEPASS:
-        _type = () => loginProvider.changePassword(request).then((onValue) {
+        _type = () => loginProvider
+                .changePassword(
+                    request,
+                    Provider.of<LanguageProvider>(context, listen: false)
+                        .locale
+                        ?.languageCode)
+                .then((onValue) {
               Provider.of<TimerProvider>(context, listen: false).startTimer();
               showToast(
                 S.of(context).msgEmailSent(request.email),
