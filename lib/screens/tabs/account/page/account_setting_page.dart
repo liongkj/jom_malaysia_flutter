@@ -4,7 +4,6 @@ import 'package:jom_malaysia/core/constants/common.dart';
 import 'package:jom_malaysia/core/res/colors.dart';
 import 'package:jom_malaysia/core/res/gaps.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
-import 'package:jom_malaysia/core/services/authentication/requests/auth_request.dart';
 import 'package:jom_malaysia/core/services/gateway/exception/account_in_use_exception.dart';
 import 'package:jom_malaysia/core/services/gateway/exception/operation_cancel_exception.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
@@ -19,6 +18,8 @@ import 'package:jom_malaysia/widgets/base_dialog.dart';
 import 'package:jom_malaysia/widgets/click_item.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
+
+import '../account_router.dart';
 
 class AccountSettingPage extends StatefulWidget {
   @override
@@ -183,9 +184,10 @@ class _AccountSettingPageState extends State<AccountSettingPage> {
               ));
     } else {
       debugPrint("");
-      AuthRequest req = AuthRequest();
-      req.email = "khaijiet@hotmail.com";
-      platformProvider.sendSignInWithEmailLink(req);
+      NavigatorUtils.push(
+        context,
+        AccountRouter.emailSignIn,
+      );
     }
   }
 
