@@ -54,6 +54,7 @@ class _LocationHeaderState extends State<LocationHeader> {
   Widget build(BuildContext context) {
     Color iconColor = Theme.of(context).iconTheme.color;
     return SliverAppBar(
+      automaticallyImplyLeading: false,
       leading: null,
       // brightness: Brightness.dark,
       actions: <Widget>[

@@ -4,6 +4,7 @@ import 'package:jom_malaysia/core/services/authentication/requests/auth_request.
 import 'package:jom_malaysia/core/services/gateway/exception/signin_cancelled_exception.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/login/providers/timer_provider.dart';
+import 'package:jom_malaysia/screens/tabs/account/providers/platform_provider.dart';
 import 'package:jom_malaysia/setting/provider/auth_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:oktoast/oktoast.dart';
@@ -13,10 +14,10 @@ class AuthUtils {
   static Function getUnlinkFunction({
     @required AuthProviderEnum type,
     @required Function(dynamic) errorHandler,
-    @required AuthProvider loginProvider,
+    @required PlatformProvider provider,
     @required BuildContext context,
   }) {
-    return () => loginProvider
+    return () => provider
         .unlinkAccount(type)
         .then(
           (onValue) => showToast(
@@ -30,18 +31,14 @@ class AuthUtils {
   static Function getLinkFunction({
     @required AuthProviderEnum type,
     @required Function(dynamic) errorHandler,
-    @required AuthProvider loginProvider,
+    @required PlatformProvider provider,
     @required BuildContext context,
+    @required String label,
   }) {
-    return () => loginProvider
-        .linkAccount(type)
-        .then(
-          (onValue) => showToast(
-            S.of(context).msgEmailSent(""),
-            //todo translate
-          ),
-        )
-        .catchError(errorHandler);
+    return () => provider.linkAccount(type).then((onValue) {
+          showToast(S.of(context).labelLinkedInWith(label));
+          NavigatorUtils.goBack(context);
+        }).catchError(errorHandler);
   }
 
   static Function getSignInFunction({

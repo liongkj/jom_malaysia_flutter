@@ -6,6 +6,7 @@ import 'package:jom_malaysia/core/services/gateway/http_service.dart';
 import 'package:jom_malaysia/core/services/image/cloudinary/cloudinary_image_service.dart';
 import 'package:jom_malaysia/core/services/search/algolia_search.dart';
 import 'package:jom_malaysia/screens/login/providers/timer_provider.dart';
+import 'package:jom_malaysia/screens/tabs/account/providers/platform_provider.dart';
 import 'package:jom_malaysia/screens/tabs/explore/providers/featured_place_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/ads_provider.dart';
 import 'package:jom_malaysia/screens/tabs/overview/providers/comments_provider.dart';
@@ -63,6 +64,12 @@ List<SingleChildWidget> dependentServices = [
       service: Provider.of<FirebaseAuthService>(context, listen: false),
     ),
     update: (context, value, previous) => previous..setUser(value),
+  ),
+  ChangeNotifierProxyProvider<FirebaseUser, PlatformProvider>(
+    create: (context) => PlatformProvider(
+      service: Provider.of<FirebaseAuthService>(context, listen: false),
+    ),
+    update: (context, value, previous) => previous..setProviders(value),
   ),
   InheritedProvider(
     create: (context) => AdsService(

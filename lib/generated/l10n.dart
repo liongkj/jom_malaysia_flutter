@@ -805,7 +805,7 @@ class S {
 
   String get labelSignUpSuccess {
     return Intl.message(
-      'Sign up success! Loggin in now..',
+      'Sign up success! Logging in now..',
       name: 'labelSignUpSuccess',
       desc: '',
       args: [],
@@ -827,6 +827,15 @@ class S {
       name: 'labelAccountLinkNow',
       desc: '',
       args: [],
+    );
+  }
+
+  String labelLinkedInWith(Object provider) {
+    return Intl.message(
+      'Success! Linked with your $provider account',
+      name: 'labelLinkedInWith',
+      desc: '',
+      args: [provider],
     );
   }
 
