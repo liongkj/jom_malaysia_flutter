@@ -73,6 +73,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "errorMsgLinkOperationCancelled" : m3,
     "errorMsgPasswordPolicy" : m4,
     "errorMsgPasswordTooWeak" : MessageLookupByLibrary.simpleMessage("Password is too weak"),
+    "errorMsgSignInCancelled" : MessageLookupByLibrary.simpleMessage("Login cancelled"),
     "errorMsgUnknownError" : MessageLookupByLibrary.simpleMessage("Unknown error try again later"),
     "errorMsgUserNotRegistered" : MessageLookupByLibrary.simpleMessage("User not registered"),
     "labelAccount" : MessageLookupByLibrary.simpleMessage("Account"),

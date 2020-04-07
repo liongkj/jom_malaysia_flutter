@@ -902,6 +902,15 @@ class S {
     );
   }
 
+  String get errorMsgSignInCancelled {
+    return Intl.message(
+      'Login cancelled',
+      name: 'errorMsgSignInCancelled',
+      desc: '',
+      args: [],
+    );
+  }
+
   String get locationServicePromptEnableGps {
     return Intl.message(
       'Please grant location service permission from setting',

@@ -62,6 +62,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "errorMsgInvalidFormatEmail" : MessageLookupByLibrary.simpleMessage("电子邮件格式错误"),
     "errorMsgPasswordPolicy" : m4,
     "errorMsgPasswordTooWeak" : MessageLookupByLibrary.simpleMessage("密码强度太弱"),
+    "errorMsgSignInCancelled" : MessageLookupByLibrary.simpleMessage("取消登录"),
     "errorMsgUnknownError" : MessageLookupByLibrary.simpleMessage("未知错误,请稍后再试"),
     "errorMsgUserNotRegistered" : MessageLookupByLibrary.simpleMessage("用户未注册"),
     "labelAccount" : MessageLookupByLibrary.simpleMessage("帐户"),

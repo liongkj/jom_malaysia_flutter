@@ -97,6 +97,7 @@
   "stateTypeNotFound": "awww... can't find what you want",
   "stateTypeNotification": "Awww...No Notification",
   "errorMessageNetworkFailure": "Unknown error, Please check your network!",
+  "errorMsgSignInCancelled": "Login cancelled",
   "locationServicePromptEnableGps": "Please grant location service permission from setting",
   "locationServicePromptPermission": "Please enable your GPS",
   "locationServiceRetryOperation": "Retry",

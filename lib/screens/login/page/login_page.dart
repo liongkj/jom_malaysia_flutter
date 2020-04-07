@@ -9,6 +9,7 @@ import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/core/services/authentication/requests/auth_request.dart';
 import 'package:jom_malaysia/core/services/gateway/exception/invalid_credential_exception.dart';
 import 'package:jom_malaysia/core/services/gateway/exception/not_found_exception.dart';
+import 'package:jom_malaysia/core/services/gateway/exception/signin_cancelled_exception.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/login/login_router.dart';
 import 'package:jom_malaysia/screens/login/widgets/my_email_field.dart';
@@ -58,6 +59,9 @@ class _LoginPageState extends State<LoginPage> {
         break;
       case NotFoundException:
         msg = S.of(context).errorMsgUserNotRegistered;
+        break;
+      case SignInCancelledException:
+        msg = S.of(context).errorMsgSignInCancelled;
         break;
       default:
         msg = S.of(context).errorMsgUnknownError;

@@ -4,12 +4,14 @@ import 'package:jom_malaysia/core/constants/common.dart';
 import 'package:jom_malaysia/core/res/colors.dart';
 import 'package:jom_malaysia/core/res/gaps.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
+import 'package:jom_malaysia/core/services/gateway/exception/account_in_use_exception.dart';
 import 'package:jom_malaysia/core/services/gateway/exception/operation_cancel_exception.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/tabs/account/models/platform_provider_model.dart';
 import 'package:jom_malaysia/screens/tabs/account/providers/platform_provider.dart';
 import 'package:jom_malaysia/screens/tabs/account/widgets/bottom_nav_button.dart';
 import 'package:jom_malaysia/screens/tabs/account/widgets/destroy_acc_dialog.dart';
+import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/util/auth_utils.dart';
 import 'package:jom_malaysia/widgets/app_bar.dart';
 import 'package:jom_malaysia/widgets/base_dialog.dart';
@@ -167,6 +169,10 @@ class _AccountSettingPageState extends State<AccountSettingPage> {
     String msg;
     debugPrint(msg);
     switch (err.runtimeType) {
+      case AccountInUseException:
+        msg =
+            "This account already link. Please unlink or delete that account before linking";
+        break;
       case OperationCancelledException:
         msg = S.of(context).errorMsgLinkOperationCancelled(providerLabel);
         break;
@@ -175,6 +181,7 @@ class _AccountSettingPageState extends State<AccountSettingPage> {
         msg = S.of(context).errorMsgUnknownError;
     }
     showToast(msg);
+    NavigatorUtils.goBack(context);
   }
 
   void _showDeleteAccount() {

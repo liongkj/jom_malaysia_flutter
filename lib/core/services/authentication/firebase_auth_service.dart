@@ -7,6 +7,7 @@ import 'package:jom_malaysia/core/constants/common.dart';
 import 'package:jom_malaysia/core/models/authuser_model.dart';
 import 'package:jom_malaysia/core/services/authentication/i_auth_service.dart';
 import 'package:jom_malaysia/core/services/authentication/requests/auth_request.dart';
+import 'package:jom_malaysia/core/services/gateway/exception/account_in_use_exception.dart';
 import 'package:jom_malaysia/core/services/gateway/exception/duplicate_exception.dart';
 import 'package:jom_malaysia/core/services/gateway/exception/invalid_credential_exception.dart';
 import 'package:jom_malaysia/core/services/gateway/exception/invalid_email_exception.dart';
@@ -108,6 +109,7 @@ class FirebaseAuthService extends IAuthenticationService {
 
   @override
   Future<void> logout() async {
+    await _googleSignIn.disconnect();
     await _auth.signOut();
   }
 
@@ -169,6 +171,9 @@ class FirebaseAuthService extends IAuthenticationService {
       return authResult.user;
     } catch (error) {
       switch (error.code) {
+        case "ERROR_CREDENTIAL_ALREADY_IN_USE":
+          throw AccountInUseException();
+          break;
         default:
           throw error;
       }
@@ -184,6 +189,8 @@ class FirebaseAuthService extends IAuthenticationService {
           .firstWhere((id) => providerMap[type] == id.providerId,
               orElse: () => null)
           .providerId;
+      if (providerMap.containsValue(providerId))
+        await _googleSignIn.disconnect();
       await user.unlinkFromProvider(providerId);
       return user;
     } catch (error) {

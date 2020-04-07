@@ -132,6 +132,7 @@
   "labelForgetPassword": "忘记密码",
   "labelRegister": "还没有帐号？快去注册",
   "errorMsgPasswordTooWeak": "密码强度太弱",
+  "errorMsgSignInCancelled": "取消登录",
   "errorMsgAccountExist": "电子邮件地址已经注册",
   "msgRegistrationSuccess": "完成注册。正在登录...",
   "labelRegisterYourAccount": "开始您的jomn9之旅",
