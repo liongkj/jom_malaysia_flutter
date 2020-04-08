@@ -1,3 +1,5 @@
+import 'package:flustars/flustars.dart';
+
 class AuthRequest {
   String _phoneNumber;
 
@@ -25,7 +27,7 @@ class AuthRequest {
 
   void setEmail(String value) {
     if (value != null && _hasValidEmail(value)) {
-      email = value.toLowerCase();
+      email = value.trim().toLowerCase();
     } else
       throw FormatException("email is invalid");
   }
@@ -47,7 +49,7 @@ class AuthRequest {
   }
 
   String validateEmail(String value) {
-    if (_hasValidEmail(value))
+    if (_hasValidEmail(value.trim()))
       return null;
     else {
       throw FormatException();
@@ -55,9 +57,7 @@ class AuthRequest {
   }
 
   bool _hasValidEmail(String value) {
-    return RegExp(
-            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-        .hasMatch(value);
+    return RegexUtil.isEmail(value);
   }
 
   bool _hasValidLength(String value, int length) {

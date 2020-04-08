@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:dio_http_cache/dio_http_cache.dart';
+import 'package:flustars/flustars.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:jom_malaysia/core/enums/category_type_enum.dart';
 import 'package:jom_malaysia/core/services/gateway/dio_utils.dart';
@@ -41,7 +42,7 @@ class ListingProvider extends BaseChangeNotifier {
     String city,
     bool refresh = false,
   }) async {
-    if (city != _lastCity) {
+    if (city != _lastCity && SpUtil.isInitialized()) {
       _lastCity = city;
       _fetchAll(refresh, city);
     }
@@ -51,7 +52,6 @@ class ListingProvider extends BaseChangeNotifier {
     final Options options =
         buildCacheOptions(Duration(days: 7), forceRefresh: refresh);
     clear();
-    debugPrint("running");
     //queries
     Map<String, dynamic> queries = Map<String, dynamic>();
     if (city != "") queries[QueryParam.locationBiasCity] = city;

@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:fluro/fluro.dart';
-import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -23,7 +22,7 @@ void main() async {
 //  debugProfilePaintsEnabled = true;
 //  debugRepaintRainbowEnabled = true;
   WidgetsFlutterBinding.ensureInitialized();
-  await SpUtil.getInstance();
+
   Logger.level = Level.debug;
   runApp(MyApp());
 

@@ -10,18 +10,19 @@ import 'intl/messages_all.dart';
 
 class S {
   S();
-  
-  static const AppLocalizationDelegate delegate =
-    AppLocalizationDelegate();
+
+  static const AppLocalizationDelegate delegate = AppLocalizationDelegate();
 
   static Future<S> load(Locale locale) {
-    final String name = (locale.countryCode?.isEmpty ?? false) ? locale.languageCode : locale.toString();
+    final String name = (locale.countryCode?.isEmpty ?? false)
+        ? locale.languageCode
+        : locale.toString();
     final String localeName = Intl.canonicalizedLocale(name);
     return initializeMessages(localeName).then((_) {
       Intl.defaultLocale = localeName;
       return S();
     });
-  } 
+  }
 
   static S of(BuildContext context) {
     return Localizations.of<S>(context, S);
@@ -733,8 +734,17 @@ class S {
 
   String get labelAccountSetting {
     return Intl.message(
-      'Account Setting',
+      'Connected Accounts',
       name: 'labelAccountSetting',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get msgMustHaveAtLeastOneAccount {
+    return Intl.message(
+      'You will always need to have at least one account connected',
+      name: 'msgMustHaveAtLeastOneAccount',
       desc: '',
       args: [],
     );
@@ -776,6 +786,15 @@ class S {
     );
   }
 
+  String get labelThirdPartyLogin {
+    return Intl.message(
+      'Third party login',
+      name: 'labelThirdPartyLogin',
+      desc: '',
+      args: [],
+    );
+  }
+
   String get labelGoogle {
     return Intl.message(
       'Google Account',
@@ -794,10 +813,19 @@ class S {
     );
   }
 
-  String get labelAccountConnected {
+  String get labelSignUpSuccess {
     return Intl.message(
-      'Connected',
-      name: 'labelAccountConnected',
+      'Sign up success! Logging in now..',
+      name: 'labelSignUpSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelAccountDisconnect {
+    return Intl.message(
+      'Disconnect',
+      name: 'labelAccountDisconnect',
       desc: '',
       args: [],
     );
@@ -809,6 +837,33 @@ class S {
       name: 'labelAccountLinkNow',
       desc: '',
       args: [],
+    );
+  }
+
+  String labelLinkedWith(Object provider) {
+    return Intl.message(
+      'Success! Linked with your $provider account',
+      name: 'labelLinkedWith',
+      desc: '',
+      args: [provider],
+    );
+  }
+
+  String labelUnlinkedYour(Object provider) {
+    return Intl.message(
+      'Success! Your $provider account is removed',
+      name: 'labelUnlinkedYour',
+      desc: '',
+      args: [provider],
+    );
+  }
+
+  String labelLoggedInWith(Object provider) {
+    return Intl.message(
+      'Success! Logged in to $provider account',
+      name: 'labelLoggedInWith',
+      desc: '',
+      args: [provider],
     );
   }
 
@@ -861,6 +916,15 @@ class S {
     return Intl.message(
       'Unknown error, Please check your network!',
       name: 'errorMessageNetworkFailure',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get errorMsgSignInCancelled {
+    return Intl.message(
+      'Login cancelled',
+      name: 'errorMsgSignInCancelled',
       desc: '',
       args: [],
     );
@@ -1217,6 +1281,15 @@ class S {
     );
   }
 
+  String get labelPasswordlessSignIn {
+    return Intl.message(
+      'Passwordless Sign In',
+      name: 'labelPasswordlessSignIn',
+      desc: '',
+      args: [],
+    );
+  }
+
   String get labelEmailSignIn {
     return Intl.message(
       'Email Sign In',
@@ -1331,7 +1404,9 @@ class AppLocalizationDelegate extends LocalizationsDelegate<S> {
 
   List<Locale> get supportedLocales {
     return const <Locale>[
-      Locale.fromSubtags(languageCode: 'en'), Locale.fromSubtags(languageCode: 'zh'), Locale.fromSubtags(languageCode: 'ms'),
+      Locale.fromSubtags(languageCode: 'en'),
+      Locale.fromSubtags(languageCode: 'zh'),
+      Locale.fromSubtags(languageCode: 'ms'),
     ];
   }
 

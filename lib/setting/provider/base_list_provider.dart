@@ -62,5 +62,4 @@ class BaseListProvider<T> extends ChangeNotifier {
   void refresh() {
     notifyListeners();
   }
-  
 }

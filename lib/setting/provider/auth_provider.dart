@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:jom_malaysia/core/constants/common.dart';
 import 'package:jom_malaysia/core/models/authuser_model.dart';
 import 'package:jom_malaysia/core/services/authentication/i_auth_service.dart';
 import 'package:jom_malaysia/core/services/authentication/requests/auth_request.dart';
@@ -22,15 +21,6 @@ class AuthProvider extends ChangeNotifier {
 
   void setUser(FirebaseUser fUser) {
     if (fUser != null) {
-      List<PlatformProviderModel> pList = [];
-      fUser.providerData?.forEach((p) {
-        if (p.providerId != "firebase") {
-          debugPrint(p.providerId);
-          pList.add(PlatformProviderModel.createModel(p.providerId, p.email));
-        }
-      });
-
-      _providerList = pList;
       _user = new AuthUser(fUser.uid, fUser.displayName, fUser.photoUrl,
           fUser.email, fUser.isEmailVerified);
       notifyListeners();
@@ -64,18 +54,8 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> changePassword(AuthRequest request) async {
-    await _service.changePassword(request);
-  }
-
-  Future<void> linkAccount(AuthProviderEnum type) async {
-    var user = await _service.linkAccountWith(type);
-    setUser(user);
-  }
-
-  Future<void> unlinkAccount(AuthProviderEnum type) async {
-    var user = await _service.unlinkAccountWith(type);
-    setUser(user);
+  Future<void> changePassword(AuthRequest request, String locale) async {
+    await _service.changePassword(request, locale: locale);
   }
 
   Future<void> destroy() async {

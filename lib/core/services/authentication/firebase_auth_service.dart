@@ -7,6 +7,7 @@ import 'package:jom_malaysia/core/constants/common.dart';
 import 'package:jom_malaysia/core/models/authuser_model.dart';
 import 'package:jom_malaysia/core/services/authentication/i_auth_service.dart';
 import 'package:jom_malaysia/core/services/authentication/requests/auth_request.dart';
+import 'package:jom_malaysia/core/services/gateway/exception/account_in_use_exception.dart';
 import 'package:jom_malaysia/core/services/gateway/exception/duplicate_exception.dart';
 import 'package:jom_malaysia/core/services/gateway/exception/invalid_credential_exception.dart';
 import 'package:jom_malaysia/core/services/gateway/exception/invalid_email_exception.dart';
@@ -14,6 +15,8 @@ import 'package:jom_malaysia/core/services/gateway/exception/not_found_exception
 import 'package:jom_malaysia/core/services/gateway/exception/operation_cancel_exception.dart';
 import 'package:jom_malaysia/core/services/gateway/exception/require_reauth_exception.dart';
 import 'package:jom_malaysia/core/services/gateway/exception/unknown_error_exception.dart';
+import 'package:jom_malaysia/core/services/gateway/net.dart';
+import 'package:jom_malaysia/screens/tabs/account/models/platform_provider_model.dart';
 import 'package:jom_malaysia/util/text_utils.dart';
 
 class FirebaseAuthService extends IAuthenticationService {
@@ -73,6 +76,7 @@ class FirebaseAuthService extends IAuthenticationService {
     }
     final GoogleSignInAuthentication googleSignInAuthentication =
         await googleSignInAccount.authentication;
+
     final AuthCredential credential = GoogleAuthProvider.getCredential(
       accessToken: googleSignInAuthentication.accessToken,
       idToken: googleSignInAuthentication.idToken,
@@ -108,6 +112,7 @@ class FirebaseAuthService extends IAuthenticationService {
 
   @override
   Future<void> logout() async {
+    if (await _googleSignIn.isSignedIn()) await _googleSignIn.disconnect();
     await _auth.signOut();
   }
 
@@ -131,8 +136,9 @@ class FirebaseAuthService extends IAuthenticationService {
   }
 
   @override
-  Future changePassword(AuthRequest request) async {
+  Future changePassword(AuthRequest request, {String locale = 'en'}) async {
     try {
+      await _auth.setLanguageCode(locale);
       await _auth.sendPasswordResetEmail(email: request.email);
     } catch (error) {
       switch (error.code) {
@@ -148,15 +154,22 @@ class FirebaseAuthService extends IAuthenticationService {
   }
 
   @override
-  Future<FirebaseUser> linkAccountWith(AuthProviderEnum type) async {
+  Future<FirebaseUser> linkAccountWith(
+    AuthProviderEnum type, {
+    AuthRequest req,
+  }) async {
+    AuthCredential cred;
     try {
       var user = await _auth.currentUser();
       if (user == null) throw NotFoundException("user");
-      AuthCredential cred;
+
       switch (type) {
         case AuthProviderEnum.PASSWORD:
           //TODO
-          cred = EmailAuthProvider.getCredentialWithLink();
+          cred = EmailAuthProvider.getCredential(
+            email: req.email,
+            password: req.password,
+          );
           break;
         case AuthProviderEnum.GOOGLE:
           cred = await _getGoogleAuth();
@@ -164,15 +177,69 @@ class FirebaseAuthService extends IAuthenticationService {
         default:
           throw InvalidCredentialException("");
       }
+      await _reauthenticateUser();
       final AuthResult authResult = await user.linkWithCredential(cred);
 
       return authResult.user;
     } catch (error) {
       switch (error.code) {
+        case "ERROR_CREDENTIAL_ALREADY_IN_USE":
+          throw AccountInUseException();
+          break;
+        case "ERROR_REQUIRES_RECENT_LOGIN":
+          throw InvalidCredentialException("status");
+          break;
         default:
           throw error;
       }
-    }
+    } finally {}
+  }
+
+  Future<void> _reauthenticateUser() {
+    _auth.currentUser().then((user) async {
+      var credential;
+      if (_getConnectedAccount(user)
+              .indexWhere((d) => d.provider == AuthProviderEnum.GOOGLE) >
+          -1) {
+        credential = await _getGoogleAuth();
+      }
+
+      await user.reauthenticateWithCredential(credential);
+    }).catchError((err) {
+      switch (err.code) {
+        case "ERROR_WRONG_PASSWORD":
+          throw InvalidCredentialException;
+          break;
+        default:
+          throw err;
+      }
+    });
+    return null;
+  }
+
+  List<PlatformProviderModel> _getConnectedAccount(FirebaseUser fUser) {
+    List<PlatformProviderModel> pList = [];
+    fUser.providerData?.forEach((p) {
+      if (p.providerId != "firebase") {
+        pList.add(PlatformProviderModel.createModel(p.providerId, p.email));
+      }
+    });
+    return pList;
+  }
+
+  Future<void> sendSignInWithEmailLink(String email) async {
+    return _auth.sendSignInWithEmailLink(
+        email: email,
+        url: FirebaseConst.firebaseDynamicUrl,
+        androidInstallIfNotAvailable: true,
+        androidMinimumVersion: '21',
+        androidPackageName: 'com.jomjommalaysia.jomn9',
+        handleCodeInApp: true,
+        iOSBundleID: "");
+  }
+
+  Future<AuthResult> signInWithEmailLink(String email, String link) async {
+    return _auth.signInWithEmailAndLink(email: email, link: link);
   }
 
   @override
@@ -184,7 +251,9 @@ class FirebaseAuthService extends IAuthenticationService {
           .firstWhere((id) => providerMap[type] == id.providerId,
               orElse: () => null)
           .providerId;
-      await user.unlinkFromProvider(providerId);
+      if (providerMap[AuthProviderEnum.GOOGLE] == providerId)
+        await _googleSignIn.disconnect();
+      await user.unlinkFromProvider(providerId).then((_) => user.reload());
       return user;
     } catch (error) {
       switch (error.code) {

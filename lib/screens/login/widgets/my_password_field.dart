@@ -26,6 +26,7 @@ class MyPasswordField extends StatelessWidget {
     return MyTextField(
       key: const Key('password'),
       keyName: 'password',
+      isLastField: true,
       focusNode: focusNode,
       isInputPwd: true,
       controller: passwordController,

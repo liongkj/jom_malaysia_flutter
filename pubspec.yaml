@@ -27,8 +27,7 @@ dependencies:
   # search client https://pub.dev/packages/algolia#-changelog-tab-
   cached_network_image: ^2.0.0
   # 图片缓存 https://github.com/renefloor/flutter_cached_network_image
-  common_utils: ^1.1.3
-  # Dart 常用工具类库 https://github.com/Sky24n/common_utils
+  country_code_picker: ^1.3.11
   cupertino_icons: ^0.1.3
   dio: ^3.0.9
   # https://pub.dev/packages/dio#-changelog-tab-
@@ -92,6 +91,8 @@ dependencies:
   # google_maps_flutter: ^0.5.21+15
   #maybe will sub with firebase share
   ####FIREBASE
+  firebase_dynamic_links: ^0.5.0+11
+
   cloud_firestore: ^0.13.4+2
   # https://pub.dev/packages/cloud_firestore#-changelog-tab-
   firebase_core: ^0.4.4+3

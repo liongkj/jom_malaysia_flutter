@@ -21,6 +21,8 @@ class QueryParam {
 
 class FirebaseConst {
   static const String firebaseUsername = 'username';
+  static const String firebaseDynamicUrl =
+      'https://jomn9-1566369147288.firebaseapp.com';
 }
 
 ///endpoint for webview pages

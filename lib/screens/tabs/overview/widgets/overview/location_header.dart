@@ -15,14 +15,13 @@ import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
 import 'package:jom_malaysia/widgets/my_flexible_space_bar.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 
 List<CityModel> _parseCity(String json) {
   final parsed = jsonDecode(json).cast<Map<String, dynamic>>();
-//    List<CityModel> parsed = [];
+
   return parsed.map<CityModel>((json) => CityModel.fromJsonMap(json)).toList();
-//    decoded.forEach((f) => parsed.add(CityModel.fromJsonMap(f)));
-//    return parsed;
 }
 
 class LocationHeader extends StatefulWidget {
@@ -55,6 +54,7 @@ class _LocationHeaderState extends State<LocationHeader> {
   Widget build(BuildContext context) {
     Color iconColor = Theme.of(context).iconTheme.color;
     return SliverAppBar(
+      automaticallyImplyLeading: false,
       leading: null,
       // brightness: Brightness.dark,
       actions: <Widget>[
@@ -99,11 +99,11 @@ class _LocationHeaderState extends State<LocationHeader> {
         height: kExpandedHeight * 0.3,
         // padding: const EdgeInsets.only(left: 12, right: 16.0),
         child: Consumer<LocationProvider>(
-          child: Icon(
+          child: const Icon(
             Icons.keyboard_arrow_down,
             color: Colours.arrow_color,
           ),
-          builder: (_, location, child) {
+          builder: (_, location, icon) {
             selectedLocation = _cities.isNotEmpty && location.selected != null
                 ? _cities.firstWhere(
                     (x) => x.cityName == location.selected?.cityName,
@@ -121,7 +121,7 @@ class _LocationHeaderState extends State<LocationHeader> {
                   maxLines: 2,
                 ),
                 Gaps.hGap8,
-                child,
+                icon,
               ],
             );
           },
@@ -206,13 +206,17 @@ class _LocationHeaderState extends State<LocationHeader> {
   }
 
   void _loadData() async {
-    String jsonCities = await DefaultAssetBundle.of(context)
-        .loadString('assets/json/cities.json');
+    try {
+      String jsonCities = await DefaultAssetBundle.of(context)
+          .loadString('assets/json/cities.json');
 
-    _cities = await compute(_parseCity, jsonCities);
-    _processList(_cities);
+      _cities = await compute(_parseCity, jsonCities);
+      _processList(_cities);
 
-    setState(() {});
+      setState(() {});
+    } catch (e) {
+      showToast(e);
+    }
   }
 
   void _processList(List<CityModel> list) {
