@@ -11,12 +11,33 @@ class PlatformProvider extends ChangeNotifier {
   PlatformProvider({@required IAuthenticationService service})
       : _service = service;
 
+  final List<PlatformProviderModel> _linkedAccounts = [
+    PlatformProviderModel(AuthProviderEnum.PASSWORD, "", linked: false),
+    PlatformProviderModel(AuthProviderEnum.GOOGLE, "", linked: false)
+  ];
+
+  setProviders(FirebaseUser fUser) {
+    if (fUser != null) {
+      List<PlatformProviderModel> pList = [];
+      fUser.providerData?.forEach((p) {
+        if (p.providerId != "firebase") {
+          pList.add(PlatformProviderModel.createModel(p.providerId, p.email,
+              verified: fUser.isEmailVerified));
+        }
+      });
+      pList.addAll(_linkedAccounts.where((f) => !pList.contains(f)));
+      _list = pList;
+
+      notifyListeners();
+    }
+  }
+
   List<PlatformProviderModel> _list;
 
   List<PlatformProviderModel> get list => _list;
 
-  Future<void> linkAccount(AuthProviderEnum type) async {
-    var user = await _service.linkAccountWith(type);
+  Future<void> linkAccount(AuthProviderEnum type, {AuthRequest req}) async {
+    var user = await _service.linkAccountWith(type, req: req);
     setProviders(user);
   }
 
@@ -27,19 +48,5 @@ class PlatformProvider extends ChangeNotifier {
 
   Future<void> sendSignInWithEmailLink(AuthRequest req) async {
     await _service.sendSignInWithEmailLink(req.email);
-  }
-
-  setProviders(FirebaseUser fUser) {
-    if (fUser != null) {
-      List<PlatformProviderModel> pList = [];
-      fUser.providerData?.forEach((p) {
-        if (p.providerId != "firebase") {
-          pList.add(PlatformProviderModel.createModel(p.providerId, p.email));
-        }
-      });
-
-      _list = pList;
-      notifyListeners();
-    }
   }
 }

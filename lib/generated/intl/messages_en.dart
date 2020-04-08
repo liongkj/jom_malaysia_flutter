@@ -127,6 +127,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "labelOtpLogin" : MessageLookupByLibrary.simpleMessage("OTP Sign In"),
     "labelPageComment" : MessageLookupByLibrary.simpleMessage("Comment"),
     "labelPassword" : MessageLookupByLibrary.simpleMessage("Email/Password"),
+    "labelPasswordlessSignIn" : MessageLookupByLibrary.simpleMessage("Passwordless Sign In"),
     "labelProfileManager" : MessageLookupByLibrary.simpleMessage("Profile Setting"),
     "labelRatePlace" : MessageLookupByLibrary.simpleMessage("Rate"),
     "labelRatingStatus1" : MessageLookupByLibrary.simpleMessage("Labbish"),

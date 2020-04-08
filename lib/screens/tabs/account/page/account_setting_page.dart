@@ -7,7 +7,6 @@ import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/core/services/gateway/exception/account_in_use_exception.dart';
 import 'package:jom_malaysia/core/services/gateway/exception/operation_cancel_exception.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
-import 'package:jom_malaysia/screens/tabs/account/models/platform_provider_model.dart';
 import 'package:jom_malaysia/screens/tabs/account/providers/platform_provider.dart';
 import 'package:jom_malaysia/screens/tabs/account/widgets/bottom_nav_button.dart';
 import 'package:jom_malaysia/screens/tabs/account/widgets/destroy_acc_dialog.dart';
@@ -27,32 +26,25 @@ class AccountSettingPage extends StatefulWidget {
 }
 
 class _AccountSettingPageState extends State<AccountSettingPage> {
-  List<PlatformProviderModel> _linkedAccounts = [
-    PlatformProviderModel(AuthProviderEnum.PASSWORD, "", linked: false),
-    PlatformProviderModel(AuthProviderEnum.GOOGLE, "", linked: false)
-  ];
-
   Map<AuthProviderEnum, String> _providerLabels = {};
 
   @override
   void initState() {
     super.initState();
     platformProvider = Provider.of<PlatformProvider>(context, listen: false);
-    _connectedAccount = 0;
   }
 
   PlatformProvider platformProvider;
-  int _connectedAccount;
 
   @override
   Widget build(BuildContext context) {
-//    _linkedAccounts.insertAll(0, authProvider.providerList);
     _providerLabels = {
       AuthProviderEnum.GOOGLE: S.of(context).labelGoogle,
       AuthProviderEnum.PASSWORD: S.of(context).labelPassword
     };
     return Scaffold(
       appBar: MyAppBar(
+        isBack: true,
         centerTitle: S.of(context).labelAccountSetting,
       ),
       bottomNavigationBar: BottomNavButton(
@@ -62,68 +54,64 @@ class _AccountSettingPageState extends State<AccountSettingPage> {
       ),
       body: Column(
         children: <Widget>[
-          Consumer<PlatformProvider>(builder: (ctx, provider, __) {
-            for (PlatformProviderModel acc in platformProvider.list) {
-              int s = _linkedAccounts.indexWhere(
-                  (f) => f.provider.toString() == acc.provider.toString());
-              if (s >= 0) {
-                _linkedAccounts.removeAt(s);
-                _linkedAccounts.insert(s, acc);
-                _connectedAccount += 1;
-              }
-            }
-            return ListView.builder(
-                shrinkWrap: true,
-                itemCount: _linkedAccounts.length,
-                itemBuilder: (ctx, index) {
-                  bool isConnected = _linkedAccounts[index].linked;
-                  return ClickItem(
-                    nextLineContent: _linkedAccounts[index]?.email ?? "",
-                    title:
-                        _providerLabels[_linkedAccounts[index].provider] ?? "",
-                    trailing: isConnected
-                        ? Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: <Widget>[
-                              Text(
-                                S.of(context).labelAccountConnected,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .subtitle
-                                    .copyWith(color: Colours.show_connected),
-                              ),
-                              Gaps.hGap4,
-                              const Icon(
-                                Icons.link,
-                                color: Colours.show_connected,
-                              )
-                            ],
-                          )
-                        : Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: <Widget>[
-                              Text(
-                                S.of(context).labelAccountLinkNow,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .subtitle
-                                    .copyWith(color: Colours.show_disconnected),
-                              ),
-                              Gaps.hGap4,
-                              const Icon(
-                                Icons.link_off,
-                                color: Colours.show_disconnected,
-                              )
-                            ],
-                          ),
-                    onTap: () => isConnected
-                        ? _showDisconnectDialog(_linkedAccounts[index].provider)
-                        : _showConnectDialog(
-                            _linkedAccounts[index].provider,
-                          ),
-                  );
-                });
-          }),
+          Consumer<PlatformProvider>(
+            builder: (ctx, provider, __) {
+              debugPrint("rebuild");
+
+              return ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: provider.list.length,
+                  itemBuilder: (ctx, index) {
+                    bool isConnected = provider.list[index].linked;
+                    return ClickItem(
+                      nextLineContent: provider.list[index]?.email ?? "",
+                      title:
+                          _providerLabels[provider.list[index].provider] ?? "",
+                      trailing: isConnected
+                          ? Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: <Widget>[
+                                Text(
+                                  S.of(context).labelAccountConnected,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .subtitle
+                                      .copyWith(color: Colours.show_connected),
+                                ),
+                                Gaps.hGap4,
+                                const Icon(
+                                  Icons.link,
+                                  color: Colours.show_connected,
+                                )
+                              ],
+                            )
+                          : Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: <Widget>[
+                                Text(
+                                  S.of(context).labelAccountLinkNow,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .subtitle
+                                      .copyWith(
+                                          color: Colours.show_disconnected),
+                                ),
+                                Gaps.hGap4,
+                                const Icon(
+                                  Icons.link_off,
+                                  color: Colours.show_disconnected,
+                                )
+                              ],
+                            ),
+                      onTap: () => isConnected
+                          ? _showDisconnectDialog(provider.list[index].provider)
+                          : _showConnectDialog(
+                              provider.list[index].provider,
+                            ),
+                    );
+                  });
+            },
+          ),
         ],
       ),
     );

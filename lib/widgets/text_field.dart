@@ -9,21 +9,22 @@ import 'load_image.dart';
 
 /// 登录模块的输入框封装
 class MyTextField extends StatefulWidget {
-  const MyTextField(
-      {Key key,
-      @required this.controller,
-      this.maxLength: 16,
-      this.autoFocus: false,
-      this.keyboardType: TextInputType.text,
-      this.hintText: "",
-      this.focusNode,
-      this.isInputPwd: false,
-      this.getVCode,
-      this.validator,
-      this.onSaved,
-      this.onChanged,
-      this.keyName})
-      : super(key: key);
+  const MyTextField({
+    Key key,
+    @required this.controller,
+    this.maxLength: 16,
+    this.autoFocus: false,
+    this.keyboardType: TextInputType.text,
+    this.hintText: "",
+    this.focusNode,
+    this.isInputPwd: false,
+    this.getVCode,
+    this.validator,
+    this.onSaved,
+    this.onChanged,
+    this.keyName,
+    this.isLastField = false,
+  }) : super(key: key);
 
   final TextEditingController controller;
   final int maxLength;
@@ -36,6 +37,8 @@ class MyTextField extends StatefulWidget {
   final Function(String) validator;
   final Function(String) onSaved;
   final Function(String) onChanged;
+
+  final bool isLastField;
 
   /// 用于集成测试寻找widget
   final String keyName;
@@ -108,7 +111,11 @@ class _MyTextFieldState extends State<MyTextField> {
           obscureText: widget.isInputPwd ? !_isShowPwd : false,
           autofocus: widget.autoFocus,
           controller: widget.controller,
-          textInputAction: TextInputAction.done,
+          onFieldSubmitted: widget.isLastField
+              ? (_) {}
+              : (_) => FocusScope.of(context).nextFocus(),
+          textInputAction:
+              widget.isLastField ? TextInputAction.done : TextInputAction.next,
           keyboardType: widget.keyboardType,
           // 数字、手机号限制格式为0到9(白名单)， 密码限制不包含汉字（黑名单）
           inputFormatters: (widget.keyboardType == TextInputType.number ||

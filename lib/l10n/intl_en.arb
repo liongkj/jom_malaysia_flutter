@@ -139,6 +139,7 @@
   "errorMsgUnknownError": "Unknown error try again later",
   "errorMsgLinkOperationCancelled": "Link {operationName} operation cancelled.",
   "labelOtpLogin": "OTP Sign In",
+  "labelPasswordlessSignIn": "Passwordless Sign In",
   "labelEmailSignIn": "Email Sign In",
   "labelInputFieldEmail": "Please enter your email",
   "labelInputFieldPassword": "Please enter your password",

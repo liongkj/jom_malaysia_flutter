@@ -31,8 +31,9 @@ class AuthUtils {
     @required PlatformProvider provider,
     @required BuildContext context,
     @required String label,
+    AuthRequest request,
   }) {
-    return () => provider.linkAccount(type).then(
+    return () => provider.linkAccount(type, req: request).then(
           (onValue) {
             showToast(S.of(context).labelLinkedWith(label));
             NavigatorUtils.goBack(context);

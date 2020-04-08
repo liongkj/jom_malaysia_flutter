@@ -12,7 +12,8 @@ abstract class IAuthenticationService {
 
   Future<void> logout();
 
-  Future<FirebaseUser> linkAccountWith(AuthProviderEnum type);
+  Future<FirebaseUser> linkAccountWith(AuthProviderEnum type,
+      {AuthRequest req});
 
   Future<FirebaseUser> unlinkAccountWith(AuthProviderEnum type);
 

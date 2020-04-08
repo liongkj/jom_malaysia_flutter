@@ -27,7 +27,7 @@ class AuthRequest {
 
   void setEmail(String value) {
     if (value != null && _hasValidEmail(value)) {
-      email = value.toLowerCase();
+      email = value.trim().toLowerCase();
     } else
       throw FormatException("email is invalid");
   }
@@ -49,7 +49,7 @@ class AuthRequest {
   }
 
   String validateEmail(String value) {
-    if (_hasValidEmail(value))
+    if (_hasValidEmail(value.trim()))
       return null;
     else {
       throw FormatException();

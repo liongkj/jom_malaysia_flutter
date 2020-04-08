@@ -1280,6 +1280,15 @@ class S {
     );
   }
 
+  String get labelPasswordlessSignIn {
+    return Intl.message(
+      'Passwordless Sign In',
+      name: 'labelPasswordlessSignIn',
+      desc: '',
+      args: [],
+    );
+  }
+
   String get labelEmailSignIn {
     return Intl.message(
       'Email Sign In',
