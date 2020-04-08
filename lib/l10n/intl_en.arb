@@ -88,7 +88,7 @@
   "labelGoogle": "Google Account",
   "labelPassword": "Email/Password",
   "labelSignUpSuccess": "Sign up success! Logging in now..",
-  "labelAccountConnected": "Connected",
+  "labelAccountDisconnect": "Disconnect",
   "labelAccountLinkNow": "Link Now",
   "labelLinkedWith": "Success! Linked with your {provider} account",
   "labelUnlinkedYour": "Success! Your {provider} account is removed",

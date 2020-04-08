@@ -66,6 +66,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "errorMsgUnknownError" : MessageLookupByLibrary.simpleMessage("未知错误,请稍后再试"),
     "errorMsgUserNotRegistered" : MessageLookupByLibrary.simpleMessage("用户未注册"),
     "labelAccount" : MessageLookupByLibrary.simpleMessage("帐户"),
+    "labelAccountDisconnect" : MessageLookupByLibrary.simpleMessage("断开链接"),
+    "labelAccountLinkNow" : MessageLookupByLibrary.simpleMessage("链接"),
     "labelAccountSetting" : MessageLookupByLibrary.simpleMessage("连接现有账号"),
     "labelAppSettings" : MessageLookupByLibrary.simpleMessage("系统设置"),
     "labelAskFirstReview" : MessageLookupByLibrary.simpleMessage("快来做第一个点评吧"),

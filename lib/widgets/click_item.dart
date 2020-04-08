@@ -11,6 +11,7 @@ class ClickItem extends StatelessWidget {
     this.trailing,
     this.maxLines: 1,
     this.nextLineContent = "",
+    @required this.leading,
   }) : super(key: key);
 
   final GestureTapCallback onTap;
@@ -20,6 +21,7 @@ class ClickItem extends StatelessWidget {
   final int maxLines;
   final Widget trailing;
   final String nextLineContent;
+  final Icon leading;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +38,7 @@ class ClickItem extends StatelessWidget {
           bottom: Divider.createBorderSide(context, width: 0.6),
         )),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Row(
               //为了数字类文字居中
@@ -44,6 +46,8 @@ class ClickItem extends StatelessWidget {
                   ? CrossAxisAlignment.center
                   : CrossAxisAlignment.start,
               children: <Widget>[
+                leading,
+                Gaps.hGap16,
                 Text(
                   title,
                 ),
@@ -83,7 +87,7 @@ class ClickItem extends StatelessWidget {
             ),
             if (nextLineContent != "")
               Padding(
-                padding: const EdgeInsets.only(right: 20.0, top: 8.0),
+                padding: const EdgeInsets.only(left: 40.0, top: 8.0),
                 child: Text(
                   nextLineContent,
                   style:

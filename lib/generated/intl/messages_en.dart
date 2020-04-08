@@ -79,7 +79,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "errorMsgUnknownError" : MessageLookupByLibrary.simpleMessage("Unknown error try again later"),
     "errorMsgUserNotRegistered" : MessageLookupByLibrary.simpleMessage("User not registered"),
     "labelAccount" : MessageLookupByLibrary.simpleMessage("Account"),
-    "labelAccountConnected" : MessageLookupByLibrary.simpleMessage("Connected"),
+    "labelAccountDisconnect" : MessageLookupByLibrary.simpleMessage("Disconnect"),
     "labelAccountLinkNow" : MessageLookupByLibrary.simpleMessage("Link Now"),
     "labelAccountSetting" : MessageLookupByLibrary.simpleMessage("Connected Accounts"),
     "labelAppSettings" : MessageLookupByLibrary.simpleMessage("App Settings"),

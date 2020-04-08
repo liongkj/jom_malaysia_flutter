@@ -821,10 +821,10 @@ class S {
     );
   }
 
-  String get labelAccountConnected {
+  String get labelAccountDisconnect {
     return Intl.message(
-      'Connected',
-      name: 'labelAccountConnected',
+      'Disconnect',
+      name: 'labelAccountDisconnect',
       desc: '',
       args: [],
     );

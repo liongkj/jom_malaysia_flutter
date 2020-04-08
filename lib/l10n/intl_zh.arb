@@ -109,6 +109,8 @@
   "labelStranger": "陌生人",
   "labelEdit": "编辑",
   "labelAccountSetting": "连接现有账号",
+  "labelAccountDisconnect": "断开链接",
+  "labelAccountLinkNow": "链接",
   "msgMustHaveAtLeastOneAccount": "您始终需要至少连接一个帐户",
   "clickItemUpdatePassword": "修改密码",
   "clickItemUpdatePasswordHint": "电邮：{email}",

@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/constants/common.dart';
 import 'package:jom_malaysia/core/res/colors.dart';
-import 'package:jom_malaysia/core/res/gaps.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/core/services/gateway/exception/account_in_use_exception.dart';
 import 'package:jom_malaysia/core/services/gateway/exception/operation_cancel_exception.dart';
@@ -64,45 +63,39 @@ class _AccountSettingPageState extends State<AccountSettingPage> {
                   itemBuilder: (ctx, index) {
                     bool isConnected = provider.list[index].linked;
                     return ClickItem(
+                      leading: isConnected
+                          ? const Icon(
+                              Icons.link,
+                              color: Colours.show_connected,
+                            )
+                          : const Icon(
+                              Icons.link_off,
+                              color: Colours.show_disconnected,
+                            ),
                       nextLineContent: provider.list[index]?.email ?? "",
                       title:
                           _providerLabels[provider.list[index].provider] ?? "",
-                      trailing: isConnected
-                          ? Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: <Widget>[
-                                Text(
-                                  S.of(context).labelAccountConnected,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .subtitle
-                                      .copyWith(color: Colours.show_connected),
-                                ),
-                                Gaps.hGap4,
-                                const Icon(
-                                  Icons.link,
-                                  color: Colours.show_connected,
-                                )
-                              ],
-                            )
-                          : Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: <Widget>[
-                                Text(
-                                  S.of(context).labelAccountLinkNow,
+                      trailing: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          isConnected
+                              ? Text(
+                                  S.of(context).labelAccountDisconnect,
                                   style: Theme.of(context)
                                       .textTheme
                                       .subtitle
                                       .copyWith(
                                           color: Colours.show_disconnected),
-                                ),
-                                Gaps.hGap4,
-                                const Icon(
-                                  Icons.link_off,
-                                  color: Colours.show_disconnected,
                                 )
-                              ],
-                            ),
+                              : Text(
+                                  S.of(context).labelAccountLinkNow,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .subtitle
+                                      .copyWith(color: Colours.text_gray),
+                                ),
+                        ],
+                      ),
                       onTap: () => isConnected
                           ? _showDisconnectDialog(provider.list[index].provider)
                           : _showConnectDialog(
