@@ -11,7 +11,7 @@ class ClickItem extends StatelessWidget {
     this.trailing,
     this.maxLines: 1,
     this.nextLineContent = "",
-    @required this.leading,
+    this.leading,
   }) : super(key: key);
 
   final GestureTapCallback onTap;
@@ -46,7 +46,7 @@ class ClickItem extends StatelessWidget {
                   ? CrossAxisAlignment.center
                   : CrossAxisAlignment.start,
               children: <Widget>[
-                leading,
+                if (leading != null) leading,
                 Gaps.hGap16,
                 Text(
                   title,
