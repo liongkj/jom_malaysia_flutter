@@ -41,12 +41,9 @@ class PlatformProvider extends ChangeNotifier {
     setProviders(user);
   }
 
-  Future<void> unlinkAccount(AuthProviderEnum type) async {
-    var user = await _service.unlinkAccountWith(type);
+  Future<void> unlinkAccount(AuthProviderEnum type,
+      {AuthRequest request}) async {
+    var user = await _service.unlinkAccountWith(type, request: request);
     setProviders(user);
-  }
-
-  Future<void> sendSignInWithEmailLink(AuthRequest req) async {
-    await _service.sendSignInWithEmailLink(req.email);
   }
 }

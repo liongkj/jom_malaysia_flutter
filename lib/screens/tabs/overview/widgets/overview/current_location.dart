@@ -8,13 +8,13 @@ import 'package:jom_malaysia/setting/provider/user_current_location_provider.dar
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
 import 'package:jom_malaysia/widgets/gps_animated_icon.dart';
-import 'package:jom_malaysia/widgets/state_layout.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 
 class CurrentLocation extends StatelessWidget {
   final CityModel locatedUserCity;
   final Locale locale;
+
   const CurrentLocation(
     this.locatedUserCity,
     this.locale, {

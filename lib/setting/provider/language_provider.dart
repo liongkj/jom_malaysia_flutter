@@ -28,10 +28,15 @@ class LanguageProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void syncLang() {
+  init() async {
+    await SpUtil.getInstance();
     String lang = SpUtil.getString(Constant.language);
     if (lang.isNotEmpty && lang != languages[Language.SYSTEM]) {
       notifyListeners();
     }
+  }
+
+  LanguageProvider() {
+    init();
   }
 }

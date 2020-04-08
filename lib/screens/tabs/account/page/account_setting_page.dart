@@ -5,10 +5,12 @@ import 'package:jom_malaysia/core/res/colors.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/core/services/gateway/exception/account_in_use_exception.dart';
 import 'package:jom_malaysia/core/services/gateway/exception/operation_cancel_exception.dart';
+import 'package:jom_malaysia/core/services/gateway/exception/require_reauth_exception.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/tabs/account/providers/platform_provider.dart';
 import 'package:jom_malaysia/screens/tabs/account/widgets/bottom_nav_button.dart';
 import 'package:jom_malaysia/screens/tabs/account/widgets/destroy_acc_dialog.dart';
+import 'package:jom_malaysia/screens/tabs/account/widgets/password_prompt_dialog.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/util/auth_utils.dart';
 import 'package:jom_malaysia/widgets/app_bar.dart';
@@ -113,26 +115,37 @@ class _AccountSettingPageState extends State<AccountSettingPage> {
   _showDisconnectDialog(AuthProviderEnum provider) {
     if (platformProvider.list.length > 1) {
       String providerLabel = _providerLabels[provider];
-      var unlink = AuthUtils.getUnlinkFunction(
-        type: provider,
-        errorHandler: (err) => errorHandler(err, providerLabel),
-        provider: platformProvider,
-        label: providerLabel,
-        context: context,
-      );
-      showDialog(
+      if (provider != AuthProviderEnum.PASSWORD) {
+        var unlink = AuthUtils.getUnlinkFunction(
+          type: provider,
+          errorHandler: (err) => errorHandler(err, providerLabel),
+          provider: platformProvider,
+          label: providerLabel,
           context: context,
-          builder: (_) => BaseDialog(
-                showCancel: true,
-                title: "Unlink Account",
-                onPressed: () => unlink(),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16.0, vertical: 8.0),
-                  child: Text("Disconnect $providerLabel from your account?",
-                      style: TextStyles.textSize16),
-                ),
-              ));
+        );
+        showDialog(
+            context: context,
+            builder: (_) => BaseDialog(
+                  showCancel: true,
+                  title: "Unlink Account",
+                  onPressed: () => unlink(),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16.0, vertical: 8.0),
+                    child: Text("Disconnect $providerLabel from your account?",
+                        style: TextStyles.textSize16),
+                  ),
+                ));
+      } else {
+        showDialog(
+            context: context,
+            barrierDismissible: true,
+            builder: (BuildContext context) {
+              return Builder(builder: (ctx) {
+                return PasswordPromptDialog();
+              });
+            });
+      }
     } else {
       showToast(
         S.of(context).msgMustHaveAtLeastOneAccount,
@@ -183,7 +196,9 @@ class _AccountSettingPageState extends State<AccountSettingPage> {
       case OperationCancelledException:
         msg = S.of(context).errorMsgLinkOperationCancelled(providerLabel);
         break;
-
+      case RequireReauthException:
+        msg = S.of(context).errorMsgRequireRelog;
+        break;
       default:
         msg = S.of(context).errorMsgUnknownError;
     }

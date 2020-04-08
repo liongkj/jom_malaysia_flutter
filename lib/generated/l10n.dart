@@ -10,19 +10,18 @@ import 'intl/messages_all.dart';
 
 class S {
   S();
-
-  static const AppLocalizationDelegate delegate = AppLocalizationDelegate();
+  
+  static const AppLocalizationDelegate delegate =
+    AppLocalizationDelegate();
 
   static Future<S> load(Locale locale) {
-    final String name = (locale.countryCode?.isEmpty ?? false)
-        ? locale.languageCode
-        : locale.toString();
+    final String name = (locale.countryCode?.isEmpty ?? false) ? locale.languageCode : locale.toString();
     final String localeName = Intl.canonicalizedLocale(name);
     return initializeMessages(localeName).then((_) {
       Intl.defaultLocale = localeName;
       return S();
     });
-  }
+  } 
 
   static S of(BuildContext context) {
     return Localizations.of<S>(context, S);
@@ -930,6 +929,24 @@ class S {
     );
   }
 
+  String get errorMsgRequireRelog {
+    return Intl.message(
+      'Try logout and login before linking your email',
+      name: 'errorMsgRequireRelog',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get errorMsgTooManyRequest {
+    return Intl.message(
+      'Too much operation. Please try again later.',
+      name: 'errorMsgTooManyRequest',
+      desc: '',
+      args: [],
+    );
+  }
+
   String get locationServicePromptEnableGps {
     return Intl.message(
       'Please grant location service permission from setting',
@@ -1119,6 +1136,15 @@ class S {
     );
   }
 
+  String get labelVerifyEmail {
+    return Intl.message(
+      'Verify your email',
+      name: 'labelVerifyEmail',
+      desc: '',
+      args: [],
+    );
+  }
+
   String get labelAppSettings {
     return Intl.message(
       'App Settings',
@@ -1290,6 +1316,15 @@ class S {
     );
   }
 
+  String get password {
+    return Intl.message(
+      'password',
+      name: 'password',
+      desc: '',
+      args: [],
+    );
+  }
+
   String get labelEmailSignIn {
     return Intl.message(
       'Email Sign In',
@@ -1314,6 +1349,15 @@ class S {
       name: 'labelInputFieldPassword',
       desc: '',
       args: [],
+    );
+  }
+
+  String errorMsgFieldCannotEmpty(Object field) {
+    return Intl.message(
+      '$field cannot be empty',
+      name: 'errorMsgFieldCannotEmpty',
+      desc: '',
+      args: [field],
     );
   }
 
@@ -1404,9 +1448,7 @@ class AppLocalizationDelegate extends LocalizationsDelegate<S> {
 
   List<Locale> get supportedLocales {
     return const <Locale>[
-      Locale.fromSubtags(languageCode: 'en'),
-      Locale.fromSubtags(languageCode: 'zh'),
-      Locale.fromSubtags(languageCode: 'ms'),
+      Locale.fromSubtags(languageCode: 'en'), Locale.fromSubtags(languageCode: 'zh'), Locale.fromSubtags(languageCode: 'ms'),
     ];
   }
 

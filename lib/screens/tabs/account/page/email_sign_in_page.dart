@@ -1,3 +1,4 @@
+import 'package:flustars/flustars.dart' as sp;
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/constants/common.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
@@ -36,8 +37,6 @@ class _EmailSignInState extends State<EmailSignIn> {
   @override
   void initState() {
     super.initState();
-    //监听输入改变
-//    _nameController.text = sp.SpUtil.getString(Constant.email);
     request = new AuthRequest();
     _platformProvider = Provider.of<PlatformProvider>(context, listen: false);
   }
@@ -54,6 +53,7 @@ class _EmailSignInState extends State<EmailSignIn> {
           request: request,
           context: context);
       login();
+      sp.SpUtil.putString(Constant.loggedInEmail, request.email);
     } else {
       _autovalidate = true;
     }
@@ -79,11 +79,6 @@ class _EmailSignInState extends State<EmailSignIn> {
 
   @override
   Widget build(BuildContext context) {
-    AuthRequest req = AuthRequest();
-    req.email = "khaijiet@hotmail.com";
-//    platformProvider.sendSignInWithEmailLink(req);
-    //TODO switch between sign in passwordless or with password
-
     return Scaffold(
       appBar: MyAppBar(
         backImg: "assets/images/ic_close.png",

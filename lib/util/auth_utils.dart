@@ -14,12 +14,13 @@ import 'package:provider/provider.dart';
 class AuthUtils {
   static Function getUnlinkFunction({
     @required AuthProviderEnum type,
-    @required Function(dynamic) errorHandler,
+    @required Function errorHandler,
     @required PlatformProvider provider,
     @required BuildContext context,
     @required String label,
+    AuthRequest request,
   }) {
-    return () => provider.unlinkAccount(type).then((onValue) {
+    return () => provider.unlinkAccount(type, request: request).then((onValue) {
           showToast(S.of(context).labelUnlinkedYour(label));
           NavigatorUtils.goBack(context);
         }).catchError(errorHandler);
