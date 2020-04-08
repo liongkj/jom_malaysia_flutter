@@ -16,6 +16,7 @@ class Constant {
   static const String message = 'message';
   static const String code = 'code';
 
+  static const String loggedInEmail = "loggedEmail";
   static const String keyGuide = 'keyGuide';
   static const String phone = 'phone';
   static const String email = 'email';

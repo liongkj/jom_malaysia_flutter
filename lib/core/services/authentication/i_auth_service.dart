@@ -15,13 +15,12 @@ abstract class IAuthenticationService {
   Future<FirebaseUser> linkAccountWith(AuthProviderEnum type,
       {AuthRequest req});
 
-  Future<FirebaseUser> unlinkAccountWith(AuthProviderEnum type);
+  Future<FirebaseUser> unlinkAccountWith(AuthProviderEnum type,
+      {AuthRequest request});
 
   Future<AuthUser> changeDisplayName(String displayName);
 
   Future<void> changePassword(AuthRequest request, {String locale = 'en'});
 
   Future<void> deleteAccount();
-
-  Future<void> sendSignInWithEmailLink(String email);
 }

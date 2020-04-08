@@ -25,30 +25,32 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m2(email) => "A password reset email will be sent to ${email}";
 
-  static m3(operationName) => "Link ${operationName} operation cancelled.";
+  static m3(field) => "${field} cannot be empty";
 
-  static m4(len) => "Password must be at least ${len} characters";
+  static m4(operationName) => "Link ${operationName} operation cancelled.";
 
-  static m5(item) => "Please enter your ${item}";
+  static m5(len) => "Password must be at least ${len} characters";
 
-  static m6(provider) => "Success! Linked with your ${provider} account";
+  static m6(item) => "Please enter your ${item}";
 
-  static m7(provider) => "Success! Logged in to ${provider} account";
+  static m7(provider) => "Success! Linked with your ${provider} account";
 
-  static m8(timer) => "Resend (${timer})";
+  static m8(provider) => "Success! Logged in to ${provider} account";
 
-  static m9(item) => "Adding your ${item}";
+  static m9(timer) => "Resend (${timer})";
 
-  static m10(provider) => "Success! Your ${provider} account is removed";
+  static m10(item) => "Adding your ${item}";
 
-  static m11(email) =>
+  static m11(provider) => "Success! Your ${provider} account is removed";
+
+  static m12(email) =>
       "An Email is sent to ${email}. Please follow the instructions.";
 
-  static m12(text) => "Awww... No result found for \'${text}\'";
+  static m13(text) => "Awww... No result found for \'${text}\'";
 
-  static m13(uname) => "Nice to meet you ${uname}";
+  static m14(uname) => "Nice to meet you ${uname}";
 
-  static m14(commentCount) =>
+  static m15(commentCount) =>
       "${Intl.plural(commentCount, one: 'Comment (1)', other: 'Comments (${commentCount})')}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
@@ -85,14 +87,19 @@ class MessageLookup extends MessageLookupByLibrary {
             "Email Address is Already Registered"),
         "errorMsgEmailPasswordIncorrect": MessageLookupByLibrary.simpleMessage(
             "Email / Password is incorrect"),
+        "errorMsgFieldCannotEmpty": m3,
         "errorMsgInvalidFormatEmail":
             MessageLookupByLibrary.simpleMessage("Email is Invalid"),
-        "errorMsgLinkOperationCancelled": m3,
-        "errorMsgPasswordPolicy": m4,
+        "errorMsgLinkOperationCancelled": m4,
+        "errorMsgPasswordPolicy": m5,
         "errorMsgPasswordTooWeak":
             MessageLookupByLibrary.simpleMessage("Password is too weak"),
+        "errorMsgRequireRelog": MessageLookupByLibrary.simpleMessage(
+            "Try logout and login before linking your email"),
         "errorMsgSignInCancelled":
             MessageLookupByLibrary.simpleMessage("Login cancelled"),
+        "errorMsgTooManyRequest": MessageLookupByLibrary.simpleMessage(
+            "Too much operation. Please try again later."),
         "errorMsgUnknownError": MessageLookupByLibrary.simpleMessage(
             "Unknown error try again later"),
         "errorMsgUserNotRegistered":
@@ -112,7 +119,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "labelAveragePaxSuffix": MessageLookupByLibrary.simpleMessage("PAX"),
         "labelAveragePaxTitle":
             MessageLookupByLibrary.simpleMessage("Spending"),
-        "labelChangeHintText": m5,
+        "labelChangeHintText": m6,
         "labelCityNotInServiceArea":
             MessageLookupByLibrary.simpleMessage("City not in service area"),
         "labelClickToAddImage": MessageLookupByLibrary.simpleMessage(
@@ -148,9 +155,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Please enter your email"),
         "labelInputFieldPassword":
             MessageLookupByLibrary.simpleMessage("Please enter your password"),
-        "labelLinkedWith": m6,
+        "labelLinkedWith": m7,
         "labelLogIn": MessageLookupByLibrary.simpleMessage("Click to sign in"),
-        "labelLoggedInWith": m7,
+        "labelLoggedInWith": m8,
         "labelLogout": MessageLookupByLibrary.simpleMessage("Log Out"),
         "labelMapChooser":
             MessageLookupByLibrary.simpleMessage("\'Choose a map"),
@@ -186,7 +193,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "labelRegisterYourAccount":
             MessageLookupByLibrary.simpleMessage("Start your jomn9 journey"),
         "labelRememberMe": MessageLookupByLibrary.simpleMessage("Remember me"),
-        "labelResendEmail": m8,
+        "labelResendEmail": m9,
         "labelResetLoginPassword":
             MessageLookupByLibrary.simpleMessage("Change password"),
         "labelReview": MessageLookupByLibrary.simpleMessage("Review"),
@@ -198,15 +205,17 @@ class MessageLookup extends MessageLookupByLibrary {
         "labelSendEmail": MessageLookupByLibrary.simpleMessage("Send"),
         "labelSignUpSuccess": MessageLookupByLibrary.simpleMessage(
             "Sign up success! Logging in now.."),
-        "labelStatusPublish": m9,
+        "labelStatusPublish": m10,
         "labelStranger": MessageLookupByLibrary.simpleMessage("Stranger"),
         "labelSubmitReview": MessageLookupByLibrary.simpleMessage("Publish"),
         "labelTagMustTry": MessageLookupByLibrary.simpleMessage("JOM Must Try"),
         "labelThirdPartyLogin":
             MessageLookupByLibrary.simpleMessage("Third party login"),
         "labelUndoAction": MessageLookupByLibrary.simpleMessage("Undo"),
-        "labelUnlinkedYour": m10,
+        "labelUnlinkedYour": m11,
         "labelUsernameTitle": MessageLookupByLibrary.simpleMessage("Username"),
+        "labelVerifyEmail":
+            MessageLookupByLibrary.simpleMessage("Verify your email"),
         "labelWelcomeUser": MessageLookupByLibrary.simpleMessage("Hi,"),
         "locationSelectCityMessage":
             MessageLookupByLibrary.simpleMessage("Select a City"),
@@ -221,17 +230,17 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Please enable your GPS"),
         "locationServiceRetryOperation":
             MessageLookupByLibrary.simpleMessage("Retry"),
-        "msgEmailSent": m11,
+        "msgEmailSent": m12,
         "msgMustHaveAtLeastOneAccount": MessageLookupByLibrary.simpleMessage(
             "You will always need to have at least one account connected"),
-        "msgNoResultFor": m12,
+        "msgNoResultFor": m13,
         "msgPleaseFillRequiredField": MessageLookupByLibrary.simpleMessage(
             "Please fill in highlighted fields"),
         "msgRegistrationSuccess": MessageLookupByLibrary.simpleMessage(
             "Registration completed. Loggin in..."),
         "msgUpdatePhotoSuccess":
             MessageLookupByLibrary.simpleMessage("Updated your profile pic"),
-        "msgUpdateUsernameSuccess": m13,
+        "msgUpdateUsernameSuccess": m14,
         "overviewSection1Para1": MessageLookupByLibrary.simpleMessage(
             "Negeri Sembilan is a Malaysian state on the Malay Peninsula\'s southwest coast, known for its beaches, nature parks and palaces. To the west, on the Malacca Strait, the area around Port Dickson has seaside resorts, the Wan Loong Chinese Temple and the Kota Lukut hilltop fort. South along the coast, in the neighboring state of Malacca, is Cape Rachado (Tanjung Tuan), a nature reserve with a lighthouse."),
         "overviewSection1Para2": MessageLookupByLibrary.simpleMessage(
@@ -252,7 +261,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Negeri Sembilan has a collective population of 1,098,500 as of 2015; the ethnic composition consisting of Malay 622,000 (56.6%) (mostly are Minangkabau descent), other Bumiputras 20,700 (1.9%), Chinese 234,300 (21.3%), Indian 154,000 (14%), Others 4,200 (0.4%), and Non Citizens 63,300 (5.8%). The state has the highest percentage of Indians when compared to other Malaysian states."),
         "overviewSection5Title":
             MessageLookupByLibrary.simpleMessage("Demographic"),
-        "placeDetailCommentCountLabel": m14,
+        "password": MessageLookupByLibrary.simpleMessage("password"),
+        "placeDetailCommentCountLabel": m15,
         "placeDetailInfoLabel": MessageLookupByLibrary.simpleMessage("Detail"),
         "placeDetailMerchantInfoLabel":
             MessageLookupByLibrary.simpleMessage("Merchant Info"),

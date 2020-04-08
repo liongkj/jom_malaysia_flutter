@@ -21,15 +21,15 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m0(selected) => "Pilihan Bandar: ${selected}";
 
-  static m4(len) => "Kata laluan mestilah sekurang-kurangnya ${len} aksara";
+  static m5(len) => "Kata laluan mestilah sekurang-kurangnya ${len} aksara";
 
-  static m5(item) => "Sila masukkan ${item} anda";
+  static m6(item) => "Sila masukkan ${item} anda";
 
-  static m9(item) => "Muat naik ${item} anda";
+  static m10(item) => "Muat naik ${item} anda";
 
-  static m13(uname) => "Baik untuk bertemu dengan anda ${uname}";
+  static m14(uname) => "Baik untuk bertemu dengan anda ${uname}";
 
-  static m14(commentCount) => "Komen (${commentCount})";
+  static m15(commentCount) => "Komen (${commentCount})";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function>{
@@ -63,7 +63,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "E-mel / Kata Laluan tidak betul"),
         "errorMsgInvalidFormatEmail":
             MessageLookupByLibrary.simpleMessage("E-mel tidak sah"),
-        "errorMsgPasswordPolicy": m4,
+        "errorMsgPasswordPolicy": m5,
         "errorMsgPasswordTooWeak":
             MessageLookupByLibrary.simpleMessage("Kata laluan terlalu lemah"),
         "errorMsgUnknownError": MessageLookupByLibrary.simpleMessage(
@@ -80,7 +80,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Seorang"),
         "labelAveragePaxTitle":
             MessageLookupByLibrary.simpleMessage("Perbelanjaan"),
-        "labelChangeHintText": m5,
+        "labelChangeHintText": m6,
         "labelCityNotInServiceArea": MessageLookupByLibrary.simpleMessage(
             "Anda berada di luar kawasan perkhidmatan"),
         "labelClickToAddImage":
@@ -150,7 +150,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Sila masukkan kata kunci carian"),
         "labelSearchHintNotEmpty": MessageLookupByLibrary.simpleMessage(
             "Kata kunci carian tidak boleh kosong!"),
-        "labelStatusPublish": m9,
+        "labelStatusPublish": m10,
         "labelStranger":
             MessageLookupByLibrary.simpleMessage("Orang yang tidak dikenali"),
         "labelSubmitReview": MessageLookupByLibrary.simpleMessage("Pos"),
@@ -179,7 +179,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Pendaftaran selesai. Log masuk ..."),
         "msgUpdatePhotoSuccess":
             MessageLookupByLibrary.simpleMessage("Mengedit foto profil anda"),
-        "msgUpdateUsernameSuccess": m13,
+        "msgUpdateUsernameSuccess": m14,
         "overviewSection1Para1": MessageLookupByLibrary.simpleMessage(
             "Negeri Sembilan adalah negeri Malaysia di pantai barat daya Semenanjung Malaysia yang terkenal dengan pantai, taman semula jadi dan istana. Di barat, Selat Melaka dan kawasan berhampiran Port Dickson mempunyai tempat peranginan pantai, Bandung Chinese St Kuil Kota dan Benteng Kota Lukut Bukit Di pantai selatan, di negeri jiran Melaka, ialah Tanjung Tuan, sebuah rizab alam semula jadi dengan sebuah rumah api. "),
         "overviewSection1Para2": MessageLookupByLibrary.simpleMessage(
@@ -200,7 +200,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Pada tahun 2015, jumlah penduduk Negeri Sembilan adalah 1,098,500; komposisi etnik adalah Melayu 622,000 (56.6%) (terutamanya berasal dari Minangkabau), 20,700 orang asli (1.9%), Cina 234.300 (21.3% India adalah 154,000 (14%), 4,200 yang lain (0.4%) dan bukan rakyat 63,300 (5.8%) berbanding negeri-negeri lain di Malaysia."),
         "overviewSection5Title":
             MessageLookupByLibrary.simpleMessage("Demografi"),
-        "placeDetailCommentCountLabel": m14,
+        "placeDetailCommentCountLabel": m15,
         "placeDetailInfoLabel":
             MessageLookupByLibrary.simpleMessage("Butiran Tempat"),
         "placeDetailMerchantInfoLabel":

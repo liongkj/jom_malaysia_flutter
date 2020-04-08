@@ -83,6 +83,7 @@
   "locationServicePromptPermission": "手机定位服务未开启",
   "locationServiceRetryOperation": "重试",
   "locationServiceLocating": "定位中...",
+  "password": "密码",
   "locationServiceNoGps": "没有GPS",
   "errorMessageNetworkFailure": "网络异常，请检查您的网络！",
   "overviewSection1Para1": "森美兰州是马来半岛西南海岸的马来西亚州，以其海滩，自然公园和宫殿而闻名。在西部，马六甲海峡，波德申港附近的地区有海滨度假胜地，万隆华人圣殿和哥打卢库特山顶堡垒。在沿海南部，在邻近的马六甲州，是拉查多角（Tanjung Tuan），这是一座带有灯塔的自然保护区。",
@@ -112,6 +113,8 @@
   "labelAccountDisconnect": "断开链接",
   "labelAccountLinkNow": "链接",
   "msgMustHaveAtLeastOneAccount": "您始终需要至少连接一个帐户",
+  "errorMsgRequireRelog": "尝试登出后再登录",
+  "errorMsgTooManyRequest": "操作过于频繁，请稍后再试！",
   "clickItemUpdatePassword": "修改密码",
   "clickItemUpdatePasswordHint": "电邮：{email}",
   "clickItemLinkToHint": "绑定{provider}",
@@ -130,6 +133,7 @@
   "labelSignUpSuccess": "注册成功！正在登入。。",
   "labelInputFieldEmail": "请输入您的电子邮件",
   "labelInputFieldPassword": "请输入您的密码",
+  "errorMsgFieldCannotEmpty": "{field}不可为空",
   "errorMsgInvalidFormatEmail": "电子邮件格式错误",
   "labelRememberMe": "记住我",
   "labelForgetPassword": "忘记密码",
@@ -139,5 +143,6 @@
   "errorMsgAccountExist": "电子邮件地址已经注册",
   "msgRegistrationSuccess": "完成注册。正在登录...",
   "labelRegisterYourAccount": "开始您的jomn9之旅",
-  "errorMsgPasswordPolicy": "密码必须至少为{len}个字符"
+  "errorMsgPasswordPolicy": "密码必须至少为{len}个字符",
+  "labelVerifyEmail": "验证您的邮件"
 }

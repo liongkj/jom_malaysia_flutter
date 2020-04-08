@@ -25,17 +25,19 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m2(email) => "电邮：${email}";
 
-  static m4(len) => "密码必须至少为${len}个字符";
+  static m3(field) => "${field}不可为空";
 
-  static m5(item) => "输入您的${item}";
+  static m5(len) => "密码必须至少为${len}个字符";
 
-  static m7(provider) => "成功登入您的${provider}帐号";
+  static m6(item) => "输入您的${item}";
 
-  static m9(item) => "正火速上传您的${item}";
+  static m8(provider) => "成功登入您的${provider}帐号";
 
-  static m13(uname) => "${uname},很高兴认识您";
+  static m10(item) => "正火速上传您的${item}";
 
-  static m14(commentCount) => "点评 (${commentCount})";
+  static m14(uname) => "${uname},很高兴认识您";
+
+  static m15(commentCount) => "点评 (${commentCount})";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function>{
@@ -69,12 +71,17 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("电子邮件地址已经注册"),
         "errorMsgEmailPasswordIncorrect":
             MessageLookupByLibrary.simpleMessage("电子邮件/密码不正确"),
+        "errorMsgFieldCannotEmpty": m3,
         "errorMsgInvalidFormatEmail":
             MessageLookupByLibrary.simpleMessage("电子邮件格式错误"),
-        "errorMsgPasswordPolicy": m4,
+        "errorMsgPasswordPolicy": m5,
         "errorMsgPasswordTooWeak":
             MessageLookupByLibrary.simpleMessage("密码强度太弱"),
+        "errorMsgRequireRelog":
+            MessageLookupByLibrary.simpleMessage("尝试登出后再登录"),
         "errorMsgSignInCancelled": MessageLookupByLibrary.simpleMessage("取消登录"),
+        "errorMsgTooManyRequest":
+            MessageLookupByLibrary.simpleMessage("操作过于频繁，请稍后再试！"),
         "errorMsgUnknownError":
             MessageLookupByLibrary.simpleMessage("未知错误,请稍后再试"),
         "errorMsgUserNotRegistered":
@@ -90,7 +97,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "labelAveragePaxPrefix": MessageLookupByLibrary.simpleMessage(""),
         "labelAveragePaxSuffix": MessageLookupByLibrary.simpleMessage(" 令吉"),
         "labelAveragePaxTitle": MessageLookupByLibrary.simpleMessage("人均"),
-        "labelChangeHintText": m5,
+        "labelChangeHintText": m6,
         "labelCityNotInServiceArea":
             MessageLookupByLibrary.simpleMessage("您所在城市不在服务区域"),
         "labelClickToAddImage":
@@ -118,7 +125,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "labelInputFieldPassword":
             MessageLookupByLibrary.simpleMessage("请输入您的密码"),
         "labelLogIn": MessageLookupByLibrary.simpleMessage("点击登录"),
-        "labelLoggedInWith": m7,
+        "labelLoggedInWith": m8,
         "labelLogout": MessageLookupByLibrary.simpleMessage("退出登出"),
         "labelMapChooser": MessageLookupByLibrary.simpleMessage("选择地图"),
         "labelNewCommentPageComment":
@@ -153,7 +160,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("搜索关键词不能为空！"),
         "labelSignUpSuccess":
             MessageLookupByLibrary.simpleMessage("注册成功！正在登入。。"),
-        "labelStatusPublish": m9,
+        "labelStatusPublish": m10,
         "labelStranger": MessageLookupByLibrary.simpleMessage("陌生人"),
         "labelSubmitReview": MessageLookupByLibrary.simpleMessage("发布"),
         "labelTagMustTry": MessageLookupByLibrary.simpleMessage("必打卡"),
@@ -182,7 +189,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("完成注册。正在登录..."),
         "msgUpdatePhotoSuccess":
             MessageLookupByLibrary.simpleMessage("已更新您的个人资料图片"),
-        "msgUpdateUsernameSuccess": m13,
+        "msgUpdateUsernameSuccess": m14,
         "overviewSection1Para1": MessageLookupByLibrary.simpleMessage(
             "森美兰州是马来半岛西南海岸的马来西亚州，以其海滩，自然公园和宫殿而闻名。在西部，马六甲海峡，波德申港附近的地区有海滨度假胜地，万隆华人圣殿和哥打卢库特山顶堡垒。在沿海南部，在邻近的马六甲州，是拉查多角（Tanjung Tuan），这是一座带有灯塔的自然保护区。"),
         "overviewSection1Para2": MessageLookupByLibrary.simpleMessage(
@@ -201,7 +208,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "overviewSection5Para1": MessageLookupByLibrary.simpleMessage(
             "截至2015年，森美兰州的总人口为1,098,500；族裔构成为马来人622,000（56.6％）（主要是Minangkabau血统），其他土著20,700（1.9％），华裔234,300（21.3％），印度是154,000（14％），其他4,200（0.4％）和非公民63,300（5.8％）。与马来西亚其他州相比，该州的印度人比例最高。"),
         "overviewSection5Title": MessageLookupByLibrary.simpleMessage("人口统计"),
-        "placeDetailCommentCountLabel": m14,
+        "password": MessageLookupByLibrary.simpleMessage("密码"),
+        "placeDetailCommentCountLabel": m15,
         "placeDetailInfoLabel": MessageLookupByLibrary.simpleMessage("产品详情"),
         "placeDetailMerchantInfoLabel":
             MessageLookupByLibrary.simpleMessage("商家信息"),

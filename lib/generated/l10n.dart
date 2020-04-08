@@ -930,6 +930,24 @@ class S {
     );
   }
 
+  String get errorMsgRequireRelog {
+    return Intl.message(
+      'Try logout and login before linking your email',
+      name: 'errorMsgRequireRelog',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get errorMsgTooManyRequest {
+    return Intl.message(
+      'Too much operation. Please try again later.',
+      name: 'errorMsgTooManyRequest',
+      desc: '',
+      args: [],
+    );
+  }
+
   String get locationServicePromptEnableGps {
     return Intl.message(
       'Please grant location service permission from setting',
@@ -1119,6 +1137,15 @@ class S {
     );
   }
 
+  String get labelVerifyEmail {
+    return Intl.message(
+      'Verify your email',
+      name: 'labelVerifyEmail',
+      desc: '',
+      args: [],
+    );
+  }
+
   String get labelAppSettings {
     return Intl.message(
       'App Settings',
@@ -1290,6 +1317,15 @@ class S {
     );
   }
 
+  String get password {
+    return Intl.message(
+      'password',
+      name: 'password',
+      desc: '',
+      args: [],
+    );
+  }
+
   String get labelEmailSignIn {
     return Intl.message(
       'Email Sign In',
@@ -1314,6 +1350,15 @@ class S {
       name: 'labelInputFieldPassword',
       desc: '',
       args: [],
+    );
+  }
+
+  String errorMsgFieldCannotEmpty(Object field) {
+    return Intl.message(
+      '$field cannot be empty',
+      name: 'errorMsgFieldCannotEmpty',
+      desc: '',
+      args: [field],
     );
   }
 

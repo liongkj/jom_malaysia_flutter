@@ -9,11 +9,13 @@ class MyPasswordField extends StatelessWidget {
     @required this.focusNode,
     @required this.passwordController,
     @required this.request,
+    this.showError = true,
     this.onSave,
     this.hintText,
   }) : super(key: key);
 
   final FocusNode focusNode;
+  final bool showError;
   final String hintText;
   final Function onSave;
   final TextEditingController passwordController;
@@ -37,7 +39,9 @@ class MyPasswordField extends StatelessWidget {
         try {
           request.validatePassword(value, _PASSWORD_LENGTH_POLICY);
         } on FormatException {
-          return S.of(context).errorMsgPasswordPolicy(_PASSWORD_LENGTH_POLICY);
+          return showError
+              ? S.of(context).errorMsgPasswordPolicy(_PASSWORD_LENGTH_POLICY)
+              : null;
         }
         return null;
       },

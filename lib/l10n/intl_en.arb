@@ -100,6 +100,8 @@
   "stateTypeNotification": "Awww...No Notification",
   "errorMessageNetworkFailure": "Unknown error, Please check your network!",
   "errorMsgSignInCancelled": "Login cancelled",
+  "errorMsgRequireRelog": "Try logout and login before linking your email",
+  "errorMsgTooManyRequest": "Too much operation. Please try again later.",
   "locationServicePromptEnableGps": "Please grant location service permission from setting",
   "locationServicePromptPermission": "Please enable your GPS",
   "locationServiceRetryOperation": "Retry",
@@ -121,6 +123,7 @@
   "labelCreditManager": "Credit Setting",
   "labelWelcomeUser": "Hi,",
   "labelAccount": "Account",
+  "labelVerifyEmail": "Verify your email",
   "labelAppSettings": "App Settings",
   "labelDisplayName": "Your username",
   "labelUsernameTitle": "Username",
@@ -140,9 +143,11 @@
   "errorMsgLinkOperationCancelled": "Link {operationName} operation cancelled.",
   "labelOtpLogin": "OTP Sign In",
   "labelPasswordlessSignIn": "Passwordless Sign In",
+  "password": "password",
   "labelEmailSignIn": "Email Sign In",
   "labelInputFieldEmail": "Please enter your email",
   "labelInputFieldPassword": "Please enter your password",
+  "errorMsgFieldCannotEmpty": "{field} cannot be empty",
   "errorMsgInvalidFormatEmail": "Email is Invalid",
   "labelRememberMe": "Remember me",
   "labelForgetPassword": "Forget Password",
@@ -151,5 +156,6 @@
   "errorMsgAccountExist": "Email Address is Already Registered",
   "msgRegistrationSuccess": "Registration completed. Loggin in...",
   "labelRegisterYourAccount": "Start your jomn9 journey",
-  "errorMsgPasswordPolicy": "Password must be at least {len} characters"
+  "errorMsgPasswordPolicy": "Password must be at least {len} characters",
+
 }

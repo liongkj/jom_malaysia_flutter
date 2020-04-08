@@ -21,9 +21,6 @@ jobs:
           ALIAS_PASSWORD: ${{ secrets.KEY_PASSWORD }}
           run: echo $KEY_JKS > key.jks
       - run: flutter pub get
-      # Check for any formatting issues in the code.
-      - run: flutter format --set-exit-if-changed .
-      
       # Run widget tests for our flutter project.
       - run: flutter test
 
