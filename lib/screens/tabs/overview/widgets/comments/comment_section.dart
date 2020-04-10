@@ -63,6 +63,8 @@ class _CommentSectionState extends State<CommentSection>
                       .map((doc) =>
                           CommentModel.fromMap(doc.data, doc.documentID))
                       .toList();
+                  comments.sort(
+                      (a, b) => (a.publishedTime).compareTo(b.publishedTime));
                   hasMoreThanMax = comments.length > _MAXCOMMENTCOUNT;
                   shouldLoad = comments?.isNotEmpty;
 

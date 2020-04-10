@@ -35,10 +35,10 @@ dependencies:
   # https://pub.dev/packages/fancy_on_boarding#-changelog-tab-
   flustars: 0.2.6+1
   # Flutter 常用工具类库 https://github.com/Sky24n/flustars
-  fluro: ^1.6.2
+  fluro: ^1.6.3
   # 路由框架 https://pub.dev/packages/fluro#-changelog-tab-
   #community-based, can upload file
-  flutter_webview_plugin: ^0.3.10+2
+  flutter_webview_plugin: ^0.3.11
   #  https://pub.dev/packages/flutter_webview_plugin#-changelog-tab-
   flutter_cupertino_localizations: ^1.0.1
   flutter_spinkit: ^4.1.2+1
@@ -52,7 +52,7 @@ dependencies:
   geolocator: ^5.3.1
   #used to detect user gps status and locate
   #https://pub.dev/packages/geolocator#-changelog-tab-
-  google_fonts: ^0.3.10
+  google_fonts: ^0.4.0
   # https://pub.dev/packages/google_fonts#-changelog-tab-
   intl_utils: ^1.2.1
   #enable i10n https://pub.dev/packages/intl_utils#-changelog-tab-
@@ -100,7 +100,7 @@ dependencies:
   firebase_analytics: ^5.0.11
   firebase_auth: ^0.15.5+3
   # https://pub.dev/packages/firebase_auth#-changelog-tab-
-  google_sign_in: ^4.4.0
+  google_sign_in: ^4.4.1
   # https://pub.dev/packages/google_sign_in#-changelog-tab-
   ###firebase end
   # # 用于日历功能 https://github.com/apptreesoftware/date_utils

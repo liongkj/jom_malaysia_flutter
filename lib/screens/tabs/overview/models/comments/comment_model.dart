@@ -13,12 +13,12 @@ class CommentModel {
     this.rating = 3,
     this.costPax,
   })  : images = [],
-        publishedTime = FieldValue.serverTimestamp(),
+        publishedTime = FieldValue.serverTimestamp().toString(),
         user = new CommentUser(
             user.userId, user.username, user.profileImage, user.email),
         imageAssets = [];
   String id;
-  var publishedTime;
+  String publishedTime;
   String commentText;
   String title;
   double rating;
@@ -45,7 +45,7 @@ class CommentModel {
         title = snapshot['title'] ?? '',
         commentText = snapshot['commentText'] ?? '',
         publishedTime = snapshot['publishedTime'] != null
-            ? (snapshot['publishedTime'] as Timestamp).toDate()
+            ? (snapshot['publishedTime']).toString()
             : null,
         rating = snapshot['rating'] ?? null,
         user = AuthUser.fromJson(snapshot['user']) ?? null,
