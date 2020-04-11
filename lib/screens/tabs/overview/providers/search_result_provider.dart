@@ -25,7 +25,7 @@ class SearchResultProvider extends BaseChangeNotifier {
 
   List<PlaceSearchResult> get suggestions => [..._suggestions];
 
-  Future search(String text, int page, {Locale locale}) async {
+  Future search(String text, int page) async {
     _result.clear();
     setStateType(StateType.loading);
     _saveHistory(text);
@@ -38,13 +38,14 @@ class SearchResultProvider extends BaseChangeNotifier {
   }
 
   Future getSuggestions(String value) async {
-    _service
-        .search(value, page: 1)
-        .then((value) => _suggestions = value)
-        .whenComplete(() {
-      resultType = ResultType.suggestion;
-      setStateType(StateType.result);
-    });
+//    _service
+//        .search(value, page: 1)
+//        .then((value) => _suggestions = value)
+//        .whenComplete(() {
+//      resultType = ResultType.suggestion;
+//      setStateType(StateType.result);
+//    });
+    ////TODO remove suggestion for now, looks same as search result
   }
 
   List<String> _history = [];
