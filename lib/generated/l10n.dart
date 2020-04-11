@@ -10,19 +10,18 @@ import 'intl/messages_all.dart';
 
 class S {
   S();
-
-  static const AppLocalizationDelegate delegate = AppLocalizationDelegate();
+  
+  static const AppLocalizationDelegate delegate =
+    AppLocalizationDelegate();
 
   static Future<S> load(Locale locale) {
-    final String name = (locale.countryCode?.isEmpty ?? false)
-        ? locale.languageCode
-        : locale.toString();
+    final String name = (locale.countryCode?.isEmpty ?? false) ? locale.languageCode : locale.toString();
     final String localeName = Intl.canonicalizedLocale(name);
     return initializeMessages(localeName).then((_) {
       Intl.defaultLocale = localeName;
       return S();
     });
-  }
+  } 
 
   static S of(BuildContext context) {
     return Localizations.of<S>(context, S);
@@ -698,7 +697,7 @@ class S {
 
   String get clickItemSettingAboutTitle {
     return Intl.message(
-      'About Us',
+      'About JomN9',
       name: 'clickItemSettingAboutTitle',
       desc: '',
       args: [],
@@ -1442,6 +1441,24 @@ class S {
       args: [len],
     );
   }
+
+  String labelVersionNo(Object ver) {
+    return Intl.message(
+      'Version: $ver',
+      name: 'labelVersionNo',
+      desc: '',
+      args: [ver],
+    );
+  }
+
+  String get labelLeaveAReview {
+    return Intl.message(
+      'Leave a review',
+      name: 'labelLeaveAReview',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
@@ -1449,9 +1466,7 @@ class AppLocalizationDelegate extends LocalizationsDelegate<S> {
 
   List<Locale> get supportedLocales {
     return const <Locale>[
-      Locale.fromSubtags(languageCode: 'en'),
-      Locale.fromSubtags(languageCode: 'zh'),
-      Locale.fromSubtags(languageCode: 'ms'),
+      Locale.fromSubtags(languageCode: 'en'), Locale.fromSubtags(languageCode: 'zh'), Locale.fromSubtags(languageCode: 'ms'),
     ];
   }
 

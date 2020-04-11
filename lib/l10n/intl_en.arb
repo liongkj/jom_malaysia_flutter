@@ -74,7 +74,7 @@
   "clickItemSettingAddAPlace": "Recommend a place",
   "clickItemSettingFeedbackTitle": "Feedback",
   "clickItemSettingFeedbackDescription": "Let us serve you better",
-  "clickItemSettingAboutTitle": "About Us",
+  "clickItemSettingAboutTitle": "About JomN9",
   "clickItemSettingShareTitle": "Tell a friend",
   "clickItemSettingRecommendPlaceTitle": "Add a missing place",
   "cityPickerCurrentCity": "Selected: {selected}",
@@ -157,5 +157,6 @@
   "msgRegistrationSuccess": "Registration completed. Loggin in...",
   "labelRegisterYourAccount": "Start your jomn9 journey",
   "errorMsgPasswordPolicy": "Password must be at least {len} characters",
-
+  "labelVersionNo": "Version: {ver}",
+  "labelLeaveAReview": "Leave a review"
 }

@@ -72,7 +72,7 @@
   "clickItemSettingFeedbackTitle": "意见反馈",
   "clickItemSettingAddAPlace": "推荐景点/美食",
   "clickItemSettingFeedbackDescription": "让我们更好",
-  "clickItemSettingAboutTitle": "关于我们",
+  "clickItemSettingAboutTitle": "关于JomN9",
   "clickItemSettingShareTitle": "告诉朋友",
   "clickItemSettingRecommendPlaceTitle": "添加商户",
   "labelCityNotInServiceArea": "您所在城市不在服务区域",
@@ -144,5 +144,7 @@
   "msgRegistrationSuccess": "完成注册。正在登录...",
   "labelRegisterYourAccount": "开始您的jomn9之旅",
   "errorMsgPasswordPolicy": "密码必须至少为{len}个字符",
-  "labelVerifyEmail": "验证您的邮件"
+  "labelVerifyEmail": "验证您的邮件",
+  "labelVersionNo": "版本号: {ver}",
+  "labelLeaveAReview": "为我们评分"
 }

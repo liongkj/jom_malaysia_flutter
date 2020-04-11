@@ -2,23 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/core/services/gateway/net.dart';
 import 'package:jom_malaysia/generated/l10n.dart';
-import 'package:jom_malaysia/screens/tabs/account/account_router.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/widgets/app_bar.dart';
 import 'package:jom_malaysia/widgets/click_item.dart';
 
 /// design/8设置/index.html
-class AppSettingPage extends StatefulWidget {
+class FeedbackPage extends StatefulWidget {
   @override
-  _AppSettingPageState createState() => _AppSettingPageState();
+  _FeedbackPageState createState() => _FeedbackPageState();
 }
 
-class _AppSettingPageState extends State<AppSettingPage> {
+class _FeedbackPageState extends State<FeedbackPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyAppBar(
-        centerTitle: S.of(context).appBarTitleSetting,
+        centerTitle: S.of(context).clickItemSettingFeedbackTitle,
       ),
       body: Column(
         children: <Widget>[
@@ -33,9 +32,12 @@ class _AppSettingPageState extends State<AppSettingPage> {
                     WebUrl.feedback);
               }),
           ClickItem(
-              title: S.of(context).clickItemSettingAboutTitle,
-              onTap: () =>
-                  NavigatorUtils.push(context, AccountRouter.aboutPage)),
+            title: S.of(context).clickItemSettingRecommendPlaceTitle,
+            onTap: () => NavigatorUtils.goWebViewPage(
+                context,
+                S.of(context).clickItemSettingAddAPlace,
+                WebUrl.suggestAddPlace),
+          ),
         ],
       ),
     );

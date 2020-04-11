@@ -211,8 +211,9 @@ class _ShopPageState extends State<AccountPage>
 
 class _AppSettings extends StatelessWidget {
   final _menuImage = [
-    'setting',
-    'language'
+    'feedback',
+    'language',
+    'about',
     // 'credit'
   ];
 
@@ -234,7 +235,12 @@ class _AppSettings extends StatelessWidget {
         preferredLang = S.of(context).settingLanguageLabelSystemDefault;
         break;
     }
-    var _menuTitle = [S.of(context).labelAppSettings, preferredLang];
+
+    var _menuTitle = [
+      S.of(context).clickItemSettingFeedbackTitle,
+      preferredLang,
+      S.of(context).clickItemSettingAboutTitle,
+    ];
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -272,10 +278,12 @@ class _AppSettings extends StatelessWidget {
                   ),
                   onTap: () {
                     if (index == 0) {
-                      NavigatorUtils.push(context, AccountRouter.settingPage);
+                      NavigatorUtils.push(context, AccountRouter.feedbackPage);
                     }
                     if (index == 1)
                       NavigatorUtils.push(context, AccountRouter.languagePage);
+                    if (index == 2)
+                      NavigatorUtils.push(context, AccountRouter.aboutPage);
                   });
             },
           ),
