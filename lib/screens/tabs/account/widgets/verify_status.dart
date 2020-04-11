@@ -45,7 +45,7 @@ class VerifyStatus extends StatelessWidget {
     );
   }
 
-  var _filterMatrix = <double>[
+  final _filterMatrix = <double>[
     0.2126,
     0.7152,
     0.0722,
