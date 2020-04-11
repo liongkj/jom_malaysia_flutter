@@ -32,7 +32,8 @@ class CommentModel {
 
   String get formattedPublishTime {
     if (publishedTime == null) return null;
-    var formatted = DateUtils.apiFullFormat(publishedTime as DateTime);
+    var formatted = DateUtils.apiFullFormat(
+        DateTime.fromMillisecondsSinceEpoch((int.parse(publishedTime))));
     return formatted;
   }
 
@@ -45,7 +46,9 @@ class CommentModel {
         title = snapshot['title'] ?? '',
         commentText = snapshot['commentText'] ?? '',
         publishedTime = snapshot['publishedTime'] != null
-            ? (snapshot['publishedTime']).toString()
+            ? (snapshot['publishedTime'] as Timestamp)
+                .millisecondsSinceEpoch
+                .toString()
             : null,
         rating = snapshot['rating'] ?? null,
         user = AuthUser.fromJson(snapshot['user']) ?? null,
