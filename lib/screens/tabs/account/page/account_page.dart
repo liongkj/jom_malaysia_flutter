@@ -7,11 +7,12 @@ import 'package:jom_malaysia/core/services/gateway/exception/not_found_exception
 import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/login/login_router.dart';
 import 'package:jom_malaysia/screens/tabs/account/account_router.dart';
+import 'package:jom_malaysia/screens/tabs/account/page/app_setting_page.dart';
+import 'package:jom_malaysia/screens/tabs/account/page/user_setting_page.dart';
 import 'package:jom_malaysia/screens/tabs/account/widgets/bottom_nav_button.dart';
 import 'package:jom_malaysia/screens/tabs/account/widgets/exit_dialog.dart';
 import 'package:jom_malaysia/screens/tabs/account/widgets/text_input_dialog.dart';
 import 'package:jom_malaysia/setting/provider/auth_provider.dart';
-import 'package:jom_malaysia/setting/provider/language_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
@@ -122,8 +123,8 @@ class _ShopPageState extends State<AccountPage>
         ],
       ),
       body: Consumer<AuthProvider>(
-        child: _AppSettings(),
-        builder: (ctx, authProvider, child) {
+        child: AppSettings(),
+        builder: (ctx, authProvider, appsettings) {
           var loggedUser = authProvider.user;
           _displayName = loggedUser?.username;
           _photoUrl = loggedUser?.profileImage;
@@ -176,6 +177,7 @@ class _ShopPageState extends State<AccountPage>
                                   )
                                 ],
                               ),
+                              Text("verfify"),
                             ],
                           ),
                         Positioned(
@@ -195,8 +197,8 @@ class _ShopPageState extends State<AccountPage>
                         ),
                       ],
                     ))),
-                if (loggedUser != null) _UserSettings(),
-                child,
+                if (loggedUser != null) UserSettings(),
+                appsettings,
               ],
             ),
           );
@@ -207,162 +209,6 @@ class _ShopPageState extends State<AccountPage>
 
   @override
   bool get wantKeepAlive => true;
-}
-
-class _AppSettings extends StatelessWidget {
-  final _menuImage = [
-    'feedback',
-    'language',
-    'about',
-    // 'credit'
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    var lang = Provider.of<LanguageProvider>(context, listen: false).locale;
-    String preferredLang;
-    switch (lang?.languageCode) {
-      case "ms":
-        preferredLang = "Bahasa Malaysia";
-        break;
-      case "zh":
-        preferredLang = "中文";
-        break;
-      case "en":
-        preferredLang = "English";
-        break;
-      default:
-        preferredLang = S.of(context).settingLanguageLabelSystemDefault;
-        break;
-    }
-
-    var _menuTitle = [
-      S.of(context).clickItemSettingFeedbackTitle,
-      preferredLang,
-      S.of(context).clickItemSettingAboutTitle,
-    ];
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        MergeSemantics(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Text(
-              S.of(context).appBarTitleSetting,
-              style: TextStyles.textBold18,
-            ),
-          ),
-        ),
-        Flexible(
-          child: GridView.builder(
-            shrinkWrap: true,
-            padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 12.0),
-            physics: NeverScrollableScrollPhysics(),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 4, childAspectRatio: 1.18),
-            itemCount: _menuTitle.length,
-            itemBuilder: (_, index) {
-              return InkWell(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      LoadAssetImage('account/${_menuImage[index]}',
-                          width: 32.0),
-                      Gaps.vGap4,
-                      Text(
-                        _menuTitle[index],
-                        style: TextStyles.textSize12,
-                      )
-                    ],
-                  ),
-                  onTap: () {
-                    if (index == 0) {
-                      NavigatorUtils.push(context, AccountRouter.feedbackPage);
-                    }
-                    if (index == 1)
-                      NavigatorUtils.push(context, AccountRouter.languagePage);
-                    if (index == 2)
-                      NavigatorUtils.push(context, AccountRouter.aboutPage);
-                  });
-            },
-          ),
-        ),
-        Container(
-          height: 0.6,
-          width: double.infinity,
-          margin: const EdgeInsets.only(left: 16.0),
-          child: Gaps.line,
-        ),
-        Gaps.vGap24,
-      ],
-    );
-  }
-}
-
-class _UserSettings extends StatelessWidget {
-  final _menuImage = ['profile'];
-
-  @override
-  Widget build(BuildContext context) {
-    var _menuTitle = [
-      S.of(context).labelProfileManager,
-    ];
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Gaps.vGap24,
-        MergeSemantics(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Text(
-              S.of(context).labelAccount,
-              style: TextStyles.textBold18,
-            ),
-          ),
-        ),
-        Flexible(
-          child: GridView.builder(
-            shrinkWrap: true,
-            padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 12.0),
-            physics: NeverScrollableScrollPhysics(),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 4, childAspectRatio: 1.18),
-            itemCount: _menuTitle.length,
-            itemBuilder: (_, index) {
-              return InkWell(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      LoadAssetImage('account/${_menuImage[index]}',
-                          width: 32.0),
-                      Gaps.vGap4,
-                      Text(
-                        _menuTitle[index],
-                        style: TextStyles.textSize12,
-                      )
-                    ],
-                  ),
-                  onTap: () {
-                    if (index == 0) {
-                      NavigatorUtils.push(
-                          context, AccountRouter.accountManagerPage);
-                    }
-                  });
-            },
-          ),
-        ),
-        Container(
-          height: 0.6,
-          width: double.infinity,
-          margin: const EdgeInsets.only(left: 16.0),
-          child: Gaps.line,
-        ),
-        Gaps.vGap24,
-      ],
-    );
-  }
 }
 
 enum dataType { photo, username }

@@ -1,6 +1,6 @@
 import 'package:fluro/fluro.dart';
 import 'package:jom_malaysia/screens/tabs/account/page/about_page.dart';
-import 'package:jom_malaysia/screens/tabs/account/page/account_setting_page.dart';
+import 'package:jom_malaysia/screens/tabs/account/page/account_manager_page.dart';
 import 'package:jom_malaysia/screens/tabs/account/page/email_sign_in_page.dart';
 import 'package:jom_malaysia/screens/tabs/account/page/feedback_page.dart';
 import 'package:jom_malaysia/screens/tabs/account/page/language_page.dart';
@@ -28,7 +28,7 @@ class AccountRouter implements IRouterProvider {
     router.define(languagePage,
         handler: Handler(handlerFunc: (_, params) => LanguagePage()));
     router.define(accountManagerPage,
-        handler: Handler(handlerFunc: (_, params) => AccountSettingPage()));
+        handler: Handler(handlerFunc: (_, params) => AccountManagerPage()));
     router.define(inputTextPage,
         handler: Handler(
             handlerFunc: (_, params) => InputTextPage(
