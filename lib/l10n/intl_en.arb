@@ -158,5 +158,7 @@
   "labelRegisterYourAccount": "Start your jomn9 journey",
   "errorMsgPasswordPolicy": "Password must be at least {len} characters",
   "labelVersionNo": "Version: {ver}",
-  "labelLeaveAReview": "Leave a review"
+  "labelLeaveAReview": "Leave a review",
+  "labelVerified": "Verified",
+  "labelNotVerified": "Verify Now"
 }

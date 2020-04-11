@@ -7,11 +7,12 @@ import 'package:jom_malaysia/core/services/gateway/exception/not_found_exception
 import 'package:jom_malaysia/generated/l10n.dart';
 import 'package:jom_malaysia/screens/login/login_router.dart';
 import 'package:jom_malaysia/screens/tabs/account/account_router.dart';
-import 'package:jom_malaysia/screens/tabs/account/page/app_setting_page.dart';
 import 'package:jom_malaysia/screens/tabs/account/page/user_setting_page.dart';
+import 'package:jom_malaysia/screens/tabs/account/widgets/app_setting.dart';
 import 'package:jom_malaysia/screens/tabs/account/widgets/bottom_nav_button.dart';
 import 'package:jom_malaysia/screens/tabs/account/widgets/exit_dialog.dart';
 import 'package:jom_malaysia/screens/tabs/account/widgets/text_input_dialog.dart';
+import 'package:jom_malaysia/screens/tabs/account/widgets/verify_status.dart';
 import 'package:jom_malaysia/setting/provider/auth_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
@@ -177,7 +178,7 @@ class _ShopPageState extends State<AccountPage>
                                   )
                                 ],
                               ),
-                              Text("verfify"),
+                              VerifyStatus(),
                             ],
                           ),
                         Positioned(

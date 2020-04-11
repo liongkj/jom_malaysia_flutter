@@ -146,5 +146,7 @@
   "errorMsgPasswordPolicy": "密码必须至少为{len}个字符",
   "labelVerifyEmail": "验证您的邮件",
   "labelVersionNo": "版本号: {ver}",
-  "labelLeaveAReview": "为我们评分"
+  "labelLeaveAReview": "为我们评分",
+  "labelVerified": "已认证",
+  "labelNotVerified": "进行认证"
 }

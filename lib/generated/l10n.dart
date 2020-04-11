@@ -1459,6 +1459,24 @@ class S {
       args: [],
     );
   }
+
+  String get labelVerified {
+    return Intl.message(
+      'Verified',
+      name: 'labelVerified',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelNotVerified {
+    return Intl.message(
+      'Verify Now',
+      name: 'labelNotVerified',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

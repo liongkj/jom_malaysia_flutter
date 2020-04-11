@@ -296,4 +296,8 @@ class FirebaseAuthService extends IAuthenticationService {
     // TODO: implement deleteAccount
     return null;
   }
+
+  Future<void> verifyUser() async {
+    _auth.currentUser().then((u) => u.sendEmailVerification());
+  }
 }

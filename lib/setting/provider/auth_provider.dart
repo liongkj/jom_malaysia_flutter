@@ -61,4 +61,8 @@ class AuthProvider extends ChangeNotifier {
   Future<void> destroy() async {
     await _service.deleteAccount();
   }
+
+  Future<void> verify() async {
+    await _service.verifyUser();
+  }
 }
