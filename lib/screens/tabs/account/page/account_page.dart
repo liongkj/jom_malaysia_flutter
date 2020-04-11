@@ -11,6 +11,7 @@ import 'package:jom_malaysia/screens/tabs/account/widgets/bottom_nav_button.dart
 import 'package:jom_malaysia/screens/tabs/account/widgets/exit_dialog.dart';
 import 'package:jom_malaysia/screens/tabs/account/widgets/text_input_dialog.dart';
 import 'package:jom_malaysia/setting/provider/auth_provider.dart';
+import 'package:jom_malaysia/setting/provider/language_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/util/theme_utils.dart';
 import 'package:jom_malaysia/widgets/load_image.dart';
@@ -210,15 +211,30 @@ class _ShopPageState extends State<AccountPage>
 
 class _AppSettings extends StatelessWidget {
   final _menuImage = [
-    'setting'
+    'setting',
+    'language'
     // 'credit'
   ];
 
   @override
   Widget build(BuildContext context) {
-    var _menuTitle = [
-      S.of(context).labelAppSettings,
-    ];
+    var lang = Provider.of<LanguageProvider>(context, listen: false).locale;
+    String preferredLang;
+    switch (lang?.languageCode) {
+      case "ms":
+        preferredLang = "Bahasa Malaysia";
+        break;
+      case "zh":
+        preferredLang = "中文";
+        break;
+      case "en":
+        preferredLang = "English";
+        break;
+      default:
+        preferredLang = S.of(context).settingLanguageLabelSystemDefault;
+        break;
+    }
+    var _menuTitle = [S.of(context).labelAppSettings, preferredLang];
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -258,6 +274,8 @@ class _AppSettings extends StatelessWidget {
                     if (index == 0) {
                       NavigatorUtils.push(context, AccountRouter.settingPage);
                     }
+                    if (index == 1)
+                      NavigatorUtils.push(context, AccountRouter.languagePage);
                   });
             },
           ),
