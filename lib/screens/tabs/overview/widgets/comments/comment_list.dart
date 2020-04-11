@@ -20,12 +20,18 @@ class CommentList extends StatefulWidget {
 class _CommentListState extends State<CommentList>
     with AutomaticKeepAliveClientMixin {
   List<CommentModel> commentList = [];
+  CommentsProvider commentsProvider;
+
+  @override
+  void initState() {
+    commentsProvider = Provider.of<CommentsProvider>(context, listen: false);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    final commentProvider =
-        Provider.of<CommentsProvider>(context, listen: false);
+
     return Scaffold(
       appBar: MyAppBar(
         centerTitle: S.of(context).labelPageComment,
@@ -42,7 +48,7 @@ class _CommentListState extends State<CommentList>
           padding: const EdgeInsets.all(8.0),
           child: MyCard(
             child: StreamBuilder(
-              stream: commentProvider.fetchCommentsAsStream(
+              stream: commentsProvider.fetchCommentsAsStream(
                 widget.placeId,
               ),
               builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -51,6 +57,8 @@ class _CommentListState extends State<CommentList>
                       .map((doc) =>
                           CommentModel.fromMap(doc.data, doc.documentID))
                       .toList();
+                  commentList.sort(
+                      (a, b) => (a.publishedTime).compareTo(b.publishedTime));
                   return Padding(
                     padding: const EdgeInsets.only(
                         top: 8.0, bottom: 8.0, left: 8.0, right: 16.0),
