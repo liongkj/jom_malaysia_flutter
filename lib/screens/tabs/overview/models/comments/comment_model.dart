@@ -13,12 +13,12 @@ class CommentModel {
     this.rating = 3,
     this.costPax,
   })  : images = [],
-        publishedTime = FieldValue.serverTimestamp(),
+        publishedTime = FieldValue.serverTimestamp().toString(),
         user = new CommentUser(
             user.userId, user.username, user.profileImage, user.email),
         imageAssets = [];
   String id;
-  var publishedTime;
+  String publishedTime;
   String commentText;
   String title;
   double rating;
@@ -32,7 +32,8 @@ class CommentModel {
 
   String get formattedPublishTime {
     if (publishedTime == null) return null;
-    var formatted = DateUtils.apiFullFormat(publishedTime as DateTime);
+    var formatted = DateUtils.apiFullFormat(
+        DateTime.fromMillisecondsSinceEpoch((int.parse(publishedTime))));
     return formatted;
   }
 
@@ -45,7 +46,9 @@ class CommentModel {
         title = snapshot['title'] ?? '',
         commentText = snapshot['commentText'] ?? '',
         publishedTime = snapshot['publishedTime'] != null
-            ? (snapshot['publishedTime'] as Timestamp).toDate()
+            ? (snapshot['publishedTime'] as Timestamp)
+                .millisecondsSinceEpoch
+                .toString()
             : null,
         rating = snapshot['rating'] ?? null,
         user = AuthUser.fromJson(snapshot['user']) ?? null,

@@ -35,10 +35,10 @@ dependencies:
   # https://pub.dev/packages/fancy_on_boarding#-changelog-tab-
   flustars: 0.2.6+1
   # Flutter 常用工具类库 https://github.com/Sky24n/flustars
-  fluro: ^1.6.2
+  fluro: ^1.6.3
   # 路由框架 https://pub.dev/packages/fluro#-changelog-tab-
   #community-based, can upload file
-  flutter_webview_plugin: ^0.3.10+2
+  flutter_webview_plugin: ^0.3.11
   #  https://pub.dev/packages/flutter_webview_plugin#-changelog-tab-
   flutter_cupertino_localizations: ^1.0.1
   flutter_spinkit: ^4.1.2+1
@@ -52,7 +52,7 @@ dependencies:
   geolocator: ^5.3.1
   #used to detect user gps status and locate
   #https://pub.dev/packages/geolocator#-changelog-tab-
-  google_fonts: ^0.3.10
+  google_fonts: ^0.4.0
   # https://pub.dev/packages/google_fonts#-changelog-tab-
   intl_utils: ^1.2.1
   #enable i10n https://pub.dev/packages/intl_utils#-changelog-tab-
@@ -63,6 +63,8 @@ dependencies:
   json_annotation: ^3.0.1
   logger: ^0.8.3
   lpinyin: ^1.0.9
+  launch_review: ^2.0.0
+  #  https://pub.dev/packages/launch_review#-changelog-tab-
   dio_http_cache: ^0.2.6
   #json parser library
   multi_image_picker: ^4.6.5+rc.1
@@ -70,6 +72,8 @@ dependencies:
   #  image_picker: 0.6.3+1
   oktoast: ^2.3.1+1
   # Toast插件 https://github.com/OpenFlutter/flutter_oktoast
+  package_info: ^0.4.0+16
+  #  https://pub.dev/packages/package_info#-changelog-tab-
   photo_view: ^0.9.2
   # https://pub.dev/packages/photo_view#-changelog-tab-:
   # permission_handler: ^4.4.0+hotfix.2
@@ -100,7 +104,7 @@ dependencies:
   firebase_analytics: ^5.0.11
   firebase_auth: ^0.15.5+3
   # https://pub.dev/packages/firebase_auth#-changelog-tab-
-  google_sign_in: ^4.4.0
+  google_sign_in: ^4.4.1
   # https://pub.dev/packages/google_sign_in#-changelog-tab-
   ###firebase end
   # # 用于日历功能 https://github.com/apptreesoftware/date_utils

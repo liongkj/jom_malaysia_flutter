@@ -43,14 +43,16 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m11(provider) => "Success! Your ${provider} account is removed";
 
-  static m12(email) =>
+  static m12(ver) => "Version: ${ver}";
+
+  static m13(email) =>
       "An Email is sent to ${email}. Please follow the instructions.";
 
-  static m13(text) => "Awww... No result found for \'${text}\'";
+  static m14(text) => "Awww... No result found for \'${text}\'";
 
-  static m14(uname) => "Nice to meet you ${uname}";
+  static m15(uname) => "Nice to meet you ${uname}";
 
-  static m15(commentCount) =>
+  static m16(commentCount) =>
       "${Intl.plural(commentCount, one: 'Comment (1)', other: 'Comments (${commentCount})')}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
@@ -67,7 +69,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "cityPickerCurrentCity": m0,
         "clickItemLinkToHint": m1,
         "clickItemSettingAboutTitle":
-            MessageLookupByLibrary.simpleMessage("About Us"),
+            MessageLookupByLibrary.simpleMessage("About JomN9"),
         "clickItemSettingAddAPlace":
             MessageLookupByLibrary.simpleMessage("Recommend a place"),
         "clickItemSettingFeedbackDescription":
@@ -155,6 +157,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Please enter your email"),
         "labelInputFieldPassword":
             MessageLookupByLibrary.simpleMessage("Please enter your password"),
+        "labelLeaveAReview":
+            MessageLookupByLibrary.simpleMessage("Leave a review"),
         "labelLinkedWith": m7,
         "labelLogIn": MessageLookupByLibrary.simpleMessage("Click to sign in"),
         "labelLoggedInWith": m8,
@@ -174,6 +178,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("No more details"),
         "labelNoRating": MessageLookupByLibrary.simpleMessage("N/A"),
         "labelNone": MessageLookupByLibrary.simpleMessage("None"),
+        "labelNotVerified": MessageLookupByLibrary.simpleMessage("Verify Now"),
         "labelOtpLogin": MessageLookupByLibrary.simpleMessage("OTP Sign In"),
         "labelPageComment": MessageLookupByLibrary.simpleMessage("Comment"),
         "labelPassword": MessageLookupByLibrary.simpleMessage("Email/Password"),
@@ -214,8 +219,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "labelUndoAction": MessageLookupByLibrary.simpleMessage("Undo"),
         "labelUnlinkedYour": m11,
         "labelUsernameTitle": MessageLookupByLibrary.simpleMessage("Username"),
+        "labelVerified": MessageLookupByLibrary.simpleMessage("Verified"),
         "labelVerifyEmail":
             MessageLookupByLibrary.simpleMessage("Verify your email"),
+        "labelVersionNo": m12,
         "labelWelcomeUser": MessageLookupByLibrary.simpleMessage("Hi,"),
         "locationSelectCityMessage":
             MessageLookupByLibrary.simpleMessage("Select a City"),
@@ -230,17 +237,17 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Please enable your GPS"),
         "locationServiceRetryOperation":
             MessageLookupByLibrary.simpleMessage("Retry"),
-        "msgEmailSent": m12,
+        "msgEmailSent": m13,
         "msgMustHaveAtLeastOneAccount": MessageLookupByLibrary.simpleMessage(
             "You will always need to have at least one account connected"),
-        "msgNoResultFor": m13,
+        "msgNoResultFor": m14,
         "msgPleaseFillRequiredField": MessageLookupByLibrary.simpleMessage(
             "Please fill in highlighted fields"),
         "msgRegistrationSuccess": MessageLookupByLibrary.simpleMessage(
             "Registration completed. Loggin in..."),
         "msgUpdatePhotoSuccess":
             MessageLookupByLibrary.simpleMessage("Updated your profile pic"),
-        "msgUpdateUsernameSuccess": m14,
+        "msgUpdateUsernameSuccess": m15,
         "overviewSection1Para1": MessageLookupByLibrary.simpleMessage(
             "Negeri Sembilan is a Malaysian state on the Malay Peninsula\'s southwest coast, known for its beaches, nature parks and palaces. To the west, on the Malacca Strait, the area around Port Dickson has seaside resorts, the Wan Loong Chinese Temple and the Kota Lukut hilltop fort. South along the coast, in the neighboring state of Malacca, is Cape Rachado (Tanjung Tuan), a nature reserve with a lighthouse."),
         "overviewSection1Para2": MessageLookupByLibrary.simpleMessage(
@@ -262,7 +269,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "overviewSection5Title":
             MessageLookupByLibrary.simpleMessage("Demographic"),
         "password": MessageLookupByLibrary.simpleMessage("password"),
-        "placeDetailCommentCountLabel": m15,
+        "placeDetailCommentCountLabel": m16,
         "placeDetailInfoLabel": MessageLookupByLibrary.simpleMessage("Detail"),
         "placeDetailMerchantInfoLabel":
             MessageLookupByLibrary.simpleMessage("Merchant Info"),

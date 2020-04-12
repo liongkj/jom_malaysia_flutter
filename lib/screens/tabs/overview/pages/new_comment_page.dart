@@ -23,8 +23,10 @@ class NewCommentPage extends StatefulWidget {
     @required this.placeId,
     @required this.placeName,
   });
+
   final String placeId;
   final String placeName;
+
   @override
   _NewCommentPageState createState() => _NewCommentPageState();
 }
@@ -129,17 +131,13 @@ class _NewCommentPageState extends State<NewCommentPage> {
               .then(
                 (_) => SnackBar(
                   content: Text("Thank you for your review"),
-                  action: SnackBarAction(
-                    label: "Retry",
-                    onPressed: () => _commentsProvider.addComment(
-                        widget.placeId, _commentModel),
-                  ),
                 ),
               )
-              .timeout(Duration(seconds: 2), onTimeout: () {
+              .timeout(Duration(seconds: 4), onTimeout: () {
             if (_retrycount > 0) {
               _retrycount -= 1;
               return SnackBar(
+                duration: Duration(seconds: 10),
                 content: Text("Error adding your review. Try again?"),
                 action: SnackBarAction(
                   label: "Retry",

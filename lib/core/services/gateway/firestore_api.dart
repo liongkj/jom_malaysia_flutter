@@ -4,6 +4,7 @@ class FirestoreService {
   final Firestore _db = Firestore.instance;
   String path;
   CollectionReference ref;
+
   FirestoreService() {
     ref = _db.collection("places");
   }

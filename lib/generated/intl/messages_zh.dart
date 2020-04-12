@@ -35,9 +35,11 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m10(item) => "正火速上传您的${item}";
 
-  static m14(uname) => "${uname},很高兴认识您";
+  static m12(ver) => "版本号: ${ver}";
 
-  static m15(commentCount) => "点评 (${commentCount})";
+  static m15(uname) => "${uname},很高兴认识您";
+
+  static m16(commentCount) => "点评 (${commentCount})";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function>{
@@ -52,7 +54,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "cityPickerCurrentCity": m0,
         "clickItemLinkToHint": m1,
         "clickItemSettingAboutTitle":
-            MessageLookupByLibrary.simpleMessage("关于我们"),
+            MessageLookupByLibrary.simpleMessage("关于JomN9"),
         "clickItemSettingAddAPlace":
             MessageLookupByLibrary.simpleMessage("推荐景点/美食"),
         "clickItemSettingFeedbackDescription":
@@ -124,6 +126,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("请输入您的电子邮件"),
         "labelInputFieldPassword":
             MessageLookupByLibrary.simpleMessage("请输入您的密码"),
+        "labelLeaveAReview": MessageLookupByLibrary.simpleMessage("为我们评分"),
         "labelLogIn": MessageLookupByLibrary.simpleMessage("点击登录"),
         "labelLoggedInWith": m8,
         "labelLogout": MessageLookupByLibrary.simpleMessage("退出登出"),
@@ -137,6 +140,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("标题不可为空"),
         "labelNoDetail": MessageLookupByLibrary.simpleMessage("无详情"),
         "labelNone": MessageLookupByLibrary.simpleMessage("无"),
+        "labelNotVerified": MessageLookupByLibrary.simpleMessage("进行认证"),
         "labelOtpLogin": MessageLookupByLibrary.simpleMessage(" OTP登录"),
         "labelPageComment": MessageLookupByLibrary.simpleMessage("全部点评"),
         "labelPassword": MessageLookupByLibrary.simpleMessage("电邮/密码"),
@@ -167,6 +171,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "labelThirdPartyLogin": MessageLookupByLibrary.simpleMessage("第三方登入"),
         "labelUndoAction": MessageLookupByLibrary.simpleMessage("撤消"),
         "labelUsernameTitle": MessageLookupByLibrary.simpleMessage("用户名"),
+        "labelVerified": MessageLookupByLibrary.simpleMessage("已认证"),
+        "labelVerifyEmail": MessageLookupByLibrary.simpleMessage("验证您的邮件"),
+        "labelVersionNo": m12,
         "labelWelcomeUser": MessageLookupByLibrary.simpleMessage("嗨,"),
         "locationSelectCityMessage":
             MessageLookupByLibrary.simpleMessage("选择城市"),
@@ -189,7 +196,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("完成注册。正在登录..."),
         "msgUpdatePhotoSuccess":
             MessageLookupByLibrary.simpleMessage("已更新您的个人资料图片"),
-        "msgUpdateUsernameSuccess": m14,
+        "msgUpdateUsernameSuccess": m15,
         "overviewSection1Para1": MessageLookupByLibrary.simpleMessage(
             "森美兰州是马来半岛西南海岸的马来西亚州，以其海滩，自然公园和宫殿而闻名。在西部，马六甲海峡，波德申港附近的地区有海滨度假胜地，万隆华人圣殿和哥打卢库特山顶堡垒。在沿海南部，在邻近的马六甲州，是拉查多角（Tanjung Tuan），这是一座带有灯塔的自然保护区。"),
         "overviewSection1Para2": MessageLookupByLibrary.simpleMessage(
@@ -209,7 +216,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "截至2015年，森美兰州的总人口为1,098,500；族裔构成为马来人622,000（56.6％）（主要是Minangkabau血统），其他土著20,700（1.9％），华裔234,300（21.3％），印度是154,000（14％），其他4,200（0.4％）和非公民63,300（5.8％）。与马来西亚其他州相比，该州的印度人比例最高。"),
         "overviewSection5Title": MessageLookupByLibrary.simpleMessage("人口统计"),
         "password": MessageLookupByLibrary.simpleMessage("密码"),
-        "placeDetailCommentCountLabel": m15,
+        "placeDetailCommentCountLabel": m16,
         "placeDetailInfoLabel": MessageLookupByLibrary.simpleMessage("产品详情"),
         "placeDetailMerchantInfoLabel":
             MessageLookupByLibrary.simpleMessage("商家信息"),

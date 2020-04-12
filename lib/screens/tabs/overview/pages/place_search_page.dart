@@ -8,7 +8,6 @@ import 'package:jom_malaysia/screens/tabs/overview/providers/search_result_provi
 import 'package:jom_malaysia/screens/tabs/overview/widgets/search/history_results_item.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/search/search_bar.dart';
 import 'package:jom_malaysia/screens/tabs/overview/widgets/search/search_results_item.dart';
-import 'package:jom_malaysia/setting/provider/language_provider.dart';
 import 'package:jom_malaysia/setting/routers/fluro_navigator.dart';
 import 'package:jom_malaysia/widgets/my_refresh_list.dart';
 import 'package:oktoast/oktoast.dart';
@@ -61,9 +60,6 @@ class _PlaceSearchPageState extends State<PlaceSearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    locale = Provider.of<LanguageProvider>(context, listen: false).locale ??
-        Localizations.localeOf(context);
-
     return WillPopScope(
       onWillPop: _isSuggestion,
       child: Scaffold(
@@ -78,13 +74,12 @@ class _PlaceSearchPageState extends State<PlaceSearchPage> {
               FocusScope.of(context).unfocus();
               _keyword = text;
               _page = 1;
-              searchProvider.search(_keyword, _page, locale: locale);
+              searchProvider.search(_keyword, _page);
             },
             focusNode: _focusNode,
           ),
           body: Consumer<SearchResultProvider>(
             builder: (_, provider, __) {
-              debugPrint("rebuild");
               var list;
               switch (provider.resultType) {
                 case ResultType.search:
@@ -168,7 +163,7 @@ class _PlaceSearchPageState extends State<PlaceSearchPage> {
 
   Future _loadMore() async {
     _page++;
-    await searchProvider.search(_keyword, _page, locale: locale);
+    await searchProvider.search(_keyword, _page);
   }
 
   Future<bool> _isSuggestion() async {

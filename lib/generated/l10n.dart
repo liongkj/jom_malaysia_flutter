@@ -698,7 +698,7 @@ class S {
 
   String get clickItemSettingAboutTitle {
     return Intl.message(
-      'About Us',
+      'About JomN9',
       name: 'clickItemSettingAboutTitle',
       desc: '',
       args: [],
@@ -1440,6 +1440,42 @@ class S {
       name: 'errorMsgPasswordPolicy',
       desc: '',
       args: [len],
+    );
+  }
+
+  String labelVersionNo(Object ver) {
+    return Intl.message(
+      'Version: $ver',
+      name: 'labelVersionNo',
+      desc: '',
+      args: [ver],
+    );
+  }
+
+  String get labelLeaveAReview {
+    return Intl.message(
+      'Leave a review',
+      name: 'labelLeaveAReview',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelVerified {
+    return Intl.message(
+      'Verified',
+      name: 'labelVerified',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get labelNotVerified {
+    return Intl.message(
+      'Verify Now',
+      name: 'labelNotVerified',
+      desc: '',
+      args: [],
     );
   }
 }

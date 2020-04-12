@@ -1,12 +1,19 @@
 class TextUtils {
   ///format capitalize
   static String capitalize(String text) {
-    if (text.length == 0) {
+    if (text.length == 0) return "";
+    if (text.length == 1) {
       return text.toUpperCase();
     }
-    if (text.codeUnits.where((ch) => ch > 128).toList().length > 0)
-      return text[0].toUpperCase() + text.substring(1);
+    if (!isChinese(text)) return text[0].toUpperCase() + text.substring(1);
     return text;
+  }
+
+  static bool isChinese(String text) {
+    if (text.codeUnits.where((ch) => ch > 128).toList().length > 0) {
+      return true;
+    }
+    return false;
   }
 
   ///shorten city name -> Port dickson to P.Dickson

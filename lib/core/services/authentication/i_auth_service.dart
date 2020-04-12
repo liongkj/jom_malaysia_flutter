@@ -23,4 +23,5 @@ abstract class IAuthenticationService {
   Future<void> changePassword(AuthRequest request, {String locale = 'en'});
 
   Future<void> deleteAccount();
+  Future<void> verifyUser();
 }

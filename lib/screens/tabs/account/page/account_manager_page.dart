@@ -21,12 +21,12 @@ import 'package:provider/provider.dart';
 
 import '../account_router.dart';
 
-class AccountSettingPage extends StatefulWidget {
+class AccountManagerPage extends StatefulWidget {
   @override
-  _AccountSettingPageState createState() => _AccountSettingPageState();
+  _AccountManagerPageState createState() => _AccountManagerPageState();
 }
 
-class _AccountSettingPageState extends State<AccountSettingPage> {
+class _AccountManagerPageState extends State<AccountManagerPage> {
   Map<AuthProviderEnum, String> _providerLabels = {};
 
   @override
@@ -57,8 +57,6 @@ class _AccountSettingPageState extends State<AccountSettingPage> {
         children: <Widget>[
           Consumer<PlatformProvider>(
             builder: (ctx, provider, __) {
-              debugPrint("rebuild");
-
               return ListView.builder(
                   shrinkWrap: true,
                   itemCount: provider.list.length,

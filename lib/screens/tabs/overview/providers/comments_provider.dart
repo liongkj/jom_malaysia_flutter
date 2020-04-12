@@ -26,14 +26,7 @@ class CommentsProvider extends BaseChangeNotifier {
     setStateType(StateType.empty); //end loading
   }
 
-  Future<List<CommentModel>> fetchComments() async {
-    var result = await _api.getDataCollection();
-    comments = result.documents
-        .map((doc) => CommentModel.fromMap(doc.data, doc.documentID))
-        .toList();
-    return comments;
-  }
-
+  ///if [getAll] is false, return 5 comments, used in home page
   Stream<QuerySnapshot> fetchCommentsAsStream(String listingId,
       {bool getAll = false}) {
     if (getAll) return _api.streamDataCollection(collectionName, listingId);
@@ -54,4 +47,12 @@ class CommentsProvider extends BaseChangeNotifier {
     await _api.updateDocument(data.toJson(), id);
     return;
   }
+
+//  Future<List<CommentModel>> fetchComments() async {
+//    var result = await _api.getDataCollection();
+//    comments = result.documents
+//        .map((doc) => CommentModel.fromMap(doc.data, doc.documentID))
+//        .toList();
+//    return comments;
+//  }
 }

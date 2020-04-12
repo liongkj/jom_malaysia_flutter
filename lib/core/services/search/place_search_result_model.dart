@@ -6,6 +6,7 @@ class PlaceSearchResult {
   Merchant merchant;
   String listingName;
   String photo;
+
   // Description description;
   Address address;
   Category category;
@@ -24,7 +25,8 @@ class PlaceSearchResult {
       this.tags,
       this.geoloc});
 
-  PlaceSearchResult.fromJson(String objectId, Map<String, dynamic> json) {
+  PlaceSearchResult.fromJson(String objectId, Map<String, dynamic> json,
+      Map<String, dynamic> highlight) {
     this.objectId = objectId;
     merchant = json['merchant'] != null
         ? new Merchant.fromJson(json['merchant'])

@@ -66,7 +66,7 @@ class PlaceDetailPageState extends State<PlaceDetailPage>
                   key: Key("FAB"),
                   heroTag: "btn_open_form",
                   tooltip: S.of(context).labelRatePlace,
-                  onPressed: () => _addNewReview(snap.data),
+                  onPressed: () => _addNewReview(ctx, snap.data),
                   icon: const Icon(Icons.star),
                   label: Text(S.of(context).labelRatePlace),
                 ),
@@ -88,11 +88,11 @@ class PlaceDetailPageState extends State<PlaceDetailPage>
         });
   }
 
-  _addNewReview(ListingModel place) {
+  _addNewReview(BuildContext ctx, ListingModel place) {
     NavigatorUtils.tryAuthResult(
       context,
       '${OverviewRouter.reviewPage}?title=${place.listingName}&placeId=${place.listingId}',
-      (result) => Scaffold.of(context).showSnackBar(result),
+      (result) => Scaffold.of(ctx).showSnackBar(result),
     );
   }
 
@@ -141,10 +141,12 @@ class PlaceDetailPageState extends State<PlaceDetailPage>
         PlaceImage(
           images: place.listingImages?.ads,
         ),
-        CommentSection(
-          listingName: place.listingName,
-          listingId: place.listingId,
-          addNewReview: () => _addNewReview(place),
+        Builder(
+          builder: (ctx) => CommentSection(
+            listingName: place.listingName,
+            listingId: place.listingId,
+            addNewReview: () => _addNewReview(ctx, place),
+          ),
         ),
         MerchantInfo(merchant: place.merchant),
       ]))

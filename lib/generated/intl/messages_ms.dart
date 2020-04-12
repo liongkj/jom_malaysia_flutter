@@ -27,9 +27,9 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m10(item) => "Muat naik ${item} anda";
 
-  static m14(uname) => "Baik untuk bertemu dengan anda ${uname}";
+  static m15(uname) => "Baik untuk bertemu dengan anda ${uname}";
 
-  static m15(commentCount) => "Komen (${commentCount})";
+  static m16(commentCount) => "Komen (${commentCount})";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function>{
@@ -179,7 +179,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Pendaftaran selesai. Log masuk ..."),
         "msgUpdatePhotoSuccess":
             MessageLookupByLibrary.simpleMessage("Mengedit foto profil anda"),
-        "msgUpdateUsernameSuccess": m14,
+        "msgUpdateUsernameSuccess": m15,
         "overviewSection1Para1": MessageLookupByLibrary.simpleMessage(
             "Negeri Sembilan adalah negeri Malaysia di pantai barat daya Semenanjung Malaysia yang terkenal dengan pantai, taman semula jadi dan istana. Di barat, Selat Melaka dan kawasan berhampiran Port Dickson mempunyai tempat peranginan pantai, Bandung Chinese St Kuil Kota dan Benteng Kota Lukut Bukit Di pantai selatan, di negeri jiran Melaka, ialah Tanjung Tuan, sebuah rizab alam semula jadi dengan sebuah rumah api. "),
         "overviewSection1Para2": MessageLookupByLibrary.simpleMessage(
@@ -200,7 +200,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Pada tahun 2015, jumlah penduduk Negeri Sembilan adalah 1,098,500; komposisi etnik adalah Melayu 622,000 (56.6%) (terutamanya berasal dari Minangkabau), 20,700 orang asli (1.9%), Cina 234.300 (21.3% India adalah 154,000 (14%), 4,200 yang lain (0.4%) dan bukan rakyat 63,300 (5.8%) berbanding negeri-negeri lain di Malaysia."),
         "overviewSection5Title":
             MessageLookupByLibrary.simpleMessage("Demografi"),
-        "placeDetailCommentCountLabel": m15,
+        "placeDetailCommentCountLabel": m16,
         "placeDetailInfoLabel":
             MessageLookupByLibrary.simpleMessage("Butiran Tempat"),
         "placeDetailMerchantInfoLabel":
