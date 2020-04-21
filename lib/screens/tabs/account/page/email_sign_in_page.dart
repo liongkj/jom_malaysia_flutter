@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:flustars/flustars.dart' as sp;
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/constants/common.dart';
 import 'package:jom_malaysia/core/res/resources.dart';
 import 'package:jom_malaysia/core/services/authentication/requests/auth_request.dart';
+import 'package:jom_malaysia/core/services/gateway/exception/account_in_use_exception.dart';
 import 'package:jom_malaysia/core/services/gateway/exception/invalid_credential_exception.dart';
 import 'package:jom_malaysia/core/services/gateway/exception/not_found_exception.dart';
 import 'package:jom_malaysia/core/services/gateway/exception/signin_cancelled_exception.dart';
@@ -59,7 +62,7 @@ class _EmailSignInState extends State<EmailSignIn> {
     }
   }
 
-  Future errorHandler(err) async {
+  FutureOr errorHandler(err) async {
     String msg;
     switch (err.runtimeType) {
       case InvalidCredentialException:
@@ -70,6 +73,9 @@ class _EmailSignInState extends State<EmailSignIn> {
         break;
       case SignInCancelledException:
         msg = S.of(context).errorMsgSignInCancelled;
+        break;
+      case AccountInUseException:
+        msg = S.of(context).errorMsgEmailIsRegistered;
         break;
       default:
         msg = S.of(context).errorMsgUnknownError;

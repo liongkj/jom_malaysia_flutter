@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -40,7 +42,7 @@ class _RegisterPageState extends State<RegisterPage> {
     super.initState();
   }
 
-  Future errorHandler(err) async {
+  FutureOr errorHandler(err) async {
     String msg;
     switch (err.runtimeType) {
       case InvalidCredentialException:

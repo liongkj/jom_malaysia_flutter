@@ -139,6 +139,7 @@
   "msgUpdateUsernameSuccess": "Nice to meet you {uname}",
   "errorMsgEmailPasswordIncorrect": "Email / Password is incorrect",
   "errorMsgUserNotRegistered": "User not registered",
+  "errorMsgEmailIsRegistered": "This email is registered, please try another email",
   "errorMsgUnknownError": "Unknown error try again later",
   "errorMsgLinkOperationCancelled": "Link {operationName} operation cancelled.",
   "labelOtpLogin": "OTP Sign In",

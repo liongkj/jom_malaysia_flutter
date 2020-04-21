@@ -182,6 +182,8 @@ class FirebaseAuthService extends IAuthenticationService {
       return authResult.user;
     } catch (error) {
       switch (error.code) {
+        case "ERROR_EMAIL_ALREADY_IN_USE":
+          throw AccountInUseException();
         case "ERROR_CREDENTIAL_ALREADY_IN_USE":
           throw AccountInUseException();
           break;
@@ -226,6 +228,7 @@ class FirebaseAuthService extends IAuthenticationService {
         case "ERROR_TOO_MANY_REQUESTS":
           throw TooManyRequestException();
         default:
+          debugPrint(error.code);
           throw error;
       }
     }

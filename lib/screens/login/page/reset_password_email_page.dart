@@ -42,7 +42,7 @@ class _ResetPasswordViaEmailPageState extends State<ResetPasswordViaEmailPage> {
     _authProvider = Provider.of<AuthProvider>(context, listen: false);
   }
 
-  Future errorHandler(err) async {
+  FutureOr errorHandler(err) async {
     String msg;
     switch (err.runtimeType) {
       case InvalidCredentialException:
