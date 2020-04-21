@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jom_malaysia/core/constants/common.dart';
@@ -183,7 +185,7 @@ class _AccountManagerPageState extends State<AccountManagerPage> {
     }
   }
 
-  Future errorHandler(err, String providerLabel) async {
+  FutureOr errorHandler(err, String providerLabel) async {
     String msg;
     debugPrint(msg);
     switch (err.runtimeType) {

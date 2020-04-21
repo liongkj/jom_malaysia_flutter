@@ -51,7 +51,7 @@ class _LoginPageState extends State<LoginPage> {
     _loginProvider = Provider.of<AuthProvider>(context, listen: false);
   }
 
-  Future errorHandler(err) async {
+  FutureOr errorHandler(err) async {
     String msg;
     switch (err.runtimeType) {
       case InvalidCredentialException:

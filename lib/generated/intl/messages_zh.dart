@@ -23,7 +23,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m1(provider) => "绑定${provider}";
 
-  static m2(email) => "电邮：${email}";
+  static m2(email) => "电子邮件：${email}";
 
   static m3(field) => "${field}不可为空";
 
@@ -62,6 +62,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "clickItemUpdatePasswordHint" : m2,
     "errorMessageNetworkFailure" : MessageLookupByLibrary.simpleMessage("网络异常，请检查您的网络！"),
     "errorMsgAccountExist" : MessageLookupByLibrary.simpleMessage("电子邮件地址已经注册"),
+    "errorMsgEmailIsRegistered" : MessageLookupByLibrary.simpleMessage("此电子邮件地址不可用"),
     "errorMsgEmailPasswordIncorrect" : MessageLookupByLibrary.simpleMessage("电子邮件/密码不正确"),
     "errorMsgFieldCannotEmpty" : m3,
     "errorMsgInvalidFormatEmail" : MessageLookupByLibrary.simpleMessage("电子邮件格式错误"),
@@ -119,7 +120,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "labelNotVerified" : MessageLookupByLibrary.simpleMessage("进行认证"),
     "labelOtpLogin" : MessageLookupByLibrary.simpleMessage(" OTP登录"),
     "labelPageComment" : MessageLookupByLibrary.simpleMessage("全部点评"),
-    "labelPassword" : MessageLookupByLibrary.simpleMessage("电邮/密码"),
+    "labelPassword" : MessageLookupByLibrary.simpleMessage("电子邮件/密码"),
     "labelProfileManager" : MessageLookupByLibrary.simpleMessage("账户管理"),
     "labelRatePlace" : MessageLookupByLibrary.simpleMessage("打分"),
     "labelRatingStatus1" : MessageLookupByLibrary.simpleMessage("垃圾"),

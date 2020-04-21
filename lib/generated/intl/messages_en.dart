@@ -74,6 +74,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "clickItemUpdatePasswordHint" : m2,
     "errorMessageNetworkFailure" : MessageLookupByLibrary.simpleMessage("Unknown error, Please check your network!"),
     "errorMsgAccountExist" : MessageLookupByLibrary.simpleMessage("Email Address is Already Registered"),
+    "errorMsgEmailIsRegistered" : MessageLookupByLibrary.simpleMessage("This email is registered, please try another email"),
     "errorMsgEmailPasswordIncorrect" : MessageLookupByLibrary.simpleMessage("Email / Password is incorrect"),
     "errorMsgFieldCannotEmpty" : m3,
     "errorMsgInvalidFormatEmail" : MessageLookupByLibrary.simpleMessage("Email is Invalid"),

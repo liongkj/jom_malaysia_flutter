@@ -34,7 +34,7 @@ class AccountPage extends StatefulWidget {
 
 class _ShopPageState extends State<AccountPage>
     with AutomaticKeepAliveClientMixin<AccountPage> {
-  Future errorHandler(err) async {
+  FutureOr errorHandler(err) async {
     String msg;
     switch (err.runtimeType) {
       case NotFoundException:

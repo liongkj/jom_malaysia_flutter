@@ -1280,6 +1280,15 @@ class S {
     );
   }
 
+  String get errorMsgEmailIsRegistered {
+    return Intl.message(
+      'This email is registered, please try another email',
+      name: 'errorMsgEmailIsRegistered',
+      desc: '',
+      args: [],
+    );
+  }
+
   String get errorMsgUnknownError {
     return Intl.message(
       'Unknown error try again later',
